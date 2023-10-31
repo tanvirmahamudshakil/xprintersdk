@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -54,7 +56,7 @@ class _MyAppState extends State<MyApp> {
             },child: Text("Xprinter connect"),),
 
             MaterialButton(onPressed: () async {
-              var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(printermodel, orderjson);
+              var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(printermodel, jsonEncode(orderjson));
               print(data);
             },child: Text("Xprinter print"),)
           ],
