@@ -254,6 +254,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         return bitmap;
     }
 
+    @SuppressLint("SetTextI18n")
     fun getView(position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
         val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(mCtx))
         var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
@@ -262,8 +263,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         if (position < itemproduict.size - 1) {
             if (orderModel.orderProducts!![position]!!.product!!.sortOrder!! < orderModel.orderProducts!![position + 1]!!.product!!.sortOrder!!) {
 
-                binding.underLine.visibility = View.VISIBLE
+
             }
+            binding.underLine.visibility = View.VISIBLE
         }
         if (style == 0) {
             if (item!!.components!!.isNotEmpty() ) {

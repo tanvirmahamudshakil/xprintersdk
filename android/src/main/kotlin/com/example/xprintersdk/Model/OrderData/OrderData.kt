@@ -17,7 +17,7 @@ data class OrderData(
     @SerializedName("created_at")
     val createdAt: String?,
     @SerializedName("delivery_charge")
-    val deliveryCharge: Int?,
+    val deliveryCharge: Double?,
     @SerializedName("discounted_amount")
     val discountedAmount: Double?,
     @SerializedName("id")
@@ -104,7 +104,7 @@ data class OrderData(
         @SerializedName("components")
         val components: List<Component?>?,
         @SerializedName("discountable_amount")
-        val discountableAmount: Int?,
+        val discountableAmount: Double?,
         @SerializedName("id")
         val id: Int?,
         @SerializedName("net_amount")
@@ -129,11 +129,11 @@ data class OrderData(
             @SerializedName("components")
             val components: List<Any?>?,
             @SerializedName("discountable_amount")
-            val discountableAmount: Int?,
+            val discountableAmount: Double?,
             @SerializedName("id")
             val id: Int?,
             @SerializedName("net_amount")
-            val netAmount: Int?,
+            val netAmount: Double?,
             @SerializedName("order_id")
             val orderId: Int?,
             @SerializedName("parent_id")
@@ -158,7 +158,7 @@ data class OrderData(
                 @SerializedName("description")
                 val description: Any?,
                 @SerializedName("discountable")
-                val discountable: Int?,
+                val discountable: Double?,
                 @SerializedName("id")
                 val id: Int?,
                 @SerializedName("property")
@@ -197,7 +197,7 @@ data class OrderData(
             @SerializedName("description")
             val description: String?,
             @SerializedName("discountable")
-            val discountable: Int?,
+            val discountable: Double?,
             @SerializedName("id")
             val id: Int?,
             @SerializedName("property")
@@ -236,7 +236,7 @@ data class OrderData(
         @SerializedName("components")
         val components: List<Component?>?,
         @SerializedName("discountable_amount")
-        val discountableAmount: Int?,
+        val discountableAmount: Double?,
         @SerializedName("id")
         val id: Int?,
         @SerializedName("net_amount")
@@ -261,7 +261,7 @@ data class OrderData(
             @SerializedName("components")
             val components: List<Component?>?,
             @SerializedName("discountable_amount")
-            val discountableAmount: Int?,
+            val discountableAmount: Double?,
             @SerializedName("id")
             val id: Int?,
             @SerializedName("net_amount")
@@ -286,11 +286,11 @@ data class OrderData(
                 @SerializedName("components")
                 val components: List<Any?>?,
                 @SerializedName("discountable_amount")
-                val discountableAmount: Int?,
+                val discountableAmount: Double?,
                 @SerializedName("id")
                 val id: Int?,
                 @SerializedName("net_amount")
-                val netAmount: Int?,
+                val netAmount: Double?,
                 @SerializedName("order_id")
                 val orderId: Int?,
                 @SerializedName("parent_id")
@@ -315,7 +315,7 @@ data class OrderData(
                     @SerializedName("description")
                     val description: Any?,
                     @SerializedName("discountable")
-                    val discountable: Int?,
+                    val discountable: Double?,
                     @SerializedName("id")
                     val id: Int?,
                     @SerializedName("property")
@@ -354,7 +354,7 @@ data class OrderData(
                 @SerializedName("description")
                 val description: Any?,
                 @SerializedName("discountable")
-                val discountable: Int?,
+                val discountable: Double?,
                 @SerializedName("id")
                 val id: Int?,
                 @SerializedName("property")
@@ -393,7 +393,7 @@ data class OrderData(
             @SerializedName("description")
             val description: String?,
             @SerializedName("discountable")
-            val discountable: Int?,
+            val discountable: Double?,
             @SerializedName("files")
             val files: List<File?>?,
             @SerializedName("id")
@@ -452,7 +452,7 @@ data class OrderData(
     @Keep
     data class Payment(
         @SerializedName("amount")
-        val amount: Int?,
+        val amount: Double?,
         @SerializedName("card_type")
         val cardType: String?,
         @SerializedName("comment")

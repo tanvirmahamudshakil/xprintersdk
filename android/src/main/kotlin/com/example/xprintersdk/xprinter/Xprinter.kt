@@ -87,7 +87,6 @@ class Xprinter(mcontext : Context) {
                     override fun OnSucceed() {
                         result.success(true);
                     }
-
                     override fun OnFailed() {
                         result.success(false);
                     }
