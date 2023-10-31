@@ -77,11 +77,12 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
   @RequiresApi(Build.VERSION_CODES.O)
   private fun xprinterOnlineDataPrint(call: MethodCall, result : Result){
-    var orderiteamdata = call.argument<String>("orderiteam")
+    var orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
     var printerbusinessdata = call.argument<String>("printer_model_data")
+    var orderjson = Gson().toJson(orderiteamdata)
     var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     Log.d("json data", "xprinterprint: ${orderiteamdata}")
-    var modeldata = Gson().fromJson<OrderData>(orderiteamdata, OrderData::class.java)
+    var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
     if (businessdata.printerConnection == "IP Connection"){
       printerservice(context,modeldata,businessdata).printxprinteripdata(xprinter, result)
