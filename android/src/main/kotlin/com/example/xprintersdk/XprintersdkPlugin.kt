@@ -85,9 +85,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
     if (businessdata.printerConnection == "IP Connection"){
-      printerservice(context,modeldata,businessdata).printxprinteripdata(xprinter, result)
+      printerservice(context,modeldata,businessdata, xprinter, result).execute()
     }else if(businessdata.printerConnection == "USB Connection"){
-      printerservice(context,modeldata, businessdata).printxprinteripdata(xprinter, result)
+      printerservice(context,modeldata, businessdata,xprinter, result).execute()
     }else{
 
     }
