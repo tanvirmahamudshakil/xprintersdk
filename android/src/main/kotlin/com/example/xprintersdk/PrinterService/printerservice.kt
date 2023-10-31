@@ -268,8 +268,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         if (position < itemproduict.size - 1) {
             if (orderModel.orderProducts!![position]!!.product!!.sortOrder!! < orderModel.orderProducts!![position + 1]!!.product!!.sortOrder!!) {
 
-                binding.underLine.visibility = View.VISIBLE
+
             }
+            binding.underLine.visibility = View.VISIBLE
         }
         if (style == 0) {
             if (item!!.components!!.isNotEmpty() ) {
