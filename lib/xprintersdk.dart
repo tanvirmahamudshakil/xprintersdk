@@ -34,7 +34,7 @@ class Xprintersdk {
 
   Future<bool> XPrinterPrintOnLineData(PrinterBusinessModel printermodel, Map<String, Object?> orderiteam,) async {
     Map<String, dynamic> quary = {
-      "orderiteam": jsonEncode(orderiteam),
+      "orderiteam": orderiteam,
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
     return await methodChannel.invokeMethod(xPrinterPrintOnlineData, quary);
