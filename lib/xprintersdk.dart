@@ -32,7 +32,7 @@ class Xprintersdk {
   }
 
 
-  Future<bool> XPrinterPrintOnLineData(PrinterBusinessModel printermodel, Map<String, Object?> orderiteam,) async {
+  Future<bool> XPrinterPrintOnLineData(PrinterBusinessModel printermodel, String orderiteam,) async {
     Map<String, dynamic> quary = {
       "orderiteam": orderiteam,
       "printer_model_data": jsonEncode(printermodel.toJson())
