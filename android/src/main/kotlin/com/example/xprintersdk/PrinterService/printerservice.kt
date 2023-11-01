@@ -461,7 +461,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  paidOrNot ="ORDER IS PAID"
              } else  {
                  if (orderModel.paymentType == "CASH"){
-                    if (orderModel.cashEntry.isEmpty()){
+                    if (orderModel.cashEntry!!.isEmpty()){
                         paidOrNot = "ORDER NOT PAID"
                     }else{
                         paidOrNot ="ORDER IS PAID"
