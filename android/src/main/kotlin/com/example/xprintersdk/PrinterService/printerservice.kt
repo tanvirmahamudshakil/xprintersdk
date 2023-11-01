@@ -265,6 +265,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
         val item = itemproduict[position]
         val str3 = StringBuilder()
+        var price = 0.0
+        price = item!!.netAmount!!
         if (position < itemproduict.size - 1) {
             if (orderModel.orderProducts!![position]!!.product!!.sortOrder!! < orderModel.orderProducts!![position + 1]!!.product!!.sortOrder!!) {
 
@@ -273,7 +275,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             binding.underLine.visibility = View.VISIBLE
         }
         if (style == 0) {
-            if (item!!.components!!.isNotEmpty() ) {
+            if (item.components!!.isNotEmpty() ) {
                 str3.append(item.unit).append(" x ").append(item.product!!.shortName)
                 for (section in item.components!!) {
                     var _comName = ""
@@ -282,12 +284,14 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                     }
                     if (section.components!!.isNotEmpty()) {
                         if (section.components.first()!!.product!!.shortName!!.uppercase() != "NONE") {
-                            _comName += " -> " + section.components.first()!!.product!!.shortName
+                            _comName += " -> " + section.components.first()!!.product!!.shortName;
+                            price += section.components.first()!!.netAmount!!;
                         }
                     }
                     if (_comName != "") {
                         str3.append("\n").append(_comName)
                     }
+                    price += section.netAmount!!;
                 }
             } else {
                 if (item.product!!.type == "ITEM"){
@@ -310,8 +314,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 str3.append(item.unit).append(" x ").append(item.product!!.shortName)
             }
         }
-        var price = 0.0
-        price = item.netAmount!!
+
+
         if(item.comment != null && item.product!!.type == "ITEM") str3.append("\nNote : ").append(item.comment)
         binding.itemText.text = str3.toString()
         binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
