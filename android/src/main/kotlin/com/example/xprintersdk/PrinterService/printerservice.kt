@@ -460,7 +460,14 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              if (orderModel.paymentType == "CARD") {
                  paidOrNot ="ORDER IS PAID"
              } else  {
-                 paidOrNot = "ORDER NOT PAID"
+                 if (orderModel.paymentType == "CASH"){
+                    if (orderModel.cashEntry.isEmpty()){
+                        paidOrNot = "ORDER NOT PAID"
+                    }else{
+                        paidOrNot ="ORDER IS PAID"
+                    }
+                 }
+
                  bind.dueTotalContainer.visibility = View.VISIBLE
                  bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
              }
