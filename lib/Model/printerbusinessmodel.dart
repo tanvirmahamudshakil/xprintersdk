@@ -4,46 +4,49 @@
 
 import 'dart:convert';
 
-PrinterBusinessModel printerBusinessModelFromJson(String str) => PrinterBusinessModel.fromJson(json.decode(str));
+PrinterBusinessModel2 printerBusinessModelFromJson(String str) =>
+    PrinterBusinessModel2.fromJson(json.decode(str));
 
-String printerBusinessModelToJson(PrinterBusinessModel data) => json.encode(data.toJson());
+String printerBusinessModelToJson(PrinterBusinessModel2 data) =>
+    json.encode(data.toJson());
 
-class PrinterBusinessModel {
-    int? fontSize;
-    int? printOnDelivery;
-    int? printOnCollection;
-    int? printOnTableOrder;
-    int? printOnTackwayOrder;
-    bool? autoPrint;
-    bool? showOrderNoInvoice;
-    String? selectPrinter;
-    String? printerConnection;
-    String? ip;
-    String? bluetoothName;
-    String? bluetoothAddress;
-    String? businessname;
-    String? businessphone;
-    String? businessaddress;
+class PrinterBusinessModel2 {
+  int? fontSize;
+  int? printOnDelivery;
+  int? printOnCollection;
+  int? printOnTableOrder;
+  int? printOnTackwayOrder;
+  bool? autoPrint;
+  bool? showOrderNoInvoice;
+  String? selectPrinter;
+  String? printerConnection;
+  String? ip;
+  String? bluetoothName;
+  String? bluetoothAddress;
+  String? businessname;
+  String? businessphone;
+  String? businessaddress;
 
-    PrinterBusinessModel({
-        this.fontSize,
-        this.printOnDelivery,
-        this.printOnCollection,
-        this.printOnTableOrder,
-        this.printOnTackwayOrder,
-        this.autoPrint,
-        this.showOrderNoInvoice,
-        this.selectPrinter,
-        this.printerConnection,
-        this.ip,
-        this.bluetoothName,
-        this.bluetoothAddress,
-        this.businessname,
-        this.businessphone,
-        this.businessaddress,
-    });
+  PrinterBusinessModel2({
+    this.fontSize,
+    this.printOnDelivery,
+    this.printOnCollection,
+    this.printOnTableOrder,
+    this.printOnTackwayOrder,
+    this.autoPrint,
+    this.showOrderNoInvoice,
+    this.selectPrinter,
+    this.printerConnection,
+    this.ip,
+    this.bluetoothName,
+    this.bluetoothAddress,
+    this.businessname,
+    this.businessphone,
+    this.businessaddress,
+  });
 
-    factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
+  factory PrinterBusinessModel2.fromJson(Map<String, dynamic> json) =>
+      PrinterBusinessModel2(
         fontSize: json["font_size"],
         printOnDelivery: json["print_on_delivery"],
         printOnCollection: json["print_on_collection"],
@@ -59,9 +62,9 @@ class PrinterBusinessModel {
         businessname: json["businessname"],
         businessphone: json["businessphone"],
         businessaddress: json["businessaddress"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "font_size": fontSize,
         "print_on_delivery": printOnDelivery,
         "print_on_collection": printOnCollection,
@@ -77,5 +80,5 @@ class PrinterBusinessModel {
         "businessname": businessname,
         "businessphone": businessphone,
         "businessaddress": businessaddress,
-    };
+      };
 }

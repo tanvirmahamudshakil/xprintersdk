@@ -27,7 +27,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -41,32 +40,40 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            MaterialButton(onPressed: (){
-              _xprintersdkPlugin.XprinterInitialization();
-            },child: Text("Xprinter Initialization")),
-
-            MaterialButton(onPressed: ()  async {
-             var data = await _xprintersdkPlugin.XPrinterConnectionCheck();
-             print(data);
-            },child: Text("Xprinter connection check")),
-            
-            MaterialButton(onPressed: () async {
-              var data = await _xprintersdkPlugin.XPrinterConnect(printermodel);
-              print(data);
-            },child: Text("Xprinter connect"),),
-
-            MaterialButton(onPressed: () async {
-              var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(printermodel, orderjson2);
-              print(data);
-            },child: Text("Xprinter print"),)
+            MaterialButton(
+                onPressed: () {
+                  _xprintersdkPlugin.XprinterInitialization();
+                },
+                child: Text("Xprinter Initialization")),
+            MaterialButton(
+                onPressed: () async {
+                  var data = await _xprintersdkPlugin.XPrinterConnectionCheck();
+                  print(data);
+                },
+                child: Text("Xprinter connection check")),
+            MaterialButton(
+              onPressed: () async {
+                var data =
+                    await _xprintersdkPlugin.XPrinterConnect(printermodel);
+                print(data);
+              },
+              child: Text("Xprinter connect"),
+            ),
+            MaterialButton(
+              onPressed: () async {
+                var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(
+                    printermodel, orderjson2);
+                print(data);
+              },
+              child: Text("Xprinter print"),
+            )
           ],
         ),
       ),
     );
   }
 
-
-  PrinterBusinessModel printermodel = PrinterBusinessModel(
+  PrinterBusinessModel2 printermodel = PrinterBusinessModel2(
       autoPrint: true,
       fontSize: 16,
       printOnCollection: 1,
@@ -82,5 +89,4 @@ class _MyAppState extends State<MyApp> {
       businessphone: "01932336565",
       ip: "192.168.0.104",
       businessaddress: "sdkjbvjsdhbvjhsbdv");
-
 }
