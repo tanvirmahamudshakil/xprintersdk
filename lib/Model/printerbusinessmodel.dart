@@ -4,13 +4,13 @@
 
 import 'dart:convert';
 
-PrinterBusinessModel2 printerBusinessModelFromJson(String str) =>
-    PrinterBusinessModel2.fromJson(json.decode(str));
+PrinterBusinessModel printerBusinessModelFromJson(String str) =>
+    PrinterBusinessModel.fromJson(json.decode(str));
 
-String printerBusinessModelToJson(PrinterBusinessModel2 data) =>
+String printerBusinessModelToJson(PrinterBusinessModel data) =>
     json.encode(data.toJson());
 
-class PrinterBusinessModel2 {
+class PrinterBusinessModel {
   int? fontSize;
   int? printOnDelivery;
   int? printOnCollection;
@@ -27,7 +27,7 @@ class PrinterBusinessModel2 {
   String? businessphone;
   String? businessaddress;
 
-  PrinterBusinessModel2({
+  PrinterBusinessModel({
     this.fontSize,
     this.printOnDelivery,
     this.printOnCollection,
@@ -45,8 +45,8 @@ class PrinterBusinessModel2 {
     this.businessaddress,
   });
 
-  factory PrinterBusinessModel2.fromJson(Map<String, dynamic> json) =>
-      PrinterBusinessModel2(
+  factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) =>
+      PrinterBusinessModel(
         fontSize: json["font_size"],
         printOnDelivery: json["print_on_delivery"],
         printOnCollection: json["print_on_collection"],
