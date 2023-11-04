@@ -276,8 +276,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                         paidOrNot ="ORDER IS PAID"
                     }
                  }
-
-
              }
 
 

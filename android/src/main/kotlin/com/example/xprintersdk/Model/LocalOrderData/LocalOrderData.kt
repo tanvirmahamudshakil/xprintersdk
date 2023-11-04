@@ -15,9 +15,9 @@ data class LocalOrderData(
     @SerializedName("customer")
     val customer: Customer?,
     @SerializedName("deliveryCharge")
-    val deliveryCharge: Int?,
+    val deliveryCharge: Double?,
     @SerializedName("discountedAmount")
-    val discountedAmount: Int?,
+    val discountedAmount: Double?,
     @SerializedName("id")
     val id: Int?,
     @SerializedName("items")

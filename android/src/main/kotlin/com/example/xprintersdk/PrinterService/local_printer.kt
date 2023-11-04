@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
+import android.os.AsyncTask
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -26,7 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class local_printer(mcontext: Context, mlocalModel: LocalOrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result) {
+class local_printer(mcontext: Context, mlocalModel: LocalOrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result) : AsyncTask<String, Int, Bitmap>()  {
 
     private var context: Context
     private  var orderModel: LocalOrderData
@@ -52,118 +53,7 @@ class local_printer(mcontext: Context, mlocalModel: LocalOrderData, businessdata
         result = mresult
     }
 
-     @SuppressLint("SetTextI18n", "SimpleDateFormat")
-     fun doInBackground(): Bitmap {
-         if (orderModel.orderType == "DELIVERY"){
-             noofprint = businessdatadata.printOnDelivery!!
-         }else if(orderModel.orderType == "COLLECTION"){
-             noofprint = businessdatadata.printOnCollection!!
-         }else{
-             noofprint = businessdatadata.printOnTackwayOrder!!
-         }
-         val printSize: Int = fontsize
-         val bind: OnlinePrint2Binding = OnlinePrint2Binding.inflate(LayoutInflater.from(context))
-         bind.businessName.text = businessname
 
-
-         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH)
-         val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
-
-         Log.d("order date", "orderrootget: ${orderModel.orderDate}")
-         var addedDeliveryCharge = 0.0
-         bind.businessLocation.text = businessaddress
-         bind.businessPhone.text = businessphone
-         bind.orderType.text = "${orderModel.orderType}"
-         bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
-             ?.let { formatter.format(it) }}"
-         bind.collectionAt.text = "${orderModel.orderType} at : ${
-             orderModel.requestedDeliveryTimestamp?.let {
-                 parser.parse(it)
-                     ?.let { formatter.format(it) }
-             }
-         }"
-         bind.orderNo.text = "${orderModel.localId}";
-         var allitemsheight = 0
-         bind.items.removeAllViews()
-         for (j in orderModel.items!!.indices) {
-             val childView = getView(j, context, 0, printSize)
-             bind.items.addView(childView)
-             allitemsheight += childView!!.measuredHeight
-         }
-         var paidOrNot = "";
-         if (!orderModel.paymentType!!.uppercase().equals("NOTPAY")) {
-             paidOrNot ="ORDER IS PAID"
-         } else  {
-             paidOrNot = "ORDER NOT PAID"
-             bind.dueTotalContainer.visibility = View.VISIBLE
-//            bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
-             bind.dueTotal.text = "£ " + String.format("%.2f", (orderModel.payableAmount!! - orderModel.discountedAmount!!) + orderModel.deliveryCharge!!)
-         }
-
-         bind.orderPaidMessage.text = paidOrNot
-         bind.refundContainer.visibility = View.GONE
-         val subTotal: Double = orderModel.netAmount!! - addedDeliveryCharge
-         bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
-         bind.txtDeliveryCharge.text = "Delivery Charge";
-         bind.deliveryCharge.text = "£ " + orderModel.deliveryCharge!!.toString()
-         bind.cardPayContainer.visibility = View.GONE
-         bind.cashPayContainer.visibility = View.GONE
-         if (orderModel.orderChannel!!.uppercase() == "ONLINE") {
-             if (orderModel.discountedAmount!! > 0) {
-                 bind.discount.text =
-                     "£ " +  String.format( "%.2f",  orderModel.discountedAmount)
-             } else bind.discount.text =
-                 "£ " + String.format("%.2f", 0.0)
-         } else {
-             var discountStr = "Discount"
-             bind.discountTitle.text = discountStr
-             var discountAmount = 0.0
-             bind.discount.text =
-                 "£ " + String.format( "%.2f", orderModel.discountedAmount!!)
-         }
-         bind.plasticBagContainer.visibility = View.GONE
-         bind.containerBagContainer.visibility = View.GONE
-         bind.adjustmentContainer.visibility = View.GONE
-         bind.tipsContainer.visibility = View.GONE
-         bind.containerOrderNo.visibility = View.VISIBLE
-         bind.total.text =
-             "£ " +String.format( "%.2f",(orderModel.payableAmount!! - orderModel.discountedAmount!!) + orderModel.deliveryCharge!!)
-         var dlAddress = "Service charge is not included\n\n"
-         if (orderModel.orderType == "DELIVERY" || orderModel.orderType == "COLLECTION" || orderModel.orderType == "TAKEOUT") {
-             val customerModel:  LocalOrderData.Customer? = orderModel.customer
-             dlAddress += "Name : ${customerModel!!.firstName} ${customerModel!!.lastName}\n"
-             dlAddress += "Phone : ${customerModel.phone}"
-             if (customerModel.address != null ) {
-                 val address:  LocalOrderData.Customer.Address? = customerModel.address
-                 if (address != null) {
-                     val pro:  LocalOrderData.Customer.Address? = address
-                     // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
-                     val building = pro?.building ?: ""
-//                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
-                     val streetName = pro?.street ?: ""
-                     val city = pro?.city ?: ""
-
-                     val zip = pro?.postcode ?: ""
-                     dlAddress += "\nAddress : $building $streetName $zip"
-                 }
-             }
-         }
-
-         var comment = "Comments : ${if(orderModel.comment != null) orderModel.comment else ""}"
-
-         comment += """
-
-
-
-
-        """.trimIndent()
-         bind.comments.text = comment
-         bind.address.text = dlAddress
-         bind.address.setTextSize(TypedValue.COMPLEX_UNIT_DIP, printSize.toFloat())
-        val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
-
-        return  bitmaplist;
-    }
     @SuppressLint("SetTextI18n")
     fun getView(position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
         val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(mCtx))
@@ -351,20 +241,15 @@ class local_printer(mcontext: Context, mlocalModel: LocalOrderData, businessdata
 
         return bitmap;
     }
-    suspend fun printBitmap()  {
+     fun printBitmap(bitmap: Bitmap?)  {
         try {
-           var bitmap =  CoroutineScope(Dispatchers.IO).async {
-                var data = doInBackground()
-               data
-            }
-            val originalBitmap: Bitmap? = bitmap.await()
+            val originalBitmap: Bitmap? = bitmap
             val compressFormat = Bitmap.CompressFormat.JPEG
             val compressionQuality = 10 // Adjust the quality as needed
             val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
 
             var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
             serviceBinding.printUSBbitamp(b2,result);
-
         } catch (e: java.lang.Exception) {
 
         }
@@ -405,6 +290,121 @@ class local_printer(mcontext: Context, mlocalModel: LocalOrderData, businessdata
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
+    @SuppressLint("SetTextI18n")
+    override fun doInBackground(vararg params: String?): Bitmap{
+        if (orderModel.orderType == "DELIVERY"){
+            noofprint = businessdatadata.printOnDelivery!!
+        }else if(orderModel.orderType == "COLLECTION"){
+            noofprint = businessdatadata.printOnCollection!!
+        }else{
+            noofprint = businessdatadata.printOnTackwayOrder!!
+        }
+        val printSize: Int = fontsize
+        val bind: OnlinePrint2Binding = OnlinePrint2Binding.inflate(LayoutInflater.from(context))
+        bind.businessName.text = businessname
 
 
+        val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH)
+        val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
+
+        Log.d("order date", "orderrootget: ${orderModel.orderDate}")
+        var addedDeliveryCharge = 0.0
+        bind.businessLocation.text = businessaddress
+        bind.businessPhone.text = businessphone
+        bind.orderType.text = "${orderModel.orderType}"
+        bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
+            ?.let { formatter.format(it) }}"
+        bind.collectionAt.text = "${orderModel.orderType} at : ${
+            orderModel.requestedDeliveryTimestamp?.let {
+                parser.parse(it)
+                    ?.let { formatter.format(it) }
+            }
+        }"
+        bind.orderNo.text = "${orderModel.localId}";
+        var allitemsheight = 0
+        bind.items.removeAllViews()
+        for (j in orderModel.items!!.indices) {
+            val childView = getView(j, context, 0, printSize)
+            bind.items.addView(childView)
+            allitemsheight += childView!!.measuredHeight
+        }
+        var paidOrNot = "";
+        if (!orderModel.paymentType!!.uppercase().equals("NOTPAY")) {
+            paidOrNot ="ORDER IS PAID"
+        } else  {
+            paidOrNot = "ORDER NOT PAID"
+            bind.dueTotalContainer.visibility = View.VISIBLE
+//            bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+            bind.dueTotal.text = "£ " + String.format("%.2f", (orderModel.payableAmount!! - orderModel.discountedAmount!!) + orderModel.deliveryCharge!!)
+        }
+
+        bind.orderPaidMessage.text = paidOrNot
+        bind.refundContainer.visibility = View.GONE
+        val subTotal: Double = orderModel.netAmount!! - addedDeliveryCharge
+        bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
+        bind.txtDeliveryCharge.text = "Delivery Charge";
+        bind.deliveryCharge.text = "£ " + orderModel.deliveryCharge!!.toString()
+        bind.cardPayContainer.visibility = View.GONE
+        bind.cashPayContainer.visibility = View.GONE
+        if (orderModel.orderChannel!!.uppercase() == "ONLINE") {
+            if (orderModel.discountedAmount!! > 0) {
+                bind.discount.text =
+                    "£ " +  String.format( "%.2f",  orderModel.discountedAmount)
+            } else bind.discount.text =
+                "£ " + String.format("%.2f", 0.0)
+        } else {
+            var discountStr = "Discount"
+            bind.discountTitle.text = discountStr
+            var discountAmount = 0.0
+            bind.discount.text =
+                "£ " + String.format( "%.2f", orderModel.discountedAmount!!)
+        }
+        bind.plasticBagContainer.visibility = View.GONE
+        bind.containerBagContainer.visibility = View.GONE
+        bind.adjustmentContainer.visibility = View.GONE
+        bind.tipsContainer.visibility = View.GONE
+        bind.containerOrderNo.visibility = View.VISIBLE
+        bind.total.text =
+            "£ " +String.format( "%.2f",(orderModel.payableAmount!! - orderModel.discountedAmount!!) + orderModel.deliveryCharge!!)
+        var dlAddress = "Service charge is not included\n\n"
+        if (orderModel.orderType == "DELIVERY" || orderModel.orderType == "COLLECTION" || orderModel.orderType == "TAKEOUT") {
+            val customerModel:  LocalOrderData.Customer? = orderModel.customer
+            dlAddress += "Name : ${customerModel!!.firstName} ${customerModel!!.lastName}\n"
+            dlAddress += "Phone : ${customerModel.phone}"
+            if (customerModel.address != null ) {
+                val address:  LocalOrderData.Customer.Address? = customerModel.address
+                if (address != null) {
+                    val pro:  LocalOrderData.Customer.Address? = address
+                    // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
+                    val building = pro?.building ?: ""
+//                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
+                    val streetName = pro?.street ?: ""
+                    val city = pro?.city ?: ""
+
+                    val zip = pro?.postcode ?: ""
+                    dlAddress += "\nAddress : $building $streetName $zip"
+                }
+            }
+        }
+
+        var comment = "Comments : ${if(orderModel.comment != null) orderModel.comment else ""}"
+
+        comment += """
+
+
+
+
+        """.trimIndent()
+        bind.comments.text = comment
+        bind.address.text = dlAddress
+        bind.address.setTextSize(TypedValue.COMPLEX_UNIT_DIP, printSize.toFloat())
+        val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
+
+        return  bitmaplist;
+    }
+
+    override fun onPostExecute(result: Bitmap?) {
+        super.onPostExecute(result)
+        printBitmap(result)
+    }
 }
