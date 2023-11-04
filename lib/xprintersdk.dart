@@ -49,7 +49,7 @@ class Xprintersdk {
     Map<String, Object?> orderiteam,
   ) async {
     Map<String, dynamic> quary = {
-      "orderiteam": orderiteam,
+      "orderiteam": jsonDecode(jsonEncode(orderiteam)),
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
     return await methodChannel.invokeMethod(xPrinterPrintLocalData, quary);
