@@ -56,165 +56,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     }
 
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("SetTextI18n", "SimpleDateFormat")
-//    fun orderrootget(): LinearLayout {
-//
-//          if (orderModel.orderType == "DELIVERY"){
-//              noofprint = businessdatadata.printOnDelivery!!
-//          }else{
-//              noofprint = businessdatadata.printOnCollection!!
-//          }
-//
-//        val printSize: Int = fontsize
-//        val bind: OnlinePrint2Binding = OnlinePrint2Binding.inflate(LayoutInflater.from(context))
-//        bind.businessName.text = businessname
-//
-//
-//        val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-//        val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
-//
-//        Log.d("order date", "orderrootget: ${orderModel.orderDate}")
-//        var addedDeliveryCharge = 0.0
-//        bind.businessLocation.text = businessaddress
-//        bind.businessPhone.text = businessphone
-//        bind.orderType.text = "${orderModel.orderType}"
-//        bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
-//            ?.let { formatter.format(it) }}"
-//        bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-//
-//        bind.orderNo.text = "${orderModel.id}";
-//
-//
-//        var allitemsheight = 0
-//        bind.items.removeAllViews()
-//        var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
-//        for (j in itemproduict.indices) {
-//            val childView = getView(j, context, 0, printSize)
-//            bind.items.addView(childView)
-//            allitemsheight += childView!!.measuredHeight
-//        }
-//
-//
-//        var paidOrNot = "";
-//        if (orderModel.paymentType == "CARD") {
-//            paidOrNot ="ORDER IS PAID"
-//        } else  {
-//            paidOrNot = "ORDER NOT PAID"
-//            bind.dueTotalContainer.visibility = View.VISIBLE
-//            bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
-//        }
-//
-//
-//        bind.orderPaidMessage.text = paidOrNot
-//        bind.refundContainer.visibility = View.GONE
-//
-//
-//        val subTotal: Double = orderModel.netAmount!!
-//        bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
-//
-//
-//
-//        bind.txtDeliveryCharge.text = "Delivery Charge";
-//        bind.deliveryCharge.text = "£ " + orderModel.deliveryCharge!!.toFloat().toString()
-//
-//        bind.cardPayContainer.visibility = View.GONE
-//        bind.cashPayContainer.visibility = View.GONE
-//        if (orderModel.orderChannel!!.uppercase() == "ONLINE") {
-//            if (orderModel.discountedAmount!! > 0) {
-//                bind.discount.text =
-//                    "£ " +  String.format( "%.2f",  orderModel.discountedAmount)
-//            } else bind.discount.text =
-//                "£ " + String.format("%.2f", 0.0)
-//        } else {
-//            var discountStr = "Discount"
-//            bind.discountTitle.text = discountStr
-//            var discountAmount = 0.0
-//            bind.discount.text =
-//                "£ " + String.format( "%.2f", orderModel.discountedAmount)
-//        }
-//
-//
-//        bind.plasticBagContainer.visibility = View.GONE
-//
-//        bind.containerBagContainer.visibility = View.GONE
-//
-//        bind.adjustmentContainer.visibility = View.GONE
-//        bind.tipsContainer.visibility = View.GONE
-//        bind.containerOrderNo.visibility = View.VISIBLE
-//
-//
-//        bind.total.text =
-//            "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
-//
-//
-//        var dlAddress = "Service charge is not included\n\n"
-//
-//
-//
-//        if (orderModel.orderType == "DELIVERY" || orderModel.orderType == "COLLECTION" || orderModel.orderType == "TAKEOUT") {
-//           if (orderModel.requesterGuest != null){
-//               val customerModel: OrderData.RequesterGuest? = orderModel.requesterGuest
-//               dlAddress += "Name : ${customerModel!!.firstName} ${customerModel!!.lastName}\n"
-//               dlAddress += "Phone : ${customerModel.phone}"
-//               if (orderModel.orderType != "COLLECTION" && orderModel.orderType != "TAKEOUT"){
-//                   if (orderModel.shippingAddress != null) {
-//                       val address: OrderData.ShippingAddress? = orderModel.shippingAddress
-//                       if (address!!.property != null) {
-//                           val pro: OrderData.ShippingAddress.Property = address.property!!
-//                           // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
-//                           val building = pro.house ?: ""
-////                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
-//                           val streetName = pro.state ?: ""
-//                           val city = pro.town ?: ""
-//                           val state = pro.state ?: ""
-//                           val zip = pro.postcode ?: ""
-//                           dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
-//                       }
-//                   }
-//               }
-//           }else{
-//               val customerModel: OrderData.Requester? = orderModel.requester!!
-//               dlAddress += "Name : ${customerModel!!.name}\n"
-//               dlAddress += "Phone : ${customerModel.phone}"
-//               if (orderModel.orderType != "COLLECTION" && orderModel.orderType != "TAKEOUT"){
-//                   if (orderModel.shippingAddress != null) {
-//                       val address: OrderData.ShippingAddress? = orderModel.shippingAddress
-//                       if (address!!.property != null) {
-//                           val pro: OrderData.ShippingAddress.Property = address.property!!
-//                           // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
-//                           val building = pro.house ?: ""
-////                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
-//                           val streetName = pro.state ?: ""
-//                           val city = pro.town ?: ""
-//                           val state = pro.state ?: ""
-//                           val zip = pro.postcode ?: ""
-//                           dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
-//                       }
-//                   }
-//               }
-//           }
-//        }
-//
-//        var comment = "Comments : ${if(orderModel.comment != null) orderModel.comment else ""}"
-//
-//        comment += """
-//
-//
-//
-//
-//        """.trimIndent()
-//
-//
-//        bind.comments.text = comment
-//        bind.address.text = dlAddress
-//
-//        bind.address.setTextSize(TypedValue.COMPLEX_UNIT_DIP, printSize.toFloat())
-//
-//        return bind.root;
-//    }
-
     fun capitalize(str: String): String? {
         return str.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
     }
@@ -329,14 +170,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         return binding.root
     }
 
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun printxprinteripdata(serviceBinding: Xprinter, result: MethodChannel.Result)  {
-//        val bitmaplist: Bitmap =  getBitmapFromView(orderrootget())
-//        printBitmap(bitmaplist, serviceBinding, result)
-//    }
-
-
-
     fun printBitmap(bitmap: Bitmap?)  {
         try {
             val originalBitmap: Bitmap? = bitmap
@@ -351,8 +184,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
         }
     }
-
-
          private fun resizeImage(bitmap: Bitmap?, w: Int, ischecked: Boolean): Bitmap? {
              var resizedBitmap: Bitmap? = null
              val width = bitmap!!.width
@@ -388,30 +219,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     fun byteArrayToBitmap(byteArray: ByteArray): Bitmap {
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
-
-//    @RequiresApi(Build.VERSION_CODES.O)
-//    fun getimagebytes(): ByteArray {
-//        val newbitmaplist: ArrayList<ByteArray?> = arrayListOf()
-//        val bitmaplist: Bitmap =  getBitmapFromView(orderrootget())
-//
-////       for (bitmap in bitmaplist){
-////
-////       }
-//        var b2 = resizeImage(bitmaplist, 530, true)
-//        val originalBitmap: Bitmap? = b2
-//        val compressFormat = Bitmap.CompressFormat.JPEG
-//        val compressionQuality = 10 // Adjust the quality as needed
-//
-////           val compressedData =
-////               originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
-//
-//
-////        newbitmaplist.add(bitmapToByteArray(b2!!))
-//        return bitmapToByteArray(b2!!);
-//    }
-
-
-
 
          fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
              val stream = ByteArrayOutputStream()

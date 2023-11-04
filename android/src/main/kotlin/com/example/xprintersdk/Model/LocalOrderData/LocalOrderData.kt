@@ -92,7 +92,7 @@ data class LocalOrderData(
         @SerializedName("currency")
         val currency: String?,
         @SerializedName("discountPrice")
-        val discountPrice: Any?,
+        val discountPrice: Double?,
         @SerializedName("extra")
         val extra: List<Extra?>?,
         @SerializedName("id")

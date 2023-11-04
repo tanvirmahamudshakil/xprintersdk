@@ -5,7 +5,9 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
+import com.example.xprintersdk.Model.LocalOrderData.LocalOrderData
 import com.example.xprintersdk.Model.OrderData.OrderData
+import com.example.xprintersdk.PrinterService.local_printer
 import com.example.xprintersdk.PrinterService.printerservice
 import com.example.xprintersdk.xprinter.Xprinter
 import com.google.gson.Gson
@@ -14,6 +16,9 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
@@ -24,6 +29,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var xPrinterConnectionCheck ="xPrinterConnectionCheck";
   private var xPrinterConnect = "xPrinterConnect";
   private var xPrinterPrintOnlineData = "xPrinterPrintOnlineData"
+  private var xPrinterPrintLocalData = "xPrinterPrintLocalData"
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
@@ -43,6 +49,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       xPrinterConnect(call, result)
     }else if(call.method == xPrinterPrintOnlineData) {
       xprinterOnlineDataPrint(call, result);
+    }else if(call.method == xPrinterPrintLocalData){
+      xPrinterLocalData(call, result)
     }
     else {
       result.notImplemented()
@@ -92,5 +100,30 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
     }
   }
+
+
+
+  private fun xPrinterLocalData(call: MethodCall, result : Result){
+    var orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
+    var printerbusinessdata = call.argument<String>("printer_model_data")
+    var orderjson = Gson().toJson(orderiteamdata)
+    var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+    Log.d("json data", "xprinterprint: ${orderiteamdata}")
+    var modeldata = Gson().fromJson<LocalOrderData>(orderjson, OrderData::class.java)
+    Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.items!!.size}")
+    if (businessdata.printerConnection == "IP Connection"){
+      CoroutineScope(Dispatchers.IO).launch {
+        local_printer(context,modeldata,businessdata, xprinter, result).printBitmap()
+      }
+    }else if(businessdata.printerConnection == "USB Connection"){
+      CoroutineScope(Dispatchers.IO).launch {
+        local_printer(context,modeldata, businessdata,xprinter, result).printBitmap()
+      }
+
+    }else{
+
+    }
+  }
+
 
 }
