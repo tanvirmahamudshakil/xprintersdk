@@ -8,10 +8,12 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
 import android.os.AsyncTask
+import android.os.Build
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import androidx.annotation.RequiresApi
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.LocalOrderData.LocalOrderData
 import com.example.xprintersdk.Model.OrderData.OrderData
@@ -24,8 +26,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.roundToInt
+import java.time.temporal.ChronoUnit
 
 class local_printer(mcontext: Context, mlocalModel: LocalOrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result) : AsyncTask<String, Int, Bitmap>()  {
 
@@ -290,6 +295,8 @@ class local_printer(mcontext: Context, mlocalModel: LocalOrderData, businessdata
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
+
+
     @SuppressLint("SetTextI18n")
     override fun doInBackground(vararg params: String?): Bitmap{
         if (orderModel.orderType == "DELIVERY"){
@@ -307,6 +314,8 @@ class local_printer(mcontext: Context, mlocalModel: LocalOrderData, businessdata
         val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.ENGLISH)
         val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
 
+
+
         Log.d("order date", "orderrootget: ${orderModel.orderDate}")
         var addedDeliveryCharge = 0.0
         bind.businessLocation.text = businessaddress
@@ -315,7 +324,7 @@ class local_printer(mcontext: Context, mlocalModel: LocalOrderData, businessdata
         bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
             ?.let { formatter.format(it) }}"
         bind.collectionAt.text = "${orderModel.orderType} at : ${
-            orderModel.requestedDeliveryTimestamp?.let {
+            orderModel.requestedDeliveryTimestamp?.let { it ->
                 parser.parse(it)
                     ?.let { formatter.format(it) }
             }

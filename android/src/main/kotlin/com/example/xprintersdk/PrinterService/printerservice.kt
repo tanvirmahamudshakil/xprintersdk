@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.Typeface
 import android.os.AsyncTask
 import android.os.Build
 import android.util.Log
@@ -23,6 +24,10 @@ import com.example.xprintersdk.xprinter.Xprinter
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.Locale
 import kotlin.math.roundToInt
 
@@ -226,6 +231,21 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              return stream.toByteArray()
          }
 
+         @RequiresApi(Build.VERSION_CODES.O)
+         fun dateDifferent(orderDate: String, requestedDeliveryTimestamp: String) : Long {
+             Log.e("date", "dateDifferent: ${orderDate}-------${requestedDeliveryTimestamp}", )
+             val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+             val date1 = LocalDateTime.parse(orderDate, dateFormat)
+             val date2 = LocalDateTime.parse(requestedDeliveryTimestamp, dateFormat)
+
+             // Calculate the difference between the two dates
+             val daysDifference = ChronoUnit.MINUTES.between(date1, date2)
+//        val monthsDifference = ChronoUnit.MONTHS.between(date1, date2)
+//        val yearsDifference = ChronoUnit.YEARS.between(date1, date2)
+             return  daysDifference
+         }
+
+         @RequiresApi(Build.VERSION_CODES.O)
          override fun doInBackground(vararg params: String?): Bitmap {
              if (orderModel.orderType == "DELIVERY"){
                  noofprint = businessdatadata.printOnDelivery!!
@@ -240,7 +260,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
-
+             Log.e("date formet", "doInBackground: ${dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!)}", )
              Log.d("order date", "orderrootget: ${orderModel.orderDate}")
              var addedDeliveryCharge = 0.0
              bind.businessLocation.text = businessaddress
@@ -249,7 +269,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
              bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-
+             if (dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
+                 bind.collectionAt.setTypeface(null, Typeface.BOLD)
+             }
              bind.orderNo.text = "${orderModel.id}";
 
 
@@ -393,7 +415,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
          override fun onPostExecute(result: Bitmap?) {
              super.onPostExecute(result)
-             printBitmap(result)
+//             printBitmap(result)
          }
 
     }
