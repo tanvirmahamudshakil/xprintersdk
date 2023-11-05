@@ -415,7 +415,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
          override fun onPostExecute(result: Bitmap?) {
              super.onPostExecute(result)
-//             printBitmap(result)
+             printBitmap(result)
          }
 
     }
