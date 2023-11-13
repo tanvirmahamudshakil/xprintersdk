@@ -194,6 +194,11 @@ class local_printer(mcontext: Context, mlocalModel: LocalOrderData, businessdata
                     }
                 }
             }
+            if (!item.extra.isNullOrEmpty()){
+                for ( component in item.extra) {
+                    price += component!!.price!!;
+                }
+            }
         }
 
         if (item.comment!!.isNotEmpty()) str3.append("\nNote : ").append(item.comment)
