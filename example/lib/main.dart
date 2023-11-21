@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
             MaterialButton(
               onPressed: () async {
                 var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(
-                    printermodel, orderjson2);
+                    printermodel, orderjson3);
                 print(data);
               },
               child: Text("Xprinter print"),
@@ -87,8 +87,8 @@ class _MyAppState extends State<MyApp> {
       printOnDelivery: 1,
       printOnTableOrder: 1,
       printOnTackwayOrder: 1,
-      printerConnection: "USB Connection",
-      selectPrinter: "X Printer",
+      printerConnection: "USBConnection",
+      selectPrinter: "XPrinter",
       showOrderNoInvoice: true,
       bluetoothAddress: "DC:0D:30:EE:30:2A",
       bluetoothName: "dsvsdvsd",

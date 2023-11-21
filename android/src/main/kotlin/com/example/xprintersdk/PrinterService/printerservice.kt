@@ -272,7 +272,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              if (dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
                  bind.collectionAt.setTypeface(null, Typeface.BOLD)
              }
-             bind.orderNo.text = "${orderModel.id}";
+             if(orderModel.orderChannel!!.uppercase() == "ONLINE"){
+                 bind.orderNo.text = "${orderModel.id}";
+             }else{
+                 bind.orderNo.text = "${orderModel.localId}";
+             }
+
 
 
              var allitemsheight = 0
@@ -286,18 +291,24 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
              var paidOrNot = "";
-             if (orderModel.paymentType == "CARD") {
+             if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType == "CARD") {
                  paidOrNot ="ORDER IS PAID"
-             } else  {
-                 if (orderModel.paymentType == "CASH"){
-                    if (orderModel.cashEntry!!.isEmpty()){
-                        paidOrNot = "ORDER NOT PAID"
-                        bind.dueTotalContainer.visibility = View.VISIBLE
-                        bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
-                    }else{
-                        paidOrNot ="ORDER IS PAID"
-                    }
-                 }
+             } else if (orderModel.orderChannel!!.uppercase() != "ONLINE" && orderModel.cashEntry!!.isNotEmpty()) {
+                 paidOrNot ="ORDER IS PAID"
+             }
+             else  {
+//                 if (orderModel.paymentType == "CASH"){
+//                    if (orderModel.cashEntry!!.isEmpty()){
+//                        paidOrNot = "ORDER NOT PAID"
+//                        bind.dueTotalContainer.visibility = View.VISIBLE
+//                        bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+//                    }else{
+//                        paidOrNot ="ORDER IS PAID"
+//                    }
+//                 }
+                 paidOrNot = "ORDER NOT PAID"
+                 bind.dueTotalContainer.visibility = View.VISIBLE
+                 bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
              }
 
 
@@ -369,25 +380,28 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                          }
                      }
                  }else{
-                     val customerModel: OrderData.Requester? = orderModel.requester!!
-                     dlAddress += "Name : ${customerModel!!.name}\n"
-                     dlAddress += "Phone : ${customerModel.phone}"
-                     if (orderModel.orderType != "COLLECTION" && orderModel.orderType != "TAKEOUT"){
-                         if (orderModel.shippingAddress != null) {
-                             val address: OrderData.ShippingAddress? = orderModel.shippingAddress
-                             if (address!!.property != null) {
-                                 val pro: OrderData.ShippingAddress.Property = address.property!!
-                                 // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
-                                 val building = pro.house ?: ""
+                     if(orderModel.requester != null) {
+                         val customerModel: OrderData.Requester? = orderModel.requester!!
+                         dlAddress += "Name : ${customerModel!!.name}\n"
+                         dlAddress += "Phone : ${customerModel.phone}"
+                         if (orderModel.orderType != "COLLECTION" && orderModel.orderType != "TAKEOUT"){
+                             if (orderModel.shippingAddress != null) {
+                                 val address: OrderData.ShippingAddress? = orderModel.shippingAddress
+                                 if (address!!.property != null) {
+                                     val pro: OrderData.ShippingAddress.Property = address.property!!
+                                     // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
+                                     val building = pro.house ?: ""
 //                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
-                                 val streetName = pro.state ?: ""
-                                 val city = pro.town ?: ""
-                                 val state = pro.state ?: ""
-                                 val zip = pro.postcode ?: ""
-                                 dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
+                                     val streetName = pro.state ?: ""
+                                     val city = pro.town ?: ""
+                                     val state = pro.state ?: ""
+                                     val zip = pro.postcode ?: ""
+                                     dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
+                                 }
                              }
                          }
                      }
+
                  }
              }
 
