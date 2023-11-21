@@ -106,12 +106,25 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         return bitmap;
     }
 
+         fun componentFilter( i: OrderData.OrderProduct.Component?) : Boolean {
+             if(i!!.product!!.type!!.uppercase() == "COMPONENT") {
+                 if (i!!.product!!.property != null && i!!.product!!.property!!.itemtype != null){
+                     return !(i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" && i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")
+
+                 }else{
+                     return  true;
+                 }
+             }else{
+                 return  false;
+             }
+         }
+
     fun getView(position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
         val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(mCtx))
         var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
 
         val item = itemproduict[position]
-        var component = item!!.components!!.filter { i-> i!!.product!!.type!!.uppercase() == "COMPONENT"  && i!!.product!!.property!!.itemtype != null && i!!.product!!.property!!.itemtype!!.lowercase() != "topping" && i!!.product!!.property!!.itemtype!!.lowercase() != "addon" && i!!.product!!.property!!.itemtype!!.lowercase() != "dressing"}
+        var component = item!!.components!!.filter {i-> componentFilter(i)}
         var extraIteam = item!!.components!!.filter { i-> i!!.product!!.property!!.itemtype != null && (i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" || i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")}
         val str3 = StringBuilder()
         var price = 0.0
