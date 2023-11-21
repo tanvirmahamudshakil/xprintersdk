@@ -109,56 +109,52 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     fun getView(position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
         val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(mCtx))
         var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
+
         val item = itemproduict[position]
+        var component = item!!.components!!.filter { i-> i!!.product!!.type!!.uppercase() == "COMPONENT"  && i!!.product!!.property!!.itemtype != null && i!!.product!!.property!!.itemtype!!.lowercase() != "topping" && i!!.product!!.property!!.itemtype!!.lowercase() != "addon" && i!!.product!!.property!!.itemtype!!.lowercase() != "dressing"}
+        var extraIteam = item!!.components!!.filter { i-> i!!.product!!.property!!.itemtype != null && (i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" || i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")}
         val str3 = StringBuilder()
         var price = 0.0
         price = item!!.netAmount!!
         if (position < itemproduict.size - 1) {
             if (orderModel.orderProducts!![position]!!.product!!.sortOrder!! < orderModel.orderProducts!![position + 1]!!.product!!.sortOrder!!) {
 
-
             }
             binding.underLine.visibility = View.VISIBLE
         }
-        if (style == 0) {
-            if (item.components!!.isNotEmpty() ) {
-                str3.append(item.unit).append(" x ").append(item.product!!.shortName)
-                for (section in item.components!!) {
-                    var _comName = ""
-                    if (section!!.product!!.shortName!!.uppercase() != "NONE") {
-                        _comName = section.product!!.shortName!!
-                    }
-                    if (section.components!!.isNotEmpty()) {
-                        if (section.components.first()!!.product!!.shortName!!.uppercase() != "NONE") {
-                            _comName += " -> " + section.components.first()!!.product!!.shortName;
-                            price += section.components.first()!!.netAmount!!;
-                        }
-                    }
-                    if (_comName != "") {
-                        str3.append("\n").append(_comName)
-                    }
-                    price += section.netAmount!!;
-                }
-            } else {
-                if (item.product!!.type == "ITEM"){
-                    str3.append(item.unit).append(" x ").append(item.product!!.shortName)
-                }
 
+        if (component!!.isNotEmpty() ) {
+            str3.append(item.unit).append(" x ").append(item.product!!.shortName)
+            for (section in component) {
+                var _comName = ""
+                if (section!!.product!!.shortName!!.uppercase() != "NONE") {
+                    _comName = section.product!!.shortName!!
+                }
+                if (section.components!!.isNotEmpty()) {
+                    if (section.components.first()!!.product!!.shortName!!.uppercase() != "NONE") {
+                        _comName += " -> " + section.components.first()!!.product!!.shortName;
+                        price += section.components.first()!!.netAmount!!;
+                    }
+                }
+                if (_comName != "") {
+                    str3.append("\n").append(_comName)
+                }
+                price += section.netAmount!!;
             }
         } else {
-            if (item!!.components!!.isNotEmpty()) {
-                for (section in item.components!!) {
-                    var _comName = ""
-                    if (section!!.product!!.shortName != "NONE") {
-                        _comName = section.product!!.shortName!!
-                    }
-                    if (section.product!!.shortName != "NONE") _comName += " -> " + section.product!!.shortName
-                    str3.append(item.unit).append(" x ").append(item.product!!.shortName).append(" : ")
-                        .append(_comName)
-                }
-            } else  {
+            if (item.product!!.type == "ITEM"){
                 str3.append(item.unit).append(" x ").append(item.product!!.shortName)
             }
+
+        }
+
+        if (extraIteam.isNotEmpty()) {
+            val topping = java.lang.StringBuilder("\n")
+            for (extraItem in extraIteam) {
+                topping.append("  *").append(extraItem!!.product!!.shortName)
+                price += extraItem.netAmount!!;
+            }
+            str3.append(topping.toString())
         }
 
 
@@ -291,21 +287,20 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
              var paidOrNot = "";
-             if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType == "CARD") {
+             if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType!!.uppercase() == "CARD") {
                  paidOrNot ="ORDER IS PAID"
              } else if (orderModel.orderChannel!!.uppercase() != "ONLINE" && orderModel.cashEntry!!.isNotEmpty()) {
                  paidOrNot ="ORDER IS PAID"
+             } else if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType!!.uppercase() == "CASH") {
+                 if (orderModel.cashEntry!!.isEmpty()){
+                     paidOrNot = "ORDER NOT PAID"
+                     bind.dueTotalContainer.visibility = View.VISIBLE
+                     bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                 }else{
+                     paidOrNot ="ORDER IS PAID"
+                 }
              }
              else  {
-//                 if (orderModel.paymentType == "CASH"){
-//                    if (orderModel.cashEntry!!.isEmpty()){
-//                        paidOrNot = "ORDER NOT PAID"
-//                        bind.dueTotalContainer.visibility = View.VISIBLE
-//                        bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
-//                    }else{
-//                        paidOrNot ="ORDER IS PAID"
-//                    }
-//                 }
                  paidOrNot = "ORDER NOT PAID"
                  bind.dueTotalContainer.visibility = View.VISIBLE
                  bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)

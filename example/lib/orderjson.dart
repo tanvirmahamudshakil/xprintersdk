@@ -1973,28 +1973,28 @@ var localorder = {
 
 var orderjson3 = {
   "id": null,
-  "local_id": null,
+  "local_id": 6,
   "table_id": null,
   "order_type": "COLLECTION",
   "order_channel": "EPOS",
-  "order_date": "2023-11-12 09:52:59",
+  "order_date": "2023-11-21 09:27:21",
   "requester_type": "PROVIDER",
-  "requester_id": null,
-  "requester_uuid": null,
-  "shipping_address_id": null,
-  "requested_delivery_timestamp": "2023-11-12 09:52:59",
+  "requester_id": 0,
+  "requester_uuid": 0,
+  "shipping_address_id": 0,
+  "requested_delivery_timestamp": "2023-11-21 09:27:21",
   "status": "READY",
-  "net_amount": 8.89,
+  "net_amount": 8.39,
   "discounted_amount": 0,
   "delivery_charge": 0,
-  "payable_amount": 8.89,
+  "payable_amount": 8.39,
   "payment_type": "NOTPAY",
-  "payment_id": null,
-  "prescriber_id": null,
-  "branch_id": null,
+  "payment_id": 0,
+  "prescriber_id": 0,
+  "branch_id": 0,
   "comment": "",
-  "created_at": "2023-11-21T04:12:09.787",
-  "updated_at": "2023-11-21T04:12:09.790",
+  "created_at": "2023-11-21T09:27:21.931",
+  "updated_at": "2023-11-21T09:27:21.934",
   "order_products": [
     {
       "id": 2009,
@@ -2005,7 +2005,7 @@ var orderjson3 = {
       "unit": 1,
       "net_amount": 4.99,
       "discountable_amount": null,
-      "comment": "jjjjjhhhjh",
+      "comment": null,
       "product": {
         "id": 2009,
         "sort_order": 9,
@@ -2043,7 +2043,7 @@ var orderjson3 = {
           "comment": null,
           "components": [
             {
-              "id": 2023,
+              "id": 2024,
               "parent_id": null,
               "order_id": null,
               "product_id": null,
@@ -2054,12 +2054,12 @@ var orderjson3 = {
               "comment": null,
               "components": [],
               "product": {
-                "id": 2023,
-                "sort_order": 10,
-                "uuid": "mirianda-strawberry",
+                "id": 2024,
+                "sort_order": 11,
+                "uuid": "mirianda-orange",
                 "barcode": null,
                 "type": "COMPONENT",
-                "short_name": "Mirianda Strawberry",
+                "short_name": "Mirianda Orange",
                 "description": null,
                 "status": 1,
                 "discountable": 1,
@@ -2083,7 +2083,11 @@ var orderjson3 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": null
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": null
+            }
           }
         },
         {
@@ -2098,7 +2102,7 @@ var orderjson3 = {
           "comment": null,
           "components": [
             {
-              "id": 2127,
+              "id": 2087,
               "parent_id": null,
               "order_id": null,
               "product_id": null,
@@ -2109,12 +2113,12 @@ var orderjson3 = {
               "comment": null,
               "components": [],
               "product": {
-                "id": 2127,
+                "id": 2087,
                 "sort_order": 1,
-                "uuid": "lemon",
+                "uuid": "extra-hot",
                 "barcode": null,
                 "type": "COMPONENT",
-                "short_name": "Lemon",
+                "short_name": "Extra Hot",
                 "description": null,
                 "status": 1,
                 "discountable": 1,
@@ -2138,7 +2142,11 @@ var orderjson3 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": null
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": null
+            }
           }
         },
         {
@@ -2165,7 +2173,11 @@ var orderjson3 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": null
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": null
+            }
           }
         },
         {
@@ -2192,11 +2204,15 @@ var orderjson3 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": null
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": null
+            }
           }
         },
         {
-          "id": 328,
+          "id": 313,
           "parent_id": null,
           "order_id": null,
           "product_id": null,
@@ -2207,50 +2223,27 @@ var orderjson3 = {
           "comment": null,
           "components": [],
           "product": {
-            "id": 2176,
-            "sort_order": 2,
-            "uuid": "add-on-2",
+            "id": 2166,
+            "sort_order": 9,
+            "uuid": "9a71c706-9070-422f-859d-b33796be7c61",
             "barcode": null,
             "type": "COMPONENT",
-            "short_name": "Add On 2",
+            "short_name": "Cheese",
             "description": null,
             "status": 1,
             "discountable": 1,
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-            "tags": "addon",
-            "property": null
+            "tags": "topping",
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": "topping"
+            }
           }
         },
         {
-          "id": 327,
-          "parent_id": null,
-          "order_id": null,
-          "product_id": null,
-          "parent_product_id": null,
-          "unit": 1,
-          "net_amount": 0.5,
-          "discountable_amount": 0,
-          "comment": null,
-          "components": [],
-          "product": {
-            "id": 2175,
-            "sort_order": 1,
-            "uuid": "add-on-1",
-            "barcode": null,
-            "type": "COMPONENT",
-            "short_name": "Add On 1",
-            "description": null,
-            "status": 1,
-            "discountable": 1,
-            "creator_id": 2,
-            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-            "tags": "addon",
-            "property": null
-          }
-        },
-        {
-          "id": 322,
+          "id": 314,
           "parent_id": null,
           "order_id": null,
           "product_id": null,
@@ -2261,46 +2254,54 @@ var orderjson3 = {
           "comment": null,
           "components": [],
           "product": {
-            "id": 2161,
-            "sort_order": 4,
-            "uuid": "9a71c6e0-5f16-4679-8831-fbc951779f7b",
+            "id": 2167,
+            "sort_order": 10,
+            "uuid": "9a71c71b-4270-496a-846e-8816307fa032",
             "barcode": null,
             "type": "COMPONENT",
-            "short_name": "Peri Mayonnaise",
+            "short_name": "Fried eggs",
             "description": null,
             "status": 1,
             "discountable": 1,
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": "topping",
-            "property": null
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": "topping"
+            }
           }
         },
         {
-          "id": 323,
+          "id": 315,
           "parent_id": null,
           "order_id": null,
           "product_id": null,
           "parent_product_id": null,
           "unit": 1,
-          "net_amount": 0.5,
+          "net_amount": 0,
           "discountable_amount": 0,
           "comment": null,
           "components": [],
           "product": {
-            "id": 2171,
-            "sort_order": 2,
-            "uuid": "9a71c997-d510-4848-80ec-4410477ac0bd",
+            "id": 2163,
+            "sort_order": 6,
+            "uuid": "9a71c6ef-9f78-44e0-98e7-b0ef8f7c0b8e",
             "barcode": null,
             "type": "COMPONENT",
-            "short_name": "Ralish",
+            "short_name": "Fried onion",
             "description": null,
             "status": 1,
             "discountable": 1,
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": "topping",
-            "property": null
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": "topping"
+            }
           }
         },
         {
@@ -2327,7 +2328,73 @@ var orderjson3 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": "topping",
-            "property": null
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": "topping"
+            }
+          }
+        },
+        {
+          "id": 323,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0.5,
+          "discountable_amount": 0,
+          "comment": null,
+          "components": [],
+          "product": {
+            "id": 2171,
+            "sort_order": 2,
+            "uuid": "9a71c997-d510-4848-80ec-4410477ac0bd",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Ralish",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": "topping",
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": "topping"
+            }
+          }
+        },
+        {
+          "id": 322,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0,
+          "discountable_amount": 0,
+          "comment": null,
+          "components": [],
+          "product": {
+            "id": 2161,
+            "sort_order": 4,
+            "uuid": "9a71c6e0-5f16-4679-8831-fbc951779f7b",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Peri Mayonnaise",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": "topping",
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": "topping"
+            }
           }
         }
       ]
@@ -2335,7 +2402,17 @@ var orderjson3 = {
   ],
   "requester": null,
   "requester_guest": null,
-  "shipping_address": null,
+  "shipping_address": {
+    "id": null,
+    "name": null,
+    "type": null,
+    "creator_type": null,
+    "creator_id": null,
+    "status": null,
+    "created_at": null,
+    "updated_at": null,
+    "property": null
+  },
   "order_files": [],
   "prescriber": null,
   "payment": null,

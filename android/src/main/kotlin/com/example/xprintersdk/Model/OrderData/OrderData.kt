@@ -377,7 +377,9 @@ data class OrderData(
                     @SerializedName("is_coupon")
                     val isCoupon: String?,
                     @SerializedName("platform")
-                    val platform: String?
+                    val platform: String?,
+                    @SerializedName("item_type")
+                    var itemtype : String?
                 )
             }
         }
