@@ -124,8 +124,16 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
 
         val item = itemproduict[position]
-        var component = item!!.components!!.filter {i-> componentFilter(i)}
-        var extraIteam = item!!.components!!.filter { i-> i!!.product!!.property!!.itemtype != null && (i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" || i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")}
+        var  component: List<OrderData.OrderProduct.Component?>?
+        var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
+        if(orderModel.orderChannel!!.uppercase() == "ONLINE") {
+            component = item!!.components;
+        }else{
+             component = item!!.components!!.filter {i-> componentFilter(i)}
+             extraIteam = item!!.components!!.filter { i-> i!!.product!!.property!!.itemtype != null && (i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" || i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")}
+        }
+
+
         val str3 = StringBuilder()
         var price = 0.0
         price = item!!.netAmount!!
@@ -161,13 +169,15 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
         }
 
-        if (extraIteam.isNotEmpty()) {
-            val topping = java.lang.StringBuilder("\n")
-            for (extraItem in extraIteam) {
-                topping.append("  *").append(extraItem!!.product!!.shortName)
-                price += extraItem.netAmount!!;
+        if (extraIteam != null) {
+            if (extraIteam.isNotEmpty()) {
+                val topping = java.lang.StringBuilder("\n")
+                for (extraItem in extraIteam) {
+                    topping.append("  *").append(extraItem!!.product!!.shortName)
+                    price += extraItem.netAmount!!;
+                }
+                str3.append(topping.toString())
             }
-            str3.append(topping.toString())
         }
 
 
