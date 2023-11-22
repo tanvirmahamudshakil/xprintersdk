@@ -205,7 +205,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
 
             var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
-            if (businessdatadata.selectPrinter == "xprinter"){
+            if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(b2,result);
             }else{
                 sunmiPrinter.printBitmap(bitmap, 2)

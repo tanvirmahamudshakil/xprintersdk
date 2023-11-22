@@ -73,6 +73,26 @@ class _MyAppState extends State<MyApp> {
                     printermodel, localorder);
               },
               child: Text("local print"),
+            ),
+
+            MaterialButton(
+              onPressed: () async {
+                var data = await _xprintersdkPlugin.sunmiPrinterServiceInitialization();
+              },
+              child: Text("Sunmi Printer Service Init"),
+            ),
+            MaterialButton(
+              onPressed: () async {
+                var data = await _xprintersdkPlugin.sunmiPrinterInitialization();
+              },
+              child: Text("Sunmi Printer Init"),
+            ),
+
+            MaterialButton(
+              onPressed: () async {
+                var data = await _xprintersdkPlugin.sunmiPrintBitmap(printermodel, orderjson3);
+              },
+              child: Text("Sunmi Print Bitmap"),
             )
           ],
         ),
