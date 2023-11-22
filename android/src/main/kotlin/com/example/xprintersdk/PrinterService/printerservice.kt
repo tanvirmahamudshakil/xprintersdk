@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import androidx.annotation.RequiresApi
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.OrderData.OrderData
+import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.xprinter.Xprinter
@@ -32,7 +33,7 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 
-class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result) :
+class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp) :
     AsyncTask<String, Int, Bitmap>()
      {
 
@@ -46,6 +47,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     private var businessdatadata: BusinessSetting
     private var serviceBinding: Xprinter
     private var result: MethodChannel.Result
+    private var sunmiPrinter : SunmiHelp;
 
     init {
         context = mcontext;
@@ -58,6 +60,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         noofprint = businessdata.printOnCollection!!;
         businessdatadata = businessdata
         result = mresult
+        sunmiPrinter = sunmiHelper
     }
 
 
@@ -202,7 +205,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
 
             var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
-            serviceBinding.printUSBbitamp(b2,result);
+            if (businessdatadata.selectPrinter == "xprinter"){
+                serviceBinding.printUSBbitamp(b2,result);
+            }else{
+                sunmiPrinter.printBitmap(bitmap, 2)
+            }
+
 
         } catch (e: java.lang.Exception) {
 
@@ -279,8 +287,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
-             Log.e("date formet", "doInBackground: ${dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!)}", )
-             Log.d("order date", "orderrootget: ${orderModel.orderDate}")
+//             Log.e("date formet", "doInBackground: ${dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!)}", )
+//             Log.d("order date", "orderrootget: ${orderModel.orderDate}")
              var addedDeliveryCharge = 0.0
              bind.businessLocation.text = businessaddress
              bind.businessPhone.text = businessphone
@@ -288,9 +296,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
              bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-             if (dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
-                 bind.collectionAt.setTypeface(null, Typeface.BOLD)
-             }
+//             if (dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
+//                 bind.collectionAt.setTypeface(null, Typeface.BOLD)
+//             }
              if(orderModel.orderChannel!!.uppercase() == "ONLINE"){
                  bind.orderNo.text = "${orderModel.id}";
              }else{
