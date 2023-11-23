@@ -35,6 +35,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var sunmiPrinterService = "sunmiPrinterService";
   private var sunmiPrinterInit = "sunmiPrinterInit";
   private var sunmiPrintBitmap = "sunmiPrintBitmap";
+  private var bitmapImageSave = "bitmapImageSave";
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
@@ -63,6 +64,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       xprinterOnlineDataPrint(call, result);
     }else if(call.method == xPrinterPrintLocalData){
       xPrinterLocalData(call, result)
+    } else if(call.method ==  bitmapImageSave) {
+      bitmapImageDataSave(call, result)
     }
     else {
       result.notImplemented()
@@ -109,9 +112,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
     if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
-      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper).execute()
+      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
     }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
-      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper).execute()
+      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false).execute()
     }else{
 
     }
@@ -152,7 +155,19 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("json data", "xprinterprint: ${orderiteamdata}")
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper).execute()
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false).execute()
+  }
+
+
+  private fun bitmapImageDataSave(call: MethodCall, result : Result) {
+    var orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
+    var printerbusinessdata = call.argument<String>("printer_model_data")
+    var orderjson = Gson().toJson(orderiteamdata)
+    var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+    Log.d("json data", "xprinterprint: ${orderiteamdata}")
+    var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
+    Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true).execute()
   }
 
 }

@@ -1,20 +1,21 @@
 package com.example.xprintersdk.PrinterService
 
-import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
-import android.graphics.Typeface
 import android.os.AsyncTask
 import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.OrderData.OrderData
@@ -24,8 +25,10 @@ import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.xprinter.Xprinter
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -33,7 +36,7 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 
-class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp) :
+class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean) :
     AsyncTask<String, Int, Bitmap>()
      {
 
@@ -47,7 +50,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     private var businessdatadata: BusinessSetting
     private var serviceBinding: Xprinter
     private var result: MethodChannel.Result
-    private var sunmiPrinter : SunmiHelp;
+    private var sunmiPrinter : SunmiHelp
+    private var bitmapSave: Boolean
 
     init {
         context = mcontext;
@@ -60,7 +64,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         noofprint = businessdata.printOnCollection!!;
         businessdatadata = businessdata
         result = mresult
-        sunmiPrinter = sunmiHelper
+        sunmiPrinter = sunmiHelper;
+        bitmapSave = saveImage;
     }
 
 
@@ -111,8 +116,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
          fun componentFilter( i: OrderData.OrderProduct.Component?) : Boolean {
              if(i!!.product!!.type!!.uppercase() == "COMPONENT") {
-                 if (i!!.product!!.property != null && i!!.product!!.property!!.itemtype != null){
-                     return !(i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" && i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")
+                 if (i!!.product!!.property != null){
+                     if( i!!.product!!.property!!.itemtype != null) {
+                         return !(i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" && i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")
+                     }else{
+                         return  true;
+                     }
 
                  }else{
                      return  true;
@@ -205,7 +214,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
 
             var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
-            if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
+            if(bitmapSave) {
+                saveBitmapToGallery(context, bitmap, "bitmapImage", "scascas");
+            }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(b2,result);
             }else{
                 sunmiPrinter.printBitmap(bitmap, 2)
@@ -260,7 +271,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
          @RequiresApi(Build.VERSION_CODES.O)
          fun dateDifferent(orderDate: String, requestedDeliveryTimestamp: String) : Long {
-             Log.e("date", "dateDifferent: ${orderDate}-------${requestedDeliveryTimestamp}", )
+             Log.e("date", "dateDifferent: ${orderDate}-------${requestedDeliveryTimestamp}")
              val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
              val date1 = LocalDateTime.parse(orderDate, dateFormat)
              val date2 = LocalDateTime.parse(requestedDeliveryTimestamp, dateFormat)
@@ -456,6 +467,30 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          override fun onPostExecute(result: Bitmap?) {
              super.onPostExecute(result)
              printBitmap(result)
+         }
+
+         fun saveBitmapToGallery(context: Context, bitmap: Bitmap, title: String, description: String) {
+             val values = ContentValues().apply {
+                 put(MediaStore.Images.Media.TITLE, title)
+                 put(MediaStore.Images.Media.DESCRIPTION, description)
+                 put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+             }
+
+             val uri = context.contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+             try {
+                 if (uri != null) {
+                     val outputStream: OutputStream? = context.contentResolver.openOutputStream(uri)
+                     if (outputStream != null) {
+                         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                         outputStream.close()
+                         Toast.makeText(context, "Image saved to Gallery", Toast.LENGTH_SHORT).show()
+                     }
+                 }
+             } catch (e: Exception) {
+                 e.printStackTrace()
+                 Toast.makeText(context, "Failed to save image", Toast.LENGTH_SHORT).show()
+             }
          }
 
     }
