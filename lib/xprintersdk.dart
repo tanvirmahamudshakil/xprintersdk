@@ -14,6 +14,7 @@ class Xprintersdk {
   String sunmiPrinterService = "sunmiPrinterService";
   String sunmiPrinterInit = "sunmiPrinterInit";
   String sunmiPrint = "sunmiPrintBitmap";
+  String bitmapImageSave = "bitmapImageSave";
 
   Future<String?> getPlatformVersion() async {
     final version =
@@ -75,5 +76,16 @@ class Xprintersdk {
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
     return await methodChannel.invokeMethod(sunmiPrint, quary);
+  }
+
+   Future<bool> bitmapSave(
+    PrinterBusinessModel printermodel,
+    Map<String, Object?> orderiteam,
+  ) async {
+    Map<String, dynamic> quary = {
+      "orderiteam": orderiteam,
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
+    return await methodChannel.invokeMethod(bitmapImageSave, quary);
   }
 }
