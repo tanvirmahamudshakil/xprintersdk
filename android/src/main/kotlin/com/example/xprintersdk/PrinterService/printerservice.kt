@@ -115,19 +115,19 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     }
 
          fun componentFilter( i: OrderData.OrderProduct.Component?) : Boolean {
-             if(i!!.product!!.type!!.uppercase() == "COMPONENT") {
+             return if(i!!.product!!.type!!.uppercase() == "COMPONENT") {
                  if (i!!.product!!.property != null){
                      if( i!!.product!!.property!!.itemtype != null) {
-                         return !(i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" && i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")
+                         !(i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" || i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")
                      }else{
-                         return  true;
+                         true;
                      }
 
                  }else{
-                     return  true;
+                     true;
                  }
              }else{
-                 return  false;
+                 false;
              }
          }
 
@@ -285,10 +285,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
          @RequiresApi(Build.VERSION_CODES.O)
          override fun doInBackground(vararg params: String?): Bitmap {
-             if (orderModel.orderType == "DELIVERY"){
-                 noofprint = businessdatadata.printOnDelivery!!
+             noofprint = if (orderModel.orderType == "DELIVERY"){
+                 businessdatadata.printOnDelivery!!
              }else{
-                 noofprint = businessdatadata.printOnCollection!!
+                 businessdatadata.printOnCollection!!
              }
 
              val printSize: Int = fontsize
@@ -314,6 +314,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.orderNo.text = "${orderModel.id}";
              }else{
                  bind.orderNo.text = "${orderModel.localId}";
+             }
+             if(businessdatadata.showOrderNoInvoice == true){
+                 bind.orderNo.visibility = View.VISIBLE
+             }else{
+                 bind.orderNo.visibility = View.GONE
              }
 
 

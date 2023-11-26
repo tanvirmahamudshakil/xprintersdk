@@ -23,7 +23,7 @@ data class OrderData(
     @SerializedName("id")
     val id: Int?,
     @SerializedName("local_id")
-    val localId: Any?,
+    val localId: Int?,
     @SerializedName("net_amount")
     val netAmount: Double?,
     @SerializedName("order_channel")

@@ -1974,27 +1974,28 @@ var localorder = {
 var orderjson3 = {
   "id": null,
   "local_id": 6,
-  "table_id": null,
+  "tableUniqID": 0,
+  "table_id": 0,
   "order_type": "COLLECTION",
   "order_channel": "EPOS",
-  "order_date": "2023-11-21 09:27:21",
+  "order_date": "2023-11-26 09:04:02",
   "requester_type": "PROVIDER",
   "requester_id": 0,
   "requester_uuid": 0,
   "shipping_address_id": 0,
-  "requested_delivery_timestamp": "2023-11-21 09:27:21",
+  "requested_delivery_timestamp": "2023-11-26 09:04:02",
   "status": "READY",
-  "net_amount": 8.39,
+  "net_amount": 8.89,
   "discounted_amount": 0,
   "delivery_charge": 0,
-  "payable_amount": 8.39,
+  "payable_amount": 8.89,
   "payment_type": "NOTPAY",
   "payment_id": 0,
   "prescriber_id": 0,
   "branch_id": 0,
   "comment": "",
-  "created_at": "2023-11-21T09:27:21.931",
-  "updated_at": "2023-11-21T09:27:21.934",
+  "created_at": "2023-11-26T09:04:02.752526",
+  "updated_at": "2023-11-26T09:04:02.754873",
   "order_products": [
     {
       "id": 2009,
@@ -2040,7 +2041,7 @@ var orderjson3 = {
           "unit": 1,
           "net_amount": 2.5,
           "discountable_amount": 0,
-          "comment": null,
+          "comment": "",
           "components": [
             {
               "id": 2024,
@@ -2051,7 +2052,7 @@ var orderjson3 = {
               "unit": 1,
               "net_amount": 0,
               "discountable_amount": 0,
-              "comment": null,
+              "comment": "",
               "components": [],
               "product": {
                 "id": 2024,
@@ -2099,10 +2100,10 @@ var orderjson3 = {
           "unit": 1,
           "net_amount": 0,
           "discountable_amount": 0,
-          "comment": null,
+          "comment": "",
           "components": [
             {
-              "id": 2087,
+              "id": 2086,
               "parent_id": null,
               "order_id": null,
               "product_id": null,
@@ -2110,15 +2111,15 @@ var orderjson3 = {
               "unit": 1,
               "net_amount": 0,
               "discountable_amount": 0,
-              "comment": null,
+              "comment": "",
               "components": [],
               "product": {
-                "id": 2087,
+                "id": 2086,
                 "sort_order": 1,
-                "uuid": "extra-hot",
+                "uuid": "hot",
                 "barcode": null,
                 "type": "COMPONENT",
-                "short_name": "Extra Hot",
+                "short_name": "Hot",
                 "description": null,
                 "status": 1,
                 "discountable": 1,
@@ -2158,7 +2159,7 @@ var orderjson3 = {
           "unit": 1,
           "net_amount": 0.2,
           "discountable_amount": 0,
-          "comment": null,
+          "comment": "",
           "components": [],
           "product": {
             "id": 2016,
@@ -2189,7 +2190,7 @@ var orderjson3 = {
           "unit": 1,
           "net_amount": 0.2,
           "discountable_amount": 0,
-          "comment": null,
+          "comment": "",
           "components": [],
           "product": {
             "id": 2017,
@@ -2220,7 +2221,7 @@ var orderjson3 = {
           "unit": 1,
           "net_amount": 0,
           "discountable_amount": 0,
-          "comment": null,
+          "comment": "",
           "components": [],
           "product": {
             "id": 2166,
@@ -2251,7 +2252,7 @@ var orderjson3 = {
           "unit": 1,
           "net_amount": 0,
           "discountable_amount": 0,
-          "comment": null,
+          "comment": "",
           "components": [],
           "product": {
             "id": 2167,
@@ -2274,68 +2275,6 @@ var orderjson3 = {
           }
         },
         {
-          "id": 315,
-          "parent_id": null,
-          "order_id": null,
-          "product_id": null,
-          "parent_product_id": null,
-          "unit": 1,
-          "net_amount": 0,
-          "discountable_amount": 0,
-          "comment": null,
-          "components": [],
-          "product": {
-            "id": 2163,
-            "sort_order": 6,
-            "uuid": "9a71c6ef-9f78-44e0-98e7-b0ef8f7c0b8e",
-            "barcode": null,
-            "type": "COMPONENT",
-            "short_name": "Fried onion",
-            "description": null,
-            "status": 1,
-            "discountable": 1,
-            "creator_id": 2,
-            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-            "tags": "topping",
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": "topping"
-            }
-          }
-        },
-        {
-          "id": 324,
-          "parent_id": null,
-          "order_id": null,
-          "product_id": null,
-          "parent_product_id": null,
-          "unit": 1,
-          "net_amount": 0,
-          "discountable_amount": 0,
-          "comment": null,
-          "components": [],
-          "product": {
-            "id": 2169,
-            "sort_order": 12,
-            "uuid": "9a71c72b-b027-44bf-9c06-c94361523387",
-            "barcode": null,
-            "type": "COMPONENT",
-            "short_name": "Turkey rashers",
-            "description": null,
-            "status": 1,
-            "discountable": 1,
-            "creator_id": 2,
-            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-            "tags": "topping",
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": "topping"
-            }
-          }
-        },
-        {
           "id": 323,
           "parent_id": null,
           "order_id": null,
@@ -2344,7 +2283,7 @@ var orderjson3 = {
           "unit": 1,
           "net_amount": 0.5,
           "discountable_amount": 0,
-          "comment": null,
+          "comment": "",
           "components": [],
           "product": {
             "id": 2171,
@@ -2353,7 +2292,7 @@ var orderjson3 = {
             "barcode": null,
             "type": "COMPONENT",
             "short_name": "Ralish",
-            "description": null,
+            "description": "topping",
             "status": 1,
             "discountable": 1,
             "creator_id": 2,
@@ -2375,7 +2314,7 @@ var orderjson3 = {
           "unit": 1,
           "net_amount": 0,
           "discountable_amount": 0,
-          "comment": null,
+          "comment": "",
           "components": [],
           "product": {
             "id": 2161,
@@ -2396,22 +2335,162 @@ var orderjson3 = {
               "item_type": "topping"
             }
           }
+        },
+        {
+          "id": 327,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0.5,
+          "discountable_amount": 0,
+          "comment": "",
+          "components": [],
+          "product": {
+            "id": 2175,
+            "sort_order": 1,
+            "uuid": "add-on-1",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Add On 1",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": "addon",
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": "addon"
+            }
+          }
+        },
+        {
+          "id": 328,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0,
+          "discountable_amount": 0,
+          "comment": "",
+          "components": [],
+          "product": {
+            "id": 2176,
+            "sort_order": 2,
+            "uuid": "add-on-2",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Add On 2",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": "addon",
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": "addon"
+            }
+          }
+        },
+        {
+          "id": 325,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0,
+          "discountable_amount": 0,
+          "comment": "",
+          "components": [],
+          "product": {
+            "id": 2172,
+            "sort_order": 1,
+            "uuid": "dressing-1",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Dressing 1",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": "dressing",
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": "dressing"
+            }
+          }
+        },
+        {
+          "id": 326,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0,
+          "discountable_amount": 0,
+          "comment": "",
+          "components": [],
+          "product": {
+            "id": 2173,
+            "sort_order": 1,
+            "uuid": "dressing-2",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Dressing 2",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": "dressing",
+            "property": {
+              "platform": null,
+              "is_coupon": null,
+              "item_type": "dressing"
+            }
+          }
         }
       ]
     }
   ],
-  "requester": null,
+  "requester": {
+    "id": 8,
+    "uuid": null,
+    "role": null,
+    "name": "rrrrr yyyyyy",
+    "email": "tanvir@gmail.com",
+    "username": "rrrrr yyyyyy",
+    "phone": "0196565855",
+    "provider": null,
+    "provider_id": null
+  },
   "requester_guest": null,
   "shipping_address": {
     "id": null,
-    "name": null,
+    "name": "",
     "type": null,
-    "creator_type": null,
-    "creator_id": null,
+    "creator_type": "",
+    "creator_id": 2,
     "status": null,
-    "created_at": null,
+    "created_at": "2023-11-26T09:04:02.749406",
     "updated_at": null,
-    "property": null
+    "property": {
+      "house": "52",
+      "town": "",
+      "state": "Grove Road",
+      "postcode": "LU1 1BL",
+      "address": "52 Grove Road LU1 1BL"
+    }
   },
   "order_files": [],
   "prescriber": null,

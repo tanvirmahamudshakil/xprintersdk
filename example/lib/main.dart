@@ -100,6 +100,14 @@ class _MyAppState extends State<MyApp> {
                 var data = await _xprintersdkPlugin.bitmapSave(printermodel, orderjson3);
               },
               child: Text("Bitmap Save"),
+            ),
+
+            MaterialButton(
+              onPressed: () async {
+                var data = await _xprintersdkPlugin.checkSunmiPrinter();
+                print(data.toString());
+              },
+              child: Text("Sunmi Printer Check"),
             )
 
 
