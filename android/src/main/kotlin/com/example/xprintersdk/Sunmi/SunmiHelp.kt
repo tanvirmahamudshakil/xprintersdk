@@ -82,9 +82,6 @@ class SunmiHelp {
         } catch (e: InnerPrinterException) {
             e.printStackTrace()
         }
-        if (!ret){
-            Toast.makeText(mContext, "sunmi not found", Toast.LENGTH_SHORT).show();
-        }
         sunmiPrinter = if (ret) FoundSunmiPrinter else NoSunmiPrinter
     }
 

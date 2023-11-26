@@ -36,6 +36,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var sunmiPrinterInit = "sunmiPrinterInit";
   private var sunmiPrintBitmap = "sunmiPrintBitmap";
   private var bitmapImageSave = "bitmapImageSave";
+  private var sunmiPrinterCheck = "sunmiPrinterCheck";
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
@@ -55,6 +56,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       sunmiPrinterInit()
     }else if(call.method == sunmiPrintBitmap) {
       sunmiPrintData(call, result)
+    }else if(call.method == sunmiPrinterCheck) {
+      sunmiPrinterCheck(call, result)
     }
     else if (call.method == xPrinterConnectionCheck) {
       xPrinterConnectionCheck(result)
@@ -76,14 +79,11 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     channel.setMethodCallHandler(null)
   }
 
-
-
   private fun xPrinterInitialization() {
     xprinter.initBinding()
   }
   private fun sunmiPrinterService() {
     sunmiHelper.initSunmiPrinterService(context)
-
   }
 
   private fun xPrinterConnectionCheck(result: Result) {
@@ -135,8 +135,6 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
     }else if(businessdata.printerConnection == "USB Connection"){
       local_printer(context,modeldata, businessdata,xprinter, result).execute("2")
-
-
     }else{
 
     }
@@ -168,6 +166,11 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
     printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true).execute()
+  }
+
+
+  private fun sunmiPrinterCheck(call: MethodCall, result : Result) {
+      result.success(sunmiHelper.sunmiPrinter)
   }
 
 }

@@ -5,44 +5,45 @@ import 'package:flutter/services.dart';
 import 'Model/printerbusinessmodel.dart';
 
 class Xprintersdk {
-  final methodChannel = const MethodChannel('xprintersdk');
-  String xPrinterIntitalization = "xPrinterIntitalization";
-  String xPrinterConnectionCheck = "xPrinterConnectionCheck";
-  String xPrinterConnect = "xPrinterConnect";
-  String xPrinterPrintOnlineData = "xPrinterPrintOnlineData";
-  String xPrinterPrintLocalData = "xPrinterPrintLocalData";
-  String sunmiPrinterService = "sunmiPrinterService";
-  String sunmiPrinterInit = "sunmiPrinterInit";
-  String sunmiPrint = "sunmiPrintBitmap";
-  String bitmapImageSave = "bitmapImageSave";
+  final _methodChannel = const MethodChannel('xprintersdk');
+  final String _xPrinterIntitalization = "xPrinterIntitalization";
+  final String _xPrinterConnectionCheck = "xPrinterConnectionCheck";
+  final String _xPrinterConnect = "xPrinterConnect";
+  final String _xPrinterPrintOnlineData = "xPrinterPrintOnlineData";
+  final String _xPrinterPrintLocalData = "xPrinterPrintLocalData";
+  final String _sunmiPrinterService = "sunmiPrinterService";
+  final String _sunmiPrinterInit = "sunmiPrinterInit";
+  final String _sunmiPrint = "sunmiPrintBitmap";
+  final String _bitmapImageSave = "bitmapImageSave";
+  final String _sunmiPrinterCheck = "sunmiPrinterCheck";
 
   Future<String?> getPlatformVersion() async {
     final version =
-        await methodChannel.invokeMethod<String>('getPlatformVersion');
+        await _methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
   }
 
   Future XprinterInitialization() async {
-    await methodChannel.invokeMethod(xPrinterIntitalization);
+    await _methodChannel.invokeMethod(_xPrinterIntitalization);
   }
 
   Future sunmiPrinterServiceInitialization() async {
-    await methodChannel.invokeMethod(sunmiPrinterService);
+    await _methodChannel.invokeMethod(_sunmiPrinterService);
   }
 
   Future sunmiPrinterInitialization() async {
-    await methodChannel.invokeMethod(sunmiPrinterInit);
+    await _methodChannel.invokeMethod(_sunmiPrinterInit);
   }
 
   Future<bool> XPrinterConnectionCheck() async {
-    return await methodChannel.invokeMethod(xPrinterConnectionCheck);
+    return await _methodChannel.invokeMethod(_xPrinterConnectionCheck);
   }
 
   Future<bool> XPrinterConnect(PrinterBusinessModel printermodel) async {
     Map<String, dynamic> quary = {
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
-    return await methodChannel.invokeMethod(xPrinterConnect, quary);
+    return await _methodChannel.invokeMethod(_xPrinterConnect, quary);
   }
 
   Future<bool> XPrinterPrintOnLineData(
@@ -53,7 +54,7 @@ class Xprintersdk {
       "orderiteam": orderiteam,
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
-    return await methodChannel.invokeMethod(xPrinterPrintOnlineData, quary);
+    return await _methodChannel.invokeMethod(_xPrinterPrintOnlineData, quary);
   }
 
   Future<bool> XPrinterPrintLocalData(
@@ -64,7 +65,7 @@ class Xprintersdk {
       "orderiteam": jsonDecode(jsonEncode(orderiteam)),
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
-    return await methodChannel.invokeMethod(xPrinterPrintLocalData, quary);
+    return await _methodChannel.invokeMethod(_xPrinterPrintLocalData, quary);
   }
 
   Future<bool> sunmiPrintBitmap(
@@ -75,10 +76,10 @@ class Xprintersdk {
       "orderiteam": orderiteam,
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
-    return await methodChannel.invokeMethod(sunmiPrint, quary);
+    return await _methodChannel.invokeMethod(_sunmiPrint, quary);
   }
 
-   Future<bool> bitmapSave(
+  Future<bool> bitmapSave(
     PrinterBusinessModel printermodel,
     Map<String, Object?> orderiteam,
   ) async {
@@ -86,6 +87,10 @@ class Xprintersdk {
       "orderiteam": orderiteam,
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
-    return await methodChannel.invokeMethod(bitmapImageSave, quary);
+    return await _methodChannel.invokeMethod(_bitmapImageSave, quary);
+  }
+
+  Future checkSunmiPrinter() async {
+    return await _methodChannel.invokeMethod(_sunmiPrinterCheck);
   }
 }
