@@ -16,7 +16,8 @@ class Xprintersdk {
   final String _sunmiPrint = "sunmiPrintBitmap";
   final String _bitmapImageSave = "bitmapImageSave";
   final String _sunmiPrinterCheck = "sunmiPrinterCheck";
-  final String xPrinterbookingRequest = "XprinterbookingRequest";
+  final String _xPrinterbookingRequest = "XprinterbookingRequest";
+  final String _dailyreportPrint = "dailyreportPrint";
 
   Future<String?> getPlatformVersion() async {
     final version =
@@ -103,7 +104,18 @@ class Xprintersdk {
       "orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)),
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
-    return await _methodChannel.invokeMethod(xPrinterbookingRequest, quary);
+    return await _methodChannel.invokeMethod(_xPrinterbookingRequest, quary);
+  }
+
+  Future<bool>dailyReportPrint(
+      PrinterBusinessModel printermodel,
+      Map<String, Object?> bookingrequestIteam,
+      ) async {
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
+    return await _methodChannel.invokeMethod(_dailyreportPrint, quary);
   }
 
 }

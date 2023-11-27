@@ -6,8 +6,10 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.xprintersdk.Model.BookingRequest.BookingRequest
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
+import com.example.xprintersdk.Model.DailyReport.Dailyreport
 import com.example.xprintersdk.Model.LocalOrderData.LocalOrderData
 import com.example.xprintersdk.Model.OrderData.OrderData
+import com.example.xprintersdk.PrinterService.DailyReportPage
 import com.example.xprintersdk.PrinterService.RequestBookingprint
 import com.example.xprintersdk.PrinterService.printerservice
 import com.example.xprintersdk.Sunmi.SunmiHelp
@@ -36,6 +38,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var bitmapImageSave = "bitmapImageSave";
   private var sunmiPrinterCheck = "sunmiPrinterCheck";
   private var xprinterbookingRequest = "XprinterbookingRequest";
+  private var dailyreportPrint = "dailyreportPrint";
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
@@ -68,6 +71,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       bitmapImageDataSave(call, result)
     } else if(call.method == xprinterbookingRequest) {
       XprinterBookingRequestPrint(call, result)
+    } else if (call.method == dailyreportPrint) {
+      dailyReportPrint(call, result)
     }
     else {
       result.notImplemented()
@@ -166,6 +171,23 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       RequestBookingprint(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
     }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
       RequestBookingprint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
+    }else{
+
+    }
+  }
+
+  private fun dailyReportPrint(call: MethodCall, result : Result) {
+    var orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
+    var printerbusinessdata = call.argument<String>("printer_model_data")
+    var orderjson = Gson().toJson(orderiteamdata)
+    var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+    Log.d("Online Booking Request", "Online Booking Request: ${orderiteamdata}")
+    var modeldata = Gson().fromJson<Dailyreport>(orderjson, Dailyreport::class.java)
+    Log.d("DailyReport", "DailyReport: ${modeldata.data!!.date}")
+    if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
+      DailyReportPage(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
+    }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
+      DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
     }else{
 
     }
