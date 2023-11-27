@@ -115,8 +115,14 @@ class _MyAppState extends State<MyApp> {
                 print(data.toString());
               },
               child: Text("Bookign Request print"),
+            ),
+            MaterialButton(
+              onPressed: () async {
+                var data = await _xprintersdkPlugin.dailyReportPrint(printermodel, dailyReport);
+                print(data.toString());
+              },
+              child: Text("Daily Report print"),
             )
-
           ],
         ),
       ),
@@ -131,7 +137,7 @@ class _MyAppState extends State<MyApp> {
       printOnTableOrder: 1,
       printOnTackwayOrder: 1,
       printerConnection: "USBConnection",
-      selectPrinter: "sunmi",
+      selectPrinter: "xprinter",
       showOrderNoInvoice: true,
       bluetoothAddress: "DC:0D:30:EE:30:2A",
       bluetoothName: "dsvsdvsd",

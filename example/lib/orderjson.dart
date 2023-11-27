@@ -2521,3 +2521,20 @@ var bookingRequest ={
   "created_at": "2023-11-22T09:08:29.000000Z",
   "updated_at": "2023-11-22T09:08:29.000000Z"
 };
+
+
+var dailyReport = {
+  "data": {
+    "total_order": 2,
+    "total_online_order": 2,
+    "total_local_order": 0,
+    "total_card_order": 0,
+    "total_cash_order": 2,
+    "total_card_order_amount": 0,
+    "total_cash_order_amount": 34.623000000000005,
+    "total_refund": 0,
+    "total_cash_in": 0,
+    "total_cash_out": 0,
+    "date": "2023-11-27 09:32:19"
+  }
+};
