@@ -318,9 +318,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.orderNo.text = "${orderModel.localId}";
              }
              if(businessdatadata.showOrderNoInvoice == true){
-                 bind.orderNo.visibility = View.VISIBLE
+                 bind.containerOrderNo.visibility = View.VISIBLE
              }else{
-                 bind.orderNo.visibility = View.GONE
+                 bind.containerOrderNo.visibility = View.GONE
              }
 
 
