@@ -193,15 +193,17 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
         val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
         val currentDateTime = LocalDateTime.now()
+        val totalCashOrderAmount = String.format("%.2f", dailyreport.data!!.totalCashOrderAmount)
+        val totalCardOrderAmount = String.format("%.2f", dailyreport.data!!.totalCardOrderAmount)
+
         binding.reportDate.text = "Date: ${parser.parse(dailyreport.data.toString())
             ?.let { formatter.format(it) }}"
         binding.totalOrderBox.text = dailyreport.data!!.totalOrder.toString()
         binding.onlineOrderBox.text = dailyreport.data!!.totalOnlineOrder.toString()
         binding.noofCardPaymentBox.text = dailyreport.data!!.totalCardOrder.toString()
         binding.noofcashPaymentBox.text = dailyreport.data!!.totalCashOrder.toString()
-        binding.totalPaymentReceiveBox.text = (dailyreport.data!!.totalCashOrderAmount?.plus(
-            dailyreport.data!!.totalCardOrderAmount!!
-        )).toString();
+        var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble()
+        binding.totalPaymentReceiveBox.text = totalPayment.toString();
         binding.totalCardBox.text = dailyreport.data!!.totalCardOrderAmount.toString()
         binding.totalCashBox.text = dailyreport.data!!.totalCashOrderAmount.toString()
         val bitmaplist: Bitmap =  getBitmapFromView(binding.root)
