@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.Typeface
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Environment
@@ -309,9 +310,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
              bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-//             if (dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
-//                 bind.collectionAt.setTypeface(null, Typeface.BOLD)
-//             }
+             if (dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
+                 bind.collectionAt.setTypeface(null, Typeface.BOLD)
+             }
              if(orderModel.orderChannel!!.uppercase() == "ONLINE"){
                  bind.orderNo.text = "${orderModel.id}";
              }else{
