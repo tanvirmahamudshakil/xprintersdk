@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Guest:"
+                android:text="No of Guest:"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -115,7 +115,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date:"
+                android:text="Arrival Time:"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="20sp" />

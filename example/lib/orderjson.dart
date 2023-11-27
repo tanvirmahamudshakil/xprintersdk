@@ -2506,3 +2506,18 @@ var orderjson3 = {
   },
   "table": null
 };
+
+
+var bookingRequest ={
+  "id": 5,
+  "status": "rrrr",
+  "name": "rrtrtr",
+  "phone": "0159525212",
+  "email": "shakilhassan887",
+  "number_of_guest": 5,
+  "arrival_time": "2023-11-22 08:54:30",
+  "note": "dfbdfb",
+  "branch_id": 5,
+  "created_at": "2023-11-22T09:08:29.000000Z",
+  "updated_at": "2023-11-22T09:08:29.000000Z"
+};
