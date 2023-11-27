@@ -4,10 +4,11 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.example.xprintersdk.Model.BookingRequest.BookingRequest
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.LocalOrderData.LocalOrderData
 import com.example.xprintersdk.Model.OrderData.OrderData
-import com.example.xprintersdk.PrinterService.local_printer
+import com.example.xprintersdk.PrinterService.RequestBookingprint
 import com.example.xprintersdk.PrinterService.printerservice
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.xprinter.Xprinter
@@ -17,9 +18,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
@@ -37,6 +35,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var sunmiPrintBitmap = "sunmiPrintBitmap";
   private var bitmapImageSave = "bitmapImageSave";
   private var sunmiPrinterCheck = "sunmiPrinterCheck";
+  private var xprinterbookingRequest = "XprinterbookingRequest";
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
@@ -65,10 +64,10 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       xPrinterConnect(call, result)
     }else if(call.method == xPrinterPrintOnlineData) {
       xprinterOnlineDataPrint(call, result);
-    }else if(call.method == xPrinterPrintLocalData){
-      xPrinterLocalData(call, result)
     } else if(call.method ==  bitmapImageSave) {
       bitmapImageDataSave(call, result)
+    } else if(call.method == xprinterbookingRequest) {
+      XprinterBookingRequestPrint(call, result)
     }
     else {
       result.notImplemented()
@@ -112,9 +111,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
     if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
-      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
+      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false, ).execute()
     }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
-      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false).execute()
+      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
     }else{
 
     }
@@ -122,23 +121,6 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
 
 
-  private fun xPrinterLocalData(call: MethodCall, result : Result){
-    var orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
-    var printerbusinessdata = call.argument<String>("printer_model_data")
-    var orderjson = Gson().toJson(orderiteamdata)
-    var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
-    Log.d("json data", "xprinterprint: ${orderiteamdata}")
-    var modeldata = Gson().fromJson<LocalOrderData>(orderjson, LocalOrderData::class.java)
-    Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.items!!.size}")
-    if (businessdata.printerConnection == "IP Connection"){
-      local_printer(context,modeldata,businessdata, xprinter, result).execute("1")
-
-    }else if(businessdata.printerConnection == "USB Connection"){
-      local_printer(context,modeldata, businessdata,xprinter, result).execute("2")
-    }else{
-
-    }
-  }
 
 
   private fun sunmiPrinterInit() {
@@ -152,7 +134,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false).execute()
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, ).execute()
   }
 
 
@@ -164,12 +146,29 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("json data", "xprinterprint: ${orderiteamdata}")
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true).execute()
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true, ).execute()
   }
 
 
   private fun sunmiPrinterCheck(call: MethodCall, result : Result) {
       result.success(sunmiHelper.sunmiPrinter)
+  }
+
+  private fun XprinterBookingRequestPrint(call: MethodCall, result : Result) {
+    var orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
+    var printerbusinessdata = call.argument<String>("printer_model_data")
+    var orderjson = Gson().toJson(orderiteamdata)
+    var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+    Log.d("Online Booking Request", "Online Booking Request: ${orderiteamdata}")
+    var modeldata = Gson().fromJson<BookingRequest>(orderjson, BookingRequest::class.java)
+    Log.d("Online Booking Request", "bookingRequestData: ${modeldata.name}")
+    if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
+      RequestBookingprint(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
+    }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
+      RequestBookingprint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
+    }else{
+
+    }
   }
 
 }

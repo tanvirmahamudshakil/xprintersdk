@@ -53,6 +53,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
 
+
     init {
         context = mcontext;
         orderModel = morderModel;
@@ -285,6 +286,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
          @RequiresApi(Build.VERSION_CODES.O)
          override fun doInBackground(vararg params: String?): Bitmap {
+             Log.e("tanvirdoninbackground", "doInBackground: ${params}", )
              noofprint = if (orderModel.orderType == "DELIVERY"){
                  businessdatadata.printOnDelivery!!
              }else{
