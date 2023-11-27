@@ -18,7 +18,7 @@
             android:id="@+id/PrintName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Booking Request"
+            android:text="Table Booking Request"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="23sp"
@@ -126,6 +126,29 @@
                 android:layout_alignParentEnd="true"
                 android:gravity="end"
                 android:text="2023-12-23"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/nodeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Note:"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/noteBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="end"
+                android:text="sdjsbdjhsbdcsd"
                 android:textAlignment="textEnd"
                 android:textColor="@color/black"
                 android:textSize="20sp" />

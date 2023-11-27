@@ -195,6 +195,7 @@ class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessda
             binding.guestBox.text = bookingRequest.numberOfGuest.toString()
         }
         binding.dateBox.text = "${formatter.format(parser.parse(bookingRequest.arrivalTime))}";
+        binding.noteBox.text = bookingRequest.note
         val bitmaplist: Bitmap =  getBitmapFromView(binding.root)
         return  bitmaplist;
 
