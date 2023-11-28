@@ -331,7 +331,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
              bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-             if (getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
+             if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION") &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
                  bind.collectionAt.setTypeface(null, Typeface.BOLD)
              }
              if(orderModel.orderChannel!!.uppercase() == "ONLINE"){
