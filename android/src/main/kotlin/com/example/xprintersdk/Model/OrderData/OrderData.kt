@@ -446,7 +446,9 @@ data class OrderData(
                 @SerializedName("platform")
                 val platform: String?,
                 @SerializedName("short_description")
-                val shortDescription: String?
+                val shortDescription: String?,
+                @SerializedName("print_order")
+                val printorder: String?
             )
         }
     }

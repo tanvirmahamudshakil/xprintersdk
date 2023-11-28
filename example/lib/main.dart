@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
             MaterialButton(
               onPressed: () async {
                 var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(
-                    printermodel, orderjson3);
+                    printermodel, orderjson4);
                 print(data);
               },
               child: Text("Xprinter print"),

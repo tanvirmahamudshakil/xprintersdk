@@ -136,7 +136,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     fun getView(position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
         val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(mCtx))
         var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
-
+        itemproduict.sortedBy { it!!.product!!.property!!.printorder!!.toInt() }
         val item = itemproduict[position]
         var  component: List<OrderData.OrderProduct.Component?>?
         var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
@@ -152,10 +152,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         var price = 0.0
         price = item!!.netAmount!!
         if (position < itemproduict.size - 1) {
-            if (orderModel.orderProducts!![position]!!.product!!.sortOrder!! < orderModel.orderProducts!![position + 1]!!.product!!.sortOrder!!) {
-
+            if (orderModel.orderProducts!![position]!!.product!!.property!!.printorder!!.toInt()!! < orderModel.orderProducts!![position + 1]!!.product!!.property!!.printorder!!.toInt()!!) {
+                binding.underLine.visibility = View.VISIBLE
             }
-            binding.underLine.visibility = View.VISIBLE
+
         }
 
         if (component!!.isNotEmpty() ) {
