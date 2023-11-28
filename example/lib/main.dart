@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
 
             MaterialButton(
               onPressed: () async {
-                var data = await _xprintersdkPlugin.sunmiPrintBitmap(printermodel, orderjson3);
+                var data = await _xprintersdkPlugin.sunmiPrintBitmap(printermodel, orderjson4);
               },
               child: Text("Sunmi Print Bitmap"),
             ),
@@ -137,7 +137,7 @@ class _MyAppState extends State<MyApp> {
       printOnTableOrder: 1,
       printOnTackwayOrder: 1,
       printerConnection: "USBConnection",
-      selectPrinter: "xprinter",
+      selectPrinter: "sunmi",
       showOrderNoInvoice: true,
       bluetoothAddress: "DC:0D:30:EE:30:2A",
       bluetoothName: "dsvsdvsd",

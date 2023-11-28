@@ -33,6 +33,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.Date
 import java.util.Locale
 import kotlin.math.roundToInt
 
@@ -133,11 +134,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
          }
 
-    fun getView(position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
+    fun getView( item: OrderData.OrderProduct?, iteamLength : Int ,position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
         val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(mCtx))
-        var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
-        itemproduict.sortedBy { it!!.product!!.property!!.printorder!!.toInt() }
-        val item = itemproduict[position]
+//        var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
+//        itemproduict.sortedBy { it!!.product!!.property!!.printorder!!.toInt() }
+//        val item = itemproduict[position]
         var  component: List<OrderData.OrderProduct.Component?>?
         var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
         if(orderModel.orderChannel!!.uppercase() == "ONLINE") {
@@ -151,7 +152,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         val str3 = StringBuilder()
         var price = 0.0
         price = item!!.netAmount!!
-        if (position < itemproduict.size - 1) {
+        if (position < iteamLength - 1) {
             if (orderModel.orderProducts!![position]!!.product!!.property!!.printorder!!.toInt()!! < orderModel.orderProducts!![position + 1]!!.product!!.property!!.printorder!!.toInt()!!) {
                 binding.underLine.visibility = View.VISIBLE
             }
@@ -271,18 +272,38 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              return stream.toByteArray()
          }
 
-         @RequiresApi(Build.VERSION_CODES.O)
-         fun dateDifferent(orderDate: String, requestedDeliveryTimestamp: String) : Long {
-             Log.e("date", "dateDifferent: ${orderDate}-------${requestedDeliveryTimestamp}")
-             val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-             val date1 = LocalDateTime.parse(orderDate, dateFormat)
-             val date2 = LocalDateTime.parse(requestedDeliveryTimestamp, dateFormat)
+//         @RequiresApi(Build.VERSION_CODES.O)
+//         fun dateDifferent(orderDate: String, requestedDeliveryTimestamp: String) : Long {
+//             Log.e("date", "dateDifferent: ${orderDate}-------${requestedDeliveryTimestamp}")
+//             val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+//             val date1 = LocalDateTime.parse(orderDate, dateFormat)
+//             val date2 = LocalDateTime.parse(requestedDeliveryTimestamp, dateFormat)
+//
+//             // Calculate the difference between the two dates
+//             val daysDifference = ChronoUnit.MINUTES.between(date1, date2)
+////        val monthsDifference = ChronoUnit.MONTHS.between(date1, date2)
+////        val yearsDifference = ChronoUnit.YEARS.between(date1, date2)
+//             return  daysDifference
+//         }
 
-             // Calculate the difference between the two dates
-             val daysDifference = ChronoUnit.MINUTES.between(date1, date2)
-//        val monthsDifference = ChronoUnit.MONTHS.between(date1, date2)
-//        val yearsDifference = ChronoUnit.YEARS.between(date1, date2)
-             return  daysDifference
+         fun getMinutesDifference(date1: String, date2: String): Long {
+             val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+             try {
+                 val parsedDate1: Date = dateFormat.parse("$date1 00:00:00")
+                 val parsedDate2: Date = dateFormat.parse("$date2 00:00:00")
+
+                 // Calculate the difference in milliseconds
+                 val diffInMillis: Long = parsedDate2.time - parsedDate1.time
+
+                 // Convert milliseconds to minutes
+                 val minutesDifference: Long = diffInMillis / (1000 * 60)
+
+                 return minutesDifference
+             } catch (e: Exception) {
+                 e.printStackTrace()
+                 return -1 // Handle the exception according to your requirements
+             }
          }
 
          @RequiresApi(Build.VERSION_CODES.O)
@@ -310,7 +331,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
              bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-             if (dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
+             if (getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
                  bind.collectionAt.setTypeface(null, Typeface.BOLD)
              }
              if(orderModel.orderChannel!!.uppercase() == "ONLINE"){
@@ -324,13 +345,13 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.containerOrderNo.visibility = View.GONE
              }
 
-
-
              var allitemsheight = 0
              bind.items.removeAllViews()
              var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
-             for (j in itemproduict.indices) {
-                 val childView = getView(j, context, 0, printSize)
+             var sortIteam = itemproduict.sortedWith(compareBy {it!!.product!!.property!!.printorder!!.toInt() })
+
+             for (j in sortIteam.indices) {
+                 val childView = getView(sortIteam[j],sortIteam.size, j, context, 0, printSize)
                  bind.items.addView(childView)
                  allitemsheight += childView!!.measuredHeight
              }

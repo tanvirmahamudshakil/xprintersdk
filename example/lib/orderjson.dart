@@ -2548,7 +2548,7 @@ var orderjson4 = {
   "table_id": 0,
   "order_type": "COLLECTION",
   "order_channel": "EPOS",
-  "order_date": "2023-11-28 12:55:56",
+  "order_date": "2023-11-28 01:55:56",
   "requester_type": "PROVIDER",
   "requester_id": 0,
   "requester_uuid": 0,
