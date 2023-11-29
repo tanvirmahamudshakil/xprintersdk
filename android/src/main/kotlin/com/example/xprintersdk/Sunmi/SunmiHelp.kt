@@ -118,6 +118,7 @@ class SunmiHelp {
             //TODO Service disconnection processing
             return
         }
+
         try {
             sunmiPrinterService!!.cutPaper(null)
         } catch (e: RemoteException) {
