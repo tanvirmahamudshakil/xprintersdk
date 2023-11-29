@@ -371,8 +371,9 @@ class SunmiHelp {
             } else {
                 sunmiPrinterService!!.printBitmap(bitmap, null)
             }
-            cutpaper()
             feedPaper()
+            cutpaper()
+
         } catch (e: RemoteException) {
             e.printStackTrace()
         }
