@@ -222,7 +222,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(b2,result);
             }else{
-                sunmiPrinter.printBitmap(bitmap, 2)
+                sunmiPrinter.printBitmap(bitmap, 2, result)
             }
 
 

@@ -48,7 +48,7 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_xPrinterConnect, quary);
   }
 
-  Future<bool> XPrinterPrintOnLineData(
+  Future XPrinterPrintOnLineData(
     PrinterBusinessModel printermodel,
     Map<String, Object?> orderiteam,
   ) async {
@@ -59,7 +59,7 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_xPrinterPrintOnlineData, quary);
   }
 
-  Future<bool> XPrinterPrintLocalData(
+  Future XPrinterPrintLocalData(
     PrinterBusinessModel printermodel,
     Map<String, Object?> orderiteam,
   ) async {
@@ -70,7 +70,7 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_xPrinterPrintLocalData, quary);
   }
 
-  Future<bool> sunmiPrintBitmap(
+  Future sunmiPrintBitmap(
     PrinterBusinessModel printermodel,
     Map<String, Object?> orderiteam,
   ) async {
@@ -81,7 +81,7 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_sunmiPrint, quary);
   }
 
-  Future<bool> bitmapSave(
+  Future bitmapSave(
     PrinterBusinessModel printermodel,
     Map<String, Object?> orderiteam,
   ) async {
@@ -96,7 +96,7 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_sunmiPrinterCheck);
   }
 
-  Future<bool>bookingRequestPrint(
+  Future bookingRequestPrint(
       PrinterBusinessModel printermodel,
       Map<String, Object?> bookingrequestIteam,
       ) async {
