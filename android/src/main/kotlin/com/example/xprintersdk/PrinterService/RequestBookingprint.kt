@@ -17,6 +17,7 @@ import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.BookingrequestuiBinding
 import com.example.xprintersdk.xprinter.Xprinter
+import com.sunmi.peripheral.printer.InnerResultCallback
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
@@ -106,7 +107,7 @@ class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessda
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(b2,result);
             }else{
-                sunmiPrinter.printBitmap(bitmap, 2, result)
+                sunmiPrinter.printBitmap(bitmap, 2)
             }
 
 

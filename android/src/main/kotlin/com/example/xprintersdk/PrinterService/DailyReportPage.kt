@@ -14,18 +14,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import com.example.xprintersdk.Model.BookingRequest.BookingRequest
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.DailyReport.Dailyreport
 import com.example.xprintersdk.Sunmi.SunmiHelp
-import com.example.xprintersdk.databinding.BookingrequestuiBinding
 import com.example.xprintersdk.databinding.DailyreportBinding
 import com.example.xprintersdk.xprinter.Xprinter
+import com.sunmi.peripheral.printer.InnerResultCallback
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
 import java.util.Locale
 import kotlin.math.roundToInt
 
@@ -111,7 +109,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(b2,result);
             }else{
-                sunmiPrinter.printBitmap(bitmap, 2, result)
+                sunmiPrinter.printBitmap(bitmap, 2)
             }
 
 

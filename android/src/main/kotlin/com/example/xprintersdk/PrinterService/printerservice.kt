@@ -10,7 +10,6 @@ import android.graphics.Matrix
 import android.graphics.Typeface
 import android.os.AsyncTask
 import android.os.Build
-import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.util.TypedValue
@@ -24,15 +23,11 @@ import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.xprinter.Xprinter
+import com.sunmi.peripheral.printer.InnerResultCallback
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
 import kotlin.math.roundToInt
@@ -222,7 +217,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(b2,result);
             }else{
-                sunmiPrinter.printBitmap(bitmap, 2, result)
+                sunmiPrinter.printBitmap(bitmap, 2)
             }
 
 

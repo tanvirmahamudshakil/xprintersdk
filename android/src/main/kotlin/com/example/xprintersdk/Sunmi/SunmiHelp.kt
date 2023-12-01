@@ -11,7 +11,6 @@ import com.sunmi.peripheral.printer.InnerPrinterManager
 import com.sunmi.peripheral.printer.InnerResultCallback
 import com.sunmi.peripheral.printer.SunmiPrinterService
 import com.sunmi.peripheral.printer.WoyouConsts
-import io.flutter.plugin.common.MethodChannel
 
 class SunmiHelp {
     var NoSunmiPrinter = 0x00000000
@@ -362,36 +361,16 @@ class SunmiHelp {
      * otherwise it will be saved in the cache
      * In this example, the image will be printed because the print text content is added
      */
-    fun printBitmap(bitmap: Bitmap?, orientation: Int, result: MethodChannel.Result) {
+    fun printBitmap(bitmap: Bitmap?, orientation: Int) {
         if (sunmiPrinterService == null) {
             //TODO Service disconnection processing
             return
         }
         try {
             if (orientation == 0) {
-                sunmiPrinterService!!.printBitmap(bitmap, object  : InnerResultCallback() {
-                    override fun onRunResult(p0: Boolean) {
-                    }
-                    override fun onReturnString(p0: String?) {
-                    }
-                    override fun onRaiseException(p0: Int, p1: String?) {
-                    }
-                    override fun onPrintResult(p0: Int, p1: String?) {
-                        result.success(p0);
-                    }
-                })
+                sunmiPrinterService!!.printBitmap(bitmap, null)
             } else {
-                sunmiPrinterService!!.printBitmap(bitmap, object  : InnerResultCallback() {
-                    override fun onRunResult(p0: Boolean) {
-                    }
-                    override fun onReturnString(p0: String?) {
-                    }
-                    override fun onRaiseException(p0: Int, p1: String?) {
-                    }
-                    override fun onPrintResult(p0: Int, p1: String?) {
-                        result.success(p0);
-                    }
-                })
+                sunmiPrinterService!!.printBitmap(bitmap, null)
             }
             feedPaper()
             cutpaper()

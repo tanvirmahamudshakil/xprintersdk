@@ -74,35 +74,44 @@ class _MyAppState extends State<MyApp> {
               },
               child: Text("local print"),
             ),
-
             MaterialButton(
               onPressed: () async {
-                var data = await _xprintersdkPlugin.sunmiPrinterServiceInitialization();
+                var data = await _xprintersdkPlugin
+                    .sunmiPrinterServiceInitialization();
               },
               child: Text("Sunmi Printer Service Init"),
             ),
             MaterialButton(
               onPressed: () async {
-                var data = await _xprintersdkPlugin.sunmiPrinterInitialization();
+                var data =
+                    await _xprintersdkPlugin.sunmiPrinterInitialization();
               },
               child: Text("Sunmi Printer Init"),
             ),
-
             MaterialButton(
               onPressed: () async {
-                var data = await _xprintersdkPlugin.sunmiPrintBitmap(printermodel, orderjson4);
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(data.toString())));
+                var data = await _xprintersdkPlugin.sunmiPrintBitmap(
+                    printermodel, orderjson4);
+                print("${data}");
+                Future.delayed(Duration(seconds: 2), () {
+                  showDialog(
+                      context: context,
+                      builder: (_) {
+                        return AlertDialog(
+                          title: Text("sunmi print $data"),
+                        );
+                      });
+                });
               },
               child: Text("Sunmi Print Bitmap"),
             ),
-
             MaterialButton(
               onPressed: () async {
-                var data = await _xprintersdkPlugin.bitmapSave(printermodel, orderjson3);
+                var data = await _xprintersdkPlugin.bitmapSave(
+                    printermodel, orderjson3);
               },
               child: Text("Bitmap Save"),
             ),
-
             MaterialButton(
               onPressed: () async {
                 var data = await _xprintersdkPlugin.checkSunmiPrinter();
@@ -112,14 +121,16 @@ class _MyAppState extends State<MyApp> {
             ),
             MaterialButton(
               onPressed: () async {
-                var data = await _xprintersdkPlugin.bookingRequestPrint(printermodel, bookingRequest);
+                var data = await _xprintersdkPlugin.bookingRequestPrint(
+                    printermodel, bookingRequest);
                 print(data.toString());
               },
               child: Text("Bookign Request print"),
             ),
             MaterialButton(
               onPressed: () async {
-                var data = await _xprintersdkPlugin.dailyReportPrint(printermodel, dailyReport);
+                var data = await _xprintersdkPlugin.dailyReportPrint(
+                    printermodel, dailyReport);
                 print(data.toString());
               },
               child: Text("Daily Report print"),
