@@ -388,7 +388,23 @@ class SunmiHelp {
                     }
                 })
             } else {
-                sunmiPrinterService!!.printBitmap(bitmap, null)
+                sunmiPrinterService!!.printBitmap(bitmap, object : InnerResultCallback(){
+                    override fun onRunResult(p0: Boolean) {
+                        result.success(p0)
+                    }
+
+                    override fun onReturnString(p0: String?) {
+                        Log.e("error", "onReturnString: ${p0}", )
+                    }
+
+                    override fun onRaiseException(p0: Int, p1: String?) {
+                        Log.e("error", "onReturnString: ${p0}", )
+                    }
+
+                    override fun onPrintResult(p0: Int, p1: String?) {
+                        Log.e("error", "onReturnString: ${p0}", )
+                    }
+                })
             }
             feedPaper()
             cutpaper()
