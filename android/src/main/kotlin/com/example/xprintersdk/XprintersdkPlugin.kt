@@ -140,7 +140,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
     printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, ).execute()
-    result.success(true)
+
 
   }
 

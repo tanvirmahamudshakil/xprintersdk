@@ -218,6 +218,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 serviceBinding.printUSBbitamp(b2,result);
             }else{
                 sunmiPrinter.printBitmap(bitmap, 2)
+                result.success(true)
             }
 
 
