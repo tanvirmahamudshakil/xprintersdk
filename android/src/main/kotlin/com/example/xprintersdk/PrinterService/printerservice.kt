@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Matrix
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.AsyncTask
 import android.os.Build
@@ -329,6 +330,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
              if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION") &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 15){
                  bind.collectionAt.setTypeface(null, Typeface.BOLD)
+                 bind.collectionAt.paintFlags = Paint.UNDERLINE_TEXT_FLAG
              }
              if(orderModel.orderChannel!!.uppercase() == "ONLINE"){
                  bind.orderNo.text = "${orderModel.id}";
