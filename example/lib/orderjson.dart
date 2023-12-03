@@ -1969,8 +1969,6 @@ var localorder = {
 //   }
 // };
 
-
-
 var orderjson3 = {
   "id": null,
   "local_id": 6,
@@ -2019,7 +2017,8 @@ var orderjson3 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Chicken Strips,chickenstrips,category,category,grill items,grillitems,",
+        "tags":
+            "Chicken Strips,chickenstrips,category,category,grill items,grillitems,",
         "property": {
           "platform": null,
           "epos_category": "grill-items",
@@ -2084,11 +2083,7 @@ var orderjson3 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         },
         {
@@ -2143,11 +2138,7 @@ var orderjson3 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         },
         {
@@ -2174,11 +2165,7 @@ var orderjson3 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         },
         {
@@ -2205,11 +2192,7 @@ var orderjson3 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         },
         {
@@ -2507,8 +2490,7 @@ var orderjson3 = {
   "table": null
 };
 
-
-var bookingRequest ={
+var bookingRequest = {
   "id": 5,
   "status": "rrrr",
   "name": "rrtrtr",
@@ -2521,7 +2503,6 @@ var bookingRequest ={
   "created_at": "2023-11-22T09:08:29.000000Z",
   "updated_at": "2023-11-22T09:08:29.000000Z"
 };
-
 
 var dailyReport = {
   "data": {
@@ -2538,8 +2519,6 @@ var dailyReport = {
     "date": "2023-11-27 09:32:19"
   }
 };
-
-
 
 var orderjson4 = {
   "id": null,
@@ -2589,7 +2568,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Chicken or Lamb Tikka starter,chickenorlambtikkastarter,category,category,starters,starters,",
+        "tags":
+            "Chicken or Lamb Tikka starter,chickenorlambtikkastarter,category,category,starters,starters,",
         "property": {
           "platform": null,
           "epos_category": "starters",
@@ -2627,11 +2607,7 @@ var orderjson4 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         }
       ]
@@ -2658,7 +2634,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Chana Chatt,chanachatt,category,category,vegetarian,vegetarian,",
+        "tags":
+            "Chana Chatt,chanachatt,category,category,vegetarian,vegetarian,",
         "property": {
           "platform": null,
           "epos_category": "vegetarian",
@@ -2732,7 +2709,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Vegetable Chatt,vegetablechatt,category,category,vegetarian,vegetarian,",
+        "tags":
+            "Vegetable Chatt,vegetablechatt,category,category,vegetarian,vegetarian,",
         "property": {
           "platform": null,
           "epos_category": "vegetarian",
@@ -2769,7 +2747,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Vegetable Puree,vegetablepuree,category,category,vegetarian,vegetarian,",
+        "tags":
+            "Vegetable Puree,vegetablepuree,category,category,vegetarian,vegetarian,",
         "property": {
           "platform": null,
           "epos_category": "vegetarian",
@@ -2806,7 +2785,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Vegetable Somosa,vegetablesomosa,category,category,vegetarian,vegetarian,",
+        "tags":
+            "Vegetable Somosa,vegetablesomosa,category,category,vegetarian,vegetarian,",
         "property": {
           "platform": null,
           "epos_category": "vegetarian",
@@ -2843,7 +2823,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Lamb Tikka,lambtikka,category,category,tandoori specialties,tandoorispecialties,",
+        "tags":
+            "Lamb Tikka,lambtikka,category,category,tandoori specialties,tandoorispecialties,",
         "property": {
           "platform": null,
           "epos_category": "tandoori-specialties",
@@ -2880,7 +2861,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Tandoori Mixed Grill,tandoorimixedgrill,category,category,tandoori specialties,tandoorispecialties,",
+        "tags":
+            "Tandoori Mixed Grill,tandoorimixedgrill,category,category,tandoori specialties,tandoorispecialties,",
         "property": {
           "platform": null,
           "epos_category": "tandoori-specialties",
@@ -2917,7 +2899,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Lamb Hasina,lambhasina,category,category,tandoori specialties,tandoorispecialties,",
+        "tags":
+            "Lamb Hasina,lambhasina,category,category,tandoori specialties,tandoorispecialties,",
         "property": {
           "platform": null,
           "epos_category": "tandoori-specialties",
@@ -2954,7 +2937,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Chicken Tikka,chickentikka,category,category,tandoori specialties,tandoorispecialties,",
+        "tags":
+            "Chicken Tikka,chickentikka,category,category,tandoori specialties,tandoorispecialties,",
         "property": {
           "platform": null,
           "epos_category": "tandoori-specialties",
@@ -2991,7 +2975,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Tandoori King Prawn,tandoorikingprawn,category,category,tandoori specialties,tandoorispecialties,",
+        "tags":
+            "Tandoori King Prawn,tandoorikingprawn,category,category,tandoori specialties,tandoorispecialties,",
         "property": {
           "platform": null,
           "epos_category": "tandoori-specialties",
@@ -3028,7 +3013,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Vegetable Curry or Madras,vegetablecurryormadras,category,category,special vegetarian main dishes,specialvegetarianmaindishes,",
+        "tags":
+            "Vegetable Curry or Madras,vegetablecurryormadras,category,category,special vegetarian main dishes,specialvegetarianmaindishes,",
         "property": {
           "platform": null,
           "epos_category": "special-vegetarian-main-dishes",
@@ -3066,11 +3052,7 @@ var orderjson4 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         }
       ]
@@ -3097,15 +3079,18 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Vindaloo,vindaloo,category,category,raj garden traditional,rajgardentraditional,Very hot strong flavoured spices in a thick sauce with potato",
+        "tags":
+            "Vindaloo,vindaloo,category,category,raj garden traditional,rajgardentraditional,Very hot strong flavoured spices in a thick sauce with potato",
         "property": {
           "platform": null,
           "epos_category": "raj-garden-traditional",
           "is_coupon": null,
           "category": "raj-garden-traditional",
           "featured": null,
-          "discount_type": "Very hot strong flavoured spices in a thick sauce with potato",
-          "discount_value": "Very hot strong flavoured spices in a thick sauce with potato",
+          "discount_type":
+              "Very hot strong flavoured spices in a thick sauce with potato",
+          "discount_value":
+              "Very hot strong flavoured spices in a thick sauce with potato",
           "print_order": "10"
         },
         "files": []
@@ -3135,11 +3120,7 @@ var orderjson4 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         }
       ]
@@ -3166,15 +3147,18 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Dupiaza,dupiaza,category,category,raj garden traditional,rajgardentraditional,Medium spiced and cooked with green peppers and onion",
+        "tags":
+            "Dupiaza,dupiaza,category,category,raj garden traditional,rajgardentraditional,Medium spiced and cooked with green peppers and onion",
         "property": {
           "platform": null,
           "epos_category": "raj-garden-traditional",
           "is_coupon": null,
           "category": "raj-garden-traditional",
           "featured": null,
-          "discount_type": "Medium spiced and cooked with green peppers and onion",
-          "discount_value": "Medium spiced and cooked with green peppers and onion",
+          "discount_type":
+              "Medium spiced and cooked with green peppers and onion",
+          "discount_value":
+              "Medium spiced and cooked with green peppers and onion",
           "print_order": "10"
         },
         "files": []
@@ -3204,11 +3188,7 @@ var orderjson4 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         }
       ]
@@ -3235,7 +3215,8 @@ var orderjson4 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Madras,madras,category,category,raj garden traditional,rajgardentraditional,Cooked in a fairly hot sauce",
+        "tags":
+            "Madras,madras,category,category,raj garden traditional,rajgardentraditional,Cooked in a fairly hot sauce",
         "property": {
           "platform": null,
           "epos_category": "raj-garden-traditional",
@@ -3273,11 +3254,7 @@ var orderjson4 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         }
       ]
@@ -3303,6 +3280,322 @@ var orderjson4 = {
   "branch": {
     "id": null,
     "name": "welwyn-garden-city",
+    "value": null,
+    "created_at": null,
+    "updated_at": null,
+    "property": null
+  },
+  "table": null
+};
+
+var orderjson5 = {
+  "id": null,
+  "local_id": 5,
+  "tableUniqID": 1701606652836315,
+  "table_id": 0,
+  "order_type": "COLLECTION",
+  "order_channel": "EPOS_WAITER",
+  "order_date": "2023-12-03 12:31:47",
+  "requester_type": "PROVIDER",
+  "requester_id": 0,
+  "requester_uuid": "0",
+  "shipping_address_id": 0,
+  "requested_delivery_timestamp": "2023-12-03 13:01:47",
+  "status": "READY",
+  "net_amount": 14.799999999999999,
+  "discounted_amount": 0,
+  "delivery_charge": 0,
+  "payable_amount": 14.799999999999999,
+  "payment_type": "CARD",
+  "payment_id": 0,
+  "prescriber_id": 0,
+  "branch_id": 0,
+  "comment": "",
+  "created_at": "2023-12-03T12:31:47.346",
+  "updated_at": "2023-12-03T12:31:50.555",
+  "order_products": [
+    {
+      "id": 2005,
+      "parent_id": null,
+      "order_id": null,
+      "product_id": null,
+      "parent_product_id": null,
+      "unit": 1,
+      "net_amount": 9.9,
+      "discountable_amount": null,
+      "comment": null,
+      "product": {
+        "id": 2005,
+        "sort_order": 5,
+        "uuid": "lamb-chops-4pc",
+        "barcode": null,
+        "type": "ITEM",
+        "short_name": "Lamb Chops (4pc)",
+        "description": null,
+        "status": 1,
+        "discountable": 1,
+        "creator_id": 2,
+        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+        "tags":
+            "Lamb Chops (4pc),lambchops4pc,category,category,grill items,grillitems,",
+        "property": {
+          "platform": null,
+          "epos_category": "grill-items",
+          "is_coupon": null,
+          "category": "grill-items",
+          "featured": "1",
+          "discount_type": null,
+          "discount_value": null,
+          "print_order": "10"
+        },
+        "files": []
+      },
+      "components": [
+        {
+          "id": 267,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0,
+          "discountable_amount": 0,
+          "comment": null,
+          "components": [],
+          "product": {
+            "id": 2010,
+            "sort_order": 1,
+            "uuid": "normal",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Normal",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": null,
+            "property": null
+          }
+        },
+        {
+          "id": 269,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0,
+          "discountable_amount": 0,
+          "comment": null,
+          "components": [],
+          "product": {
+            "id": 2011,
+            "sort_order": 1,
+            "uuid": "none",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "None",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": null,
+            "property": null
+          }
+        },
+        {
+          "id": 264,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0.2,
+          "discountable_amount": 0,
+          "comment": null,
+          "components": [],
+          "product": {
+            "id": 2016,
+            "sort_order": 6,
+            "uuid": "mayonnaise-dips",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Mayonnaise Dips",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": null,
+            "property": null
+          }
+        }
+      ]
+    },
+    {
+      "id": 2004,
+      "parent_id": null,
+      "order_id": null,
+      "product_id": null,
+      "parent_product_id": null,
+      "unit": 1,
+      "net_amount": 4.5,
+      "discountable_amount": null,
+      "comment": null,
+      "product": {
+        "id": 2004,
+        "sort_order": 4,
+        "uuid": "wings-6pc",
+        "barcode": null,
+        "type": "ITEM",
+        "short_name": "Wings (6pc)",
+        "description": null,
+        "status": 1,
+        "discountable": 1,
+        "creator_id": 2,
+        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+        "tags":
+            "Wings (6pc),wings6pc,category,category,grill items,grillitems,",
+        "property": {
+          "platform": null,
+          "epos_category": "grill-items",
+          "is_coupon": null,
+          "category": "grill-items",
+          "featured": "1",
+          "discount_type": null,
+          "discount_value": null,
+          "print_order": "10"
+        },
+        "files": []
+      },
+      "components": [
+        {
+          "id": 305,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0,
+          "discountable_amount": 0,
+          "comment": null,
+          "components": [],
+          "product": {
+            "id": null,
+            "sort_order": 1,
+            "uuid": "normal",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Normal",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": null,
+            "property": null
+          }
+        },
+        {
+          "id": 307,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0,
+          "discountable_amount": 0,
+          "comment": null,
+          "components": [],
+          "product": {
+            "id": null,
+            "sort_order": 1,
+            "uuid": "none",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "None",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": null,
+            "property": null
+          }
+        },
+        {
+          "id": 310,
+          "parent_id": null,
+          "order_id": null,
+          "product_id": null,
+          "parent_product_id": null,
+          "unit": 1,
+          "net_amount": 0.2,
+          "discountable_amount": 0,
+          "comment": null,
+          "components": [],
+          "product": {
+            "id": null,
+            "sort_order": 6,
+            "uuid": "mayonnaise-dips",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Mayonnaise Dips",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": null,
+            "property": null
+          }
+        }
+      ]
+    }
+  ],
+  "requester": null,
+  "requester_guest": null,
+  "shipping_address": {
+    "id": null,
+    "name": null,
+    "type": null,
+    "creator_type": null,
+    "creator_id": null,
+    "status": null,
+    "created_at": null,
+    "updated_at": null,
+    "property": null
+  },
+  "order_files": [],
+  "prescriber": null,
+  "payment": null,
+  "cash_entry": [
+    {
+      "id": null,
+      "timestamp": "2023-12-03T12:31:37.263",
+      "type": "CARD_ORDER",
+      "order_id": null,
+      "amount": 4.7,
+      "comment": null,
+      "created_at": null,
+      "updated_at": null
+    },
+    {
+      "id": null,
+      "timestamp": "2023-12-03T12:31:37.263",
+      "type": "CARD_ORDER",
+      "order_id": null,
+      "amount": 4.7,
+      "comment": null,
+      "created_at": null,
+      "updated_at": null
+    }
+  ],
+  "branch": {
+    "id": null,
+    "name": "biscot-road",
     "value": null,
     "created_at": null,
     "updated_at": null,

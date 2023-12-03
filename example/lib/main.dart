@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
             MaterialButton(
               onPressed: () async {
                 var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(
-                    printermodel, orderjson4);
+                    printermodel, orderjson5);
                 print(data);
               },
               child: Text("Xprinter print"),
@@ -143,13 +143,14 @@ class _MyAppState extends State<MyApp> {
 
   PrinterBusinessModel printermodel = PrinterBusinessModel(
       autoPrint: true,
+      highlight: 30,
       fontSize: 16,
       printOnCollection: 1,
       printOnDelivery: 1,
       printOnTableOrder: 1,
       printOnTackwayOrder: 1,
       printerConnection: "USBConnection",
-      selectPrinter: "sunmi",
+      selectPrinter: "xprinter",
       showOrderNoInvoice: true,
       bluetoothAddress: "DC:0D:30:EE:30:2A",
       bluetoothName: "dsvsdvsd",

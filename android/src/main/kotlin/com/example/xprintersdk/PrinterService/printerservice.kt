@@ -141,7 +141,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             component = item!!.components;
         }else{
              component = item!!.components!!.filter {i-> componentFilter(i)}
-             extraIteam = item!!.components!!.filter { i-> i!!.product!!.property!!.itemtype != null && (i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" || i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")}
+             extraIteam = item!!.components!!.filter { i-> i!!.product!!.property != null && i!!.product!!.property!!.itemtype != null && (i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" || i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")}
         }
 
 
