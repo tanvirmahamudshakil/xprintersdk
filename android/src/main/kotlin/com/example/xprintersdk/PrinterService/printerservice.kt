@@ -346,8 +346,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              var allitemsheight = 0
              bind.items.removeAllViews()
              var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
-             var sortIteam = itemproduict.sortedWith(compareBy {it!!.product!!.property!!.printorder!!.toInt() })
-
+//             var sortIteam = itemproduict.sortedWith(compareBy {it!!.product!!.property!!.printorder!!.toInt() })
+             var sortIteam = itemproduict;
              for (j in sortIteam.indices) {
                  val childView = getView(sortIteam[j],sortIteam.size, j, context, 0, printSize)
                  bind.items.addView(childView)
