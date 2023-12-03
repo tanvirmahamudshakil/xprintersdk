@@ -26,6 +26,7 @@ class PrinterBusinessModel {
   String? businessname;
   String? businessphone;
   String? businessaddress;
+  int? highlight;
 
   PrinterBusinessModel({
     this.fontSize,
@@ -43,6 +44,7 @@ class PrinterBusinessModel {
     this.businessname,
     this.businessphone,
     this.businessaddress,
+    this.highlight,
   });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) =>
@@ -62,6 +64,7 @@ class PrinterBusinessModel {
         businessname: json["businessname"],
         businessphone: json["businessphone"],
         businessaddress: json["businessaddress"],
+        highlight: json["highlight"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,5 +83,6 @@ class PrinterBusinessModel {
         "businessname": businessname,
         "businessphone": businessphone,
         "businessaddress": businessaddress,
+        "highlight": highlight
       };
 }

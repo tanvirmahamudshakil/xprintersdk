@@ -328,7 +328,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
              bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-             if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION") &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= 40){
+             if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION") &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= businessdatadata.highlight!!){
                  bind.collectionAt.setTypeface(null, Typeface.BOLD)
                  bind.collectionAt.paintFlags = Paint.UNDERLINE_TEXT_FLAG
              }
