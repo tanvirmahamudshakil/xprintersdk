@@ -149,10 +149,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         var price = 0.0
         price = item!!.netAmount!!
         if (position < iteamLength - 1) {
-            if (orderModel.orderProducts!![position]!!.product!!.property!!.printorder!!.toInt()!! < orderModel.orderProducts!![position + 1]!!.product!!.property!!.printorder!!.toInt()!!) {
-                binding.underLine.visibility = View.VISIBLE
-            }
-
+//            if (orderModel.orderProducts!![position]!!.product!!.property!!.printorder!!.toInt()!! < orderModel.orderProducts!![position + 1]!!.product!!.property!!.printorder!!.toInt()!!) {
+//                binding.underLine.visibility = View.VISIBLE
+//            }
+            binding.underLine.visibility = View.VISIBLE
         }
 
         if (component!!.isNotEmpty() ) {
