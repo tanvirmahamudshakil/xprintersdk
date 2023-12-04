@@ -149,10 +149,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         var price = 0.0
         price = item!!.netAmount!!
         if (position < iteamLength - 1) {
-//            if (orderModel.orderProducts!![position]!!.product!!.property!!.printorder!!.toInt()!! < orderModel.orderProducts!![position + 1]!!.product!!.property!!.printorder!!.toInt()!!) {
-//                binding.underLine.visibility = View.VISIBLE
-//            }
-            binding.underLine.visibility = View.VISIBLE
+            if (orderModel.orderProducts!![position]!!.product!!.property!!.printorder!!.toInt()!! < orderModel.orderProducts!![position + 1]!!.product!!.property!!.printorder!!.toInt()!!) {
+                binding.underLine.visibility = View.VISIBLE
+            }
+
         }
 
         if (component!!.isNotEmpty() ) {
@@ -324,13 +324,25 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              var addedDeliveryCharge = 0.0
              bind.businessLocation.text = businessaddress
              bind.businessPhone.text = businessphone
-             bind.orderType.text = "${orderModel.orderType}"
+             if(orderModel.orderType == "TABLE_BOOKING") {
+                 bind.orderType.text = "TABLE BOOKING"
+             }else{
+                 bind.orderType.text = "${orderModel.orderType}"
+             }
+
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
-             bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+            if(orderModel.orderType == "TABLE_BOOKING") {
+                bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+            }else{
+                bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+            }
              if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION") &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= businessdatadata.highlight!!){
                  bind.collectionAt.setTypeface(null, Typeface.BOLD)
                  bind.collectionAt.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+             }
+             if(orderModel.orderType == "TABLE_BOOKING") {
+                 bind.orderText.text = "Table#"
              }
              if(orderModel.orderChannel!!.uppercase() == "ONLINE"){
                  bind.orderNo.text = "${orderModel.id}";
@@ -346,8 +358,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              var allitemsheight = 0
              bind.items.removeAllViews()
              var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
-//             var sortIteam = itemproduict.sortedWith(compareBy {it!!.product!!.property!!.printorder!!.toInt() })
-             var sortIteam = itemproduict;
+             var sortIteam = itemproduict.sortedWith(compareBy {it!!.product!!.property!!.printorder!!.toInt() })
              for (j in sortIteam.indices) {
                  val childView = getView(sortIteam[j],sortIteam.size, j, context, 0, printSize)
                  bind.items.addView(childView)

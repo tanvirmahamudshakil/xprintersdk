@@ -135,6 +135,7 @@
             android:id="@+id/containerOrderNo"
             >
             <TextView
+                android:id="@+id/orderText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Order No : #"
