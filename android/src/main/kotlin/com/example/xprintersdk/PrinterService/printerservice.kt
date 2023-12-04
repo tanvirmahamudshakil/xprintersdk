@@ -344,10 +344,16 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderText.text = "Table#"
              }
+
              if(orderModel.orderChannel!!.uppercase() == "ONLINE"){
                  bind.orderNo.text = "${orderModel.id}";
              }else{
-                 bind.orderNo.text = "${orderModel.localId}";
+                 if(orderModel.orderType == "TABLE_BOOKING"){
+                     bind.orderNo.text = "${orderModel.table_id}";
+                 }else{
+                     bind.orderNo.text = "${orderModel.localId}";
+                 }
+
              }
              if(businessdatadata.showOrderNoInvoice == true){
                  bind.containerOrderNo.visibility = View.VISIBLE

@@ -67,7 +67,9 @@ data class OrderData(
     @SerializedName("status")
     val status: String?,
     @SerializedName("updated_at")
-    val updatedAt: String?
+    val updatedAt: String?,
+    @SerializedName("table_id")
+    var table_id: Int?
 ) {
     @Keep
     data class Branch(
