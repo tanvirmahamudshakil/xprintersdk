@@ -101,17 +101,33 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         // draw the view on the canvas
         view.draw(canvas)
 
-        //create resized image and display
-        val maxImageSize = 570f
-        val ratio = maxImageSize / returnedBitmap.width
-        val width = (ratio * returnedBitmap.width).roundToInt()
-        val height = (ratio * returnedBitmap.height).roundToInt()
-        //return the bitmap
 
-        var bitmap = Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
-
+        var bitmap: Bitmap = if (businessdatadata.paperSize == 80){
+            //create resized image and display
+            val maxImageSize = 570f
+            val ratio = maxImageSize / returnedBitmap.width
+            val width = (ratio * returnedBitmap.width).roundToInt()
+            val height = (ratio * returnedBitmap.height).roundToInt()
+            Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
+        }else {
+            val maxImageSize = 390f
+            val ratio = maxImageSize / (returnedBitmap.width)
+            val width = (ratio * returnedBitmap.width).roundToInt()
+            val height = (ratio * returnedBitmap.height).roundToInt()
+            Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
+        }
         return bitmap;
     }
+         fun getResizedBitmap(originalBitmap: Bitmap, targetWidth: Int, targetHeight: Int): Bitmap {
+             val ratioX = targetWidth.toFloat() / originalBitmap.width
+             val ratioY = targetHeight.toFloat() / originalBitmap.height
+             val ratio = minOf(ratioX, ratioY)
+
+             val width = (ratio * originalBitmap.width).toInt()
+             val height = (ratio * originalBitmap.height).toInt()
+
+             return Bitmap.createScaledBitmap(originalBitmap, width, height, true)
+         }
 
          fun componentFilter( i: OrderData.OrderProduct.Component?) : Boolean {
              return if(i!!.product!!.type!!.uppercase() == "COMPONENT") {
@@ -263,25 +279,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
-         fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
-             val stream = ByteArrayOutputStream()
-             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-             return stream.toByteArray()
-         }
-
-//         @RequiresApi(Build.VERSION_CODES.O)
-//         fun dateDifferent(orderDate: String, requestedDeliveryTimestamp: String) : Long {
-//             Log.e("date", "dateDifferent: ${orderDate}-------${requestedDeliveryTimestamp}")
-//             val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-//             val date1 = LocalDateTime.parse(orderDate, dateFormat)
-//             val date2 = LocalDateTime.parse(requestedDeliveryTimestamp, dateFormat)
-//
-//             // Calculate the difference between the two dates
-//             val daysDifference = ChronoUnit.MINUTES.between(date1, date2)
-////        val monthsDifference = ChronoUnit.MONTHS.between(date1, date2)
-////        val yearsDifference = ChronoUnit.YEARS.between(date1, date2)
-//             return  daysDifference
-//         }
 
          fun getMinutesDifference(date1: String, date2: String): Long {
              val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

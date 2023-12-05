@@ -37,5 +37,8 @@ data class BusinessSetting(
     @SerializedName("show_order_no_invoice")
     val showOrderNoInvoice: Boolean?,
     @SerializedName("highlight")
-    val highlight : Int?
+    val highlight : Int?,
+    @SerializedName("papersize")
+    val paperSize : Int?
+
 )

@@ -2612,653 +2612,6 @@ var orderjson4 = {
         }
       ]
     },
-    {
-      "id": 2488,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 3.5,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2488,
-        "sort_order": 1,
-        "uuid": "chana-chatt",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Chana Chatt",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Chana Chatt,chanachatt,category,category,vegetarian,vegetarian,",
-        "property": {
-          "platform": null,
-          "epos_category": "vegetarian",
-          "is_coupon": null,
-          "category": "vegetarian",
-          "featured": null,
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": []
-    },
-    {
-      "id": 2485,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 3.5,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2485,
-        "sort_order": 1,
-        "uuid": "aloo-chatt",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Aloo Chatt",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Aloo Chatt,aloochatt,category,category,vegetarian,vegetarian,",
-        "property": {
-          "platform": null,
-          "epos_category": "vegetarian",
-          "is_coupon": null,
-          "category": "vegetarian",
-          "featured": "1",
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "3"
-        },
-        "files": []
-      },
-      "components": []
-    },
-    {
-      "id": 2486,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 3.5,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2486,
-        "sort_order": 1,
-        "uuid": "vegetable-chatt",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Vegetable Chatt",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Vegetable Chatt,vegetablechatt,category,category,vegetarian,vegetarian,",
-        "property": {
-          "platform": null,
-          "epos_category": "vegetarian",
-          "is_coupon": null,
-          "category": "vegetarian",
-          "featured": null,
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": []
-    },
-    {
-      "id": 2487,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 4.25,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2487,
-        "sort_order": 1,
-        "uuid": "vegetable-puree",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Vegetable Puree",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Vegetable Puree,vegetablepuree,category,category,vegetarian,vegetarian,",
-        "property": {
-          "platform": null,
-          "epos_category": "vegetarian",
-          "is_coupon": null,
-          "category": "vegetarian",
-          "featured": null,
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": []
-    },
-    {
-      "id": 2483,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 3.5,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2483,
-        "sort_order": 1,
-        "uuid": "vegetable-somosa",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Vegetable Somosa",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Vegetable Somosa,vegetablesomosa,category,category,vegetarian,vegetarian,",
-        "property": {
-          "platform": null,
-          "epos_category": "vegetarian",
-          "is_coupon": null,
-          "category": "vegetarian",
-          "featured": null,
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": []
-    },
-    {
-      "id": 2495,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 7.95,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2495,
-        "sort_order": 1,
-        "uuid": "lamb-tikka",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Lamb Tikka",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Lamb Tikka,lambtikka,category,category,tandoori specialties,tandoorispecialties,",
-        "property": {
-          "platform": null,
-          "epos_category": "tandoori-specialties",
-          "is_coupon": null,
-          "category": "tandoori-specialties",
-          "featured": null,
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": []
-    },
-    {
-      "id": 2500,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 10.95,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2500,
-        "sort_order": 1,
-        "uuid": "tandoori-mixed-grill",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Tandoori Mixed Grill",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Tandoori Mixed Grill,tandoorimixedgrill,category,category,tandoori specialties,tandoorispecialties,",
-        "property": {
-          "platform": null,
-          "epos_category": "tandoori-specialties",
-          "is_coupon": null,
-          "category": "tandoori-specialties",
-          "featured": null,
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": []
-    },
-    {
-      "id": 2499,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 9.5,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2499,
-        "sort_order": 1,
-        "uuid": "lamb-hasina",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Lamb Hasina",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Lamb Hasina,lambhasina,category,category,tandoori specialties,tandoorispecialties,",
-        "property": {
-          "platform": null,
-          "epos_category": "tandoori-specialties",
-          "is_coupon": null,
-          "category": "tandoori-specialties",
-          "featured": null,
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": []
-    },
-    {
-      "id": 2494,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 7.5,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2494,
-        "sort_order": 1,
-        "uuid": "chicken-tikka",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Chicken Tikka",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Chicken Tikka,chickentikka,category,category,tandoori specialties,tandoorispecialties,",
-        "property": {
-          "platform": null,
-          "epos_category": "tandoori-specialties",
-          "is_coupon": null,
-          "category": "tandoori-specialties",
-          "featured": null,
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": []
-    },
-    {
-      "id": 2501,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 13.95,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2501,
-        "sort_order": 1,
-        "uuid": "tandoori-king-prawn",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Tandoori King Prawn",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Tandoori King Prawn,tandoorikingprawn,category,category,tandoori specialties,tandoorispecialties,",
-        "property": {
-          "platform": null,
-          "epos_category": "tandoori-specialties",
-          "is_coupon": null,
-          "category": "tandoori-specialties",
-          "featured": null,
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": []
-    },
-    {
-      "id": 2713,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 5.95,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2713,
-        "sort_order": 1,
-        "uuid": "vegetable-curry-or-madras",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Vegetable Curry or Madras",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Vegetable Curry or Madras,vegetablecurryormadras,category,category,special vegetarian main dishes,specialvegetarianmaindishes,",
-        "property": {
-          "platform": null,
-          "epos_category": "special-vegetarian-main-dishes",
-          "is_coupon": null,
-          "category": "special-vegetarian-main-dishes",
-          "featured": null,
-          "discount_type": null,
-          "discount_value": null,
-          "print_order": "3"
-        },
-        "files": []
-      },
-      "components": [
-        {
-          "id": 260,
-          "parent_id": null,
-          "order_id": null,
-          "product_id": null,
-          "parent_product_id": null,
-          "unit": 1,
-          "net_amount": 0,
-          "discountable_amount": 0,
-          "comment": "",
-          "components": [],
-          "product": {
-            "id": 2715,
-            "sort_order": 1,
-            "uuid": "9a49b60d-29b7-4a8a-9924-182992136ae1",
-            "barcode": null,
-            "type": "COMPONENT",
-            "short_name": "Madras",
-            "description": null,
-            "status": 1,
-            "discountable": 1,
-            "creator_id": 2,
-            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-            "tags": null,
-            "property": {"platform": null, "is_coupon": null, "item_type": null}
-          }
-        }
-      ]
-    },
-    {
-      "id": 2603,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 6.95,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2603,
-        "sort_order": 1,
-        "uuid": "vindaloo",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Vindaloo",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Vindaloo,vindaloo,category,category,raj garden traditional,rajgardentraditional,Very hot strong flavoured spices in a thick sauce with potato",
-        "property": {
-          "platform": null,
-          "epos_category": "raj-garden-traditional",
-          "is_coupon": null,
-          "category": "raj-garden-traditional",
-          "featured": null,
-          "discount_type":
-              "Very hot strong flavoured spices in a thick sauce with potato",
-          "discount_value":
-              "Very hot strong flavoured spices in a thick sauce with potato",
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": [
-        {
-          "id": 233,
-          "parent_id": null,
-          "order_id": null,
-          "product_id": null,
-          "parent_product_id": null,
-          "unit": 1,
-          "net_amount": 0.55,
-          "discountable_amount": 0,
-          "comment": "",
-          "components": [],
-          "product": {
-            "id": 2605,
-            "sort_order": 1,
-            "uuid": "lamb-vindaloo",
-            "barcode": null,
-            "type": "COMPONENT",
-            "short_name": "Lamb Vindaloo",
-            "description": null,
-            "status": 1,
-            "discountable": 1,
-            "creator_id": 2,
-            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-            "tags": null,
-            "property": {"platform": null, "is_coupon": null, "item_type": null}
-          }
-        }
-      ]
-    },
-    {
-      "id": 2613,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 6.95,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2613,
-        "sort_order": 1,
-        "uuid": "9a497960-b6e7-4a55-955f-cd8cf72dd791",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Dupiaza",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Dupiaza,dupiaza,category,category,raj garden traditional,rajgardentraditional,Medium spiced and cooked with green peppers and onion",
-        "property": {
-          "platform": null,
-          "epos_category": "raj-garden-traditional",
-          "is_coupon": null,
-          "category": "raj-garden-traditional",
-          "featured": null,
-          "discount_type":
-              "Medium spiced and cooked with green peppers and onion",
-          "discount_value":
-              "Medium spiced and cooked with green peppers and onion",
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": [
-        {
-          "id": 240,
-          "parent_id": null,
-          "order_id": null,
-          "product_id": null,
-          "parent_product_id": null,
-          "unit": 1,
-          "net_amount": 4,
-          "discountable_amount": 0,
-          "comment": "",
-          "components": [],
-          "product": {
-            "id": 2617,
-            "sort_order": 1,
-            "uuid": "9a4979a4-0adf-46a5-a429-135be8bfaa3d",
-            "barcode": null,
-            "type": "COMPONENT",
-            "short_name": "King Prawn Dupiaza",
-            "description": null,
-            "status": 1,
-            "discountable": 1,
-            "creator_id": 2,
-            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-            "tags": null,
-            "property": {"platform": null, "is_coupon": null, "item_type": null}
-          }
-        }
-      ]
-    },
-    {
-      "id": 2598,
-      "parent_id": null,
-      "order_id": null,
-      "product_id": null,
-      "parent_product_id": null,
-      "unit": 1,
-      "net_amount": 6.95,
-      "discountable_amount": null,
-      "comment": null,
-      "product": {
-        "id": 2598,
-        "sort_order": 1,
-        "uuid": "madras",
-        "barcode": null,
-        "type": "ITEM",
-        "short_name": "Madras",
-        "description": null,
-        "status": 1,
-        "discountable": 1,
-        "creator_id": 2,
-        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags":
-            "Madras,madras,category,category,raj garden traditional,rajgardentraditional,Cooked in a fairly hot sauce",
-        "property": {
-          "platform": null,
-          "epos_category": "raj-garden-traditional",
-          "is_coupon": null,
-          "category": "raj-garden-traditional",
-          "featured": null,
-          "discount_type": "Cooked in a fairly hot sauce",
-          "discount_value": "Cooked in a fairly hot sauce",
-          "print_order": "10"
-        },
-        "files": []
-      },
-      "components": [
-        {
-          "id": 227,
-          "parent_id": null,
-          "order_id": null,
-          "product_id": null,
-          "parent_product_id": null,
-          "unit": 1,
-          "net_amount": 0,
-          "discountable_amount": 0,
-          "comment": "",
-          "components": [],
-          "product": {
-            "id": 2599,
-            "sort_order": 1,
-            "uuid": "chicken-madras",
-            "barcode": null,
-            "type": "COMPONENT",
-            "short_name": "Chicken Madras",
-            "description": null,
-            "status": 1,
-            "discountable": 1,
-            "creator_id": 2,
-            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-            "tags": null,
-            "property": {"platform": null, "is_coupon": null, "item_type": null}
-          }
-        }
-      ]
-    }
   ],
   "requester": null,
   "requester_guest": null,
@@ -3604,11 +2957,7 @@ var orderjson5 = {
   "table": null
 };
 
-
-
-
 var orderjson6 = {
-
   "id": 10647,
   "local_id": null,
   "tableUniqID": null,
@@ -3656,7 +3005,8 @@ var orderjson6 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Cheese Burger,cheeseburger,category,category,american burgers,americanburgers,",
+        "tags":
+            "Cheese Burger,cheeseburger,category,category,american burgers,americanburgers,",
         "property": {
           "platform": "BOTH",
           "epos_category": "american-burgers",
@@ -3721,7 +3071,8 @@ var orderjson6 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Classic Cheese Burger,classiccheeseburger,category,category,gourmet burgers,gourmetburgers,6oz patty, lettuce, onion, gherkins, relish and cheese.",
+        "tags":
+            "Classic Cheese Burger,classiccheeseburger,category,category,gourmet burgers,gourmetburgers,6oz patty, lettuce, onion, gherkins, relish and cheese.",
         "property": {
           "platform": "BOTH",
           "epos_category": "gourmet-burgers",
@@ -3847,8 +3198,6 @@ var orderjson6 = {
   "table": null
 };
 
-
-
 ///////////////////////////////////
 ///
 var orderjson7 = {
@@ -3899,7 +3248,8 @@ var orderjson7 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Chicken Strips,chickenstrips,category,category,grill items,grillitems,",
+        "tags":
+            "Chicken Strips,chickenstrips,category,category,grill items,grillitems,",
         "property": {
           "platform": null,
           "epos_category": "grill-items",
@@ -3964,11 +3314,7 @@ var orderjson7 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         },
         {
@@ -4023,11 +3369,7 @@ var orderjson7 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         },
         {
@@ -4054,11 +3396,7 @@ var orderjson7 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         },
         {
@@ -4085,11 +3423,7 @@ var orderjson7 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         },
         {

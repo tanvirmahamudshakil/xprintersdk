@@ -84,14 +84,28 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         // draw the view on the canvas
         view.draw(canvas)
 
-        //create resized image and display
-        val maxImageSize = 570f
-        val ratio = maxImageSize / returnedBitmap.width
-        val width = (ratio * returnedBitmap.width).roundToInt()
-        val height = (ratio * returnedBitmap.height).roundToInt()
-        //return the bitmap
-
-        var bitmap = Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
+//        //create resized image and display
+//        val maxImageSize = 570f
+//        val ratio = maxImageSize / returnedBitmap.width
+//        val width = (ratio * returnedBitmap.width).roundToInt()
+//        val height = (ratio * returnedBitmap.height).roundToInt()
+//        //return the bitmap
+//
+//        var bitmap = Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
+        var bitmap: Bitmap = if (businessdatadata.paperSize == 80){
+            //create resized image and display
+            val maxImageSize = 570f
+            val ratio = maxImageSize / returnedBitmap.width
+            val width = (ratio * returnedBitmap.width).roundToInt()
+            val height = (ratio * returnedBitmap.height).roundToInt()
+            Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
+        }else {
+            val maxImageSize = 390f
+            val ratio = maxImageSize / (returnedBitmap.width)
+            val width = (ratio * returnedBitmap.width).roundToInt()
+            val height = (ratio * returnedBitmap.height).roundToInt()
+            Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
+        }
 
         return bitmap;
     }

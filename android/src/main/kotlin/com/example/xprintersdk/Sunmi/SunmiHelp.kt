@@ -388,6 +388,7 @@ class SunmiHelp {
                     }
                 })
             } else {
+
                 sunmiPrinterService!!.printBitmap(bitmap, object : InnerResultCallback(){
                     override fun onRunResult(p0: Boolean) {
                         result.success(p0)
