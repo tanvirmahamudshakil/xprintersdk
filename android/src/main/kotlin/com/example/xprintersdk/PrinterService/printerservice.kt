@@ -223,16 +223,16 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
     fun printBitmap(bitmap: Bitmap?)  {
         try {
-            val originalBitmap: Bitmap? = bitmap
-            val compressFormat = Bitmap.CompressFormat.JPEG
-            val compressionQuality = 10 // Adjust the quality as needed
-            val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
-
-            var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
+//            val originalBitmap: Bitmap? = bitmap
+//            val compressFormat = Bitmap.CompressFormat.JPEG
+//            val compressionQuality = 10 // Adjust the quality as needed
+//            val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
+//
+//            var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
             if(bitmapSave) {
-                saveBitmapToGallery(context, bitmap, "bitmapImage", "scascas");
+                saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
-                serviceBinding.printUSBbitamp(b2,result);
+                serviceBinding.printUSBbitamp(bitmap,result);
             }else{
                 sunmiPrinter.printBitmap(bitmap, 2, result)
 
