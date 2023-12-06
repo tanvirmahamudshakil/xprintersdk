@@ -9,6 +9,7 @@ import android.graphics.Color
 import android.graphics.Matrix
 import android.os.AsyncTask
 import android.provider.MediaStore
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -203,14 +204,19 @@ class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessda
         val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
 
         binding.nameBox.text = bookingRequest.name
+        binding.nameBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.phoneBox.text = bookingRequest.phone
+        binding.phoneBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         if(bookingRequest.numberOfGuest == null) {
             binding.guestBox.text = "0";
         }else{
             binding.guestBox.text = bookingRequest.numberOfGuest.toString()
         }
+        binding.guestBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.dateBox.text = "${formatter.format(parser.parse(bookingRequest.arrivalTime))}";
+        binding.dateBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.noteBox.text = bookingRequest.note
+        binding.noteBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         val bitmaplist: Bitmap =  getBitmapFromView(binding.root)
         return  bitmaplist;
 

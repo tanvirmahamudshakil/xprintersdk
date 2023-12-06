@@ -10,6 +10,7 @@ import android.graphics.Matrix
 import android.os.AsyncTask
 import android.os.Build
 import android.provider.MediaStore
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -208,14 +209,22 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         val totalCardOrderAmount = String.format("%.2f", dailyreport.data!!.totalCardOrderAmount)
 
         binding.reportDate.text = "Date: ${formatter.format(parser.parse(dailyreport.data!!.date)!!)}"
+        binding.reportDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.totalOrderBox.text = dailyreport.data!!.totalOrder.toString()
+        binding.totalOrderBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.onlineOrderBox.text = dailyreport.data!!.totalOnlineOrder.toString()
+        binding.onlineOrderBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.noofCardPaymentBox.text = dailyreport.data!!.totalCardOrder.toString()
+        binding.noofCardPaymentBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.noofcashPaymentBox.text = dailyreport.data!!.totalCashOrder.toString()
+        binding.noofcashPaymentBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble()
         binding.totalPaymentReceiveBox.text = totalPayment.toString();
+        binding.totalPaymentReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.totalCardBox.text = totalCardOrderAmount
+        binding.totalCardBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.totalCashBox.text = totalCashOrderAmount
+        binding.totalCashBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         val bitmaplist: Bitmap =  getBitmapFromView(binding.root)
         return  bitmaplist;
 
