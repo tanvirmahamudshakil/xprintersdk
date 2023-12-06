@@ -111,16 +111,16 @@ class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessda
 
     fun printBitmap(bitmap: Bitmap?)  {
         try {
-            val originalBitmap: Bitmap? = bitmap
-            val compressFormat = Bitmap.CompressFormat.JPEG
-            val compressionQuality = 10 // Adjust the quality as needed
-            val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
-
-            var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
+//            val originalBitmap: Bitmap? = bitmap
+//            val compressFormat = Bitmap.CompressFormat.JPEG
+//            val compressionQuality = 10 // Adjust the quality as needed
+//            val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
+//
+//            var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
             if(bitmapSave) {
-                saveBitmapToGallery(context, bitmap, "bitmapImage", "scascas");
+                saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
-                serviceBinding.printUSBbitamp(b2,result);
+                serviceBinding.printUSBbitamp(bitmap,result);
             }else{
                 sunmiPrinter.printBitmap(bitmap, 2, result)
             }
@@ -205,18 +205,23 @@ class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessda
 
         binding.nameBox.text = bookingRequest.name
         binding.nameBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.phoneBox.text = bookingRequest.phone
         binding.phoneBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.phone.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         if(bookingRequest.numberOfGuest == null) {
             binding.guestBox.text = "0";
         }else{
             binding.guestBox.text = bookingRequest.numberOfGuest.toString()
         }
         binding.guestBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.guest.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.dateBox.text = "${formatter.format(parser.parse(bookingRequest.arrivalTime))}";
         binding.dateBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.arrivaltime.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.noteBox.text = bookingRequest.note
         binding.noteBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.note.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         val bitmaplist: Bitmap =  getBitmapFromView(binding.root)
         return  bitmaplist;
 

@@ -113,16 +113,16 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
 
     fun printBitmap(bitmap: Bitmap?)  {
         try {
-            val originalBitmap: Bitmap? = bitmap
-            val compressFormat = Bitmap.CompressFormat.JPEG
-            val compressionQuality = 10 // Adjust the quality as needed
-            val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
-
-            var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
+//            val originalBitmap: Bitmap? = bitmap
+//            val compressFormat = Bitmap.CompressFormat.JPEG
+//            val compressionQuality = 10 // Adjust the quality as needed
+//            val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
+//
+//            var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
             if(bitmapSave) {
-                saveBitmapToGallery(context, bitmap, "bitmapImage", "scascas");
+                saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
-                serviceBinding.printUSBbitamp(b2,result);
+                serviceBinding.printUSBbitamp(bitmap,result);
             }else{
                 sunmiPrinter.printBitmap(bitmap, 2, result)
             }
@@ -212,19 +212,26 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.reportDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.totalOrderBox.text = dailyreport.data!!.totalOrder.toString()
         binding.totalOrderBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.totalorder.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.onlineOrderBox.text = dailyreport.data!!.totalOnlineOrder.toString()
         binding.onlineOrderBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.onlineorder.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.noofCardPaymentBox.text = dailyreport.data!!.totalCardOrder.toString()
         binding.noofCardPaymentBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.cardpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.noofcashPaymentBox.text = dailyreport.data!!.totalCashOrder.toString()
         binding.noofcashPaymentBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.cashpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble()
         binding.totalPaymentReceiveBox.text = totalPayment.toString();
         binding.totalPaymentReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.totalpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.totalCardBox.text = totalCardOrderAmount
         binding.totalCardBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.totalcard.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.totalCashBox.text = totalCashOrderAmount
         binding.totalCashBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.totalcash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         val bitmaplist: Bitmap =  getBitmapFromView(binding.root)
         return  bitmaplist;
 
