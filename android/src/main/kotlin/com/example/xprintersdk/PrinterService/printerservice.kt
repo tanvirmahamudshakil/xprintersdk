@@ -209,7 +209,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         }
 
         if(orderModel.orderChannel!!.uppercase() != "ONLINE"){
-            price = (price * item.unit!! ?: 1) as Double;
+            price = String.format("%.2f", (price * item.unit!! ?: 1)).toDouble()
             var totaldiscount : Double = String.format("%.2f", (price * (discount / 100))).toDouble()
             price -= totaldiscount;
         }
