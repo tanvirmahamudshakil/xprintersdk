@@ -164,6 +164,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         val str3 = StringBuilder()
         var price = 0.0
         price = item!!.netAmount!!
+        var discount = item.discountableAmount ?: 0.0;
         if (position < iteamLength - 1) {
             if (orderModel.orderProducts!![position]!!.product!!.property!!.printorder!!.toInt()!! < orderModel.orderProducts!![position + 1]!!.product!!.property!!.printorder!!.toInt()!!) {
                 binding.underLine.visibility = View.VISIBLE
@@ -207,6 +208,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             }
         }
 
+        price = (price * item.unit!! ?: 1) as Double;
+        var totaldiscount = price * (discount / 100)
+        price -= totaldiscount;
 
         if(item.comment != null && item.product!!.type == "ITEM") str3.append("\nNote : ").append(item.comment)
         binding.itemText.text = str3.toString()
