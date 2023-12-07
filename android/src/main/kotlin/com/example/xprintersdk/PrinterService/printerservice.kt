@@ -210,8 +210,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
         if(orderModel.orderChannel!!.uppercase() != "ONLINE"){
             price = (price * item.unit!! ?: 1) as Double;
-            var totaldiscount = price * (discount / 100)
-            price -= totaldiscount;
+            var totaldiscount : Double = price * (discount / 100)
+            price -= (totaldiscount * 100.0).roundToInt() / 100.0;
         }
 
         if(item.comment != null && item.product!!.type == "ITEM") str3.append("\nNote : ").append(item.comment)
