@@ -209,16 +209,19 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         }
 
         if(orderModel.orderChannel!!.uppercase() != "ONLINE"){
-            price = String.format("%.2f", (price * item.unit!! ?: 1)).toDouble()
-            var totaldiscount : Double = String.format("%.2f", (price * (discount / 100))).toDouble()
+            price *= (item.unit!! ?: 1)
+            var totaldiscount = (price * (discount / 100))
+
+
+
             price -= totaldiscount;
         }
-
+        Log.e("price get", "getView: ${price}----", )
         if(item.comment != null && item.product!!.type == "ITEM") str3.append("\nNote : ").append(item.comment)
         binding.itemText.text = str3.toString()
         binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
        if(item.product!!.type == "ITEM"){
-           binding.itemPrice.text = "£ ${String.format("%.2f", price.toFloat())}"
+           binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
        }else{
            binding.itemPrice.visibility = View.GONE
        }
@@ -432,8 +435,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.adjustmentContainer.visibility = View.GONE
              bind.tipsContainer.visibility = View.GONE
              bind.containerOrderNo.visibility = View.VISIBLE
-
-
+             Log.e("sdjvnskdj", "doInBackground: ${orderModel.payableAmount!!}", )
              bind.total.text =
                  "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
 
