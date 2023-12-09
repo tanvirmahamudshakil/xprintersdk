@@ -25,7 +25,7 @@ data class BookingRequest(
     @SerializedName("phone")
     val phone: String?,
     @SerializedName("status")
-    val status: String?,
+    val status: Int?,
     @SerializedName("updated_at")
     val updatedAt: String?
 )
