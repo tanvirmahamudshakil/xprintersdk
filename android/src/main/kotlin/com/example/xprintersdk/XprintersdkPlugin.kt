@@ -169,13 +169,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("Online Booking Request", "Online Booking Request: ${orderiteamdata}")
     var modeldata = Gson().fromJson<BookingRequest>(orderjson, BookingRequest::class.java)
     Log.d("Online Booking Request", "bookingRequestData: ${modeldata.name}")
-    if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
-      RequestBookingprint(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
-    }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
-      RequestBookingprint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
-    }else{
-
-    }
+    RequestBookingprint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
   }
 
   private fun dailyReportPrint(call: MethodCall, result : Result) {
