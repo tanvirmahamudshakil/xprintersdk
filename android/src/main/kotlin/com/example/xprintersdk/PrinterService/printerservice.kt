@@ -331,7 +331,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.businessLocation.text = businessaddress
              bind.businessPhone.text = businessphone
              if(orderModel.orderType == "TABLE_BOOKING") {
-                 bind.orderType.text = "TABLE BOOKING"
+                 bind.orderType.text = "TABLE BOOKING #${orderModel.table_id}"
              }else{
                  bind.orderType.text = "${orderModel.orderType}"
              }
@@ -355,17 +355,18 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.orderNo.text = "${orderModel.id}";
              }else{
                  if(orderModel.orderType == "TABLE_BOOKING"){
-                     bind.orderNo.text = "${orderModel.table_id}";
+//                     bind.orderNo.text = "${orderModel.table_id}";
+                     View.GONE.also { it.also { bind.containerOrderNo.visibility = it } }
                  }else{
                      bind.orderNo.text = "${orderModel.localId}";
                  }
 
              }
-             if(businessdatadata.showOrderNoInvoice == true){
-                 bind.containerOrderNo.visibility = View.VISIBLE
-             }else{
-                 bind.containerOrderNo.visibility = View.GONE
-             }
+//             if(businessdatadata.showOrderNoInvoice == true){
+//                 bind.containerOrderNo.visibility = View.VISIBLE
+//             }else{
+//                 bind.containerOrderNo.visibility = View.GONE
+//             }
 
              var allitemsheight = 0
              bind.items.removeAllViews()
