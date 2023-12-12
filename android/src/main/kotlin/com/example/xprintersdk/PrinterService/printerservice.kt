@@ -352,12 +352,15 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
 
              if(orderModel.orderChannel!!.uppercase() == "ONLINE"){
+                 bind.containerOrderNo.visibility = View.VISIBLE
                  bind.orderNo.text = "${orderModel.id}";
              }else{
                  if(orderModel.orderType == "TABLE_BOOKING"){
+                     bind.containerOrderNo.visibility = View.GONE
 //                     bind.orderNo.text = "${orderModel.table_id}";
-                     View.GONE.also { it.also { bind.containerOrderNo.visibility = it } }
+
                  }else{
+                     bind.containerOrderNo.visibility = View.VISIBLE
                      bind.orderNo.text = "${orderModel.localId}";
                  }
 
@@ -435,7 +438,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
              bind.adjustmentContainer.visibility = View.GONE
              bind.tipsContainer.visibility = View.GONE
-             bind.containerOrderNo.visibility = View.VISIBLE
+
              Log.e("sdjvnskdj", "doInBackground: ${orderModel.payableAmount!!}", )
              bind.total.text =
                  "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
