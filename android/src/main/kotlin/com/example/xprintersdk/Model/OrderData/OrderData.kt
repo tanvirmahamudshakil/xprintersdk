@@ -69,8 +69,15 @@ data class OrderData(
     @SerializedName("updated_at")
     val updatedAt: String?,
     @SerializedName("table_id")
-    var table_id: Int?
+    var table_id: Int?,
+    @SerializedName("property")
+    val property: PropertyXXX?
 ) {
+    @Keep
+    data class PropertyXXX(
+        @SerializedName("comment") val comment: Any,
+        @SerializedName("requested_delivery_timestamp_type") val requestedDeliveryTimestampType: String
+    )
     @Keep
     data class Branch(
         @SerializedName("created_at")

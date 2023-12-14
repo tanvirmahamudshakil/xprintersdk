@@ -341,7 +341,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             if(orderModel.orderType == "TABLE_BOOKING") {
                 bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
             }else{
-                bind.collectionAt.text = "${orderModel.orderType} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                bind.collectionAt.text = "${orderModel.orderType} at : ${if(orderModel.property?.requestedDeliveryTimestampType != null) orderModel.property?.requestedDeliveryTimestampType else ""} ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
             }
              if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION") &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= businessdatadata.highlight!!){
                  bind.collectionAt.setTypeface(null, Typeface.BOLD)
