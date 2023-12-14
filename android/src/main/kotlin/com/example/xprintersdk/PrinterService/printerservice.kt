@@ -324,7 +324,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-             val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
+             val formatter = SimpleDateFormat(" dd/MM/yyyy hh:mm a")
+             val formatter2 = SimpleDateFormat(" dd/MM hh:mm a")
 //             Log.e("date formet", "doInBackground: ${dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!)}", )
 //             Log.d("order date", "orderrootget: ${orderModel.orderDate}")
              var addedDeliveryCharge = 0.0
@@ -341,11 +342,27 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             if(orderModel.orderType == "TABLE_BOOKING") {
                 bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
             }else{
-                bind.collectionAt.text = "${orderModel.orderType} at : ${if(orderModel.property?.requestedDeliveryTimestampType != null) orderModel.property?.requestedDeliveryTimestampType else ""} ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                if(orderModel.property?.requestedDeliveryTimestampType != null) {
+                    bind.underline.visibility = View.GONE
+                    bind.asap.visibility = View.VISIBLE
+                    bind.collectionAt.text = "${orderModel.orderType} at : "
+                    bind.asap.text = "${orderModel.property?.requestedDeliveryTimestampType}"
+                    bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                }else{
+                    bind.underline.visibility = View.GONE
+                    bind.asap.visibility = View.GONE
+                    bind.collectionAt.text = "${orderModel.orderType} at : "
+                    bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                }
+
             }
              if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION") &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= businessdatadata.highlight!!){
-                 bind.collectionAt.setTypeface(null, Typeface.BOLD)
-                 bind.collectionAt.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                 if(orderModel.property?.requestedDeliveryTimestampType == null) {
+                     bind.collectionAt.setTypeface(null, Typeface.BOLD)
+                     bind.date.setTypeface(null, Typeface.BOLD)
+                     bind.underline.visibility = View.VISIBLE
+                 }
+
              }
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderText.text = "Table#"

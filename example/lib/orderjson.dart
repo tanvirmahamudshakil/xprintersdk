@@ -3248,7 +3248,8 @@ var orderjson7 = {
         "discountable": 1,
         "creator_id": 2,
         "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
-        "tags": "Quarter Chicken,quarterchicken,category,category,grill items,grillitems,",
+        "tags":
+            "Quarter Chicken,quarterchicken,category,category,grill items,grillitems,",
         "property": {
           "platform": null,
           "epos_category": "grill-items",
@@ -3286,11 +3287,7 @@ var orderjson7 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         },
         {
@@ -3317,11 +3314,7 @@ var orderjson7 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         },
         {
@@ -3348,11 +3341,7 @@ var orderjson7 = {
             "creator_id": 2,
             "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
             "tags": null,
-            "property": {
-              "platform": null,
-              "is_coupon": null,
-              "item_type": null
-            }
+            "property": {"platform": null, "is_coupon": null, "item_type": null}
           }
         }
       ]
@@ -3382,6 +3371,205 @@ var orderjson7 = {
     "created_at": null,
     "updated_at": null,
     "property": null
+  },
+  "table": null
+};
+
+var neworderjson = {
+  "id": 10972,
+  "local_id": null,
+  "table_id": null,
+  "order_type": "COLLECTION",
+  "order_channel": "ONLINE",
+  "order_date": "2023-12-14 09:11:19",
+  "requester_type": "GUEST",
+  "requester_id": 7814,
+  "requester_uuid": "9ad87777-5817-4959-9519-90d6a57066db",
+  "shipping_address_id": null,
+  "requested_delivery_timestamp": "2023-12-14 15:30:00",
+  "status": "NEW",
+  "net_amount": 11.99,
+  "discounted_amount": 1.199,
+  "delivery_charge": 0,
+  "payable_amount": 10.791,
+  "payment_type": "CASH",
+  "payment_id": null,
+  "prescriber_id": null,
+  "branch_id": 1001,
+  "comment": null,
+  "created_at": "2023-12-14T09:11:19.000000Z",
+  "updated_at": "2023-12-14T09:11:19.000000Z",
+  "property": {"comment": null, "requested_delivery_timestamp_type": null},
+  "order_products": [
+    {
+      "id": 26382,
+      "parent_id": null,
+      "order_id": 10972,
+      "product_id": 2001,
+      "parent_product_id": null,
+      "unit": 1,
+      "net_amount": 11.99,
+      "discountable_amount": 0,
+      "comment": null,
+      "product": {
+        "id": 2001,
+        "platform": "BOTH",
+        "sort_order": 1,
+        "uuid": "whole-chicken",
+        "barcode": null,
+        "type": "ITEM",
+        "short_name": "Whole Chicken",
+        "description": null,
+        "status": 1,
+        "discountable": 1,
+        "creator_id": 2,
+        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+        "tags":
+            "Whole Chicken,wholechicken,category,category,grill items,grillitems,",
+        "property": {
+          "platform": "WEB",
+          "epos_category": "grill-items",
+          "is_coupon": "FALSE",
+          "category": "grill-items",
+          "featured": "0",
+          "print_order": "10"
+        },
+        "files": [
+          {
+            "id": 1,
+            "product_id": 2001,
+            "file_name": "roast-chicken_1692795352.jpg",
+            "type": "general",
+            "file_path":
+                "/var/www/html/ordering_platform_php/flava/api/public/files/products"
+          }
+        ]
+      },
+      "components": [
+        {
+          "id": 26383,
+          "parent_id": 26382,
+          "order_id": 10972,
+          "product_id": 2010,
+          "parent_product_id": 2001,
+          "unit": 1,
+          "net_amount": 0,
+          "discountable_amount": 0,
+          "comment": null,
+          "components": [],
+          "product": {
+            "id": 2010,
+            "platform": "BOTH",
+            "sort_order": 1,
+            "uuid": "normal",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Normal",
+            "description": null,
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": null,
+            "property": {"platform": "BOTH", "is_coupon": "FALSE"}
+          }
+        },
+        {
+          "id": 26384,
+          "parent_id": 26382,
+          "order_id": 10972,
+          "product_id": 2183,
+          "parent_product_id": 2001,
+          "unit": 1,
+          "net_amount": 0,
+          "discountable_amount": 0,
+          "comment": null,
+          "components": [],
+          "product": {
+            "id": 2183,
+            "platform": "BOTH",
+            "sort_order": 14,
+            "uuid": "spicy",
+            "barcode": null,
+            "type": "COMPONENT",
+            "short_name": "Spicy",
+            "description": "Spicy",
+            "status": 1,
+            "discountable": 1,
+            "creator_id": 2,
+            "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+            "tags": null,
+            "property": {
+              "print_order": "10",
+              "platform": "BOTH",
+              "is_coupon": "FALSE"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 26385,
+      "parent_id": null,
+      "order_id": 10972,
+      "product_id": 2019,
+      "parent_product_id": null,
+      "unit": 1,
+      "net_amount": 1.199,
+      "discountable_amount": 0,
+      "comment": "discounted",
+      "product": {
+        "id": 2019,
+        "platform": "BOTH",
+        "sort_order": 2,
+        "uuid": "onallorder",
+        "barcode": null,
+        "type": "DISCOUNT",
+        "short_name": "ONALLORDER",
+        "description": "10% OFF on all order",
+        "status": 1,
+        "discountable": 1,
+        "creator_id": 2,
+        "creator_uuid": "98a8d4fb-5b65-4f62-b121-822924b9549c",
+        "tags": null,
+        "property": {
+          "platform": "WEB",
+          "discount_type": "PERCENTAGE",
+          "discount_value": "10",
+          "is_coupon": "FALSE"
+        },
+        "files": []
+      },
+      "components": []
+    }
+  ],
+  "requester": null,
+  "requester_guest": {
+    "id": 7814,
+    "uuid": "9ad87777-5817-4959-9519-90d6a57066db",
+    "first_name": "Coby",
+    "last_name": "Dominguez",
+    "email": "muntasir.yuma@gmail.com",
+    "phone": "03616952318",
+    "created_at": "2023-12-14T09:11:19.000000Z",
+    "updated_at": "2023-12-14T09:11:19.000000Z"
+  },
+  "shipping_address": null,
+  "order_files": [],
+  "payment": null,
+  "cash_entry": [],
+  "branch": {
+    "id": 1001,
+    "name": "Biscot Road",
+    "value": "biscot-road",
+    "created_at": null,
+    "updated_at": null,
+    "property": {
+      "phone": "01582 488900",
+      "email": "contact@theflava.co.uk",
+      "address": "157 Biscot Road, Luton, LU31AW",
+      "postcode": "LU3 1AW"
+    }
   },
   "table": null
 };
