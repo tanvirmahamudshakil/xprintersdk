@@ -348,7 +348,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                     bind.collectionAt.text = "${orderModel.orderType} at : "
                     bind.asap.text = "${orderModel.property?.requestedDeliveryTimestampType}"
                     bind.date.text = "${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-                    bind.asap.setTextSize(TypedValue.COMPLEX_UNIT_SP, (businessdatadata.fontSize!!+2).toFloat())
+                    bind.asap.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18.0F)
+                    bind.asap.setTypeface(null, Typeface.BOLD)
                 }else{
                     bind.underline.visibility = View.GONE
                     bind.asap.visibility = View.GONE
