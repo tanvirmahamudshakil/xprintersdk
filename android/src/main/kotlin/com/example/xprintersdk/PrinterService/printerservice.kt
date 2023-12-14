@@ -324,7 +324,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-             val formatter = SimpleDateFormat(" dd/MM/yyyy hh:mm a")
+             val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
              val formatter2 = SimpleDateFormat(" dd/MM hh:mm a")
 //             Log.e("date formet", "doInBackground: ${dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!)}", )
 //             Log.d("order date", "orderrootget: ${orderModel.orderDate}")
@@ -347,7 +347,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                     bind.asap.visibility = View.VISIBLE
                     bind.collectionAt.text = "${orderModel.orderType} at : "
                     bind.asap.text = "${orderModel.property?.requestedDeliveryTimestampType}"
-                    bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                    bind.date.text = "${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                    bind.asap.setTextSize(TypedValue.COMPLEX_UNIT_SP, (businessdatadata.fontSize!!+2).toFloat())
                 }else{
                     bind.underline.visibility = View.GONE
                     bind.asap.visibility = View.GONE
