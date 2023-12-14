@@ -350,6 +350,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                     bind.date.text = "${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
                     bind.asap.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18.0F)
                     bind.asap.setTypeface(null, Typeface.BOLD)
+                    bind.asap.paintFlags = Paint.UNDERLINE_TEXT_FLAG
                 }else{
                     bind.underline.visibility = View.GONE
                     bind.asap.visibility = View.GONE
