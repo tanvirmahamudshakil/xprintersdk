@@ -403,24 +403,53 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
              var paidOrNot = "";
-             if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType!!.uppercase() == "CARD") {
-                 paidOrNot ="ORDER IS PAID"
-             } else if (orderModel.orderChannel!!.uppercase() != "ONLINE" && orderModel.cashEntry!!.isNotEmpty()) {
-                 paidOrNot ="ORDER IS PAID"
-             } else if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType!!.uppercase() == "CASH") {
-                 if (orderModel.cashEntry!!.isEmpty()){
-                     paidOrNot = "ORDER NOT PAID"
-                     bind.dueTotalContainer.visibility = View.VISIBLE
-                     bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
-                 }else{
+             if (orderModel.orderChannel!!.uppercase() == "ONLINE") {
+                 if(orderModel.paymentType!!.uppercase() == "CARD"){
                      paidOrNot ="ORDER IS PAID"
+                 }else if(orderModel.paymentType!!.uppercase() == "CASH") {
+                     if (orderModel.cashEntry!!.isEmpty()){
+                         paidOrNot = "ORDER NOT PAID"
+                         bind.dueTotalContainer.visibility = View.VISIBLE
+                         bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                     }else{
+                         paidOrNot ="ORDER IS PAID"
+                     }
                  }
-             }
-             else  {
+
+             } else if (orderModel.orderChannel!!.uppercase() != "ONLINE") {
+                 if(orderModel.cashEntry!!.isNotEmpty()) {
+                     paidOrNot ="ORDER IS PAID"
+                 }else{
+                     if(orderModel.paymentType!!.uppercase() == "UNPAID_CASH") {
+                         paidOrNot ="ORDER IS UNPAID(CASH)"
+                         bind.dueTotalContainer.visibility = View.VISIBLE
+                         bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                     }else if(orderModel.paymentType!!.uppercase() == "UNPAID_CARD") {
+                         paidOrNot ="ORDER IS UNPAID(CARD)"
+                         bind.dueTotalContainer.visibility = View.VISIBLE
+                         bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                     }else{
+                         paidOrNot = "ORDER NOT PAID"
+                         bind.dueTotalContainer.visibility = View.VISIBLE
+                         bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                     }
+                 }
+
+             } else  {
                  paidOrNot = "ORDER NOT PAID"
                  bind.dueTotalContainer.visibility = View.VISIBLE
                  bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
              }
+//             else if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType!!.uppercase() == "CASH") {
+//                 if (orderModel.cashEntry!!.isEmpty()){
+//                     paidOrNot = "ORDER NOT PAID"
+//                     bind.dueTotalContainer.visibility = View.VISIBLE
+//                     bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+//                 }else{
+//                     paidOrNot ="ORDER IS PAID"
+//                 }
+//             }
+
 
 
              bind.orderPaidMessage.text = paidOrNot
