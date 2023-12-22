@@ -180,13 +180,14 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("Online Booking Request", "Online Booking Request: ${orderiteamdata}")
     var modeldata = Gson().fromJson<Dailyreport>(orderjson, Dailyreport::class.java)
     Log.d("DailyReport", "DailyReport: ${modeldata.data!!.date}")
-    if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
-      DailyReportPage(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
-    }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
-      DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
-    }else{
-
-    }
+    DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
+//    if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
+//      DailyReportPage(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
+//    }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
+//      DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
+//    }else{
+//      DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
+//    }
   }
 
 }
