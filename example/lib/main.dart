@@ -44,20 +44,20 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () {
                   _xprintersdkPlugin.XprinterInitialization();
                 },
-                child: Text("Xprinter Initialization")),
+                child: const Text("Xprinter Initialization")),
             MaterialButton(
                 onPressed: () async {
                   var data = await _xprintersdkPlugin.XPrinterConnectionCheck();
                   print(data);
                 },
-                child: Text("Xprinter connection check")),
+                child: const Text("Xprinter connection check")),
             MaterialButton(
               onPressed: () async {
                 var data =
                     await _xprintersdkPlugin.XPrinterConnect(printermodel);
                 print(data);
               },
-              child: Text("Xprinter connect"),
+              child: const Text("Xprinter connect"),
             ),
             MaterialButton(
               onPressed: () async {
@@ -65,35 +65,35 @@ class _MyAppState extends State<MyApp> {
                     printermodel, orderjson5);
                 print(data);
               },
-              child: Text("Xprinter print"),
+              child: const Text("Xprinter print"),
             ),
             MaterialButton(
               onPressed: () async {
                 var data = await _xprintersdkPlugin.XPrinterPrintLocalData(
                     printermodel, localorder);
               },
-              child: Text("local print"),
+              child: const Text("local print"),
             ),
             MaterialButton(
               onPressed: () async {
                 var data = await _xprintersdkPlugin
                     .sunmiPrinterServiceInitialization();
               },
-              child: Text("Sunmi Printer Service Init"),
+              child: const Text("Sunmi Printer Service Init"),
             ),
             MaterialButton(
               onPressed: () async {
                 var data =
                     await _xprintersdkPlugin.sunmiPrinterInitialization();
               },
-              child: Text("Sunmi Printer Init"),
+              child: const Text("Sunmi Printer Init"),
             ),
             MaterialButton(
               onPressed: () async {
                 var data = await _xprintersdkPlugin.sunmiPrintBitmap(
                     printermodel, orderjson4);
                 print("${data}");
-                Future.delayed(Duration(seconds: 2), () {
+                Future.delayed(const Duration(seconds: 2), () {
                   showDialog(
                       context: context,
                       builder: (_) {
@@ -103,21 +103,21 @@ class _MyAppState extends State<MyApp> {
                       });
                 });
               },
-              child: Text("Sunmi Print Bitmap"),
+              child: const Text("Sunmi Print Bitmap"),
             ),
             MaterialButton(
               onPressed: () async {
                 var data = await _xprintersdkPlugin.bitmapSave(
                     printermodel, neworderjson);
               },
-              child: Text("Bitmap Save"),
+              child: const Text("Bitmap Save"),
             ),
             MaterialButton(
               onPressed: () async {
                 var data = await _xprintersdkPlugin.checkSunmiPrinter();
                 print(data.toString());
               },
-              child: Text("Sunmi Printer Check"),
+              child: const Text("Sunmi Printer Check"),
             ),
             MaterialButton(
               onPressed: () async {
@@ -125,7 +125,7 @@ class _MyAppState extends State<MyApp> {
                     printermodel, bookingRequest);
                 print(data.toString());
               },
-              child: Text("Bookign Request print"),
+              child: const Text("Bookign Request print"),
             ),
             MaterialButton(
               onPressed: () async {
@@ -133,7 +133,7 @@ class _MyAppState extends State<MyApp> {
                     printermodel, dailyReport);
                 print(data.toString());
               },
-              child: Text("Daily Report print"),
+              child: const Text("Daily Report print"),
             )
           ],
         ),

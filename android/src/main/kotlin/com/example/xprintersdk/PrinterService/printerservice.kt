@@ -359,7 +359,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 }
 
             }
-             if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION") &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= businessdatadata.highlight!!){
+             if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION") && orderModel.orderType!!.uppercase() != "TABLE_BOOKING" &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= businessdatadata.highlight!!){
                  if(orderModel.property?.requestedDeliveryTimestampType == null) {
                      bind.collectionAt.setTypeface(null, Typeface.BOLD)
                      bind.date.setTypeface(null, Typeface.BOLD)
