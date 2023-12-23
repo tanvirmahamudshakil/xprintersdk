@@ -340,7 +340,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
             if(orderModel.orderType == "TABLE_BOOKING") {
-                bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                // bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                bind.asap.visibility = View.GONE
+                bind.collectionAt.text = "TABLE BOOKING at : "
+                bind.date.text = "${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+
             }else{
                 if(orderModel.property?.requestedDeliveryTimestampType != null) {
                     bind.underline.visibility = View.GONE
@@ -359,7 +363,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 }
 
             }
-             if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION") && orderModel.orderType!!.uppercase() != "TABLE_BOOKING" &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= businessdatadata.highlight!!){
+             if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION")  &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= businessdatadata.highlight!!){
                  if(orderModel.property?.requestedDeliveryTimestampType == null) {
                      bind.collectionAt.setTypeface(null, Typeface.BOLD)
                      bind.date.setTypeface(null, Typeface.BOLD)
