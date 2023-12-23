@@ -341,9 +341,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  ?.let { formatter.format(it) }}"
             if(orderModel.orderType == "TABLE_BOOKING") {
                 // bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                bind.underline.visibility = View.GONE
                 bind.asap.visibility = View.GONE
                 bind.collectionAt.text = "TABLE BOOKING at : "
-                bind.date.text = "${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
 
             }else{
                 if(orderModel.property?.requestedDeliveryTimestampType != null) {
