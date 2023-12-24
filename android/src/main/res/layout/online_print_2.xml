@@ -460,14 +460,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:id="@+id/tipsContainer"
+                android:id="@+id/vatContainer"
                 >
 
                 <TextView
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/tipsAmount"
-                    android:text="Tips"
+                    android:layout_toLeftOf="@id/vatAmount"
+                    android:text="Vat"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="20sp"
@@ -476,7 +476,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/tipsAmount"
+                    android:id="@+id/vatAmount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"

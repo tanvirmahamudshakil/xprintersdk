@@ -491,7 +491,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.containerBagContainer.visibility = View.GONE
 
              bind.adjustmentContainer.visibility = View.GONE
-             bind.tipsContainer.visibility = View.GONE
+             if(orderModel.vat_amount == 0.0) {
+                 bind.vatContainer.visibility = View.GONE
+             }else{
+                 bind.vatContainer.visibility = View.VISIBLE
+                 bind.vatAmount.text = "£ " + String.format( "%.2f", orderModel.vat_amount)
+             }
 
              Log.e("sdjvnskdj", "doInBackground: ${orderModel.payableAmount!!}", )
              bind.total.text =
