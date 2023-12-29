@@ -138,43 +138,43 @@
                     android:id="@+id/collectionAt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Collection"
+                    android:text="Collection At"
                     android:gravity="center"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     />
-                <TextView
-                    android:id="@+id/asap"
-                    android:layout_marginBottom="0dp"
-                    android:paddingBottom="0dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ASAP"
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    />
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="0dp"
-                    android:paddingBottom="0dp"
-                    android:text="Date"
-                    android:gravity="center"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    />
+<!--                <TextView-->
+<!--                    android:id="@+id/asap"-->
+<!--                    android:layout_marginBottom="0dp"-->
+<!--                    android:paddingBottom="0dp"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="ASAP"-->
+<!--                    android:gravity="center"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="18sp"-->
+<!--                    />-->
+<!--                <TextView-->
+<!--                    android:id="@+id/date"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginBottom="0dp"-->
+<!--                    android:paddingBottom="0dp"-->
+<!--                    android:text="Date"-->
+<!--                    android:gravity="center"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="18sp"-->
+<!--                    />-->
             </LinearLayout>
-            <ImageView
-                android:id="@+id/underline"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:src="@drawable/underline"
-                android:contentDescription="Dotted" />
+<!--            <ImageView-->
+<!--                android:id="@+id/underline"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="10dp"-->
+<!--                android:src="@drawable/underline"-->
+<!--                android:contentDescription="Dotted" />-->
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

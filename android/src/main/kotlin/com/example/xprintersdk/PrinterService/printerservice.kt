@@ -9,22 +9,26 @@ import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Typeface
+import android.icu.lang.UProperty.INT_START
 import android.os.AsyncTask
 import android.os.Build
 import android.provider.MediaStore
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.StyleSpan
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.text.bold
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.OrderData.OrderData
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.xprinter.Xprinter
-import com.sunmi.peripheral.printer.InnerResultCallback
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
@@ -216,7 +220,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
             price -= totaldiscount;
         }
-        Log.e("price get", "getView: ${price}----", )
+        Log.e("price get", "getView: ${price}----")
         if(item.comment != null && item.product!!.type == "ITEM") str3.append("\nNote : ").append(item.comment)
         binding.itemText.text = str3.toString()
         binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
@@ -309,9 +313,23 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
          }
 
+         fun  getOrderType(): String {
+             if(orderModel.orderType == "COLLECTION") {
+                 return "${businessdatadata.dynamicCollection!!.uppercase()}";
+             }else if (orderModel.orderType == "DELIVERY") {
+                 return "${businessdatadata.dynamicDelivery!!.uppercase()}";
+             }else if(orderModel.orderType == "EAT IN") {
+                 return "${businessdatadata.dynamicEatIn!!.uppercase()}";
+             }else if (orderModel.orderType == "TAKEAWAY") {
+                 return "${businessdatadata.dynamicTakeaway!!.uppercase()}";
+             }else{
+                 return "${orderModel.orderType}";
+             }
+         }
+
          @RequiresApi(Build.VERSION_CODES.O)
          override fun doInBackground(vararg params: String?): Bitmap {
-             Log.e("tanvirdoninbackground", "doInBackground: ${params}", )
+             Log.e("tanvirdoninbackground", "doInBackground: ${params}")
              noofprint = if (orderModel.orderType == "DELIVERY"){
                  businessdatadata.printOnDelivery!!
              }else{
@@ -334,41 +352,61 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderType.text = "TABLE BOOKING #${orderModel.table_id}"
              }else{
-                 bind.orderType.text = "${orderModel.orderType}"
+                 bind.orderType.text =  getOrderType()
+//                 if(orderModel.orderType == "COLLECTION") {
+//                     bind.orderType.text = "${businessdatadata.dynamicCollection!!.uppercase()}"
+//                 }else if (orderModel.orderType == "DELIVERY") {
+//                     bind.orderType.text = "${businessdatadata.dynamicDelivery!!.uppercase()}"
+//                 }else if(orderModel.orderType == "EAT IN") {
+//                     bind.orderType.text = "${businessdatadata.dynamicEatIn!!.uppercase()}"
+//                 }else if (orderModel.orderType == "TAKEAWAY") {
+//                     bind.orderType.text = "${businessdatadata.dynamicTakeaway!!.uppercase()}"
+//                 }else{
+//                     bind.orderType.text = "${orderModel.orderType}"
+//                 }
+
              }
 
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
             if(orderModel.orderType == "TABLE_BOOKING") {
                 // bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-                bind.underline.visibility = View.GONE
-                bind.asap.visibility = View.GONE
-                bind.collectionAt.text = "TABLE BOOKING at : "
-                bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+//                bind.underline.visibility = View.GONE
+//                bind.asap.visibility = View.GONE
+                bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+//                bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
 
             }else{
                 if(orderModel.property?.requestedDeliveryTimestampType != null) {
-                    bind.underline.visibility = View.GONE
-                    bind.asap.visibility = View.VISIBLE
-                    bind.collectionAt.text = "${orderModel.orderType} at : "
-                    bind.asap.text = "${orderModel.property?.requestedDeliveryTimestampType}"
-                    bind.date.text = "${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-                    bind.asap.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18.0F)
-                    bind.asap.setTypeface(null, Typeface.BOLD)
-                    bind.asap.paintFlags = Paint.UNDERLINE_TEXT_FLAG
+                    var asapdata = orderModel.property?.requestedDeliveryTimestampType;
+                    val asap = SpannableStringBuilder().append("${getOrderType()} at : ").bold { append(asapdata) }.append("${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}")
+//                    asap.setSpan(
+//                        StyleSpan(android.graphics.Typeface.BOLD),
+//                        0, orderModel.property?.requestedDeliveryTimestampType!!.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+//                    )
+//                    bind.underline.visibility = View.GONE
+//                    bind.asap.visibility = View.VISIBLE
+//                    bind.collectionAt.text = "${getOrderType()} at : ${asap}"
+                    bind.collectionAt.text = asap
+//                    bind.asap.text = "${orderModel.property?.requestedDeliveryTimestampType}"
+//                    bind.date.text = "${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+//                    bind.asap.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18.0F)
+//                    bind.asap.setTypeface(null, Typeface.BOLD)
+//                    bind.asap.paintFlags = Paint.UNDERLINE_TEXT_FLAG
                 }else{
-                    bind.underline.visibility = View.GONE
-                    bind.asap.visibility = View.GONE
-                    bind.collectionAt.text = "${orderModel.orderType} at : "
-                    bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+//                    bind.underline.visibility = View.GONE
+//                    bind.asap.visibility = View.GONE
+                      bind.collectionAt.text = "${getOrderType()} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+//                    bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
                 }
 
             }
              if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION")  &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= businessdatadata.highlight!!){
                  if(orderModel.property?.requestedDeliveryTimestampType == null) {
                      bind.collectionAt.setTypeface(null, Typeface.BOLD)
-                     bind.date.setTypeface(null, Typeface.BOLD)
-                     bind.underline.visibility = View.VISIBLE
+//                     bind.date.setTypeface(null, Typeface.BOLD)
+//                     bind.underline.visibility = View.VISIBLE
+                     bind.collectionAt.paintFlags = Paint.UNDERLINE_TEXT_FLAG
                  }
 
              }
@@ -498,7 +536,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.vatAmount.text = "£ " + String.format( "%.2f", orderModel.vat_amount)
              }
 
-             Log.e("sdjvnskdj", "doInBackground: ${orderModel.payableAmount!!}", )
+             Log.e("sdjvnskdj", "doInBackground: ${orderModel.payableAmount!!}")
              bind.total.text =
                  "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
 

@@ -39,6 +39,18 @@ data class BusinessSetting(
     @SerializedName("highlight")
     val highlight : Int?,
     @SerializedName("papersize")
-    val paperSize : Int?
+    val paperSize : Int?,
+    @SerializedName("dynamicCollection")
+    val dynamicCollection: String?,
+    @SerializedName("dynamicDelivery")
+    val dynamicDelivery: String?,
+    @SerializedName("dynamicEatIn")
+    val dynamicEatIn: String?,
+    @SerializedName("dynamicTakeaway")
+    val dynamicTakeaway: String?,
+
+
+
+
 
 )
