@@ -224,7 +224,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         if(item.comment != null && item.product!!.type == "ITEM") str3.append("\nNote : ").append(item.comment)
         binding.itemText.text = str3.toString()
         binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
-       if(item.product!!.type == "ITEM"){
+       if(item.product!!.type == "ITEM" || item.product!!.type == "DYNAMIC"){
            binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
        }else{
            binding.itemPrice.visibility = View.GONE
