@@ -195,7 +195,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 price += section.netAmount!!;
             }
         } else {
-            if (item.product!!.type == "ITEM"){
+            if (item.product!!.type == "ITEM" || item.product!!.type == "DYNAMIC"){
                 str3.append(item.unit).append(" x ").append(item.product!!.shortName)
             }
 
