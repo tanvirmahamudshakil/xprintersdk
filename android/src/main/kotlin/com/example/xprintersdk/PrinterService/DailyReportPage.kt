@@ -217,7 +217,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.onlineOrderBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.onlineorder.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
 
-        binding.localorder.text = dailyreport.data!!.totalLocalOrder.toString()
+        binding.localOrderBox.text = dailyreport.data!!.totalLocalOrder.toString()
         binding.localOrderBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.localorder.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
 
