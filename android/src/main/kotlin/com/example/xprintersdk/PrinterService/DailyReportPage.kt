@@ -200,7 +200,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override fun doInBackground(vararg params: String?): Bitmap {
         var binding = DailyreportBinding.inflate(LayoutInflater.from(context))
         val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
@@ -223,7 +223,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.noofcashPaymentBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.cashpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble()
-        binding.totalPaymentReceiveBox.text = totalPayment.toString();
+        binding.totalPaymentReceiveBox.text = String.format("%.2f", totalPayment) ;
         binding.totalPaymentReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.totalpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.totalCardBox.text = totalCardOrderAmount
