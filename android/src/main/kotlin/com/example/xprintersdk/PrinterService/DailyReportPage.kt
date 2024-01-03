@@ -216,6 +216,11 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.onlineOrderBox.text = dailyreport.data!!.totalOnlineOrder.toString()
         binding.onlineOrderBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.onlineorder.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+
+        binding.localorder.text = dailyreport.data!!.totalLocalOrder.toString()
+        binding.localOrderBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.localorder.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+
         binding.noofCardPaymentBox.text = dailyreport.data!!.totalCardOrder.toString()
         binding.noofCardPaymentBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
         binding.cardpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())

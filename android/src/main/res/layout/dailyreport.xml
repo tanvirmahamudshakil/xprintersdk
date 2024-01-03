@@ -100,6 +100,31 @@
                 android:textSize="20sp" />
         </RelativeLayout>
         <RelativeLayout
+            android:id="@+id/localOrderContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/localorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Local order"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+            <TextView
+                android:id="@+id/localOrderBox"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="end"
+                android:text="85"
+                android:textAlignment="textEnd"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </RelativeLayout>
+        <RelativeLayout
             android:id="@+id/cardPaymentContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
