@@ -349,7 +349,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              var addedDeliveryCharge = 0.0
              bind.businessLocation.text = businessaddress
              bind.businessPhone.text = businessphone
-             bind.branchName.text = orderModel.branch!!.name
+             bind.branchName.text = orderModel.branch!!.name!!.uppercase()
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderType.text = "TABLE BOOKING #${orderModel.table_id}"
              }else{
