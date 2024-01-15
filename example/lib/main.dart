@@ -142,6 +142,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   PrinterBusinessModel printermodel = PrinterBusinessModel(
+    highlighttextsize: 20,
       dynamicCollection: "Collection",
       dynamicDelivery: "Delivery",
       dynamicEatIn: "Eat In",
