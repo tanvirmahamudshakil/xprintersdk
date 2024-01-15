@@ -380,7 +380,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             }else{
                 if(orderModel.property?.requestedDeliveryTimestampType != null) {
                     var asapdata = orderModel.property?.requestedDeliveryTimestampType;
-                    val asap = SpannableStringBuilder().append("${getOrderType()} at : ").bold { append(asapdata) }.append("${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}")
+                    // ${getOrderType()}
+                    val asap = SpannableStringBuilder().append("REQUESTED at : ").bold { append(asapdata) }.append("${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}")
 //                    asap.setSpan(
 //                        StyleSpan(android.graphics.Typeface.BOLD),
 //                        0, orderModel.property?.requestedDeliveryTimestampType!!.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -397,7 +398,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 }else{
 //                    bind.underline.visibility = View.GONE
 //                    bind.asap.visibility = View.GONE
-                      bind.collectionAt.text = "${getOrderType()} at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                    // ${getOrderType()}
+                      bind.collectionAt.text = "REQUESTED at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
 //                    bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
                 }
 
