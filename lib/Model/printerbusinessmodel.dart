@@ -27,6 +27,7 @@ class PrinterBusinessModel {
   String businessphone;
   String businessaddress;
   int? highlight;
+  int highlighttextsize;
   int? papersSize;
   String dynamicCollection;
   String dynamicDelivery;
@@ -35,6 +36,7 @@ class PrinterBusinessModel {
 
   PrinterBusinessModel(
       {this.fontSize,
+      required this.highlighttextsize,
       required this.printOnDelivery,
       required this.printOnCollection,
       required this.printOnTableOrder,
@@ -58,6 +60,7 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) =>
       PrinterBusinessModel(
+        highlighttextsize: json["highlighttextsize"],
           fontSize: json["font_size"],
           printOnDelivery: json["print_on_delivery"],
           printOnCollection: json["print_on_collection"],
@@ -81,6 +84,7 @@ class PrinterBusinessModel {
           dynamicTakeaway: json['dynamicTakeaway']);
 
   Map<String, dynamic> toJson() => {
+    "highlighttextsize": highlighttextsize,
         "font_size": fontSize,
         "print_on_delivery": printOnDelivery,
         "print_on_collection": printOnCollection,

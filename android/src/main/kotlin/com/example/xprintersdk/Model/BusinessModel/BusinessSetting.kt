@@ -48,6 +48,8 @@ data class BusinessSetting(
     val dynamicEatIn: String?,
     @SerializedName("dynamicTakeaway")
     val dynamicTakeaway: String?,
+    @SerializedName("highlighttextsize")
+    val highlighttextsize: Int?
 
 
 
