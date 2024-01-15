@@ -408,7 +408,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //                     bind.date.setTypeface(null, Typeface.BOLD)
 //                     bind.underline.visibility = View.VISIBLE
                      bind.collectionAt.paintFlags = Paint.UNDERLINE_TEXT_FLAG
-                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18f)
+                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20f)
                  }
 
              }
