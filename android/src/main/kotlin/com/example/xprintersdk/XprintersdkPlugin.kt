@@ -48,7 +48,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     channel.setMethodCallHandler(this)
   }
 
-  @RequiresApi(Build.VERSION_CODES.O)
+
   override fun onMethodCall(call: MethodCall, result: Result) {
     if (call.method == xPrinterIntitalization) {
       xPrinterInitialization()
@@ -106,7 +106,6 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
-  @RequiresApi(Build.VERSION_CODES.O)
   private fun xprinterOnlineDataPrint(call: MethodCall, result : Result){
     var orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
     var printerbusinessdata = call.argument<String>("printer_model_data")
