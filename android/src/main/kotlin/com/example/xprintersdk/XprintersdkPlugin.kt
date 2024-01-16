@@ -102,7 +102,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     }else if(businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "usbconnection"){
       xprinter.connetUSB(result);
     }else{
-      result.success(false)
+//      result.success(false)
+      result.notImplemented()
     }
   }
 

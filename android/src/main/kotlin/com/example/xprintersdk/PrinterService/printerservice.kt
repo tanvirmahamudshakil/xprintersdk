@@ -331,7 +331,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          override fun doInBackground(vararg params: String?): Bitmap {
              Log.e("tanvirdoninbackground", "doInBackground: ${params}")
              noofprint = if (orderModel.orderType == "DELIVERY"){
-                 businessdatadata.printOnDelivery!!
+                  businessdatadata.printOnDelivery!!
              }else{
                  businessdatadata.printOnCollection!!
              }
@@ -339,7 +339,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              val printSize: Int = fontsize
              val bind: OnlinePrint2Binding = OnlinePrint2Binding.inflate(LayoutInflater.from(context))
              bind.businessName.text = businessname
-
 
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
