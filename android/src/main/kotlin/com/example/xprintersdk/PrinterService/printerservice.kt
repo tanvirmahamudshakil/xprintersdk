@@ -213,7 +213,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         }
 
         if(orderModel.orderChannel!!.uppercase() != "ONLINE"){
-            price *= (item.unit!! ?: 1)
+            price *= (item.unit ?: 1)
             var totaldiscount = (price * (discount / 100))
 
 
