@@ -157,46 +157,48 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //        val item = itemproduict[position]
         var  component: List<OrderData.OrderProduct.Component?>?
         var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
-        if(orderModel.orderChannel!!.uppercase() == "ONLINE") {
-            component = item!!.components;
+        if(orderModel.orderChannel?.uppercase() == "ONLINE") {
+            component = item?.components;
         }else{
-             component = item!!.components!!.filter {i-> componentFilter(i)}
-             extraIteam = item!!.components!!.filter { i-> i!!.product!!.property != null && i!!.product!!.property!!.itemtype != null && (i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" || i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")}
+             component = item?.components?.filter {i-> componentFilter(i)}
+             extraIteam = item?.components?.filter { i-> i?.product?.property?.itemtype != null && (i.product.property.itemtype?.lowercase() == "topping" || i.product.property.itemtype?.lowercase() == "addon" || i.product.property.itemtype?.lowercase() == "dressing")}
         }
 
 
         val str3 = StringBuilder()
         var price = 0.0
-        price = item!!.netAmount!!
-        var discount = item.discountableAmount ?: 0.0;
+        price = item?.netAmount ?: 0.0
+        var discount = item?.discountableAmount ?: 0.0;
         if (position < iteamLength - 1) {
-            if (orderModel.orderProducts!![position]!!.product!!.property!!.printorder!!.toInt()!! < orderModel.orderProducts!![position + 1]!!.product!!.property!!.printorder!!.toInt()!!) {
+            if ((orderModel.orderProducts!![position]?.product?.property?.printorder?.toInt()
+                            ?: 0) < (orderModel.orderProducts!![position + 1]?.product?.property?.printorder?.toInt()
+                            ?: 0)) {
                 binding.underLine.visibility = View.VISIBLE
             }
 
         }
 
         if (component!!.isNotEmpty() ) {
-            str3.append(item.unit).append(" x ").append(item.product!!.shortName)
+            str3.append(item?.unit).append(" x ").append(item?.product?.shortName)
             for (section in component) {
                 var _comName = ""
-                if (section!!.product!!.shortName!!.uppercase() != "NONE") {
-                    _comName = section.product!!.shortName!!
+                if (section?.product?.shortName?.uppercase() != "NONE") {
+                    _comName = section?.product?.shortName ?: ""
                 }
-                if (section.components!!.isNotEmpty()) {
-                    if (section.components.first()!!.product!!.shortName!!.uppercase() != "NONE") {
-                        _comName += " -> " + section.components.first()!!.product!!.shortName;
-                        price += section.components.first()!!.netAmount!!;
+                if (section?.components != null && section.components.isNotEmpty()) {
+                    if (section.components.first()?.product?.shortName?.uppercase() != "NONE") {
+                        _comName += " -> " + section.components.first()?.product?.shortName;
+                        price += section.components.first()?.netAmount ?: 0.0;
                     }
                 }
                 if (_comName != "") {
                     str3.append("\n").append(_comName)
                 }
-                price += section.netAmount!!;
+                price += section?.netAmount ?: 0.0;
             }
         } else {
-            if (item.product!!.type == "ITEM" || item.product!!.type == "DYNAMIC"){
-                str3.append(item.unit).append(" x ").append(item.product!!.shortName)
+            if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
+                str3.append(item.unit).append(" x ").append(item.product.shortName)
             }
 
         }
@@ -205,26 +207,23 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             if (extraIteam.isNotEmpty()) {
                 val topping = java.lang.StringBuilder("\n")
                 for (extraItem in extraIteam) {
-                    topping.append("  *").append(extraItem!!.product!!.shortName)
-                    price += extraItem.netAmount!!;
+                    topping.append("  *").append(extraItem?.product?.shortName)
+                    price += extraItem?.netAmount!!;
                 }
                 str3.append(topping.toString())
             }
         }
 
-        if(orderModel.orderChannel!!.uppercase() != "ONLINE"){
-            price *= (item.unit ?: 1)
+        if(orderModel.orderChannel?.uppercase() != "ONLINE"){
+            price *= (item?.unit ?: 1)
             var totaldiscount = (price * (discount / 100))
-
-
-
             price -= totaldiscount;
         }
         Log.e("price get", "getView: ${price}----")
-        if(item.comment != null && item.product!!.type == "ITEM") str3.append("\nNote : ").append(item.comment)
+        if(item?.comment != null && item.product?.type == "ITEM") str3.append("\nNote : ").append(item.comment)
         binding.itemText.text = str3.toString()
         binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
-       if(item.product!!.type == "ITEM" || item.product!!.type == "DYNAMIC"){
+       if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
            binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
        }else{
            binding.itemPrice.visibility = View.GONE
@@ -315,13 +314,13 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
          fun  getOrderType(): String {
              if(orderModel.orderType == "COLLECTION") {
-                 return "${businessdatadata.dynamicCollection!!.uppercase()}";
+                 return "${businessdatadata.dynamicCollection?.uppercase()}";
              }else if (orderModel.orderType == "DELIVERY") {
-                 return "${businessdatadata.dynamicDelivery!!.uppercase()}";
+                 return "${businessdatadata.dynamicDelivery?.uppercase()}";
              }else if(orderModel.orderType == "EAT IN") {
-                 return "${businessdatadata.dynamicEatIn!!.uppercase()}";
+                 return "${businessdatadata.dynamicEatIn?.uppercase()}";
              }else if (orderModel.orderType == "TAKEAWAY") {
-                 return "${businessdatadata.dynamicTakeaway!!.uppercase()}";
+                 return "${businessdatadata.dynamicTakeaway?.uppercase()}";
              }else{
                  return "${orderModel.orderType}";
              }
@@ -348,7 +347,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              var addedDeliveryCharge = 0.0
              bind.businessLocation.text = businessaddress
              bind.businessPhone.text = businessphone
-             bind.branchName.text = orderModel.branch!!.name!!.uppercase()
+             bind.branchName.text = orderModel.branch?.name?.uppercase()
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderType.text = "TABLE BOOKING #${orderModel.table_id}"
              }else{
@@ -403,7 +402,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 }
 
             }
-             if ((orderModel.orderType!!.uppercase() == "DELIVERY" ||orderModel.orderType!!.uppercase() == "COLLECTION")  &&  getMinutesDifference(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!) >= businessdatadata.highlight!!){
+             if ((orderModel.orderType?.uppercase() == "DELIVERY" || orderModel.orderType?.uppercase() == "COLLECTION") && getMinutesDifference(orderModel.orderDate
+                             ?: "2024-01-22 07:48:10", orderModel.requestedDeliveryTimestamp
+                             ?: "2024-01-22 17:20:00") >= (businessdatadata.highlight ?: 15)){
                  if(orderModel.property?.requestedDeliveryTimestampType == null) {
                      bind.collectionAt.setTypeface(null, Typeface.BOLD)
 //                     bind.date.setTypeface(null, Typeface.BOLD)
@@ -417,7 +418,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.orderText.text = "Table#"
              }
 
-             if(orderModel.orderChannel!!.uppercase() == "ONLINE"){
+             if(orderModel.orderChannel?.uppercase() == "ONLINE"){
                  bind.containerOrderNo.visibility = View.VISIBLE
                  bind.orderNo.text = "${orderModel.id}";
              }else{
@@ -439,21 +440,24 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
              var allitemsheight = 0
              bind.items.removeAllViews()
-             var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" || i!!.product!!.type == "DYNAMIC" }
-             var sortIteam = itemproduict.sortedWith(compareBy {it!!.product!!.property!!.printorder!!.toInt() })
-             for (j in sortIteam.indices) {
-                 val childView = getView(sortIteam[j],sortIteam.size, j, context, 0, printSize)
-                 bind.items.addView(childView)
-                 allitemsheight += childView!!.measuredHeight
+             var itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+             var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+             if(!sortIteam.isNullOrEmpty()){
+                 for (j in sortIteam.indices) {
+                     val childView = getView(sortIteam[j],sortIteam.size, j, context, 0, printSize)
+                     bind.items.addView(childView)
+                     allitemsheight += childView!!.measuredHeight
+                 }
              }
 
 
+
              var paidOrNot = "";
-             if (orderModel.orderChannel!!.uppercase() == "ONLINE") {
-                 if(orderModel.paymentType!!.uppercase() == "CARD"){
+             if (orderModel.orderChannel?.uppercase() == "ONLINE") {
+                 if(orderModel.paymentType?.uppercase() == "CARD"){
                      paidOrNot ="ORDER IS PAID"
-                 }else if(orderModel.paymentType!!.uppercase() == "CASH") {
-                     if (orderModel.cashEntry!!.isEmpty()){
+                 }else if(orderModel.paymentType?.uppercase() == "CASH") {
+                     if (orderModel.cashEntry == null || orderModel.cashEntry!!.isEmpty()){
                          paidOrNot = "ORDER NOT PAID"
                          bind.dueTotalContainer.visibility = View.VISIBLE
                          bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
@@ -462,15 +466,15 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      }
                  }
 
-             } else if (orderModel.orderChannel!!.uppercase() != "ONLINE") {
-                 if(orderModel.cashEntry!!.isNotEmpty()) {
+             } else if (orderModel.orderChannel?.uppercase() != "ONLINE") {
+                 if(orderModel.cashEntry != null && orderModel.cashEntry!!.isNotEmpty()) {
                      paidOrNot ="ORDER IS PAID"
                  }else{
-                     if(orderModel.paymentType!!.uppercase() == "UNPAID_CASH") {
+                     if(orderModel.paymentType?.uppercase() == "UNPAID_CASH") {
                          paidOrNot ="ORDER IS UNPAID(CASH)"
                          bind.dueTotalContainer.visibility = View.VISIBLE
                          bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
-                     }else if(orderModel.paymentType!!.uppercase() == "UNPAID_CARD") {
+                     }else if(orderModel.paymentType?.uppercase() == "UNPAID_CARD") {
                          paidOrNot ="ORDER IS UNPAID(CARD)"
                          bind.dueTotalContainer.visibility = View.VISIBLE
                          bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
@@ -502,7 +506,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.refundContainer.visibility = View.GONE
 
 
-             val subTotal: Double = orderModel.netAmount!!
+             val subTotal: Double = orderModel.netAmount ?: 0.0
              bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
 
 
@@ -512,8 +516,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
              bind.cardPayContainer.visibility = View.GONE
              bind.cashPayContainer.visibility = View.GONE
-             if (orderModel.orderChannel!!.uppercase() == "ONLINE") {
-                 if (orderModel.discountedAmount!! > 0) {
+             if (orderModel.orderChannel?.uppercase() == "ONLINE") {
+                 if ((orderModel.discountedAmount ?: 0.0) > 0) {
                      bind.discount.text =
                          "£ " +  String.format( "%.2f",  orderModel.discountedAmount)
                  } else bind.discount.text =
@@ -550,12 +554,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
              if (orderModel.requesterGuest != null){
                  val customerModel: OrderData.RequesterGuest? = orderModel.requesterGuest
-                 dlAddress += "Name : ${customerModel!!.firstName} ${customerModel!!.lastName}\n"
-                 dlAddress += "Phone : ${customerModel.phone}"
+                 dlAddress += "Name : ${customerModel?.firstName} ${customerModel?.lastName}\n"
+                 dlAddress += "Phone : ${customerModel?.phone}"
                  if (orderModel.shippingAddress != null) {
                      val address: OrderData.ShippingAddress? = orderModel.shippingAddress
-                     if (address!!.property != null) {
-                         val pro: OrderData.ShippingAddress.Property = address.property!!
+                     if (address?.property != null) {
+                         val pro: OrderData.ShippingAddress.Property = address.property
                          // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
                          val building = pro.house ?: ""
 //                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
@@ -569,12 +573,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }else{
                  if(orderModel.requester != null) {
                      val customerModel: OrderData.Requester? = orderModel.requester!!
-                     dlAddress += "Name : ${customerModel!!.name}\n"
-                     dlAddress += "Phone : ${customerModel.phone}"
+                     dlAddress += "Name : ${customerModel?.name}\n"
+                     dlAddress += "Phone : ${customerModel?.phone}"
                      if (orderModel.shippingAddress != null) {
                          val address: OrderData.ShippingAddress? = orderModel.shippingAddress
-                         if (address!!.property != null) {
-                             val pro: OrderData.ShippingAddress.Property = address.property!!
+                         if (address?.property != null) {
+                             val pro: OrderData.ShippingAddress.Property = address.property
                              // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
                              val building = pro.house ?: ""
 //                    val streetNumber = if (pro.street_number != null) pro.street_number else ""

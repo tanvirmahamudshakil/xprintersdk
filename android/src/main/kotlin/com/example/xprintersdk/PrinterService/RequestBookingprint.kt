@@ -204,24 +204,24 @@ class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessda
         val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
 
         binding.nameBox.text = bookingRequest.name
-        binding.nameBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
-        binding.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.nameBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.name.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.phoneBox.text = bookingRequest.phone
-        binding.phoneBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
-        binding.phone.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.phoneBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.phone.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         if(bookingRequest.numberOfGuest == null) {
             binding.guestBox.text = "0";
         }else{
             binding.guestBox.text = bookingRequest.numberOfGuest.toString()
         }
-        binding.guestBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
-        binding.guest.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.guestBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.guest.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.dateBox.text = "${formatter.format(parser.parse(bookingRequest.arrivalTime))}";
-        binding.dateBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
-        binding.arrivaltime.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.dateBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.arrivaltime.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.noteBox.text = bookingRequest.note
-        binding.noteBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
-        binding.note.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize!!.toFloat())
+        binding.noteBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.note.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         val bitmaplist: Bitmap =  getBitmapFromView(binding.root)
         return  bitmaplist;
 
