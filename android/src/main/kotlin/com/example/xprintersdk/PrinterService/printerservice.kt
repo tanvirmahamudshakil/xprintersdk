@@ -134,10 +134,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          }
 
          fun componentFilter( i: OrderData.OrderProduct.Component?) : Boolean {
-             return if(i!!.product!!.type!!.uppercase() == "COMPONENT") {
-                 if (i!!.product!!.property != null){
-                     if( i!!.product!!.property!!.itemtype != null) {
-                         !(i!!.product!!.property!!.itemtype!!.lowercase() == "topping" || i!!.product!!.property!!.itemtype!!.lowercase() == "addon" || i!!.product!!.property!!.itemtype!!.lowercase() == "dressing")
+             return if(i?.product?.type?.uppercase() == "COMPONENT") {
+                 if (i.product.property != null){
+                     if( i.product.property.itemtype != null) {
+                         !(((i.product.property.itemtype?.lowercase() == "topping") || (i.product.property.itemtype?.lowercase() == "addon") || (i.product.property.itemtype?.lowercase() == "dressing")))
                      }else{
                          true;
                      }
@@ -178,14 +178,14 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
         }
 
-        if (component!!.isNotEmpty() ) {
+        if (!component.isNullOrEmpty()) {
             str3.append(item?.unit).append(" x ").append(item?.product?.shortName)
             for (section in component) {
                 var _comName = ""
                 if (section?.product?.shortName?.uppercase() != "NONE") {
                     _comName = section?.product?.shortName ?: ""
                 }
-                if (section?.components != null && section.components.isNotEmpty()) {
+                if ((section?.components != null) && section.components.isNotEmpty()) {
                     if (section.components.first()?.product?.shortName?.uppercase() != "NONE") {
                         _comName += " -> " + section.components.first()?.product?.shortName;
                         price += section.components.first()?.netAmount ?: 0.0;
