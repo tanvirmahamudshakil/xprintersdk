@@ -129,11 +129,11 @@
                 android:textSize="20sp" />
             <TextView
                 android:id="@+id/dateBox"
-                android:layout_width="250dp"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:gravity="end"
-                android:text="2023-12-23"
+                android:text="2023/12/23 11:36 AM"
                 android:textAlignment="textEnd"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
