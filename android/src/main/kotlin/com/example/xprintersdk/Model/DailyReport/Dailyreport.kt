@@ -32,6 +32,10 @@ data class Dailyreport(
         @SerializedName("total_refund")
         val totalRefund: String?,
         @SerializedName("date")
-        val date: String?
+        val date: String?,
+        @SerializedName("total_refund_card_Amount")
+        val totalrefundcardAmount: String?,
+        @SerializedName("total_refund_cash_Amount")
+        val totalrefundcashAmount: String?,
     )
 }

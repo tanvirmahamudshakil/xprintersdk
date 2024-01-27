@@ -208,6 +208,9 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         val totalCashOrderAmount = String.format("%.2f", dailyreport.data?.totalCashOrderAmount)
         val totalCardOrderAmount = String.format("%.2f", dailyreport.data?.totalCardOrderAmount)
 
+        val totalRefundCashAmount = dailyreport.data?.totalrefundcashAmount
+        val totalRefundCardAmount = dailyreport.data?.totalrefundcardAmount
+
         binding.reportDate.text = "Date: ${formatter.format(parser.parse(dailyreport.data?.date))}"
         binding.reportDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalOrderBox.text = dailyreport.data?.totalOrder.toString()
@@ -221,22 +224,51 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.localOrderBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.localorder.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
+        // refund order
+        binding.refundOrderBox.text = dailyreport.data?.totalRefund.toString()
+        binding.refundOrderBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.refundorder.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+
+
         binding.noofCardPaymentBox.text = dailyreport.data?.totalCardOrder.toString()
         binding.noofCardPaymentBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.cardpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.noofcashPaymentBox.text = dailyreport.data?.totalCashOrder.toString()
         binding.noofcashPaymentBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.cashpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+
+
         var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble()
         binding.totalPaymentReceiveBox.text = String.format("%.2f", totalPayment) ;
         binding.totalPaymentReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+
+        // total refund amount
+        var totalRefundAmount = (totalRefundCashAmount?.toDouble() ?: 0.0) +( totalRefundCardAmount?.toDouble() ?: 0.0)
+        binding.totalRefundReceiveBox.text = String.format("%.2f", totalRefundAmount) ;
+        binding.totalRefundReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.totalRefund.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+
+        // total card
         binding.totalCardBox.text = totalCardOrderAmount
         binding.totalCardBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalcard.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        // total cash
         binding.totalCashBox.text = totalCashOrderAmount
         binding.totalCashBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalcash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+
+
+        // total Refund card
+        binding.totalRefundCardBox.text = totalRefundCardAmount
+        binding.totalRefundCardBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.totalRefundcard.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        // total Refund cash
+        binding.totalRefundCashBox.text = totalRefundCashAmount
+        binding.totalRefundCashBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.totalRefundcash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+
+
         val bitmaplist: Bitmap =  getBitmapFromView(binding.root)
         return  bitmaplist;
 
