@@ -49,7 +49,14 @@ data class BusinessSetting(
     @SerializedName("dynamicTakeaway")
     val dynamicTakeaway: String?,
     @SerializedName("highlighttextsize")
-    val highlighttextsize: Int?
+    val highlighttextsize: Int?,
+    @SerializedName("vat_number")
+    val vatNumber: String?,
+    @SerializedName("vat_company_name")
+    val vatCompanyName: String?,
+    @SerializedName("vat_note")
+    val vatNote: String?,
+
 
 
 

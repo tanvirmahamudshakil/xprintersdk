@@ -469,6 +469,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              } else if (orderModel.orderChannel?.uppercase() != "ONLINE") {
                  if(orderModel.cashEntry != null && orderModel.cashEntry!!.isNotEmpty()) {
                      paidOrNot ="ORDER IS PAID"
+                     bind.dueTotal.text = "£ 0.0"
                  }else{
                      if(orderModel.paymentType?.uppercase() == "UNPAID_CASH") {
                          paidOrNot ="ORDER IS UNPAID(CASH)"
@@ -607,6 +608,20 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.address.text = dlAddress
 
              bind.address.setTextSize(TypedValue.COMPLEX_UNIT_DIP, printSize.toFloat())
+             if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
+                 bind.vatNumberCompany.text = "${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
+                 bind.vatNumberCompany.visibility = View.VISIBLE
+             }else{
+                 bind.vatNumberCompany.visibility = View.GONE
+             }
+
+             if(!businessdatadata.vatNote.isNullOrEmpty() ) {
+                 bind.vatNote.text = "${businessdatadata.vatNote}"
+                 bind.vatNote.visibility = View.VISIBLE
+             }else{
+                 bind.vatNote.visibility = View.GONE
+             }
+
 
 
              val bitmaplist: Bitmap =  getBitmapFromView(bind.root)

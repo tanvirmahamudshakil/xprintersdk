@@ -33,6 +33,9 @@ class PrinterBusinessModel {
   String dynamicDelivery;
   String dynamicEatIn;
   String dynamicTakeaway;
+  String? vatNumber;
+  String? vatCompanyName;
+  String? vatNote;
 
   PrinterBusinessModel(
       {this.fontSize,
@@ -56,35 +59,42 @@ class PrinterBusinessModel {
       required this.dynamicCollection,
       required this.dynamicDelivery,
       required this.dynamicEatIn,
-      required this.dynamicTakeaway});
+      required this.dynamicTakeaway,
+      this.vatNumber,
+      this.vatCompanyName,
+      this.vatNote});
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) =>
       PrinterBusinessModel(
         highlighttextsize: json["highlighttextsize"],
-          fontSize: json["font_size"],
-          printOnDelivery: json["print_on_delivery"],
-          printOnCollection: json["print_on_collection"],
-          printOnTableOrder: json["print_on_table_order"],
-          printOnTackwayOrder: json["print_on_tackway_order"],
-          autoPrint: json["auto_print"],
-          showOrderNoInvoice: json["show_order_no_invoice"],
-          selectPrinter: json["select_printer"],
-          printerConnection: json["printer_connection"],
-          ip: json["ip"],
-          bluetoothName: json["bluetooth_name"],
-          bluetoothAddress: json["bluetooth_address"],
-          businessname: json["businessname"],
-          businessphone: json["businessphone"],
-          businessaddress: json["businessaddress"],
-          highlight: json["highlight"],
-          papersSize: json["papersize"],
-          dynamicCollection: json['dynamicCollection'],
-          dynamicDelivery: json['dynamicDelivery'],
-          dynamicEatIn: json['dynamicEatIn'],
-          dynamicTakeaway: json['dynamicTakeaway']);
+        fontSize: json["font_size"],
+        printOnDelivery: json["print_on_delivery"],
+        printOnCollection: json["print_on_collection"],
+        printOnTableOrder: json["print_on_table_order"],
+        printOnTackwayOrder: json["print_on_tackway_order"],
+        autoPrint: json["auto_print"],
+        showOrderNoInvoice: json["show_order_no_invoice"],
+        selectPrinter: json["select_printer"],
+        printerConnection: json["printer_connection"],
+        ip: json["ip"],
+        bluetoothName: json["bluetooth_name"],
+        bluetoothAddress: json["bluetooth_address"],
+        businessname: json["businessname"],
+        businessphone: json["businessphone"],
+        businessaddress: json["businessaddress"],
+        highlight: json["highlight"],
+        papersSize: json["papersize"],
+        dynamicCollection: json['dynamicCollection'],
+        dynamicDelivery: json['dynamicDelivery'],
+        dynamicEatIn: json['dynamicEatIn'],
+        dynamicTakeaway: json['dynamicTakeaway'],
+        vatNumber: json["vat_number"],
+        vatCompanyName: json["vat_company_name"],
+        vatNote: json["vat_note"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "highlighttextsize": highlighttextsize,
+        "highlighttextsize": highlighttextsize,
         "font_size": fontSize,
         "print_on_delivery": printOnDelivery,
         "print_on_collection": printOnCollection,
@@ -106,5 +116,8 @@ class PrinterBusinessModel {
         "dynamicDelivery": dynamicDelivery,
         "dynamicEatIn": dynamicEatIn,
         "dynamicTakeaway": dynamicTakeaway,
+        "vat_number": vatNumber,
+        "vat_company_name": vatCompanyName,
+        "vat_note": vatNote,
       };
 }
