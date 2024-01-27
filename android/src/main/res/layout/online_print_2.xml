@@ -676,11 +676,13 @@
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:textSize="15dp"
+            android:textColor="@color/black"
             android:text="jshdbjshdbjhsbdjhsbdvhsbdv"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/vatNote"
             android:textSize="15dp"
+            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:text="jshdbdjhsbdvhsbdv"
             android:layout_height="wrap_content"/>
