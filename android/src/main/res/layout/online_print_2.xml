@@ -675,12 +675,12 @@
             android:id="@+id/vatNumberCompany"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
-            android:textSize="13dp"
+            android:textSize="15dp"
             android:text="jshdbjshdbjhsbdjhsbdvhsbdv"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/vatNote"
-            android:textSize="13dp"
+            android:textSize="15dp"
             android:layout_width="wrap_content"
             android:text="jshdbdjhsbdvhsbdv"
             android:layout_height="wrap_content"/>
