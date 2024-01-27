@@ -150,7 +150,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
          }
 
-    fun getView( item: OrderData.OrderProduct?, iteamLength : Int ,position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
+    fun getView( listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int ,position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
         val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(mCtx))
 //        var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
 //        itemproduict.sortedBy { it!!.product!!.property!!.printorder!!.toInt() }
@@ -170,9 +170,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         price = item?.netAmount ?: 0.0
         var discount = item?.discountableAmount ?: 0.0;
         if (position < iteamLength - 1) {
-            if ((orderModel.orderProducts!![position]?.product?.property?.printorder?.toInt()
-                            ?: 0) < (orderModel.orderProducts!![position + 1]?.product?.property?.printorder?.toInt()
+            if ((listorderProducts!![position]?.product?.property?.printorder?.toInt()
+                            ?: 0) < (listorderProducts[position + 1]?.product?.property?.printorder?.toInt()
                             ?: 0)) {
+
                 binding.underLine.visibility = View.VISIBLE
             }
 
@@ -444,10 +445,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
              if(!sortIteam.isNullOrEmpty()){
                  for (j in sortIteam.indices) {
-                     val childView = getView(sortIteam[j],sortIteam.size, j, context, 0, printSize)
+                     Log.e("iteam sort", "doInBackground: ${j}", )
+                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, context, 0, printSize)
                      bind.items.addView(childView)
                      allitemsheight += childView!!.measuredHeight
                  }
+
              }
 
 
