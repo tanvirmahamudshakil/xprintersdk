@@ -268,6 +268,11 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.totalRefundCashBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalRefundcash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
+        // total balance
+        val totalBalance = totalPayment - totalRefundAmount;
+        binding.totalBalanceBox.text = String.format("%.2f", totalBalance)
+        binding.totalBalanceBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.totalBalance.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
         val bitmaplist: Bitmap =  getBitmapFromView(binding.root)
         return  bitmaplist;
