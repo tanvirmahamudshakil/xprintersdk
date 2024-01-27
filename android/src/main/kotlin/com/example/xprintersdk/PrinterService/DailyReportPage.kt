@@ -230,11 +230,11 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.refundorder.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
 
-        binding.noofCardPaymentBox.text = "£ " + dailyreport.data?.totalCardOrder.toString()
+        binding.noofCardPaymentBox.text = dailyreport.data?.totalCardOrder.toString()
         binding.noofCardPaymentBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.cardpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
-        binding.noofcashPaymentBox.text = "£ " + dailyreport.data?.totalCashOrder.toString()
+        binding.noofcashPaymentBox.text = dailyreport.data?.totalCashOrder.toString()
         binding.noofcashPaymentBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.cashpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
