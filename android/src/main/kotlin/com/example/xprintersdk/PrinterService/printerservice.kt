@@ -609,7 +609,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
              bind.address.setTextSize(TypedValue.COMPLEX_UNIT_DIP, printSize.toFloat())
              if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
-                 bind.vatNumberCompany.text = "${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
+                 bind.vatNumberCompany.text = "VAT no ${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
                  bind.vatNumberCompany.visibility = View.VISIBLE
              }else{
                  bind.vatNumberCompany.visibility = View.GONE
