@@ -108,7 +108,7 @@ class _MyAppState extends State<MyApp> {
             MaterialButton(
               onPressed: () async {
                 var data = await _xprintersdkPlugin.bitmapSave(
-                    printermodel, oderjson9);
+                    printermodel, orderjson10);
               },
               child: const Text("Bitmap Save"),
             ),

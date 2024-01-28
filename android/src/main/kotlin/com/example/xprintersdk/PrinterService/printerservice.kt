@@ -180,7 +180,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         }
 
         if (!component.isNullOrEmpty()) {
-            str3.append(item?.unit).append(" x ").append(item?.product?.shortName)
+            str3.append(item?.unit).append("x ").append(item?.product?.shortName)
             for (section in component) {
                 var _comName = ""
                 if (section?.product?.shortName?.uppercase() != "NONE") {
@@ -193,13 +193,14 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                     }
                 }
                 if (_comName != "") {
-                    str3.append("\n").append(_comName)
+//                    str3.append("\n").append(_comName)
+                    str3.append(" -> ").append(_comName)
                 }
                 price += section?.netAmount ?: 0.0;
             }
         } else {
             if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
-                str3.append(item.unit).append(" x ").append(item.product.shortName)
+                str3.append(item.unit).append("x ").append(item.product.shortName)
             }
 
         }

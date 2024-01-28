@@ -508,15 +508,14 @@
                 >
 
                 <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="151dp"
+                    android:layout_height="match_parent"
                     android:layout_toLeftOf="@id/total"
                     android:text="Total"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
                 <TextView
                     android:id="@+id/total"
                     android:layout_width="wrap_content"
