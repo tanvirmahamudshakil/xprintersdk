@@ -56,6 +56,8 @@ data class BusinessSetting(
     val vatCompanyName: String?,
     @SerializedName("vat_note")
     val vatNote: String?,
+    @SerializedName("printer_style")
+    val printerStyle: String?
 
 
 

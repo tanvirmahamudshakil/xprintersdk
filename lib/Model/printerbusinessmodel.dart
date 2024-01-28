@@ -36,33 +36,36 @@ class PrinterBusinessModel {
   String? vatNumber;
   String? vatCompanyName;
   String? vatNote;
+  String? printerStyle;
 
-  PrinterBusinessModel(
-      {this.fontSize,
-      required this.highlighttextsize,
-      required this.printOnDelivery,
-      required this.printOnCollection,
-      required this.printOnTableOrder,
-      required this.printOnTackwayOrder,
-      this.autoPrint,
-      this.showOrderNoInvoice,
-      required this.selectPrinter,
-      required this.printerConnection,
-      this.ip,
-      this.bluetoothName,
-      this.bluetoothAddress,
-      required this.businessname,
-      required this.businessphone,
-      required this.businessaddress,
-      this.highlight,
-      this.papersSize,
-      required this.dynamicCollection,
-      required this.dynamicDelivery,
-      required this.dynamicEatIn,
-      required this.dynamicTakeaway,
-      this.vatNumber,
-      this.vatCompanyName,
-      this.vatNote});
+  PrinterBusinessModel({
+    this.fontSize,
+    required this.highlighttextsize,
+    required this.printOnDelivery,
+    required this.printOnCollection,
+    required this.printOnTableOrder,
+    required this.printOnTackwayOrder,
+    this.autoPrint,
+    this.showOrderNoInvoice,
+    required this.selectPrinter,
+    required this.printerConnection,
+    this.ip,
+    this.bluetoothName,
+    this.bluetoothAddress,
+    required this.businessname,
+    required this.businessphone,
+    required this.businessaddress,
+    this.highlight,
+    this.papersSize,
+    required this.dynamicCollection,
+    required this.dynamicDelivery,
+    required this.dynamicEatIn,
+    required this.dynamicTakeaway,
+    this.vatNumber,
+    this.vatCompanyName,
+    this.vatNote,
+    this.printerStyle,
+  });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) =>
       PrinterBusinessModel(
@@ -91,6 +94,7 @@ class PrinterBusinessModel {
         vatNumber: json["vat_number"],
         vatCompanyName: json["vat_company_name"],
         vatNote: json["vat_note"],
+        printerStyle: json["printer_style"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -119,5 +123,6 @@ class PrinterBusinessModel {
         "vat_number": vatNumber,
         "vat_company_name": vatCompanyName,
         "vat_note": vatNote,
+        "printer_style": printerStyle
       };
 }

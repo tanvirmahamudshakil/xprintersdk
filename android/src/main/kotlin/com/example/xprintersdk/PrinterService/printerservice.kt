@@ -193,8 +193,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                     }
                 }
                 if (_comName != "") {
-//                    str3.append("\n").append(_comName)
-                    str3.append(" -> ").append(_comName)
+                    if(businessdatadata.printerStyle == "1") {
+                        str3.append("\n").append(_comName)
+                    }else{
+                        str3.append(" -> ").append(_comName)
+                    }
+
                 }
                 price += section?.netAmount ?: 0.0;
             }
@@ -206,8 +210,14 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         }
 
         if (extraIteam != null) {
+            val topping = StringBuilder()
             if (extraIteam.isNotEmpty()) {
-                val topping = java.lang.StringBuilder("\n")
+                if(businessdatadata.printerStyle == "1") {
+                    topping.append("\n")
+                }else{
+                    topping.append(" -> ")
+                }
+//                val topping = java.lang.StringBuilder("\n")
                 for (extraItem in extraIteam) {
                     topping.append("  *").append(extraItem?.product?.shortName)
                     price += extraItem?.netAmount!!;
