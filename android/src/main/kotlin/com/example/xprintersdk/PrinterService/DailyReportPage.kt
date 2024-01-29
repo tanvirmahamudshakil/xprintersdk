@@ -204,7 +204,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
     override fun doInBackground(vararg params: String?): Bitmap {
         var binding = DailyreportBinding.inflate(LayoutInflater.from(context))
         val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-        val formatter = SimpleDateFormat("dd/MM/yyyy hh:mm a")
+        val formatter = SimpleDateFormat("dd/MM/yyyy")
         val totalCashOrderAmount = String.format("%.2f", dailyreport.data?.totalCashOrderAmount)
         val totalCardOrderAmount = String.format("%.2f", dailyreport.data?.totalCardOrderAmount)
 
