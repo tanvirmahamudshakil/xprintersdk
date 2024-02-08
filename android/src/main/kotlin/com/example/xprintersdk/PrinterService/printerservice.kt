@@ -396,7 +396,16 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 if(orderModel.property?.requestedDeliveryTimestampType != null) {
                     var asapdata = orderModel.property?.requestedDeliveryTimestampType;
                     // ${getOrderType()}
-                    val asap = SpannableStringBuilder().append("REQUESTED at : ").bold { append(asapdata) }.append("${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}")
+                    bind.collectionAt.text = asapdata
+                    bind.collectionAt.setTypeface(null, Typeface.BOLD)
+//                    if(orderModel.orderChannel == "ONLINE") {
+//                        val asap = SpannableStringBuilder().append("REQUESTED at : ").bold { append(asapdata) }.append("${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}")
+//                        bind.collectionAt.text = asap
+//                    }else{
+//                        bind.collectionAt.text = "ASAP"
+//                        bind.collectionAt.setTypeface(null, Typeface.BOLD)
+//                    }
+ //                   val asap = SpannableStringBuilder().append("REQUESTED at : ").bold { append(asapdata) }.append("${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}")
 //                    asap.setSpan(
 //                        StyleSpan(android.graphics.Typeface.BOLD),
 //                        0, orderModel.property?.requestedDeliveryTimestampType!!.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -404,7 +413,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //                    bind.underline.visibility = View.GONE
 //                    bind.asap.visibility = View.VISIBLE
 //                    bind.collectionAt.text = "${getOrderType()} at : ${asap}"
-                    bind.collectionAt.text = asap
+ //                   bind.collectionAt.text = asap
 //                    bind.asap.text = "${orderModel.property?.requestedDeliveryTimestampType}"
 //                    bind.date.text = "${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
 //                    bind.asap.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18.0F)
