@@ -237,7 +237,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             price -= totaldiscount;
         }
         Log.e("price get", "getView: ${price}----")
-        if(item?.comment != null && item.product?.type == "ITEM") str3.append("\nNote : ").append(item.comment)
+        if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
         binding.itemText.text = str3.toString()
         binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
        if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
