@@ -398,6 +398,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                     // ${getOrderType()}
                     bind.collectionAt.text = asapdata
                     bind.collectionAt.setTypeface(null, Typeface.BOLD)
+                    bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.asapFontSize!!.toFloat())
 //                    if(orderModel.orderChannel == "ONLINE") {
 //                        val asap = SpannableStringBuilder().append("REQUESTED at : ").bold { append(asapdata) }.append("${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}")
 //                        bind.collectionAt.text = asap
@@ -424,6 +425,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //                    bind.asap.visibility = View.GONE
                     // ${getOrderType()}
                       bind.collectionAt.text = "REQUESTED at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+
 //                    bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
                 }
 

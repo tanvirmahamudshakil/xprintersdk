@@ -57,7 +57,9 @@ data class BusinessSetting(
     @SerializedName("vat_note")
     val vatNote: String?,
     @SerializedName("printer_style")
-    val printerStyle: String?
+    val printerStyle: String?,
+    @SerializedName("asapFontSize")
+    val asapFontSize: Int?
 
 
 
