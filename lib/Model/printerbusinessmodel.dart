@@ -38,7 +38,6 @@ class PrinterBusinessModel {
   String? vatNote;
   String? printerStyle;
   int? asapFontSize;
-  int? requestTimeFontSize;
 
   PrinterBusinessModel({
     this.fontSize,
@@ -67,8 +66,7 @@ class PrinterBusinessModel {
     this.vatCompanyName,
     this.vatNote,
     this.printerStyle,
-    this.asapFontSize,
-    this.requestTimeFontSize,
+    this.asapFontSize
   });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) =>
@@ -99,12 +97,11 @@ class PrinterBusinessModel {
           vatCompanyName: json["vat_company_name"],
           vatNote: json["vat_note"],
           printerStyle: json["printer_style"],
-          asapFontSize: json["asapFontSize"],
-          requestTimeFontSize: json["requestTimeFontSize"]);
+          asapFontSize: json["asapFontSize"]
+          );
 
   Map<String, dynamic> toJson() => {
         "asapFontSize": asapFontSize,
-        "requestTimeFontSize": requestTimeFontSize,
         "highlighttextsize": highlighttextsize,
         "font_size": fontSize,
         "print_on_delivery": printOnDelivery,
