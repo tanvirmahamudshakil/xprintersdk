@@ -205,6 +205,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         } else {
             if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
                 str3.append(item.unit).append("x ").append(item.product.shortName)
+                if(businessdatadata.printerStyle == "3"){
+                    if(item.product.property?.printorder == "2"){
+                        str3.append("(Str)")
+                    }
+                }
             }
 
         }
@@ -225,11 +230,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 str3.append(topping.toString())
             }
         }
-        if(businessdatadata.printerStyle == "3"){
-            if(item?.product?.property?.printorder == "2"){
-                str3.append("(Str)")
-            }
-        }
+
 
         if(orderModel.orderChannel?.uppercase() != "ONLINE"){
             price *= (item?.unit ?: 1)
