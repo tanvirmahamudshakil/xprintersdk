@@ -187,10 +187,13 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                     _comName = section?.product?.shortName ?: ""
                 }
                 if ((section?.components != null) && section.components.isNotEmpty()) {
-                    if (section.components.first()?.product?.shortName?.uppercase() != "NONE") {
-                        _comName += " -> " + section.components.first()?.product?.shortName;
-                        price += section.components.first()?.netAmount ?: 0.0;
+                    for (section2 in section.components) {
+                        if (section2?.product?.shortName?.uppercase() != "NONE") {
+                            _comName += " -> " + section2?.product?.shortName;
+                            price += section2?.netAmount ?: 0.0;
+                        }
                     }
+
                 }
                 if (_comName != "") {
                     if(businessdatadata.printerStyle == "1") {
