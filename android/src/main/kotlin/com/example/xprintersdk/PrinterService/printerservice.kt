@@ -361,7 +361,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.businessName.text = businessname
 
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-             val formatter = SimpleDateFormat("dd-MM hh:mm a")
+             val formatter = SimpleDateFormat("dd-MMM hh:mm a")
              val formatter2 = SimpleDateFormat(" dd/MM hh:mm a")
 //             Log.e("date formet", "doInBackground: ${dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!)}", )
 //             Log.d("order date", "orderrootget: ${orderModel.orderDate}")
