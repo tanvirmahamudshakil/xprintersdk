@@ -1,7 +1,7 @@
-package net.nyx.printerservice.print;
+package com.example.xprintersdk.NyxPrinter.print;
 
 import android.graphics.Bitmap;
-import net.nyx.printerservice.print.PrintTextFormat;
+import com.example.xprintersdk.NyxPrinter.print.PrintTextFormat;
 
 interface IPrinterService {
 

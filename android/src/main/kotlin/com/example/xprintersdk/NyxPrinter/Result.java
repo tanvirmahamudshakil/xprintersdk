@@ -1,4 +1,6 @@
-package net.nyx.printerclient;
+package com.example.xprintersdk.NyxPrinter;
+
+import com.example.xprintersdk.R;
 
 public class Result {
 

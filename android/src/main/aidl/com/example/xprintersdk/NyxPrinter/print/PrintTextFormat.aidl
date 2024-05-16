@@ -1,3 +1,3 @@
-package net.nyx.printerservice.print;
+package com.example.xprintersdk.NyxPrinter.print;
 
 parcelable PrintTextFormat;

@@ -1,4 +1,4 @@
-package net.nyx.printerclient;
+package com.example.xprintersdk.NyxPrinter;
 
 import android.annotation.SuppressLint;
 import android.app.Application;

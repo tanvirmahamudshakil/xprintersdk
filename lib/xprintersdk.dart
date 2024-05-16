@@ -18,6 +18,8 @@ class Xprintersdk {
   final String _sunmiPrinterCheck = "sunmiPrinterCheck";
   final String _xPrinterbookingRequest = "XprinterbookingRequest";
   final String _dailyreportPrint = "dailyreportPrint";
+  final String _nyxPrinterInit = "nyxPrinterInit";
+  final String _nyxPrinterPrint = "nyxPrinterPrint";
 
   Future<String?> getPlatformVersion() async {
     final version =
@@ -35,6 +37,10 @@ class Xprintersdk {
 
   Future sunmiPrinterInitialization() async {
     await _methodChannel.invokeMethod(_sunmiPrinterInit);
+  }
+
+  Future nyxPrinterInit() async {
+    await _methodChannel.invokeMethod(_nyxPrinterInit);
   }
 
   Future<bool> XPrinterConnectionCheck() async {
@@ -79,6 +85,17 @@ class Xprintersdk {
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
     return await _methodChannel.invokeMethod(_sunmiPrint, quary);
+  }
+
+   Future nyxPrinterPrintBitmap(
+    PrinterBusinessModel printermodel,
+    Map<String, Object?> orderiteam,
+  ) async {
+    Map<String, dynamic> quary = {
+      "orderiteam": orderiteam,
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
+    return await _methodChannel.invokeMethod(_nyxPrinterPrint, quary);
   }
 
   Future bitmapSave(

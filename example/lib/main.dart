@@ -42,99 +42,114 @@ class _MyAppState extends State<MyApp> {
           children: [
             MaterialButton(
                 onPressed: () {
-                  _xprintersdkPlugin.XprinterInitialization();
+                  _xprintersdkPlugin.nyxPrinterInit();
                 },
-                child: const Text("Xprinter Initialization")),
-            MaterialButton(
-                onPressed: () async {
-                  var data = await _xprintersdkPlugin.XPrinterConnectionCheck();
-                  print(data);
-                },
-                child: const Text("Xprinter connection check")),
+                child: const Text("Nyxprinter Initialization")),
+
             MaterialButton(
               onPressed: () async {
-                var data =
-                    await _xprintersdkPlugin.XPrinterConnect(printermodel);
-                print(data);
-              },
-              child: const Text("Xprinter connect"),
-            ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(
+                var data = await _xprintersdkPlugin.nyxPrinterPrintBitmap(
                     printermodel, orderjson5);
                 print(data);
               },
-              child: const Text("Xprinter print"),
+              child: const Text("NyxPrinter print order"),
             ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.XPrinterPrintLocalData(
-                    printermodel, localorder);
-              },
-              child: const Text("local print"),
-            ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin
-                    .sunmiPrinterServiceInitialization();
-              },
-              child: const Text("Sunmi Printer Service Init"),
-            ),
-            MaterialButton(
-              onPressed: () async {
-                var data =
-                    await _xprintersdkPlugin.sunmiPrinterInitialization();
-              },
-              child: const Text("Sunmi Printer Init"),
-            ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.sunmiPrintBitmap(
-                    printermodel, orderjson4);
-                print("${data}");
-                Future.delayed(const Duration(seconds: 2), () {
-                  showDialog(
-                      context: context,
-                      builder: (_) {
-                        return AlertDialog(
-                          title: Text("sunmi print $data"),
-                        );
-                      });
-                });
-              },
-              child: const Text("Sunmi Print Bitmap"),
-            ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.bitmapSave(
-                    printermodel, orderjson10);
-              },
-              child: const Text("Bitmap Save"),
-            ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.checkSunmiPrinter();
-                print(data.toString());
-              },
-              child: const Text("Sunmi Printer Check"),
-            ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.bookingRequestPrint(
-                    printermodel, bookingRequest);
-                print(data.toString());
-              },
-              child: const Text("Bookign Request print"),
-            ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.dailyReportPrint(
-                    printermodel, dailyReport);
-                print(data.toString());
-              },
-              child: const Text("Daily Report print"),
-            )
+
+            // MaterialButton(
+            //     onPressed: () {
+            //       _xprintersdkPlugin.XprinterInitialization();
+            //     },
+            //     child: const Text("Xprinter Initialization")),
+            // MaterialButton(
+            //     onPressed: () async {
+            //       var data = await _xprintersdkPlugin.XPrinterConnectionCheck();
+            //       print(data);
+            //     },
+            //     child: const Text("Xprinter connection check")),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data =
+            //         await _xprintersdkPlugin.XPrinterConnect(printermodel);
+            //     print(data);
+            //   },
+            //   child: const Text("Xprinter connect"),
+            // ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(
+            //         printermodel, orderjson5);
+            //     print(data);
+            //   },
+            //   child: const Text("Xprinter print"),
+            // ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.XPrinterPrintLocalData(
+            //         printermodel, localorder);
+            //   },
+            //   child: const Text("local print"),
+            // ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin
+            //         .sunmiPrinterServiceInitialization();
+            //   },
+            //   child: const Text("Sunmi Printer Service Init"),
+            // ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data =
+            //         await _xprintersdkPlugin.sunmiPrinterInitialization();
+            //   },
+            //   child: const Text("Sunmi Printer Init"),
+            // ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.sunmiPrintBitmap(
+            //         printermodel, orderjson4);
+            //     print("${data}");
+            //     Future.delayed(const Duration(seconds: 2), () {
+            //       showDialog(
+            //           context: context,
+            //           builder: (_) {
+            //             return AlertDialog(
+            //               title: Text("sunmi print $data"),
+            //             );
+            //           });
+            //     });
+            //   },
+            //   child: const Text("Sunmi Print Bitmap"),
+            // ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.bitmapSave(
+            //         printermodel, orderjson10);
+            //   },
+            //   child: const Text("Bitmap Save"),
+            // ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.checkSunmiPrinter();
+            //     print(data.toString());
+            //   },
+            //   child: const Text("Sunmi Printer Check"),
+            // ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.bookingRequestPrint(
+            //         printermodel, bookingRequest);
+            //     print(data.toString());
+            //   },
+            //   child: const Text("Bookign Request print"),
+            // ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.dailyReportPrint(
+            //         printermodel, dailyReport);
+            //     print(data.toString());
+            //   },
+            //   child: const Text("Daily Report print"),
+            // )
           ],
         ),
       ),

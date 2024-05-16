@@ -1,4 +1,4 @@
-package net.nyx.printerservice.print;
+package com.example.xprintersdk.NyxPrinter.print;
 
 import android.os.Parcel;
 import android.os.Parcelable;

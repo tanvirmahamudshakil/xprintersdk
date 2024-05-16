@@ -1,4 +1,4 @@
-package net.nyx.printerclient;
+package com.example.xprintersdk.NyxPrinter;
 
 public class SdkResult {
     public static final int SDK_OK                              = 0;
