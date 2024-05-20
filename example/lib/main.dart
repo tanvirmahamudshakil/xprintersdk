@@ -1,9 +1,11 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:nyx_printer/nyx_printer.dart';
 import 'package:xprintersdk/Model/printerbusinessmodel.dart';
 import 'package:xprintersdk/xprintersdk.dart';
 
@@ -23,10 +25,22 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   final _xprintersdkPlugin = Xprintersdk();
+  final _nyxPrinterPlugin = NyxPrinter();
 
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<void> printImage() async {
+    try {
+      final image = await rootBundle.load("images/receipt.jpeg");
+      await _nyxPrinterPlugin.printImage(image.buffer.asUint8List());
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -41,16 +55,16 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: [
             MaterialButton(
-                onPressed: () {
-                  _xprintersdkPlugin.nyxPrinterInit();
+                onPressed: () async {
+                  var d = await _nyxPrinterPlugin.getVersion();
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text("${d}")));
                 },
                 child: const Text("Nyxprinter Initialization")),
 
             MaterialButton(
               onPressed: () async {
-                var data = await _xprintersdkPlugin.nyxPrinterPrintBitmap(
-                    printermodel, orderjson5);
-                print(data);
+                printImage();
               },
               child: const Text("NyxPrinter print order"),
             ),
