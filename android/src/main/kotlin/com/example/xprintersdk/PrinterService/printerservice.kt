@@ -433,15 +433,18 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.containerOrderNo.visibility = View.VISIBLE
                  bind.orderNo.text = "${orderModel.id}";
                  bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                 bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
              }else{
                  if(orderModel.orderType == "TABLE_BOOKING"){
                      bind.containerOrderNo.visibility = View.GONE
 //                     bind.orderNo.text = "${orderModel.table_id}";
+                     bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
 
                  }else{
                      bind.containerOrderNo.visibility = View.VISIBLE
                      bind.orderNo.text = "${orderModel.localId}";
                      bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                     bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                  }
 
              }
