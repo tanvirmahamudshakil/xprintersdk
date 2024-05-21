@@ -59,7 +59,15 @@ data class BusinessSetting(
     @SerializedName("printer_style")
     val printerStyle: String?,
     @SerializedName("asapFontSize")
-    val asapFontSize: Int?
+    val asapFontSize: Int?,
+    @SerializedName("header1Size")
+    var header1Size: Int?,
+    @SerializedName("header2Size")
+    var header2Size: Int?,
+    @SerializedName("header3Size")
+    var header3Size: Int?,
+    @SerializedName("header4Size")
+    var header4Size: Int?,
 
 
 

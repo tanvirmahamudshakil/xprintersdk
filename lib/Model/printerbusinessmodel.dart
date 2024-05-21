@@ -11,6 +11,10 @@ String printerBusinessModelToJson(PrinterBusinessModel data) =>
     json.encode(data.toJson());
 
 class PrinterBusinessModel {
+  int? header1Size;
+  int? header2Size;
+  int? header3Size;
+  int? header4Size;
   int? fontSize;
   int printOnDelivery;
   int printOnCollection;
@@ -39,39 +43,46 @@ class PrinterBusinessModel {
   String? printerStyle;
   int? asapFontSize;
 
-  PrinterBusinessModel({
-    this.fontSize,
-    required this.highlighttextsize,
-    required this.printOnDelivery,
-    required this.printOnCollection,
-    required this.printOnTableOrder,
-    required this.printOnTackwayOrder,
-    this.autoPrint,
-    this.showOrderNoInvoice,
-    required this.selectPrinter,
-    required this.printerConnection,
-    this.ip,
-    this.bluetoothName,
-    this.bluetoothAddress,
-    required this.businessname,
-    required this.businessphone,
-    required this.businessaddress,
-    this.highlight,
-    this.papersSize,
-    required this.dynamicCollection,
-    required this.dynamicDelivery,
-    required this.dynamicEatIn,
-    required this.dynamicTakeaway,
-    this.vatNumber,
-    this.vatCompanyName,
-    this.vatNote,
-    this.printerStyle,
-    this.asapFontSize
-  });
+  PrinterBusinessModel(
+      {this.fontSize,
+      this.header1Size,
+      this.header2Size,
+      this.header3Size,
+      this.header4Size,
+      required this.highlighttextsize,
+      required this.printOnDelivery,
+      required this.printOnCollection,
+      required this.printOnTableOrder,
+      required this.printOnTackwayOrder,
+      this.autoPrint,
+      this.showOrderNoInvoice,
+      required this.selectPrinter,
+      required this.printerConnection,
+      this.ip,
+      this.bluetoothName,
+      this.bluetoothAddress,
+      required this.businessname,
+      required this.businessphone,
+      required this.businessaddress,
+      this.highlight,
+      this.papersSize,
+      required this.dynamicCollection,
+      required this.dynamicDelivery,
+      required this.dynamicEatIn,
+      required this.dynamicTakeaway,
+      this.vatNumber,
+      this.vatCompanyName,
+      this.vatNote,
+      this.printerStyle,
+      this.asapFontSize});
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) =>
       PrinterBusinessModel(
           highlighttextsize: json["highlighttextsize"],
+          header1Size: json["header1Size"],
+          header2Size: json["header2Size"],
+          header3Size: json["header3Size"],
+          header4Size: json["header4Size"],
           fontSize: json["font_size"],
           printOnDelivery: json["print_on_delivery"],
           printOnCollection: json["print_on_collection"],
@@ -97,8 +108,7 @@ class PrinterBusinessModel {
           vatCompanyName: json["vat_company_name"],
           vatNote: json["vat_note"],
           printerStyle: json["printer_style"],
-          asapFontSize: json["asapFontSize"]
-          );
+          asapFontSize: json["asapFontSize"]);
 
   Map<String, dynamic> toJson() => {
         "asapFontSize": asapFontSize,
@@ -127,6 +137,11 @@ class PrinterBusinessModel {
         "vat_number": vatNumber,
         "vat_company_name": vatCompanyName,
         "vat_note": vatNote,
-        "printer_style": printerStyle
+        "printer_style": printerStyle,
+        "header1Size": header1Size,
+        "header2Size": header2Size,
+        "header3Size": header3Size,
+        "header4Size": header4Size,
+
       };
 }

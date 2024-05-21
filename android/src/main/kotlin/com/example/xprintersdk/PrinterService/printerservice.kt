@@ -49,6 +49,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     private  var businessaddress: String
     private  var businessphone: String
     private var fontsize: Int = 30
+
     private var noofprint: Int =1
     private var businessdatadata: BusinessSetting
     private var serviceBinding: Xprinter
@@ -56,22 +57,31 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
     private var nyxPrinterService : NyxPrinterActivity
+    private var header1 : Int = 16
+         private var header2 : Int = 16
+         private var header3 : Int = 16
+         private var header4 : Int = 16
 
 
     init {
         context = mcontext;
         orderModel = morderModel;
         serviceBinding = mserviceBinding;
-        this.businessname = businessdata.businessname!!;
-        this.businessaddress =  businessdata.businessaddress!!;
-        this.businessphone =  businessdata.businessphone!!;
-        this.fontsize =  businessdata.fontSize!!;
-        noofprint = businessdata.printOnCollection!!;
+        this.businessname = businessdata.businessname ?: "";
+        this.businessaddress =  businessdata.businessaddress ?: "";
+        this.businessphone =  businessdata.businessphone ?: "";
+        this.fontsize =  businessdata.fontSize ?: 30;
+        noofprint = businessdata.printOnCollection ?: 1;
         businessdatadata = businessdata
         result = mresult
         sunmiPrinter = sunmiHelper;
         bitmapSave = saveImage;
-        nyxPrinterService = nyxPrinter
+        nyxPrinterService = nyxPrinter;
+        header1 = businessdata.header1Size ?: 16;
+        header2 = businessdata.header2Size ?: 16;
+        header3 = businessdata.header3Size ?: 16;
+        header4 = businessdata.header4Size ?: 16;
+
     }
 
 
@@ -155,9 +165,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
     fun getView( listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int ,position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
         val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(mCtx))
-//        var itemproduict = orderModel.orderProducts!!.filter { i-> i!!.product!!.type == "ITEM" }
-//        itemproduict.sortedBy { it!!.product!!.property!!.printorder!!.toInt() }
-//        val item = itemproduict[position]
         var  component: List<OrderData.OrderProduct.Component?>?
         var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
         if(orderModel.orderChannel?.uppercase() == "ONLINE") {
@@ -246,13 +253,13 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         Log.e("price get", "getView: ${price}----")
         if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
         binding.itemText.text = str3.toString()
-        binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, fontSize.toFloat())
+        binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
        if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
            binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
        }else{
            binding.itemPrice.visibility = View.GONE
        }
-        binding.itemPrice.setTextSize(TypedValue.COMPLEX_UNIT_DIP, fontSize.toFloat())
+        binding.itemPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
         binding.root.buildDrawingCache(true)
         return binding.root
     }
@@ -354,7 +361,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
          @RequiresApi(Build.VERSION_CODES.O)
          override fun doInBackground(vararg params: String?): Bitmap {
-             Log.e("tanvirdoninbackground", "doInBackground: ${params}")
+
              noofprint = if (orderModel.orderType == "DELIVERY"){
                   businessdatadata.printOnDelivery!!
              }else{
@@ -362,8 +369,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
 
              val printSize: Int = fontsize
+
              val bind: OnlinePrint2Binding = OnlinePrint2Binding.inflate(LayoutInflater.from(context))
              bind.businessName.text = businessname
+             bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
 
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd-MMM hh:mm a")
@@ -372,70 +381,37 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //             Log.d("order date", "orderrootget: ${orderModel.orderDate}")
              var addedDeliveryCharge = 0.0
              bind.businessLocation.text = businessaddress
+             bind.businessLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
              bind.businessPhone.text = businessphone
+             bind.businessPhone.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
              bind.branchName.text = orderModel.branch?.name?.uppercase()
+             bind.branchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderType.text = "TABLE BOOKING #${orderModel.table_id}"
+                 bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
              }else{
                  bind.orderType.text =  getOrderType()
-//                 if(orderModel.orderType == "COLLECTION") {
-//                     bind.orderType.text = "${businessdatadata.dynamicCollection!!.uppercase()}"
-//                 }else if (orderModel.orderType == "DELIVERY") {
-//                     bind.orderType.text = "${businessdatadata.dynamicDelivery!!.uppercase()}"
-//                 }else if(orderModel.orderType == "EAT IN") {
-//                     bind.orderType.text = "${businessdatadata.dynamicEatIn!!.uppercase()}"
-//                 }else if (orderModel.orderType == "TAKEAWAY") {
-//                     bind.orderType.text = "${businessdatadata.dynamicTakeaway!!.uppercase()}"
-//                 }else{
-//                     bind.orderType.text = "${orderModel.orderType}"
-//                 }
+                 bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
 
              }
 
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
+             bind.orderTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
             if(orderModel.orderType == "TABLE_BOOKING") {
-                // bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-//                bind.underline.visibility = View.GONE
-//                bind.asap.visibility = View.GONE
                 bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-//                bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-
+                bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
             }else{
                 if(orderModel.property?.requestedDeliveryTimestampType != null) {
                     var asapdata = orderModel.property?.requestedDeliveryTimestampType;
-                    // ${getOrderType()}
                     bind.collectionAt.text = asapdata
                     bind.collectionAt.setTypeface(null, Typeface.BOLD)
                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.asapFontSize!!.toFloat())
-//                    if(orderModel.orderChannel == "ONLINE") {
-//                        val asap = SpannableStringBuilder().append("REQUESTED at : ").bold { append(asapdata) }.append("${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}")
-//                        bind.collectionAt.text = asap
-//                    }else{
-//                        bind.collectionAt.text = "ASAP"
-//                        bind.collectionAt.setTypeface(null, Typeface.BOLD)
-//                    }
- //                   val asap = SpannableStringBuilder().append("REQUESTED at : ").bold { append(asapdata) }.append("${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}")
-//                    asap.setSpan(
-//                        StyleSpan(android.graphics.Typeface.BOLD),
-//                        0, orderModel.property?.requestedDeliveryTimestampType!!.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-//                    )
-//                    bind.underline.visibility = View.GONE
-//                    bind.asap.visibility = View.VISIBLE
-//                    bind.collectionAt.text = "${getOrderType()} at : ${asap}"
- //                   bind.collectionAt.text = asap
-//                    bind.asap.text = "${orderModel.property?.requestedDeliveryTimestampType}"
-//                    bind.date.text = "${formatter2.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-//                    bind.asap.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18.0F)
-//                    bind.asap.setTypeface(null, Typeface.BOLD)
-//                    bind.asap.paintFlags = Paint.UNDERLINE_TEXT_FLAG
-                }else{
-//                    bind.underline.visibility = View.GONE
-//                    bind.asap.visibility = View.GONE
-                    // ${getOrderType()}
-                      bind.collectionAt.text = "REQUESTED at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
 
-//                    bind.date.text = "${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                }else{
+                    bind.collectionAt.text = "REQUESTED at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                    bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                 }
 
             }
@@ -444,20 +420,19 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                              ?: "2024-01-22 17:20:00") >= (businessdatadata.highlight ?: 15)){
                  if(orderModel.property?.requestedDeliveryTimestampType == null) {
                      bind.collectionAt.setTypeface(null, Typeface.BOLD)
-//                     bind.date.setTypeface(null, Typeface.BOLD)
-//                     bind.underline.visibility = View.VISIBLE
                      bind.collectionAt.paintFlags = Paint.UNDERLINE_TEXT_FLAG
                      bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_DIP, businessdatadata.highlighttextsize!!.toFloat())
                  }
-
              }
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderText.text = "Table#"
+                 bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
              }
 
              if(orderModel.orderChannel?.uppercase() == "ONLINE"){
                  bind.containerOrderNo.visibility = View.VISIBLE
                  bind.orderNo.text = "${orderModel.id}";
+                 bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
              }else{
                  if(orderModel.orderType == "TABLE_BOOKING"){
                      bind.containerOrderNo.visibility = View.GONE
@@ -466,14 +441,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  }else{
                      bind.containerOrderNo.visibility = View.VISIBLE
                      bind.orderNo.text = "${orderModel.localId}";
+                     bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                  }
 
              }
-//             if(businessdatadata.showOrderNoInvoice == true){
-//                 bind.containerOrderNo.visibility = View.VISIBLE
-//             }else{
-//                 bind.containerOrderNo.visibility = View.GONE
-//             }
 
              var allitemsheight = 0
              bind.items.removeAllViews()
@@ -555,6 +526,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
              bind.orderPaidMessage.text = paidOrNot
+             bind.orderPaidMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
              bind.refundContainer.visibility = View.GONE
 
 
@@ -595,7 +567,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.vatAmount.text = "£ " + String.format( "%.2f", orderModel.vat_amount)
              }
 
-             Log.e("sdjvnskdj", "doInBackground: ${orderModel.payableAmount!!}")
+
              bind.total.text =
                  "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
 
@@ -656,9 +628,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
              bind.comments.text = comment
+             bind.comments.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
              bind.address.text = dlAddress
+             bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
 
-             bind.address.setTextSize(TypedValue.COMPLEX_UNIT_DIP, printSize.toFloat())
+
              if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
                  bind.vatNumberCompany.text = "VAT no ${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
                  bind.vatNumberCompany.visibility = View.VISIBLE
@@ -672,8 +646,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }else{
                  bind.vatNote.visibility = View.GONE
              }
-
-
 
              val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
 
