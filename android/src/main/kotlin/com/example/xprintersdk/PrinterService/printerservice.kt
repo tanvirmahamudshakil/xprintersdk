@@ -61,7 +61,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          private var header2 : Int = 22
          private var header3 : Int = 22
          private var header4 : Int = 22
-         private var footervatFontSize : Int = 12
+         private var footervatFontSize : Int = 15
 
 
     init {
