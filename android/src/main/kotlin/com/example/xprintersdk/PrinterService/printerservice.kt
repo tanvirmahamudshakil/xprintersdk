@@ -57,10 +57,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
     private var nyxPrinterService : NyxPrinterActivity
-    private var header1 : Int = 16
-         private var header2 : Int = 16
-         private var header3 : Int = 16
-         private var header4 : Int = 16
+    private var header1 : Int = 22
+         private var header2 : Int = 22
+         private var header3 : Int = 22
+         private var header4 : Int = 22
+         private var footervatFontSize : Int = 12
 
 
     init {
@@ -77,10 +78,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         sunmiPrinter = sunmiHelper;
         bitmapSave = saveImage;
         nyxPrinterService = nyxPrinter;
-        header1 = businessdata.header1Size ?: 16;
-        header2 = businessdata.header2Size ?: 16;
-        header3 = businessdata.header3Size ?: 16;
-        header4 = businessdata.header4Size ?: 16;
+        header1 = businessdata.header1Size ?: 22;
+        header2 = businessdata.header2Size ?: 22;
+        header3 = businessdata.header3Size ?: 22;
+        header4 = businessdata.header4Size ?: 22;
+        footervatFontSize = businessdata.footervatFontSize ?: 12
 
     }
 
@@ -638,7 +640,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
              if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
                  bind.vatNumberCompany.text = "VAT no ${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
+
                  bind.vatNumberCompany.visibility = View.VISIBLE
+                 bind.vatNumberCompany.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
              }else{
                  bind.vatNumberCompany.visibility = View.GONE
              }
@@ -646,6 +650,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              if(!businessdatadata.vatNote.isNullOrEmpty() ) {
                  bind.vatNote.text = "${businessdatadata.vatNote}"
                  bind.vatNote.visibility = View.VISIBLE
+                 bind.vatNote.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
              }else{
                  bind.vatNote.visibility = View.GONE
              }

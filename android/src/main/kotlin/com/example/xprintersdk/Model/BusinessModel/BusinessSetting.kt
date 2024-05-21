@@ -68,6 +68,8 @@ data class BusinessSetting(
     var header3Size: Int?,
     @SerializedName("header4Size")
     var header4Size: Int?,
+    @SerializedName("footervatFontSize")
+    var footervatFontSize : Int?
 
 
 

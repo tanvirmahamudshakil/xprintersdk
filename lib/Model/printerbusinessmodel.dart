@@ -42,6 +42,7 @@ class PrinterBusinessModel {
   String? vatNote;
   String? printerStyle;
   int? asapFontSize;
+  int? footervatFontSize;
 
   PrinterBusinessModel(
       {this.fontSize,
@@ -58,6 +59,7 @@ class PrinterBusinessModel {
       this.showOrderNoInvoice,
       required this.selectPrinter,
       required this.printerConnection,
+      this.footervatFontSize,
       this.ip,
       this.bluetoothName,
       this.bluetoothAddress,
@@ -108,6 +110,7 @@ class PrinterBusinessModel {
           vatCompanyName: json["vat_company_name"],
           vatNote: json["vat_note"],
           printerStyle: json["printer_style"],
+          footervatFontSize: json["footervatFontSize"],
           asapFontSize: json["asapFontSize"]);
 
   Map<String, dynamic> toJson() => {
@@ -142,6 +145,7 @@ class PrinterBusinessModel {
         "header2Size": header2Size,
         "header3Size": header3Size,
         "header4Size": header4Size,
+        "footervatFontSize" : footervatFontSize
 
       };
 }
