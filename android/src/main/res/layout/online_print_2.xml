@@ -509,7 +509,7 @@
 
                 <TextView
                     android:layout_width="151dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/total"
                     android:text="Total"
                     android:textAlignment="textStart"
@@ -531,6 +531,39 @@
 
                     />
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/changeContainer"
+                >
+
+                <TextView
+                    android:layout_width="151dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/change"
+                    android:text="Change"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.00"
+                    android:gravity="end"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:width="100dp"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+
+                    />
+            </RelativeLayout>
+
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="10dp"

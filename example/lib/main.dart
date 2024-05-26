@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:nyx_printer/nyx_printer.dart';
+
 import 'package:xprintersdk/Model/printerbusinessmodel.dart';
 import 'package:xprintersdk/xprintersdk.dart';
 
@@ -25,7 +25,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   final _xprintersdkPlugin = Xprintersdk();
-  final _nyxPrinterPlugin = NyxPrinter();
+
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> printImage() async {
     try {
       final image = await rootBundle.load("images/receipt.jpeg");
-      await _nyxPrinterPlugin.printImage(image.buffer.asUint8List());
+
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -56,9 +56,7 @@ class _MyAppState extends State<MyApp> {
           children: [
             MaterialButton(
                 onPressed: () async {
-                  var d = await _nyxPrinterPlugin.getVersion();
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text("${d}")));
+
                 },
                 child: const Text("Nyxprinter Initialization")),
 

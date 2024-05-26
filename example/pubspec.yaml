@@ -16,7 +16,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  nyx_printer: ^0.0.1
 
   xprintersdk:
     # When depending on this package from a real application you should use:

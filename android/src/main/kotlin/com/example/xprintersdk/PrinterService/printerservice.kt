@@ -539,9 +539,16 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
 
 
+             if(orderModel.orderType == "DELIVERY") {
+                 bind.deliveryChargeContainer.visibility = View.VISIBLE
+                 bind.txtDeliveryCharge.text = "Delivery Charge";
+                 bind.deliveryCharge.text = "£ " + orderModel.deliveryCharge!!.toFloat().toString()
+             }else{
+                 bind.deliveryChargeContainer.visibility = View.GONE
+             }
+             
+             bind.change.text = "£ " +  String.format( "%.2f",  orderModel.changeAmount)
 
-             bind.txtDeliveryCharge.text = "Delivery Charge";
-             bind.deliveryCharge.text = "£ " + orderModel.deliveryCharge!!.toFloat().toString()
 
              bind.cardPayContainer.visibility = View.GONE
              bind.cashPayContainer.visibility = View.GONE

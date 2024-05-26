@@ -10,6 +10,8 @@ data class OrderData(
     val branch: Branch?,
     @SerializedName("branch_id")
     val branchId: Int?,
+    @SerializedName("changeAmount")
+    var changeAmount : Double?,
     @SerializedName("cash_entry")
     val cashEntry: List<CashEntry?>?,
     @SerializedName("comment")
