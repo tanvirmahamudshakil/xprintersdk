@@ -9,7 +9,6 @@ import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.DailyReport.Dailyreport
 import com.example.xprintersdk.Model.LocalOrderData.LocalOrderData
 import com.example.xprintersdk.Model.OrderData.OrderData
-import com.example.xprintersdk.NyxPrinter.NyxPrinterActivity
 import com.example.xprintersdk.PrinterService.DailyReportPage
 import com.example.xprintersdk.PrinterService.RequestBookingprint
 import com.example.xprintersdk.PrinterService.printerservice
@@ -27,7 +26,6 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var channel : MethodChannel
   private lateinit var context : Context
   lateinit var xprinter: Xprinter
-  lateinit var nxyPrinter : NyxPrinterActivity;
   lateinit var sunmiHelper : SunmiHelp;
   private var xPrinterIntitalization : String = "xPrinterIntitalization";
   private var xPrinterConnectionCheck ="xPrinterConnectionCheck";
@@ -48,7 +46,6 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
     context = flutterPluginBinding.applicationContext
     xprinter = Xprinter(context)
-    nxyPrinter = NyxPrinterActivity(context)
     sunmiHelper= SunmiHelp()
     channel.setMethodCallHandler(this)
   }
@@ -57,9 +54,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   override fun onMethodCall(call: MethodCall, result: Result) {
     if (call.method == xPrinterIntitalization) {
       xPrinterInitialization()
-    } else if (call.method == nyxPrinterInit) {
-      nyxPrinterInit();
-    }else if (call.method == nyxPrinterPrint) {
+    } else if (call.method == nyxPrinterPrint) {
       nyxPrintData(call, result)
     } else if(call.method == sunmiPrinterService){
       sunmiPrinterService()
@@ -124,9 +119,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
 
     if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
-      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false, nxyPrinter).execute()
+      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
     }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
-      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nxyPrinter).execute()
+      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false).execute()
     }else{
 
     }
@@ -147,8 +142,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nxyPrinter).execute()
-
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false).execute()
   }
 
 
@@ -160,7 +154,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("json data", "xprinterprint: ${orderiteamdata}")
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true, nxyPrinter).execute()
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true).execute()
   }
 
 
@@ -201,10 +195,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
   // nyx printer
 
-  private fun nyxPrinterInit() {
 
-    nxyPrinter.bindServiceData()
-  }
 
 
   private fun  nyxPrintData(call: MethodCall, result : Result) {
@@ -213,7 +204,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val orderjson = Gson().toJson(orderiteamdata)
     val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nxyPrinter).execute()
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false).execute()
   }
 
 }
