@@ -22,13 +22,14 @@ import com.example.xprintersdk.databinding.DailyreportBinding
 import com.example.xprintersdk.xprinter.Xprinter
 import com.sunmi.peripheral.printer.InnerResultCallback
 import io.flutter.plugin.common.MethodChannel
+import net.nyx.printerclient.Nyxpinter
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean) : AsyncTask<String, Int, Bitmap>() {
+class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : Nyxpinter) : AsyncTask<String, Int, Bitmap>() {
     private var context: Context
     private  var dailyreport: Dailyreport
     private  var businessname: String
@@ -41,6 +42,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
     private var result: MethodChannel.Result
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
+    private var nyxprinter : Nyxpinter
     init {
         context = mcontext;
         dailyreport = report;
@@ -54,6 +56,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         result = mresult
         sunmiPrinter = sunmiHelper;
         bitmapSave = saveImage;
+        this.nyxprinter = nyxp
     }
 
     private fun getBitmapFromView(view: View): Bitmap {
@@ -123,7 +126,10 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
                 saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(bitmap,result);
-            }else{
+            }else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
+                nyxprinter.printBitmap(bitmap!!)
+            }
+            else{
                 sunmiPrinter.printBitmap(bitmap, 2, result)
             }
 

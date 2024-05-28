@@ -20,13 +20,14 @@ import com.example.xprintersdk.databinding.BookingrequestuiBinding
 import com.example.xprintersdk.xprinter.Xprinter
 import com.sunmi.peripheral.printer.InnerResultCallback
 import io.flutter.plugin.common.MethodChannel
+import net.nyx.printerclient.Nyxpinter
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean) : AsyncTask<String, Int, Bitmap>() {
+class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : Nyxpinter) : AsyncTask<String, Int, Bitmap>() {
     private var context: Context
     private  var bookingRequest: BookingRequest
     private  var businessname: String
@@ -39,6 +40,7 @@ class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessda
     private var result: MethodChannel.Result
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
+    private var nyxprinter: Nyxpinter
     init {
         context = mcontext;
         bookingRequest = booking;
@@ -52,6 +54,7 @@ class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessda
         result = mresult
         sunmiPrinter = sunmiHelper;
         bitmapSave = saveImage;
+        nyxprinter = nyxp
     }
 
     private fun getBitmapFromView(view: View): Bitmap {
@@ -121,7 +124,9 @@ class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessda
                 saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(bitmap,result);
-            }else{
+            } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
+                nyxprinter.printBitmap(bitmap!!)
+            } else{
                 sunmiPrinter.printBitmap(bitmap, 2, result)
             }
 

@@ -18,8 +18,8 @@ class Xprintersdk {
   final String _sunmiPrinterCheck = "sunmiPrinterCheck";
   final String _xPrinterbookingRequest = "XprinterbookingRequest";
   final String _dailyreportPrint = "dailyreportPrint";
-  final String _nyxPrinterInit = "nyxPrinterInit";
   final String _nyxPrinterPrint = "nyxPrinterPrint";
+  final String _nyxPrinterInit = "nyxPrinterInit";
 
   Future<String?> getPlatformVersion() async {
     final version =
@@ -37,10 +37,6 @@ class Xprintersdk {
 
   Future sunmiPrinterInitialization() async {
     await _methodChannel.invokeMethod(_sunmiPrinterInit);
-  }
-
-  Future nyxPrinterInit() async {
-    await _methodChannel.invokeMethod(_nyxPrinterInit);
   }
 
   Future<bool> XPrinterConnectionCheck() async {
@@ -87,7 +83,11 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_sunmiPrint, quary);
   }
 
-   Future nyxPrinterPrintBitmap(
+  Future nyxPrinterInit() async {
+    return await _methodChannel.invokeMethod(_nyxPrinterInit);
+  }
+
+  Future nyxPrinterPrintBitmap(
     PrinterBusinessModel printermodel,
     Map<String, Object?> orderiteam,
   ) async {
@@ -114,9 +114,9 @@ class Xprintersdk {
   }
 
   Future bookingRequestPrint(
-      PrinterBusinessModel printermodel,
-      Map<String, Object?> bookingrequestIteam,
-      ) async {
+    PrinterBusinessModel printermodel,
+    Map<String, Object?> bookingrequestIteam,
+  ) async {
     Map<String, dynamic> quary = {
       "orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)),
       "printer_model_data": jsonEncode(printermodel.toJson())
@@ -124,15 +124,14 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_xPrinterbookingRequest, quary);
   }
 
-  Future<bool>dailyReportPrint(
-      PrinterBusinessModel printermodel,
-      Map<String, Object?> bookingrequestIteam,
-      ) async {
+  Future<bool> dailyReportPrint(
+    PrinterBusinessModel printermodel,
+    Map<String, Object?> bookingrequestIteam,
+  ) async {
     Map<String, dynamic> quary = {
       "orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)),
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
     return await _methodChannel.invokeMethod(_dailyreportPrint, quary);
   }
-
 }

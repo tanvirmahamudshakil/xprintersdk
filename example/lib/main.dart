@@ -26,21 +26,9 @@ class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   final _xprintersdkPlugin = Xprintersdk();
 
-
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<void> printImage() async {
-    try {
-      final image = await rootBundle.load("images/receipt.jpeg");
-
-    } catch (e) {
-      if (kDebugMode) {
-        print(e);
-      }
-    }
   }
 
   // Platform messages are asynchronous, so we initialize in an async method.
@@ -55,14 +43,16 @@ class _MyAppState extends State<MyApp> {
         body: Column(
           children: [
             MaterialButton(
-                onPressed: () async {
-
-                },
-                child: const Text("Nyxprinter Initialization")),
+              onPressed: () async {
+                _xprintersdkPlugin.nyxPrinterInit();
+              },
+              child: const Text("NyxPrinter init"),
+            ),
 
             MaterialButton(
               onPressed: () async {
-                printImage();
+                _xprintersdkPlugin.nyxPrinterPrintBitmap(
+                    printermodel, orderjson4);
               },
               child: const Text("NyxPrinter print order"),
             ),
@@ -183,7 +173,7 @@ class _MyAppState extends State<MyApp> {
       printOnTableOrder: 1,
       printOnTackwayOrder: 1,
       printerConnection: "USBConnection",
-      selectPrinter: "xprinter",
+      selectPrinter: "nyxprinter",
       showOrderNoInvoice: true,
       bluetoothAddress: "DC:0D:30:EE:30:2A",
       bluetoothName: "dsvsdvsd",

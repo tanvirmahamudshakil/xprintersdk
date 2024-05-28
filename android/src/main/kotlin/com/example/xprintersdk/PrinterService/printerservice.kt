@@ -30,6 +30,7 @@ import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.xprinter.Xprinter
 import io.flutter.plugin.common.MethodChannel
+import net.nyx.printerclient.Nyxpinter
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
@@ -38,7 +39,7 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 
-class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean) :
+class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : Nyxpinter) :
     AsyncTask<String, Int, Bitmap>()
      {
 
@@ -55,6 +56,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     private var result: MethodChannel.Result
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
+    private var nyxprinter : Nyxpinter
     private var header1 : Int = 22
          private var header2 : Int = 22
          private var header3 : Int = 22
@@ -80,6 +82,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         header3 = businessdata.header3Size ?: 22;
         header4 = businessdata.header4Size ?: 22;
         footervatFontSize = businessdata.footervatFontSize ?: 12
+        this.nyxprinter = nyxp
 
     }
 
@@ -275,7 +278,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(bitmap,result);
-            }  else {
+            } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
+                nyxprinter.printBitmap(bitmap!!)
+                result.success(true)
+            } else {
                 sunmiPrinter.printBitmap(bitmap, 2, result)
 
             }
