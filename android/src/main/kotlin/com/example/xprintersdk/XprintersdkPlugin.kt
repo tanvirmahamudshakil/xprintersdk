@@ -9,6 +9,7 @@ import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.DailyReport.Dailyreport
 import com.example.xprintersdk.Model.LocalOrderData.LocalOrderData
 import com.example.xprintersdk.Model.OrderData.OrderData
+import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
 import com.example.xprintersdk.PrinterService.DailyReportPage
 import com.example.xprintersdk.PrinterService.RequestBookingprint
 import com.example.xprintersdk.PrinterService.printerservice
@@ -28,7 +29,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var context : Context
   lateinit var xprinter: Xprinter
   lateinit var sunmiHelper : SunmiHelp;
-  lateinit var nyxPrinter : Nyxpinter;
+  lateinit var nyxPrinter : NyxprinterHelp;
   private var xPrinterIntitalization : String = "xPrinterIntitalization";
   private var xPrinterConnectionCheck ="xPrinterConnectionCheck";
   private var xPrinterConnect = "xPrinterConnect";
@@ -43,12 +44,14 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var dailyreportPrint = "dailyreportPrint";
   private var nyxPrinterPrint = "nyxPrinterPrint";
   private var nyxPrinterInit = "nyxPrinterInit";
+  private var nyxPrinterCheck = "nyxPrinterCheck";
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
     context = flutterPluginBinding.applicationContext
     xprinter = Xprinter(context)
     sunmiHelper= SunmiHelp()
+    nyxPrinter = NyxprinterHelp(context)
     channel.setMethodCallHandler(this)
   }
 
@@ -56,24 +59,25 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   override fun onMethodCall(call: MethodCall, result: Result) {
     if (call.method == xPrinterIntitalization) {
       xPrinterInitialization()
+    } else if (call.method == nyxPrinterCheck) {
+      nyxPrinterCheck(result)
     } else if (call.method == nyxPrinterInit) {
-      nyxprinterInit()
+      nyxprinterInit(result)
     } else if (call.method == nyxPrinterPrint) {
       nyxPrintData(call, result)
     } else if(call.method == sunmiPrinterService){
-      sunmiPrinterService()
-    }else if(call.method == sunmiPrinterInit) {
-      sunmiPrinterInit()
-    }else if(call.method == sunmiPrintBitmap) {
+      sunmiPrinterService(result)
+    } else if(call.method == sunmiPrinterInit) {
+      sunmiPrinterInit(result)
+    } else if(call.method == sunmiPrintBitmap) {
       sunmiPrintData(call, result)
-    }else if(call.method == sunmiPrinterCheck) {
+    } else if(call.method == sunmiPrinterCheck) {
       sunmiPrinterCheck(call, result)
-    }
-    else if (call.method == xPrinterConnectionCheck) {
+    } else if (call.method == xPrinterConnectionCheck) {
       xPrinterConnectionCheck(result)
-    }else if (call.method == xPrinterConnect){
+    } else if (call.method == xPrinterConnect){
       xPrinterConnect(call, result)
-    }else if(call.method == xPrinterPrintOnlineData) {
+    } else if(call.method == xPrinterPrintOnlineData) {
       xprinterOnlineDataPrint(call, result);
     } else if(call.method ==  bitmapImageSave) {
       bitmapImageDataSave(call, result)
@@ -81,8 +85,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       XprinterBookingRequestPrint(call, result)
     } else if (call.method == dailyreportPrint) {
       dailyReportPrint(call, result)
-    }
-    else {
+    } else {
       result.notImplemented()
     }
   }
@@ -94,8 +97,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private fun xPrinterInitialization() {
     xprinter.initBinding()
   }
-  private fun sunmiPrinterService() {
+  private fun sunmiPrinterService(result: MethodChannel.Result) {
     sunmiHelper.initSunmiPrinterService(context)
+    result.success(true)
   }
 
   private fun xPrinterConnectionCheck(result: Result) {
@@ -135,8 +139,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
 
 
-  private fun sunmiPrinterInit() {
+  private fun sunmiPrinterInit(result: MethodChannel.Result) {
     sunmiHelper.initPrinter();
+    result.success(true)
   }
 
   private fun sunmiPrintData(call: MethodCall, result : Result) {
@@ -201,9 +206,15 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
 
 
-   private fun nyxprinterInit() {
-     nyxPrinter = Nyxpinter(context)
+   private fun nyxprinterInit(result : Result) {
+     nyxPrinter.initNyxPrinterService()
+     result.success(true)
    }
+
+  private fun nyxPrinterCheck(result : Result) {
+    var d = nyxPrinter.checkNyxPrinter()
+    result.success(d)
+  }
   private fun  nyxPrintData(call: MethodCall, result : Result) {
     val orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
     val printerbusinessdata = call.argument<String>("printer_model_data")

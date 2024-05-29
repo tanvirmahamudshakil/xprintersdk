@@ -15,6 +15,7 @@ import android.view.View
 import android.widget.Toast
 import com.example.xprintersdk.Model.BookingRequest.BookingRequest
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
+import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.BookingrequestuiBinding
 import com.example.xprintersdk.databinding.WaiterreportBinding
@@ -27,7 +28,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class WaiterReportPage(mcontext: Context, booking: BookingRequest, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : Nyxpinter) : AsyncTask<String, Int, Bitmap>() {
+class WaiterReportPage(mcontext: Context, booking: BookingRequest, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp) : AsyncTask<String, Int, Bitmap>() {
     private var context: Context
     private  var bookingRequest: BookingRequest
     private  var businessname: String
@@ -40,7 +41,7 @@ class WaiterReportPage(mcontext: Context, booking: BookingRequest, businessdata:
     private var result: MethodChannel.Result
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
-    private var nyxprinter: Nyxpinter
+    private var nyxprinter: NyxprinterHelp
     init {
         context = mcontext;
         bookingRequest = booking;
@@ -125,7 +126,7 @@ class WaiterReportPage(mcontext: Context, booking: BookingRequest, businessdata:
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(bitmap,result);
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
-                nyxprinter.printBitmap(bitmap!!)
+                nyxprinter.printBitmap(bitmap!!, result)
             } else{
                 sunmiPrinter.printBitmap(bitmap, 2, result)
             }

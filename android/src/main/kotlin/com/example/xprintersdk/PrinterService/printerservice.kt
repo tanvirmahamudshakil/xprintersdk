@@ -25,6 +25,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.text.bold
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.OrderData.OrderData
+import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
@@ -39,7 +40,7 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 
-class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : Nyxpinter) :
+class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp) :
     AsyncTask<String, Int, Bitmap>()
      {
 
@@ -56,7 +57,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     private var result: MethodChannel.Result
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
-    private var nyxprinter : Nyxpinter
+    private var nyxprinter : NyxprinterHelp
     private var header1 : Int = 22
          private var header2 : Int = 22
          private var header3 : Int = 22
@@ -279,7 +280,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(bitmap,result);
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
-                nyxprinter.printBitmap(bitmap!!)
+                nyxprinter.printBitmap(bitmap!!, result)
                 result.success(true)
             } else {
                 sunmiPrinter.printBitmap(bitmap, 2, result)
@@ -547,7 +548,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }else{
                  bind.deliveryChargeContainer.visibility = View.GONE
              }
-             
+
              bind.change.text = "£ " +  String.format( "%.2f",  orderModel.changeAmount)
 
 

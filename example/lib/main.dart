@@ -51,6 +51,14 @@ class _MyAppState extends State<MyApp> {
 
             MaterialButton(
               onPressed: () async {
+                var data = await _xprintersdkPlugin.checkNyxPrinter();
+                print(data.toString());
+              },
+              child: const Text("NyxPrinter Check"),
+            ),
+
+            MaterialButton(
+              onPressed: () async {
                 _xprintersdkPlugin.nyxPrinterPrintBitmap(
                     printermodel, orderjson4);
               },

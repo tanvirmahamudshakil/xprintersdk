@@ -20,6 +20,7 @@ class Xprintersdk {
   final String _dailyreportPrint = "dailyreportPrint";
   final String _nyxPrinterPrint = "nyxPrinterPrint";
   final String _nyxPrinterInit = "nyxPrinterInit";
+  final String _nyxPrinterCheck = "nyxPrinterCheck";
 
   Future<String?> getPlatformVersion() async {
     final version =
@@ -85,6 +86,10 @@ class Xprintersdk {
 
   Future nyxPrinterInit() async {
     return await _methodChannel.invokeMethod(_nyxPrinterInit);
+  }
+
+  Future checkNyxPrinter() async {
+    return await _methodChannel.invokeMethod(_nyxPrinterCheck);
   }
 
   Future nyxPrinterPrintBitmap(
