@@ -99,20 +99,20 @@ class _MyAppState extends State<MyApp> {
             //   },
             //   child: const Text("local print"),
             // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin
-            //         .sunmiPrinterServiceInitialization();
-            //   },
-            //   child: const Text("Sunmi Printer Service Init"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data =
-            //         await _xprintersdkPlugin.sunmiPrinterInitialization();
-            //   },
-            //   child: const Text("Sunmi Printer Init"),
-            // ),
+            MaterialButton(
+              onPressed: () async {
+                var data = await _xprintersdkPlugin
+                    .sunmiPrinterServiceInitialization();
+              },
+              child: const Text("Sunmi Printer Service Init"),
+            ),
+            MaterialButton(
+              onPressed: () async {
+                var data =
+                    await _xprintersdkPlugin.sunmiPrinterInitialization();
+              },
+              child: const Text("Sunmi Printer Init"),
+            ),
             // MaterialButton(
             //   onPressed: () async {
             //     var data = await _xprintersdkPlugin.sunmiPrintBitmap(

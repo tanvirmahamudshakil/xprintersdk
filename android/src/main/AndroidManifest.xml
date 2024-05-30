@@ -6,6 +6,7 @@
         <package android:name="net.nyx.printerservice"/>
     </queries>
     <application>
+
         <service android:name="net.posprinter.service.PosprinterService" />
     </application>
 </manifest>
