@@ -13,6 +13,7 @@ import com.example.xprintersdk.PrinterService.DailyReportPage
 import com.example.xprintersdk.PrinterService.RequestBookingprint
 import com.example.xprintersdk.PrinterService.printerservice
 import com.example.xprintersdk.Sunmi.SunmiHelp
+import com.example.xprintersdk.nyxprinter.Nyxprinter
 import com.example.xprintersdk.xprinter.Xprinter
 import com.google.gson.Gson
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -20,7 +21,7 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
-import net.nyx.printerclient.Nyxpinter
+
 
 
 class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
@@ -28,7 +29,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private lateinit var context : Context
   lateinit var xprinter: Xprinter
   lateinit var sunmiHelper : SunmiHelp;
-  lateinit var nyxPrinter : Nyxpinter;
+  lateinit var nyxPrinter : Nyxprinter;
   private var xPrinterIntitalization : String = "xPrinterIntitalization";
   private var xPrinterConnectionCheck ="xPrinterConnectionCheck";
   private var xPrinterConnect = "xPrinterConnect";
@@ -49,6 +50,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     context = flutterPluginBinding.applicationContext
     xprinter = Xprinter(context)
     sunmiHelper= SunmiHelp()
+    nyxPrinter = Nyxprinter(context)
     channel.setMethodCallHandler(this)
   }
 
@@ -146,7 +148,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nyxPrinter).execute()
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false,nyxPrinter).execute()
   }
 
 
@@ -158,7 +160,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("json data", "xprinterprint: ${orderiteamdata}")
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true, nyxPrinter).execute()
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true,nyxPrinter).execute()
   }
 
 
@@ -174,7 +176,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("Online Booking Request", "Online Booking Request: ${orderiteamdata}")
     var modeldata = Gson().fromJson<BookingRequest>(orderjson, BookingRequest::class.java)
     Log.d("Online Booking Request", "bookingRequestData: ${modeldata.name}")
-    RequestBookingprint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nyxPrinter).execute()
+    RequestBookingprint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false).execute()
   }
 
   private fun dailyReportPrint(call: MethodCall, result : Result) {
@@ -185,7 +187,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("Online Booking Request", "Online Booking Request: ${orderiteamdata}")
     val modeldata = Gson().fromJson<Dailyreport>(orderjson, Dailyreport::class.java)
     Log.d("DailyReport", "DailyReport: ${modeldata.data!!.date}")
-    DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nyxPrinter).execute()
+    DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, false).execute()
 //    if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
 //      DailyReportPage(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
 //    }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
@@ -202,7 +204,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
 
    private fun nyxprinterInit() {
-     nyxPrinter = Nyxpinter(context)
+     nyxPrinter.initnyxPrinterService()
    }
   private fun  nyxPrintData(call: MethodCall, result : Result) {
     val orderiteamdata = call.argument<Map<String, Any>>("orderiteam")

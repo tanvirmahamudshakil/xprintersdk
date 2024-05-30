@@ -28,9 +28,9 @@ import com.example.xprintersdk.Model.OrderData.OrderData
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
+import com.example.xprintersdk.nyxprinter.Nyxprinter
 import com.example.xprintersdk.xprinter.Xprinter
 import io.flutter.plugin.common.MethodChannel
-import net.nyx.printerclient.Nyxpinter
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
@@ -39,7 +39,7 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 
-class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : Nyxpinter) :
+class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : Nyxprinter) :
     AsyncTask<String, Int, Bitmap>()
      {
 
@@ -56,13 +56,13 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     private var result: MethodChannel.Result
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
-    private var nyxprinter : Nyxpinter
+
     private var header1 : Int = 22
          private var header2 : Int = 22
          private var header3 : Int = 22
          private var header4 : Int = 22
          private var footervatFontSize : Int = 15
-
+         private var nyxprinter : Nyxprinter
 
     init {
         context = mcontext;
@@ -82,7 +82,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         header3 = businessdata.header3Size ?: 22;
         header4 = businessdata.header4Size ?: 22;
         footervatFontSize = businessdata.footervatFontSize ?: 12
-        this.nyxprinter = nyxp
+        nyxprinter = nyxp
+
 
     }
 
@@ -280,7 +281,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 serviceBinding.printUSBbitamp(bitmap,result);
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!)
-                result.success(true)
+
             } else {
                 sunmiPrinter.printBitmap(bitmap, 2, result)
 

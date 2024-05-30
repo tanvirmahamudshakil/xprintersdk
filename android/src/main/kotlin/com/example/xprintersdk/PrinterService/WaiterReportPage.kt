@@ -20,14 +20,13 @@ import com.example.xprintersdk.databinding.BookingrequestuiBinding
 import com.example.xprintersdk.databinding.WaiterreportBinding
 import com.example.xprintersdk.xprinter.Xprinter
 import io.flutter.plugin.common.MethodChannel
-import net.nyx.printerclient.Nyxpinter
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class WaiterReportPage(mcontext: Context, booking: BookingRequest, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : Nyxpinter) : AsyncTask<String, Int, Bitmap>() {
+class WaiterReportPage(mcontext: Context, booking: BookingRequest, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean) : AsyncTask<String, Int, Bitmap>() {
     private var context: Context
     private  var bookingRequest: BookingRequest
     private  var businessname: String
@@ -40,7 +39,7 @@ class WaiterReportPage(mcontext: Context, booking: BookingRequest, businessdata:
     private var result: MethodChannel.Result
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
-    private var nyxprinter: Nyxpinter
+
     init {
         context = mcontext;
         bookingRequest = booking;
@@ -54,7 +53,7 @@ class WaiterReportPage(mcontext: Context, booking: BookingRequest, businessdata:
         result = mresult
         sunmiPrinter = sunmiHelper;
         bitmapSave = saveImage;
-        nyxprinter = nyxp
+
     }
 
     private fun getBitmapFromView(view: View): Bitmap {
@@ -125,7 +124,7 @@ class WaiterReportPage(mcontext: Context, booking: BookingRequest, businessdata:
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(bitmap,result);
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
-                nyxprinter.printBitmap(bitmap!!)
+               // nyxprinter.printBitmap(bitmap!!)
             } else{
                 sunmiPrinter.printBitmap(bitmap, 2, result)
             }
