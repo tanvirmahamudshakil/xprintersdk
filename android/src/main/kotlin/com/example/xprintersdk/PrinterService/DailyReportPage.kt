@@ -129,8 +129,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
                 serviceBinding.printUSBbitamp(bitmap,result);
             }else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!, result)
-            }
-            else{
+            } else{
                 sunmiPrinter.printBitmap(bitmap, 2, result)
             }
 

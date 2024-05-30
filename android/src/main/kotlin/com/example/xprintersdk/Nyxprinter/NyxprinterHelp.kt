@@ -1,7 +1,9 @@
 package com.example.xprintersdk.Nyxprinter
 
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Bitmap
 import android.os.IBinder
@@ -10,18 +12,17 @@ import com.sunmi.peripheral.printer.InnerPrinterException
 import io.flutter.plugin.common.MethodChannel
 import net.nyx.printerclient.Nyxpinter
 import net.nyx.printerservice.print.IPrinterService
+import net.nyx.printerservice.print.PrintTextFormat
 import timber.log.Timber
+import java.util.ServiceConfigurationError
 import java.util.concurrent.Executors
 
 
 class NyxprinterHelp(context: Context) {
-    var NoNyxPrinter = 0x00000000
-    var CheckNyxPrinter = 0x00000001
-    var FoundNyxPrinter = 0x00000002
-    var LostNyxPrinter = 0x00000003
+
     lateinit var mContext: Context
 
-    var nyxPrinter = CheckNyxPrinter
+
 
     private val singleThreadExecutor = Executors.newSingleThreadExecutor()
     private var printerService: IPrinterService? = null
@@ -33,7 +34,7 @@ class NyxprinterHelp(context: Context) {
     private val connService: ServiceConnection = object : ServiceConnection {
         override fun onServiceDisconnected(name: ComponentName) {
             printerService = null
-            nyxPrinter = LostNyxPrinter
+
         }
 
         override fun onServiceConnected(name: ComponentName, service: IBinder) {
@@ -48,10 +49,8 @@ class NyxprinterHelp(context: Context) {
                 mContext,
                 connService
             )
-            if (!ret) {
-                nyxPrinter = NoNyxPrinter
-            }
-        } catch (e: InnerPrinterException) {
+
+        } catch (e: ServiceConfigurationError) {
             e.printStackTrace()
         }
     }
@@ -60,18 +59,7 @@ class NyxprinterHelp(context: Context) {
         return if (printerService == null) {
             false;
         } else {
-            val status: Int = printerService!!.printerStatus
-            status != 0 && status != 505
-        }
-    }
-
-    private fun paperOut() {
-        singleThreadExecutor.submit {
-            try {
-                printerService!!.paperOut(80)
-            } catch (e: RemoteException) {
-                e.printStackTrace()
-            }
+            true;
         }
     }
 
@@ -96,4 +84,83 @@ class NyxprinterHelp(context: Context) {
             }
         }
     }
+
+
+
+
+    private val qscReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if ("com.android.NYX_QSC_DATA" == intent.action) {
+                val qsc = intent.getStringExtra("qsc")
+
+                printText("qsc-quick-scan-code\n$qsc")
+            }
+        }
+    }
+
+
+
+
+
+
+
+    private fun paperOut() {
+        singleThreadExecutor.submit {
+            try {
+                printerService!!.paperOut(80)
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+
+    private fun printText(text: String) {
+        singleThreadExecutor.submit {
+            try {
+                val textFormat = PrintTextFormat()
+                // textFormat.setTextSize(32);
+                // textFormat.setUnderline(true);
+                val ret = printerService!!.printText(text, textFormat)
+
+                if (ret == 0) {
+                    paperOut()
+                }
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun printBarcode() {
+        singleThreadExecutor.submit {
+            try {
+                val ret = printerService!!.printBarcode("123456789", 300, 160, 1, 1)
+
+                if (ret == 0) {
+                    paperOut()
+                }
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun printQrCode() {
+        singleThreadExecutor.submit {
+            try {
+                val ret = printerService!!.printQrCode("123456789", 300, 300, 1)
+
+                if (ret == 0) {
+                    paperOut()
+                }
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+
+
 }

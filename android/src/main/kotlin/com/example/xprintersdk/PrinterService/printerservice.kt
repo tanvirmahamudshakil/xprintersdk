@@ -281,7 +281,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 serviceBinding.printUSBbitamp(bitmap,result);
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!, result)
-                result.success(true)
             } else {
                 sunmiPrinter.printBitmap(bitmap, 2, result)
 
