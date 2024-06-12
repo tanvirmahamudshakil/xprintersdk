@@ -203,7 +203,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                     for (section2 in section.components) {
                         if (section2?.product?.shortName?.uppercase() != "NONE") {
                             _comName += " -> " + section2?.product?.shortName;
-                            price += section2?.netAmount ?: 0.0;
+                            price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
                         }
                     }
 
