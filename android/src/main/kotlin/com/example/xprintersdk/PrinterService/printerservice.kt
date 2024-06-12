@@ -202,7 +202,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 if ((section?.components != null) && section.components.isNotEmpty()) {
                     for (section2 in section.components) {
                         if (section2?.product?.shortName?.uppercase() != "NONE") {
-                            _comName += " -> " + section2?.product?.shortName;
+                            _comName += " -> " + "${section2?.unit ?: 1}x" + section2?.product?.shortName;
                             price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
                         }
                     }
