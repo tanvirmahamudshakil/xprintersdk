@@ -180,7 +180,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
         val str3 = StringBuilder()
         var price = 0.0
-        price = item?.netAmount ?: 0.0
+        var tareWeight = item?.product?.property?.tare_weight?.toDouble() ?: 0.0
+        var unitAmount = item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+        price = (item?.netAmount ?: 0.0) * (unitAmount - tareWeight)
         var discount = item?.discountableAmount ?: 0.0;
         if (position < iteamLength - 1) {
             if ((listorderProducts!![position]?.product?.property?.printorder?.toInt()
@@ -250,6 +252,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
         if(orderModel.orderChannel?.uppercase() != "ONLINE"){
             price *= (item?.unit ?: 1)
+
             var totaldiscount = (price * (discount / 100))
             price -= totaldiscount;
         }

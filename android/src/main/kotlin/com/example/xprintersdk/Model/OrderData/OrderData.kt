@@ -461,7 +461,11 @@ data class OrderData(
                 @SerializedName("short_description")
                 val shortDescription: String?,
                 @SerializedName("print_order")
-                val printorder: String?
+                val printorder: String?,
+                @SerializedName("unit_amount")
+                val unit_amount: String?,
+                @SerializedName("tare_weight")
+                val tare_weight: String?,
             )
         }
     }
