@@ -466,6 +466,8 @@ data class OrderData(
                 val unit_amount: String?,
                 @SerializedName("tare_weight")
                 val tare_weight: String?,
+                @SerializedName("unit_product_type")
+                val unit_product_type: String?,
             )
         }
     }

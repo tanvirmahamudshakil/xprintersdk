@@ -172,7 +172,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
         if(orderModel.orderChannel?.uppercase() == "ONLINE") {
             component = item?.components;
-        }else{
+        } else {
              component = item?.components?.filter {i-> componentFilter(i)}
              extraIteam = item?.components?.filter { i-> i?.product?.property?.itemtype != null && (i.product.property.itemtype?.lowercase() == "topping" || i.product.property.itemtype?.lowercase() == "addon" || i.product.property.itemtype?.lowercase() == "dressing")}
         }
@@ -182,7 +182,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         var price = 0.0
         var tareWeight = item?.product?.property?.tare_weight?.toDouble() ?: 0.0
         var unitAmount = item?.product?.property?.unit_amount?.toDouble() ?: 0.0
-        price = (item?.netAmount ?: 0.0) * (unitAmount - tareWeight)
+        if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
+            price = (item.netAmount ?: 0.0) * (unitAmount - tareWeight)
+        }else{
+            price = (item?.netAmount ?: 0.0)
+        }
+
         var discount = item?.discountableAmount ?: 0.0;
         if (position < iteamLength - 1) {
             if ((listorderProducts!![position]?.product?.property?.printorder?.toInt()
