@@ -278,7 +278,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
          fun getOrderOfferPrice(data: OrderData.OrderProduct): Int {
              val totalItems = data.unit ?: 1
-             if (data.offer.offer?.type == "X_FOR_Y") {
+             if (data.offer?.offer?.type == "X_FOR_Y") {
                  val buyX = data.offer.offer.buy ?: 0
                  val payY = data.offer.offer.offerFor ?: 0
                  val groupSize = buyX

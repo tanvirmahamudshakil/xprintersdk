@@ -267,7 +267,7 @@ data class OrderData(
         @SerializedName("unit")
         val unit: Int?,
         @SerializedName("offer")
-        val offer : ProductDatumOffer
+        val offer : ProductDatumOffer?
     ) {
         @Keep
         data class ProductDatumOffer(
