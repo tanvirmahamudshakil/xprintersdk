@@ -265,8 +265,37 @@ data class OrderData(
         @SerializedName("product_id")
         val productId: Int?,
         @SerializedName("unit")
-        val unit: Int?
+        val unit: Int?,
+        @SerializedName("offer")
+        val offer : ProductDatumOffer
     ) {
+        @Keep
+        data class ProductDatumOffer(
+            @SerializedName("id")
+            val id : Int?,
+            @SerializedName("offer_id")
+            val offerId : Int?,
+            @SerializedName("product_id")
+            val productId : Int?,
+            @SerializedName("offer")
+            val offer : OfferOffer?
+        ){
+            @Keep
+            data class OfferOffer(
+                @SerializedName("id")
+                val id : Int?,
+                @SerializedName("title")
+                val title : String?,
+                @SerializedName("type")
+                val type : String?,
+                @SerializedName("buy")
+                val buy: Int?,
+                @SerializedName("for")
+                val offerFor : Int?,
+                @SerializedName("status")
+                val status : Int?,
+            )
+        }
         @Keep
         data class Component(
             @SerializedName("comment")

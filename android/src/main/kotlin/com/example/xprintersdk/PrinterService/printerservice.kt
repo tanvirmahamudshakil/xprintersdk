@@ -256,7 +256,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
         if(orderModel.orderChannel?.uppercase() != "ONLINE"){
-            price *= (item?.unit ?: 1)
+//            price *= (item?.unit ?: 1)
+            price *=  getOrderOfferPrice(item!!)
 
             var totaldiscount = (price * (discount / 100))
             price -= totaldiscount;
@@ -274,6 +275,22 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         binding.root.buildDrawingCache(true)
         return binding.root
     }
+
+         fun getOrderOfferPrice(data: OrderData.OrderProduct): Int {
+             val totalItems = data.unit ?: 1
+             if (data.offer.offer?.type == "X_FOR_Y") {
+                 val buyX = data.offer.offer.buy ?: 0
+                 val payY = data.offer.offer.offerFor ?: 0
+                 val groupSize = buyX
+                 val fullPriceItems = totalItems % groupSize // Items not fitting into the promotion
+                 val discountedGroups = totalItems / groupSize // Number of groups that fit into the promotion
+                 // Total paid items for groups that fit the promotion plus any remaining full price items
+                 val paidItems = discountedGroups * payY + fullPriceItems
+                 return paidItems
+             } else {
+                 return totalItems
+             }
+         }
 
     fun printBitmap(bitmap: Bitmap?)  {
         try {
