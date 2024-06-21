@@ -280,7 +280,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         return binding.root
     }
          fun unitGet(data: OrderData.OrderProduct?): String {
-             val unitOfSale = data?.product?.property?.unit_product_type?.uppercase()
+             val unitOfSale = data?.product?.property?.unit_of_sale
              return when (unitOfSale) {
                  "POUND" -> "P"
                  "KG" -> "KG"
