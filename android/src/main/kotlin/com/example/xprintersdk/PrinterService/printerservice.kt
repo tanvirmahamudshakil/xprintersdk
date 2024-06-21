@@ -182,6 +182,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         var price = 0.0
         var tareWeight = item?.product?.property?.tare_weight?.toDouble() ?: 0.0
         var unitAmount = item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+        if(unitAmount == 0.0) {
+            binding.itemWeight.visibility = View.GONE
+        }else{
+            binding.itemWeight.text = "${unitAmount} ${unitGet(item)}"
+        }
         if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
             price = (item.netAmount ?: 0.0) * (unitAmount - tareWeight)
         }else{
@@ -258,7 +263,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         if(orderModel.orderChannel?.uppercase() != "ONLINE"){
 //            price *= (item?.unit ?: 1)
             price *=  getOrderOfferPrice(item!!)
-
             var totaldiscount = (price * (discount / 100))
             price -= totaldiscount;
         }
@@ -266,15 +270,25 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
         binding.itemText.text = str3.toString()
         binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
-       if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
+        if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
            binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
-       }else{
+        } else{
            binding.itemPrice.visibility = View.GONE
-       }
+        }
         binding.itemPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
         binding.root.buildDrawingCache(true)
         return binding.root
     }
+         fun unitGet(data: OrderData.OrderProduct?): String {
+             val unitOfSale = data?.product?.property?.unit_product_type?.uppercase()
+             return when (unitOfSale) {
+                 "POUND" -> "P"
+                 "KG" -> "KG"
+                 "PCS" -> "PCS"
+                 "TON" -> "TON"
+                 else -> "G"
+             }
+         }
 
          fun getOrderOfferPrice(data: OrderData.OrderProduct): Int {
              val totalItems = data.unit ?: 1
