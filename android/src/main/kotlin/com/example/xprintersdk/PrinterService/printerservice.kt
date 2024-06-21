@@ -286,6 +286,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  "KG" -> "KG"
                  "PCS" -> "PCS"
                  "TON" -> "TON"
+                 "LB" -> "LB"
                  else -> "G"
              }
          }
