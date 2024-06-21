@@ -182,11 +182,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         var price = 0.0
         var tareWeight = item?.product?.property?.tare_weight?.toDouble() ?: 0.0
         var unitAmount = item?.product?.property?.unit_amount?.toDouble() ?: 0.0
-        if(unitAmount == 0.0) {
-            binding.itemWeight.visibility = View.GONE
-        }else{
-            binding.itemWeight.text = "${unitAmount} ${unitGet(item)}"
-        }
+//        if(unitAmount == 0.0) {
+//            binding.itemWeight.visibility = View.GONE
+//        }else{
+//            binding.itemWeight.text = "${unitAmount} ${unitGet(item)}"
+//        }
         if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
             price = (item.netAmount ?: 0.0) * (unitAmount - tareWeight)
         }else{
