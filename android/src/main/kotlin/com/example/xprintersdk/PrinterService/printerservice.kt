@@ -261,9 +261,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
         if(orderModel.orderChannel?.uppercase() != "ONLINE"){
 //            price *= (item?.unit ?: 1)
-            if (item?.offer?.offer?.type == "X_FOR_Y") {
+            if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
                 price *=  getOrderOfferPrice(item)
-            }else if (item?.offer?.offer?.type == "X_FOR_£") {
+            }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
                 price =  xForPoundOfferLocalDetailOrder(item, listorderProducts)
             }else{
                 price *= (item?.unit ?: 1)
@@ -315,7 +315,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
          fun xForPoundOfferLocalDetailOrder(data: OrderData.OrderProduct, listorderProducts: List<OrderData.OrderProduct?>?): Double {
              var totalBuy = 0
-             val findOffer = listorderProducts!!.filter { it?.offer?.offer?.type == "X_FOR_£"}
+             val findOffer = listorderProducts!!.filter { it?.offer?.offer?.type == "X_FOR_£" && it?.offer?.offer?.offerFor == data.offer?.offer?.offerFor }
 
              if (findOffer.isNotEmpty()) {
                  findOffer.forEach { e ->
