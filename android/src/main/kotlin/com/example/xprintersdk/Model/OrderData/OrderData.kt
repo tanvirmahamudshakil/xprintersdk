@@ -291,7 +291,7 @@ data class OrderData(
                 @SerializedName("buy")
                 val buy: Int?,
                 @SerializedName("for")
-                val offerFor : Int?,
+                val offerFor : Double?,
                 @SerializedName("status")
                 val status : Int?,
             )

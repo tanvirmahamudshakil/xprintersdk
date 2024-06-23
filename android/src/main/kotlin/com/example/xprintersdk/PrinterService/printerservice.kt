@@ -64,7 +64,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          private var header4 : Int = 22
          private var footervatFontSize : Int = 15
 
-
     init {
         context = mcontext;
         orderModel = morderModel;
@@ -88,6 +87,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     }
 
 
+         var x_for_poundOfferApplyList  = mutableListOf<Int>();
     fun capitalize(str: String): String? {
         return str.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
     }
@@ -142,7 +142,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              val ratioX = targetWidth.toFloat() / originalBitmap.width
              val ratioY = targetHeight.toFloat() / originalBitmap.height
              val ratio = minOf(ratioX, ratioY)
-
              val width = (ratio * originalBitmap.width).toInt()
              val height = (ratio * originalBitmap.height).toInt()
 
@@ -262,7 +261,14 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
         if(orderModel.orderChannel?.uppercase() != "ONLINE"){
 //            price *= (item?.unit ?: 1)
-            price *=  getOrderOfferPrice(item!!)
+            if (item?.offer?.offer?.type == "X_FOR_Y") {
+                price *=  getOrderOfferPrice(item)
+            }else if (item?.offer?.offer?.type == "X_FOR_£") {
+                price =  xForPoundOfferLocalDetailOrder(item, listorderProducts)
+            }else{
+                price *= (item?.unit ?: 1)
+            }
+
             var totaldiscount = (price * (discount / 100))
             price -= totaldiscount;
         }
@@ -294,20 +300,87 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          fun getOrderOfferPrice(data: OrderData.OrderProduct): Int {
              val totalItems = data.unit ?: 1
              if (data.offer?.offer?.type == "X_FOR_Y") {
-                 val buyX = data.offer.offer.buy ?: 0
-                 val payY = data.offer.offer.offerFor ?: 0
+                 val buyX : Int = data.offer.offer.buy ?: 0
+                 val payY : Double = data.offer.offer.offerFor ?: 0.0
                  val groupSize = buyX
                  val fullPriceItems = totalItems % groupSize // Items not fitting into the promotion
                  val discountedGroups = totalItems / groupSize // Number of groups that fit into the promotion
                  // Total paid items for groups that fit the promotion plus any remaining full price items
                  val paidItems = discountedGroups * payY + fullPriceItems
-                 return paidItems
+                 return paidItems.toInt()
              } else {
                  return totalItems
              }
          }
 
-    fun printBitmap(bitmap: Bitmap?)  {
+         fun xForPoundOfferLocalDetailOrder(data: OrderData.OrderProduct, listorderProducts: List<OrderData.OrderProduct?>?): Double {
+             var totalBuy = 0
+             val findOffer = listorderProducts!!.filter { it?.offer?.offer?.type == "X_FOR_£"}
+
+             if (findOffer.isNotEmpty()) {
+                 findOffer.forEach { e ->
+                     totalBuy += e?.unit ?: 1
+                 }
+
+                 val buy : Int = data.offer?.offer?.buy ?: 0
+                 val forPound : Double = data.offer?.offer?.offerFor ?: 0.0
+
+                 if (totalBuy % buy == 0) {
+                     val offerPrice = (forPound / buy) * (data.unit ?: 1)
+                     x_for_poundOfferApplyList.add(data.unit ?: 1)
+                     return offerPrice
+                 } else if (totalBuy > buy) {
+                     val itemQuantity = data.unit ?: 1
+                     if (itemQuantity == buy) {
+                         val offerPrice = (forPound / buy) * itemQuantity
+                         x_for_poundOfferApplyList.add(itemQuantity)
+                         return offerPrice
+                     } else if (itemQuantity > buy) {
+                         val otherQuantity = itemQuantity - buy
+                         val offerQuantity = (data.unit ?: 1) - otherQuantity
+                         val offerPrice = (forPound / buy) * offerQuantity
+                         val fullPrice = (data.netAmount ?: 0.0) * otherQuantity
+                         x_for_poundOfferApplyList.add(itemQuantity)
+                         return fullPrice + offerPrice
+                     } else {
+                         var totalQuantityApply = 0
+                         if (findOffer.first()?.id == data.id) {
+                             x_for_poundOfferApplyList.clear()
+                         }
+                         x_for_poundOfferApplyList.forEach { e ->
+                             totalQuantityApply += e
+                         }
+                         println("sdbjshdbv $totalQuantityApply")
+                         if (totalQuantityApply < buy) {
+                             val available = buy - totalQuantityApply
+                             if (available < itemQuantity) {
+                                 val otherQuantity = itemQuantity - available
+                                 val offerQuantity = available
+                                 val offerPrice = (forPound / buy) * offerQuantity
+                                 val fullPrice = (data.netAmount ?: 0.0) * otherQuantity
+                                 x_for_poundOfferApplyList.add(itemQuantity)
+                                 return fullPrice + offerPrice
+                             } else {
+                                 val offerPrice = (forPound / buy) * itemQuantity
+                                 x_for_poundOfferApplyList.add(itemQuantity)
+                                 return offerPrice
+                             }
+                         } else {
+                             x_for_poundOfferApplyList.remove(itemQuantity)
+                             return (data.netAmount ?: 0.0) * (data.unit ?: 1)
+                         }
+                     }
+                 } else {
+                     x_for_poundOfferApplyList.remove(data.unit ?: 1)
+                     return (data.netAmount ?: 0.0) * (data.unit ?: 1)
+                 }
+             }
+             x_for_poundOfferApplyList.remove(data.unit ?: 1)
+             return (data.netAmount ?: 0.0) * (data.unit ?: 1)
+         }
+
+
+         fun printBitmap(bitmap: Bitmap?)  {
         try {
 //            val originalBitmap: Bitmap? = bitmap
 //            val compressFormat = Bitmap.CompressFormat.JPEG
