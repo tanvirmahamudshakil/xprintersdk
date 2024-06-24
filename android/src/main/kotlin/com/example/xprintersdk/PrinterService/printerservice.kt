@@ -699,8 +699,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
              var dlAddress = "Service charge is not included\n\n"
-
-
+             if(businessdatadata.serviceCharge) {
+                 dlAddress = "Service charge is not included\n\n"
+             }else{
+                 dlAddress = "\n\n"
+             }
 
              if (orderModel.requesterGuest != null){
                  val customerModel: OrderData.RequesterGuest? = orderModel.requesterGuest

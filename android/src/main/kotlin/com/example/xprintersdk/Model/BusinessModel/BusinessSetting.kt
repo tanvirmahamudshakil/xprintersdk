@@ -8,6 +8,8 @@ import androidx.annotation.Keep
 data class BusinessSetting(
     @SerializedName("auto_print")
     val autoPrint: Boolean?,
+    @SerializedName("serviceCharge")
+    val serviceCharge : Boolean,
     @SerializedName("bluetooth_address")
     val bluetoothAddress: String?,
     @SerializedName("bluetooth_name")

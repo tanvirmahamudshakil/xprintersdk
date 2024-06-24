@@ -22,6 +22,7 @@ class PrinterBusinessModel {
   int printOnTackwayOrder;
   bool? autoPrint;
   bool? showOrderNoInvoice;
+  bool? serviceCharge;
   String selectPrinter;
   String printerConnection;
   String? ip;
@@ -48,6 +49,7 @@ class PrinterBusinessModel {
       {this.fontSize,
       this.header1Size,
       this.header2Size,
+      this.serviceCharge = false,
       this.header3Size,
       this.header4Size,
       required this.highlighttextsize,
@@ -91,6 +93,7 @@ class PrinterBusinessModel {
           printOnTableOrder: json["print_on_table_order"],
           printOnTackwayOrder: json["print_on_tackway_order"],
           autoPrint: json["auto_print"],
+          serviceCharge: json["serviceCharge"],
           showOrderNoInvoice: json["show_order_no_invoice"],
           selectPrinter: json["select_printer"],
           printerConnection: json["printer_connection"],
@@ -145,7 +148,8 @@ class PrinterBusinessModel {
         "header2Size": header2Size,
         "header3Size": header3Size,
         "header4Size": header4Size,
-        "footervatFontSize" : footervatFontSize
+        "footervatFontSize" : footervatFontSize,
+        "serviceCharge": serviceCharge,
 
       };
 }
