@@ -365,6 +365,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                                  x_for_poundOfferApplyList.add(itemQuantity)
                                  return offerPrice
                              }
+                         } else if (totalQuantityApply == buy) {
+                             val fullPrice = (data.netAmount ?: 0.0) * itemQuantity
+                             return fullPrice;
                          } else {
                              x_for_poundOfferApplyList.remove(itemQuantity)
                              return (data.netAmount ?: 0.0) * (data.unit ?: 1)
