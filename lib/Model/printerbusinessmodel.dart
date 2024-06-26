@@ -44,10 +44,12 @@ class PrinterBusinessModel {
   String? printerStyle;
   int? asapFontSize;
   int? footervatFontSize;
+  bool weightMultiplyingPrice;
 
   PrinterBusinessModel(
       {this.fontSize,
       this.header1Size,
+        required this.weightMultiplyingPrice,
       this.header2Size,
       this.serviceCharge = false,
       this.header3Size,
@@ -83,6 +85,7 @@ class PrinterBusinessModel {
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) =>
       PrinterBusinessModel(
           highlighttextsize: json["highlighttextsize"],
+          weightMultiplyingPrice: json["weightMultiplyingPrice"],
           header1Size: json["header1Size"],
           header2Size: json["header2Size"],
           header3Size: json["header3Size"],
@@ -119,6 +122,7 @@ class PrinterBusinessModel {
   Map<String, dynamic> toJson() => {
         "asapFontSize": asapFontSize,
         "highlighttextsize": highlighttextsize,
+    "weightMultiplyingPrice": weightMultiplyingPrice,
         "font_size": fontSize,
         "print_on_delivery": printOnDelivery,
         "print_on_collection": printOnCollection,

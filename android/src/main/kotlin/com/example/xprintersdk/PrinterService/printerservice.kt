@@ -187,7 +187,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //            binding.itemWeight.text = "${unitAmount} ${unitGet(item)}"
 //        }
         if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
-            price = (item.netAmount ?: 0.0) * (unitAmount - tareWeight)
+            if(businessdatadata.weightMultiplyingPrice) {
+                price = (item.netAmount ?: 0.0) * (unitAmount - tareWeight)
+            }else{
+                price = (item.netAmount ?: 0.0)
+            }
+
         }else{
             price = (item?.netAmount ?: 0.0)
         }
