@@ -27,9 +27,12 @@ import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.OrderData.OrderData
 import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
 import com.example.xprintersdk.Sunmi.SunmiHelp
+import com.example.xprintersdk.databinding.ButcherOrderPrintBinding
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.xprinter.Xprinter
+import com.google.zxing.BarcodeFormat
+import com.google.zxing.MultiFormatWriter
 import io.flutter.plugin.common.MethodChannel
 import net.nyx.printerclient.Nyxpinter
 import java.io.ByteArrayOutputStream
@@ -92,7 +95,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         return str.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
     }
 
-    private fun getBitmapFromView(view: View): Bitmap {
+          private fun getBitmapFromView(view: View): Bitmap {
         var bitmaplist : ArrayList<Bitmap>  = ArrayList<Bitmap>();
         val spec = View.MeasureSpec.makeMeasureSpec(
             0,
@@ -156,7 +159,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      }else{
                          true;
                      }
-
                  }else{
                      true;
                  }
@@ -165,7 +167,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
          }
 
-    fun getView( listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int ,position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
+          fun getView( listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int ,position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
         val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(mCtx))
         var  component: List<OrderData.OrderProduct.Component?>?
         var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
@@ -404,7 +406,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 nyxprinter.printBitmap(bitmap!!, result)
             } else {
                 sunmiPrinter.printBitmap(bitmap, 2, result)
-
             }
 
 
@@ -483,17 +484,44 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
          }
 
-         @RequiresApi(Build.VERSION_CODES.O)
-         override fun doInBackground(vararg params: String?): Bitmap {
+         private fun genBarcode(barcode : String) : Bitmap? {
+             // Geting input value from the EditText
+             val inputValue = barcode.trim()
+             var width = 250;
+             var height = 100;
+             if (inputValue.isNotEmpty()) {
+                 // Initializing a MultiFormatWriter to encode the input value
+                 val mwriter = MultiFormatWriter()
+                 try {
+                     // Generating a barcode matrix
+                     val matrix = mwriter.encode(inputValue, BarcodeFormat.CODE_128, width, height)
+                     // Creating a bitmap to represent the barcode
+                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+                     // Iterating through the matrix and set pixels in the bitmap
+                     for (i in 0 until width) {
+                         for (j in 0 until height) {
+                             bitmap.setPixel(i, j, if (matrix[i, j]) Color.BLACK else Color.WHITE)
+                         }
+                     }
+                     // Seting the bitmap as the image resource of the ImageView
+                     return bitmap
+                 } catch (e: Exception) {
+                    return  null;
+                 }
+             } else {
+                 // Showing an error message if the EditText is empty
+                return  null;
+             }
+         }
 
+
+         fun eposWaiterorderPrint() : Bitmap {
              noofprint = if (orderModel.orderType == "DELIVERY"){
-                  businessdatadata.printOnDelivery!!
+                 businessdatadata.printOnDelivery!!
              }else{
                  businessdatadata.printOnCollection!!
              }
-
              val printSize: Int = fontsize
-
              val bind: OnlinePrint2Binding = OnlinePrint2Binding.inflate(LayoutInflater.from(context))
              bind.businessName.text = businessname
              bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
@@ -510,7 +538,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.businessPhone.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
              bind.branchName.text = orderModel.branch?.name?.uppercase()
              bind.branchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
-
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderType.text = "TABLE BOOKING #${orderModel.table_id}"
                  bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
@@ -519,29 +546,28 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
 
              }
-
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
              bind.orderTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-            if(orderModel.orderType == "TABLE_BOOKING") {
-                bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-                bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-            }else{
-                if(orderModel.property?.requestedDeliveryTimestampType != null) {
-                    var asapdata = orderModel.property?.requestedDeliveryTimestampType;
-                    bind.collectionAt.text = asapdata
-                    bind.collectionAt.setTypeface(null, Typeface.BOLD)
-                    bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.asapFontSize!!.toFloat())
+             if(orderModel.orderType == "TABLE_BOOKING") {
+                 bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                 bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+             }else{
+                 if(orderModel.property?.requestedDeliveryTimestampType != null) {
+                     var asapdata = orderModel.property?.requestedDeliveryTimestampType;
+                     bind.collectionAt.text = asapdata
+                     bind.collectionAt.setTypeface(null, Typeface.BOLD)
+                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.asapFontSize!!.toFloat())
 
-                }else{
-                    bind.collectionAt.text = "REQUESTED at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-                    bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-                }
+                 }else{
+                     bind.collectionAt.text = "REQUESTED at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                 }
 
-            }
+             }
              if ((orderModel.orderType?.uppercase() == "DELIVERY" || orderModel.orderType?.uppercase() == "COLLECTION") && getMinutesDifference(orderModel.orderDate
-                             ?: "2024-01-22 07:48:10", orderModel.requestedDeliveryTimestamp
-                             ?: "2024-01-22 17:20:00") >= (businessdatadata.highlight ?: 15)){
+                     ?: "2024-01-22 07:48:10", orderModel.requestedDeliveryTimestamp
+                     ?: "2024-01-22 17:20:00") >= (businessdatadata.highlight ?: 15)){
                  if(orderModel.property?.requestedDeliveryTimestampType == null) {
                      bind.collectionAt.setTypeface(null, Typeface.BOLD)
                      bind.collectionAt.paintFlags = Paint.UNDERLINE_TEXT_FLAG
@@ -552,7 +578,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.orderText.text = "Table#"
                  bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
              }
-
              if(orderModel.orderChannel?.uppercase() == "ONLINE"){
                  bind.containerOrderNo.visibility = View.VISIBLE
                  bind.orderNo.text = "${orderModel.id}";
@@ -572,7 +597,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  }
 
              }
-
              var allitemsheight = 0
              bind.items.removeAllViews()
              var itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
@@ -586,9 +610,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  }
 
              }
-
-
-
              var paidOrNot = "";
              if (orderModel.orderChannel?.uppercase() == "ONLINE") {
                  if(orderModel.status?.uppercase() == "REFUNDED") {
@@ -608,7 +629,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                          }
                      }
                  }
-
              } else if (orderModel.orderChannel?.uppercase() != "ONLINE") {
                  if(orderModel.status?.uppercase() == "REFUNDED") {
                      paidOrNot = "ORDER is REFUNDED"
@@ -649,18 +669,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //                     paidOrNot ="ORDER IS PAID"
 //                 }
 //             }
-
-
-
              bind.orderPaidMessage.text = paidOrNot
              bind.orderPaidMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
              bind.refundContainer.visibility = View.GONE
-
-
              val subTotal: Double = orderModel.netAmount ?: 0.0
              bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
-
-
              if(orderModel.orderType == "DELIVERY") {
                  bind.deliveryChargeContainer.visibility = View.VISIBLE
                  bind.txtDeliveryCharge.text = "Delivery Charge";
@@ -668,10 +681,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }else{
                  bind.deliveryChargeContainer.visibility = View.GONE
              }
-
              bind.change.text = "£ " +  String.format( "%.2f",  orderModel.changeAmount)
-
-
              bind.cardPayContainer.visibility = View.GONE
              bind.cashPayContainer.visibility = View.GONE
              if (orderModel.orderChannel?.uppercase() == "ONLINE") {
@@ -688,11 +698,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      "£ " + String.format( "%.2f", orderModel.discountedAmount)
              }
 
-
              bind.plasticBagContainer.visibility = View.GONE
-
              bind.containerBagContainer.visibility = View.GONE
-
              bind.adjustmentContainer.visibility = View.GONE
              if(orderModel.vat_amount == 0.0) {
                  bind.vatContainer.visibility = View.GONE
@@ -700,19 +707,14 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.vatContainer.visibility = View.VISIBLE
                  bind.vatAmount.text = "£ " + String.format( "%.2f", orderModel.vat_amount)
              }
-
-
              bind.total.text =
                  "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
-
-
              var dlAddress = "Service charge is not included\n\n"
              if(businessdatadata.serviceCharge) {
                  dlAddress = "Service charge is not included\n\n"
              }else{
                  dlAddress = "\n\n"
              }
-
              if (orderModel.requesterGuest != null){
                  val customerModel: OrderData.RequesterGuest? = orderModel.requesterGuest
                  dlAddress += "Name : ${customerModel?.firstName} ${customerModel?.lastName}\n"
@@ -790,6 +792,34 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
 
              return  bitmaplist;
+         }
+
+         fun ButcherOrderPrint() : Bitmap {
+             val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+             val formatter = SimpleDateFormat("dd-MMM hh:mm a")
+             val bind: ButcherOrderPrintBinding = ButcherOrderPrintBinding.inflate(LayoutInflater.from(context))
+             bind.orderText.text = orderModel.localId.toString()
+             bind.totalValue.text = "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
+             bind.Date.text = "Order at : ${parser.parse(orderModel.orderDate)
+                 ?.let { formatter.format(it) }}"
+             bind.businessName.text = businessdatadata.businessname
+             if(orderModel.barcode != null) {
+                 var barcodeBitmap = genBarcode(orderModel.barcode!!)
+                 bind.barcode.setImageBitmap(barcodeBitmap)
+             }
+             val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
+             return  bitmaplist
+
+         }
+
+         override fun doInBackground(vararg params: String?): Bitmap {
+             if(businessdatadata.orderChannel?.lowercase() == "BUTCHER") {
+                 val ButcherorderBitmap = ButcherOrderPrint()
+                 return ButcherorderBitmap;
+             }else{
+                 val orderBitmap = eposWaiterorderPrint()
+                 return orderBitmap
+             }
          }
 
 

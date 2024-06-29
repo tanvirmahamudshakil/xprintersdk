@@ -83,5 +83,6 @@ dependencies {
     implementation 'org.aspectj:aspectjrt:1.9.6'
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.github.tanvirmahamudshakil:Nyxprinter:4.0'
+    implementation "com.google.zxing:core:3.5.3"
 
 }
