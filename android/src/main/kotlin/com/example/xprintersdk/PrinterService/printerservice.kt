@@ -813,7 +813,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          }
 
          override fun doInBackground(vararg params: String?): Bitmap {
-             if(businessdatadata.orderChannel?.lowercase() == "BUTCHER") {
+             if(businessdatadata.orderChannel?.uppercase() == "BUTCHER") {
                  val ButcherorderBitmap = ButcherOrderPrint()
                  return ButcherorderBitmap;
              }else{
