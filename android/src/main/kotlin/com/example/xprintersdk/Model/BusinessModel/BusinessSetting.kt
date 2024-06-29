@@ -6,6 +6,8 @@ import androidx.annotation.Keep
 
 @Keep
 data class BusinessSetting(
+    @SerializedName("orderChannel")
+    var orderChannel: String?,
     @SerializedName("auto_print")
     val autoPrint: Boolean?,
     @SerializedName("weightMultiplyingPrice")
@@ -74,10 +76,4 @@ data class BusinessSetting(
     var header4Size: Int?,
     @SerializedName("footervatFontSize")
     var footervatFontSize : Int?
-
-
-
-
-
-
 )

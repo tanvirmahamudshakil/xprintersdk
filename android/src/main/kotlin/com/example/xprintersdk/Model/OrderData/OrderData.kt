@@ -6,6 +6,8 @@ import androidx.annotation.Keep
 
 @Keep
 data class OrderData(
+    @SerializedName("barcode")
+    val barcode: String?,
     @SerializedName("branch")
     val branch: Branch?,
     @SerializedName("branch_id")
