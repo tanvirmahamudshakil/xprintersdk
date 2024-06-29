@@ -798,9 +798,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd-MMM hh:mm a")
              val bind: ButcherOrderPrintBinding = ButcherOrderPrintBinding.inflate(LayoutInflater.from(context))
-             bind.orderText.text = orderModel.localId.toString()
+             bind.orderText.text = "Order No: ${orderModel.localId}"
              bind.totalValue.text = "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
-             bind.Date.text = "Order at : ${parser.parse(orderModel.orderDate)
+             bind.Date.text = "Date : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
              bind.businessName.text = businessdatadata.businessname
              if(orderModel.barcode != null) {
