@@ -11,6 +11,7 @@ String printerBusinessModelToJson(PrinterBusinessModel data) =>
     json.encode(data.toJson());
 
 class PrinterBusinessModel {
+  bool? weightShow;
   String orderChannel;
   int? header1Size;
   int? header2Size;
@@ -49,6 +50,7 @@ class PrinterBusinessModel {
 
   PrinterBusinessModel(
       {this.fontSize,
+      this.weightShow = false,
       required this.orderChannel,
       this.header1Size,
         required this.weightMultiplyingPrice,
@@ -86,6 +88,7 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) =>
       PrinterBusinessModel(
+        weightShow: json["weightShow"],
           orderChannel: json["orderChannel"],
           highlighttextsize: json["highlighttextsize"],
           weightMultiplyingPrice: json["weightMultiplyingPrice"],
@@ -124,6 +127,7 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
         "orderChannel": orderChannel,
+        "weightShow": weightShow ?? false,
         "asapFontSize": asapFontSize,
         "highlighttextsize": highlighttextsize,
         "weightMultiplyingPrice": weightMultiplyingPrice,
