@@ -199,7 +199,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             if(businessdatadata.weightShow) {
                 binding.unitValue.visibility = View.VISIBLE
                 binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
-                binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
+                binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 10))
             }else{
                 binding.unitValue.visibility = View.GONE
             }
@@ -816,7 +816,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd-MMM hh:mm a")
              val bind: ButcherOrderPrintBinding = ButcherOrderPrintBinding.inflate(LayoutInflater.from(context))
-             bind.orderText.text = "Order No: ${orderModel.localId}"
+             bind.orderNo.text = "Order No: ${orderModel.localId}"
              bind.totalValue.text = "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
              bind.Date.text = "Date : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
