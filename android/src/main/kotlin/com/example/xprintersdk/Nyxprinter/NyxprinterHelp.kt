@@ -22,8 +22,6 @@ class NyxprinterHelp(context: Context) {
 
     lateinit var mContext: Context
 
-
-
     private val singleThreadExecutor = Executors.newSingleThreadExecutor()
     private var printerService: IPrinterService? = null
 

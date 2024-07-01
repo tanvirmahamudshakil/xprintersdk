@@ -191,11 +191,19 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         } else{
             item?.product?.property?.unit_amount?.toDouble() ?: 0.0
         }
-//        if(unitAmount == 0.0) {
-//            binding.itemWeight.visibility = View.GONE
-//        }else{
-//            binding.itemWeight.text = "${unitAmount} ${unitGet(item)}"
-//        }
+
+
+        if(unitAmount == 0.0) {
+            binding.unitValue.visibility = View.GONE
+        }else{
+            if(businessdatadata.weightShow) {
+                binding.unitValue.visibility = View.VISIBLE
+                binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
+            }else{
+                binding.unitValue.visibility = View.GONE
+            }
+
+        }
         if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
             if(businessdatadata.weightMultiplyingPrice) {
                 price = (item.netAmount ?: 0.0) * (unitAmount - tareWeight)

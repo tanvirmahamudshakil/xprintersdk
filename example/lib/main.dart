@@ -42,28 +42,27 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
-            MaterialButton(
-              onPressed: () async {
-                _xprintersdkPlugin.nyxPrinterInit();
-              },
-              child: const Text("NyxPrinter init"),
-            ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     _xprintersdkPlugin.nyxPrinterInit();
+            //   },
+            //   child: const Text("NyxPrinter init"),
+            // ),
 
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.checkNyxPrinter();
-                print(data.toString());
-              },
-              child: const Text("NyxPrinter Check"),
-            ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.checkNyxPrinter();
+            //     print(data.toString());
+            //   },
+            //   child: const Text("NyxPrinter Check"),
+            // ),
 
-            MaterialButton(
-              onPressed: () async {
-                _xprintersdkPlugin.nyxPrinterPrintBitmap(
-                    printermodel, orderjson4);
-              },
-              child: const Text("NyxPrinter print order"),
-            ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     _xprintersdkPlugin.nyxPrinterPrintBitmap(printermodel, order2);
+            //   },
+            //   child: const Text("NyxPrinter print order"),
+            // ),
 
             // MaterialButton(
             //     onPressed: () {
@@ -101,15 +100,13 @@ class _MyAppState extends State<MyApp> {
             // ),
             MaterialButton(
               onPressed: () async {
-                var data = await _xprintersdkPlugin
-                    .sunmiPrinterServiceInitialization();
+                var data = await _xprintersdkPlugin.sunmiPrinterServiceInitialization();
               },
               child: const Text("Sunmi Printer Service Init"),
             ),
             MaterialButton(
               onPressed: () async {
-                var data =
-                    await _xprintersdkPlugin.sunmiPrinterInitialization();
+                var data = await _xprintersdkPlugin.sunmiPrinterInitialization();
               },
               child: const Text("Sunmi Printer Init"),
             ),
@@ -130,13 +127,12 @@ class _MyAppState extends State<MyApp> {
             //   },
             //   child: const Text("Sunmi Print Bitmap"),
             // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.bitmapSave(
-            //         printermodel, orderjson10);
-            //   },
-            //   child: const Text("Bitmap Save"),
-            // ),
+            MaterialButton(
+              onPressed: () async {
+                var data = await _xprintersdkPlugin.bitmapSave(printermodel, order2);
+              },
+              child: const Text("Bitmap Save"),
+            ),
             // MaterialButton(
             //   onPressed: () async {
             //     var data = await _xprintersdkPlugin.checkSunmiPrinter();
@@ -165,8 +161,6 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
-
-  
 
   PrinterBusinessModel printermodel = PrinterBusinessModel(
       orderChannel: "EPOS",
