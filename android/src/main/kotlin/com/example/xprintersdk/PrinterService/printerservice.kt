@@ -207,7 +207,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         }
         if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
             if(businessdatadata.weightMultiplyingPrice) {
-                price = (item.netAmount ?: 0.0) * (unitAmount - tareWeight)
+                price = (item.netAmount ?: 0.0) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
             }else{
                 price = (item.netAmount ?: 0.0)
             }
