@@ -181,8 +181,16 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
         val str3 = StringBuilder()
         var price = 0.0
-        var tareWeight = item?.product?.property?.tare_weight?.toDouble() ?: 0.0
-        var unitAmount = item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+        var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
+                   0.0;
+              }else{
+                   item?.product?.property?.tare_weight?.toDouble() ?: 0.0
+              }
+        var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
+             0.0
+        } else{
+            item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+        }
 //        if(unitAmount == 0.0) {
 //            binding.itemWeight.visibility = View.GONE
 //        }else{
