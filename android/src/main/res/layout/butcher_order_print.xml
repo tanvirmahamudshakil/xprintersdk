@@ -97,6 +97,21 @@
             />
     </LinearLayout>
     <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:src="@drawable/dotted"
+        android:contentDescription="Dotted" />
+    <LinearLayout
+        android:id="@+id/items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:src="@drawable/dotted"
+        android:contentDescription="Dotted" />
+    <ImageView
         android:id="@+id/barcode"
         android:layout_width="250dp"
         android:src="@drawable/barcode"

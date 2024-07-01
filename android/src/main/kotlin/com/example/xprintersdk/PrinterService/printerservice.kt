@@ -795,6 +795,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          }
 
          fun ButcherOrderPrint() : Bitmap {
+             val printSize: Int = fontsize
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd-MMM hh:mm a")
              val bind: ButcherOrderPrintBinding = ButcherOrderPrintBinding.inflate(LayoutInflater.from(context))
@@ -803,6 +804,17 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              bind.Date.text = "Date : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
              bind.businessName.text = businessdatadata.businessname
+             var allitemsheight = 0
+             bind.items.removeAllViews()
+             var itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+             var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+             if(!sortIteam.isNullOrEmpty()){
+                 for (j in sortIteam.indices) {
+                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, context, 0, printSize)
+                     bind.items.addView(childView)
+                     allitemsheight += childView!!.measuredHeight
+                 }
+             }
              if(orderModel.barcode != null) {
                  var barcodeBitmap = genBarcode(orderModel.barcode!!)
                  bind.barcode.setImageBitmap(barcodeBitmap)
