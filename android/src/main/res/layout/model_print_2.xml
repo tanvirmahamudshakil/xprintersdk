@@ -13,7 +13,7 @@
         >
         <TextView
             android:id="@+id/itemText"
-            android:layout_width="240dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
 
             android:textColor="@color/black"
@@ -28,6 +28,8 @@
             android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:text="0.0000 g"
+            android:textSize="18sp"
+            android:textStyle="bold"
             android:layout_height="wrap_content"/>
 
         <TextView
