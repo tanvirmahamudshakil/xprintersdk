@@ -199,7 +199,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             if(businessdatadata.weightShow) {
                 binding.unitValue.visibility = View.VISIBLE
                 binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
-                binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 10))
+                binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
             }else{
                 binding.unitValue.visibility = View.GONE
             }
