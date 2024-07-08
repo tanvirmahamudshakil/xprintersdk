@@ -290,6 +290,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 price *=  p.toDouble()
             }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
                 var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+                Log.e("price get", "getView: ${p}----")
                 price =  p.toDouble()
             }else{
                 price *= (item?.unit ?: 1)
@@ -303,7 +304,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         binding.itemText.text = str3.toString()
         binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
         if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
-           binding.itemPrice.text = "£ ${String.format("%.3f", price)}"
+           binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
         } else{
            binding.itemPrice.visibility = View.GONE
         }
