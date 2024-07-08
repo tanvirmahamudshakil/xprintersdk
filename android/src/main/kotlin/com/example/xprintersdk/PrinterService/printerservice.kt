@@ -355,20 +355,23 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  if (totalBuy % buy == 0) {
                      val offerPrice = (forPound / buy) * (data.unit ?: 1)
                      x_for_poundOfferApplyList.add(data.unit ?: 1)
-                     return offerPrice
+                     var of = String.format("%.2f", offerPrice)
+                     return of.toDouble()
                  } else if (totalBuy > buy) {
                      val itemQuantity = data.unit ?: 1
                      if (itemQuantity == buy) {
                          val offerPrice = (forPound / buy) * itemQuantity
                          x_for_poundOfferApplyList.add(itemQuantity)
-                         return offerPrice
+                         var of = String.format("%.2f", offerPrice)
+                         return of.toDouble()
                      } else if (itemQuantity > buy) {
                          val otherQuantity = itemQuantity - buy
                          val offerQuantity = (data.unit ?: 1) - otherQuantity
                          val offerPrice = (forPound / buy) * offerQuantity
                          val fullPrice = (data.netAmount ?: 0.0) * otherQuantity
                          x_for_poundOfferApplyList.add(itemQuantity)
-                         return fullPrice + offerPrice
+                         var of = String.format("%.2f", offerPrice)
+                         return fullPrice + (of.toDouble())
                      } else {
                          var totalQuantityApply = 0
                          if (findOffer.first()?.id == data.id) {
@@ -386,11 +389,13 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                                  val offerPrice = (forPound / buy) * offerQuantity
                                  val fullPrice = (data.netAmount ?: 0.0) * otherQuantity
                                  x_for_poundOfferApplyList.add(itemQuantity)
-                                 return fullPrice + offerPrice
+                                 var of = String.format("%.2f", offerPrice)
+                                 return fullPrice + (of.toDouble())
                              } else {
                                  val offerPrice = (forPound / buy) * itemQuantity
                                  x_for_poundOfferApplyList.add(itemQuantity)
-                                 return offerPrice
+                                 var of = String.format("%.2f", offerPrice)
+                                 return of.toDouble()
                              }
                          } else if (totalQuantityApply == buy) {
                              val fullPrice = (data.netAmount ?: 0.0) * itemQuantity
