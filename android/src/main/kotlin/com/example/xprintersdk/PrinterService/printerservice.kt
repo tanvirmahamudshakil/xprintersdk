@@ -286,9 +286,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         if(orderModel.orderChannel?.uppercase() != "ONLINE"){
 //            price *= (item?.unit ?: 1)
             if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
-                price *=  getOrderOfferPrice(item)
+                var p = String.format("%.2f", getOrderOfferPrice(item))
+                price *=  p.toDouble()
             }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
-                price =  xForPoundOfferLocalDetailOrder(item, listorderProducts)
+                var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+                price =  p.toDouble()
             }else{
                 price *= (item?.unit ?: 1)
             }
