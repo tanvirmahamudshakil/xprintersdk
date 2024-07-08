@@ -356,7 +356,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      val offerPrice = (forPound / buy) * (data.unit ?: 1)
                      x_for_poundOfferApplyList.add(data.unit ?: 1)
                      var of = String.format("%.2f", offerPrice)
-                     Log.e("offer 1", "getView: ${of}----${offerPrice}")
+                     Log.e("offer 1", "getView: ${of}----${offerPrice.toFloat()}")
                      return of.toDouble()
                  } else if (totalBuy > buy) {
                      val itemQuantity = data.unit ?: 1
