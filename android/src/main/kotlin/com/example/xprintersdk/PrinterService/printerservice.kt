@@ -339,6 +339,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  return totalItems
              }
          }
+         fun truncateToTwoDecimalPlaces(value: Double): Double {
+             val factor = 100.0
+             return kotlin.math.floor(value * factor) / factor
+         }
 
          fun xForPoundOfferLocalDetailOrder(data: OrderData.OrderProduct, listorderProducts: List<OrderData.OrderProduct?>?): Double {
              var totalBuy = 0
@@ -357,7 +361,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      x_for_poundOfferApplyList.add(data.unit ?: 1)
                      var of = String.format("%.2f", offerPrice.toFloat())
                      Log.e("offer 1", "getView: ${of}----${offerPrice.toFloat()}")
-                     return of.toDouble()
+                     return truncateToTwoDecimalPlaces(offerPrice)
                  } else if (totalBuy > buy) {
                      val itemQuantity = data.unit ?: 1
                      if (itemQuantity == buy) {
@@ -365,7 +369,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                          x_for_poundOfferApplyList.add(itemQuantity)
                          var of = String.format("%.2f", offerPrice)
                          Log.e("offer 2", "getView: ${of.toDouble()}----")
-                         return of.toDouble()
+                         return truncateToTwoDecimalPlaces(offerPrice)
                      } else if (itemQuantity > buy) {
                          val otherQuantity = itemQuantity - buy
                          val offerQuantity = (data.unit ?: 1) - otherQuantity
@@ -374,7 +378,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                          x_for_poundOfferApplyList.add(itemQuantity)
                          var of = String.format("%.2f", offerPrice)
                          Log.e("offer 3", "getView: ${of.toDouble()}----${fullPrice}")
-                         return fullPrice + (of.toDouble())
+                         return fullPrice + (truncateToTwoDecimalPlaces(offerPrice))
                      } else {
                          var totalQuantityApply = 0
                          if (findOffer.first()?.id == data.id) {
@@ -394,13 +398,13 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                                  x_for_poundOfferApplyList.add(itemQuantity)
                                  var of = String.format("%.2f", offerPrice)
                                  Log.e("offer 4", "getView: ${of.toDouble()}----${fullPrice}")
-                                 return fullPrice + (of.toDouble())
+                                 return fullPrice + truncateToTwoDecimalPlaces(offerPrice)
                              } else {
                                  val offerPrice = (forPound / buy) * itemQuantity
                                  x_for_poundOfferApplyList.add(itemQuantity)
                                  var of = String.format("%.2f", offerPrice)
                                  Log.e("offer 5", "getView: ${of.toDouble()}----")
-                                 return of.toDouble()
+                                 return truncateToTwoDecimalPlaces(offerPrice)
                              }
                          } else if (totalQuantityApply == buy) {
                              val fullPrice = (data.netAmount ?: 0.0) * itemQuantity
