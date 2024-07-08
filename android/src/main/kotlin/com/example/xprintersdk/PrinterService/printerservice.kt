@@ -303,7 +303,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         binding.itemText.text = str3.toString()
         binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
         if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
-           binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
+           binding.itemPrice.text = "£ ${String.format("%.3f", price)}"
         } else{
            binding.itemPrice.visibility = View.GONE
         }
