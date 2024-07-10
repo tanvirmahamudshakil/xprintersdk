@@ -149,62 +149,62 @@
                 android:textColor="@color/black"
                 android:textSize="20sp" />
         </RelativeLayout>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:src="@drawable/dotted"
-            android:contentDescription="Dotted" />
+<!--        <ImageView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="10dp"-->
+<!--            android:src="@drawable/dotted"-->
+<!--            android:contentDescription="Dotted" />-->
 
-        <RelativeLayout
-            android:id="@+id/cardPaymentContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/cardPaymentContainer"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
 
-            <TextView
-                android:id="@+id/cardpayment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No of Card Payment"
-                android:textAlignment="textStart"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-            <TextView
-                android:id="@+id/noofCardPaymentBox"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:gravity="end"
-                android:text="56"
-                android:textAlignment="textEnd"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/noofCashPaymentContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+<!--            <TextView-->
+<!--                android:id="@+id/cardpayment"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="No of Card Payment"-->
+<!--                android:textAlignment="textStart"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="20sp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/noofCardPaymentBox"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:gravity="end"-->
+<!--                android:text="56"-->
+<!--                android:textAlignment="textEnd"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="20sp" />-->
+<!--        </RelativeLayout>-->
+<!--        <RelativeLayout-->
+<!--            android:id="@+id/noofCashPaymentContainer"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal">-->
 
-            <TextView
-                android:id="@+id/cashpayment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No of Cash Payment:"
-                android:textAlignment="textStart"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-            <TextView
-                android:id="@+id/noofcashPaymentBox"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:gravity="end"
-                android:text="2023-12-23"
-                android:textAlignment="textEnd"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-        </RelativeLayout>
+<!--            <TextView-->
+<!--                android:id="@+id/cashpayment"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="No of Cash Payment:"-->
+<!--                android:textAlignment="textStart"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="20sp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/noofcashPaymentBox"-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:gravity="end"-->
+<!--                android:text="2023-12-23"-->
+<!--                android:textAlignment="textEnd"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="20sp" />-->
+<!--        </RelativeLayout>-->
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="10dp"
