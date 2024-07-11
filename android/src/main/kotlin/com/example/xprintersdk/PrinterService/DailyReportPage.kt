@@ -215,7 +215,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         val totalCardOrderAmount = String.format("%.2f", dailyreport.data?.totalCardOrderAmount)
 
         val totalRefundCashAmount = dailyreport.data?.totalrefundcashAmount
-        val totalRefundCardAmount = dailyreport.data?.totalrefundcardAmount
+       // val totalRefundCardAmount = dailyreport.data?.totalrefundcardAmount
 
         binding.reportDate.text = "Date: ${formatter.format(parser.parse(dailyreport.data?.date))}"
         binding.reportDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
@@ -251,7 +251,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.totalpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
         // total refund amount
-        var totalRefundAmount = (totalRefundCashAmount?.toDouble() ?: 0.0) +( totalRefundCardAmount?.toDouble() ?: 0.0)
+        var totalRefundAmount = totalRefundCashAmount?.toDouble() ?: 0.0
         binding.totalRefundReceiveBox.text = "£ " + String.format("%.2f", totalRefundAmount) ;
         binding.totalRefundReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalRefund.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
@@ -267,13 +267,13 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
 
 
         // total Refund card
-        binding.totalRefundCardBox.text = "£ " + totalRefundCardAmount
-        binding.totalRefundCardBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
-        binding.totalRefundcard.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
-        // total Refund cash
-        binding.totalRefundCashBox.text = "£ " + totalRefundCashAmount
-        binding.totalRefundCashBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
-        binding.totalRefundcash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+//        binding.totalRefundCardBox.text = "£ " + totalRefundCardAmount
+//        binding.totalRefundCardBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+//        binding.totalRefundcard.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+//        // total Refund cash
+//        binding.totalRefundCashBox.text = "£ " + totalRefundCashAmount
+//        binding.totalRefundCashBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+//        binding.totalRefundcash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
         // total balance
         val totalBalance = totalPayment - totalRefundAmount;
