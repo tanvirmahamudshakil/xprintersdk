@@ -699,13 +699,13 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  }
 
                  if(orderModel.status?.uppercase() == "REFUNDED") {
-                     paidOrNot = "ORDER is REFUNDED"
+                     paidOrNot = "ORDER is REFUND"
                      bind.dueTotalContainer.visibility = View.VISIBLE
 
                      bind.dueTotal.text = "£ 0.0"
 
                  } else if(totalRefund > 0.0) {
-                     paidOrNot = "ORDER is PARTIAL REFUNDED"
+                     paidOrNot = "ORDER is PARTIAL REFUND"
                      bind.dueTotalContainer.visibility = View.VISIBLE
                      bind.dueTotal.text = "£ 0.0"
                  } else{
