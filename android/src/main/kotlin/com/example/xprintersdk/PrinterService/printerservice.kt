@@ -567,7 +567,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              val formatter2 = SimpleDateFormat(" dd/MM hh:mm a")
              var totalRefund : Double = 0.0;
              var totalReceivePound : Double = 0.0
-             var totalDue : Double = 0.0;
+              // var totalDue : Double = 0.0;
              val refundList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "REFUND"}
              val receivePoundList = orderModel.cashEntry?.filter { it?.type?.uppercase() != "REFUND"}
              val changeAmount : Double = orderModel.changeAmount ?: 0.0;
@@ -577,7 +577,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              receivePoundList?.forEach {
                  totalReceivePound += (it?.amount ?: 0.0)
              }
-             totalDue = (orderModel.payableAmount ?: 0.0) - (totalReceivePound - (orderModel.changeAmount ?: 0.0))
+             // totalDue = (orderModel.payableAmount ?: 0.0) - (totalReceivePound - (orderModel.changeAmount ?: 0.0))
              var addedDeliveryCharge = 0.0
              bind.businessLocation.text = businessaddress
              bind.businessLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
@@ -680,40 +680,50 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  if(totalRefund > 0.0) {
                      bind.RefundContainer.visibility = View.VISIBLE
                      bind.refund.text = "£ " + String.format("%.2f", totalRefund)
+                     bind.dottedBelowTotal.visibility = View.VISIBLE
                  }else{
                      bind.RefundContainer.visibility = View.GONE
+                     bind.dottedBelowTotal.visibility = View.GONE
                  }
 
                  if(changeAmount > 0.0) {
                      bind.changeContainer.visibility = View.VISIBLE
                      bind.change.text = "£ " + String.format("%.2f", changeAmount)
+                     bind.dottedBelowTotal.visibility = View.VISIBLE
                  }else{
                      bind.changeContainer.visibility = View.GONE
+                     bind.dottedBelowTotal.visibility = View.GONE
                  }
 
                  if(orderModel.status?.uppercase() == "REFUNDED") {
                      paidOrNot = "ORDER is REFUNDED"
                      bind.dueTotalContainer.visibility = View.VISIBLE
+
+                     bind.dueTotal.text = "£ 0.0"
+
+                 } else if(totalRefund > 0.0) {
+                     paidOrNot = "ORDER is PARTIAL REFUNDED"
+                     bind.dueTotalContainer.visibility = View.VISIBLE
                      bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
-                 }else{
+                 } else{
                      if(orderModel.cashEntry != null && orderModel.cashEntry!!.isNotEmpty()) {
                          paidOrNot ="ORDER IS PAID"
-                         bind.dueTotal.text = "£ " + String.format("%.2f", totalDue)
+                         bind.dueTotal.text = "£ 0.0"
                      }else{
                          if(orderModel.paymentType?.uppercase() == "UNPAID_CASH") {
                              paidOrNot ="ORDER IS UNPAID(CASH)"
                              bind.dueTotalContainer.visibility = View.VISIBLE
-                             bind.dueTotal.text = "£ " + String.format("%.2f", totalDue)
+                             bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                                  //"£ " + String.format("%.2f", orderModel.payableAmount)
                          }else if(orderModel.paymentType?.uppercase() == "UNPAID_CARD") {
                              paidOrNot ="ORDER IS UNPAID(CARD)"
                              bind.dueTotalContainer.visibility = View.VISIBLE
-                             bind.dueTotal.text = "£ " + String.format("%.2f", totalDue)
+                             bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                                  //"£ " + String.format("%.2f", orderModel.payableAmount)
                          }else{
                              paidOrNot = "ORDER NOT PAID"
                              bind.dueTotalContainer.visibility = View.VISIBLE
-                             bind.dueTotal.text = "£ " + String.format("%.2f", totalDue)
+                             bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                                  //"£ " + String.format("%.2f", orderModel.payableAmount)
                          }
                      }
@@ -722,7 +732,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              } else  {
                  paidOrNot = "ORDER NOT PAID"
                  bind.dueTotalContainer.visibility = View.VISIBLE
-                 bind.dueTotal.text = "£ " + String.format("%.2f", totalDue)
+                 bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                      //"£ " + String.format("%.2f", orderModel.payableAmount)
              }
 //             else if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType!!.uppercase() == "CASH") {
