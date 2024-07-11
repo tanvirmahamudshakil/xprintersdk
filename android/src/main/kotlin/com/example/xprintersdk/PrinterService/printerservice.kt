@@ -680,18 +680,21 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  if(totalRefund > 0.0) {
                      bind.RefundContainer.visibility = View.VISIBLE
                      bind.refund.text = "£ " + String.format("%.2f", totalRefund)
-                     bind.dottedBelowTotal.visibility = View.VISIBLE
                  }else{
                      bind.RefundContainer.visibility = View.GONE
-                     bind.dottedBelowTotal.visibility = View.GONE
+
                  }
 
                  if(changeAmount > 0.0) {
                      bind.changeContainer.visibility = View.VISIBLE
                      bind.change.text = "£ " + String.format("%.2f", changeAmount)
-                     bind.dottedBelowTotal.visibility = View.VISIBLE
                  }else{
                      bind.changeContainer.visibility = View.GONE
+
+                 }
+                 if(totalRefund > 0.0 || changeAmount > 0.0) {
+                     bind.dottedBelowTotal.visibility = View.VISIBLE
+                 }else{
                      bind.dottedBelowTotal.visibility = View.GONE
                  }
 
