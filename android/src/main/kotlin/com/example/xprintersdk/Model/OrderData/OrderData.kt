@@ -114,134 +114,149 @@ data class OrderData(
 
     @Keep
     data class CashEntry(
-        @SerializedName("comment")
-        val comment: String?,
-        @SerializedName("components")
-        val components: List<Component?>?,
-        @SerializedName("discountable_amount")
-        val discountableAmount: Double?,
         @SerializedName("id")
         val id: Int?,
-        @SerializedName("net_amount")
-        val netAmount: Double?,
+        @SerializedName("timestamp")
+        val timestamp: Any?,
+        @SerializedName("type")
+        val type: String?,
         @SerializedName("order_id")
         val orderId: Int?,
-        @SerializedName("parent_id")
-        val parentId: String?,
-        @SerializedName("parent_product_id")
-        val parentProductId: String?,
-        @SerializedName("product")
-        val product: Product?,
-        @SerializedName("product_id")
-        val productId: Int?,
-        @SerializedName("unit")
-        val unit: Int?
-    ) {
-        @Keep
-        data class Component(
-            @SerializedName("comment")
-            val comment: Any?,
-            @SerializedName("components")
-            val components: List<Any?>?,
-            @SerializedName("discountable_amount")
-            val discountableAmount: Double?,
-            @SerializedName("id")
-            val id: Int?,
-            @SerializedName("net_amount")
-            val netAmount: Double?,
-            @SerializedName("order_id")
-            val orderId: Int?,
-            @SerializedName("parent_id")
-            val parentId: Int?,
-            @SerializedName("parent_product_id")
-            val parentProductId: Int?,
-            @SerializedName("product")
-            val product: Product?,
-            @SerializedName("product_id")
-            val productId: Int?,
-            @SerializedName("unit")
-            val unit: Int?
-        ) {
-            @Keep
-            data class Product(
-                @SerializedName("barcode")
-                val barcode: Any?,
-                @SerializedName("creator_id")
-                val creatorId: Int?,
-                @SerializedName("creator_uuid")
-                val creatorUuid: String?,
-                @SerializedName("description")
-                val description: Any?,
-                @SerializedName("discountable")
-                val discountable: Double?,
-                @SerializedName("id")
-                val id: Int?,
-                @SerializedName("property")
-                val `property`: Property?,
-                @SerializedName("short_name")
-                val shortName: String?,
-                @SerializedName("sort_order")
-                val sortOrder: Int?,
-                @SerializedName("status")
-                val status: Int?,
-                @SerializedName("tags")
-                val tags: Any?,
-                @SerializedName("type")
-                val type: String?,
-                @SerializedName("uuid")
-                val uuid: String?
-            ) {
-                @Keep
-                data class Property(
-                    @SerializedName("is_coupon")
-                    val isCoupon: String?,
-                    @SerializedName("platform")
-                    val platform: String?
-                )
-            }
-        }
+        @SerializedName("amount")
+        val amount: Double?,
+        @SerializedName("comment")
+        val comment: String?,
+        @SerializedName("created_at")
+        val createdAt: Any?,
+        @SerializedName("updated_at")
+        val updatedAt: Any?,
 
-        @Keep
-        data class Product(
-            @SerializedName("barcode")
-            val barcode: String?,
-            @SerializedName("creator_id")
-            val creatorId: Int?,
-            @SerializedName("creator_uuid")
-            val creatorUuid: String?,
-            @SerializedName("description")
-            val description: String?,
-            @SerializedName("discountable")
-            val discountable: Double?,
-            @SerializedName("id")
-            val id: Int?,
-            @SerializedName("property")
-            val `property`: Property?,
-            @SerializedName("short_name")
-            val shortName: String?,
-            @SerializedName("sort_order")
-            val sortOrder: Int?,
-            @SerializedName("status")
-            val status: Int?,
-            @SerializedName("tags")
-            val tags: String?,
-            @SerializedName("type")
-            val type: String?,
-            @SerializedName("uuid")
-            val uuid: String?
-        ) {
-            @Keep
-            data class Property(
-                @SerializedName("address")
-                val address: String?,
-                @SerializedName("email")
-                val email: String?,
-                @SerializedName("phone")
-                val phone: String?,
-                @SerializedName("postcode")
-                val postcode: String?
-            )
-        }
+//        @SerializedName("components")
+//        val components: List<Component?>?,
+//        @SerializedName("discountable_amount")
+//        val discountableAmount: Double?,
+//        @SerializedName("id")
+//        val id: Int?,
+//        @SerializedName("net_amount")
+//        val netAmount: Double?,
+//        @SerializedName("order_id")
+//        val orderId: Int?,
+//        @SerializedName("parent_id")
+//        val parentId: String?,
+//        @SerializedName("parent_product_id")
+//        val parentProductId: String?,
+//        @SerializedName("product")
+//        val product: Product?,
+//        @SerializedName("product_id")
+//        val productId: Int?,
+//        @SerializedName("unit")
+//        val unit: Int?
+    ) {
+//        @Keep
+//        data class Component(
+//            @SerializedName("comment")
+//            val comment: Any?,
+//            @SerializedName("components")
+//            val components: List<Any?>?,
+//            @SerializedName("discountable_amount")
+//            val discountableAmount: Double?,
+//            @SerializedName("id")
+//            val id: Int?,
+//            @SerializedName("net_amount")
+//            val netAmount: Double?,
+//            @SerializedName("order_id")
+//            val orderId: Int?,
+//            @SerializedName("parent_id")
+//            val parentId: Int?,
+//            @SerializedName("parent_product_id")
+//            val parentProductId: Int?,
+//            @SerializedName("product")
+//            val product: Product?,
+//            @SerializedName("product_id")
+//            val productId: Int?,
+//            @SerializedName("unit")
+//            val unit: Int?
+//        ) {
+//            @Keep
+//            data class Product(
+//                @SerializedName("barcode")
+//                val barcode: Any?,
+//                @SerializedName("creator_id")
+//                val creatorId: Int?,
+//                @SerializedName("creator_uuid")
+//                val creatorUuid: String?,
+//                @SerializedName("description")
+//                val description: Any?,
+//                @SerializedName("discountable")
+//                val discountable: Double?,
+//                @SerializedName("id")
+//                val id: Int?,
+//                @SerializedName("property")
+//                val `property`: Property?,
+//                @SerializedName("short_name")
+//                val shortName: String?,
+//                @SerializedName("sort_order")
+//                val sortOrder: Int?,
+//                @SerializedName("status")
+//                val status: Int?,
+//                @SerializedName("tags")
+//                val tags: Any?,
+//                @SerializedName("type")
+//                val type: String?,
+//                @SerializedName("uuid")
+//                val uuid: String?
+//            ) {
+//                @Keep
+//                data class Property(
+//                    @SerializedName("is_coupon")
+//                    val isCoupon: String?,
+//                    @SerializedName("platform")
+//                    val platform: String?
+//                )
+//            }
+//        }
+//
+//        @Keep
+//        data class Product(
+//            @SerializedName("barcode")
+//            val barcode: String?,
+//            @SerializedName("creator_id")
+//            val creatorId: Int?,
+//            @SerializedName("creator_uuid")
+//            val creatorUuid: String?,
+//            @SerializedName("description")
+//            val description: String?,
+//            @SerializedName("discountable")
+//            val discountable: Double?,
+//            @SerializedName("id")
+//            val id: Int?,
+//            @SerializedName("property")
+//            val `property`: Property?,
+//            @SerializedName("short_name")
+//            val shortName: String?,
+//            @SerializedName("sort_order")
+//            val sortOrder: Int?,
+//            @SerializedName("status")
+//            val status: Int?,
+//            @SerializedName("tags")
+//            val tags: String?,
+//            @SerializedName("type")
+//            val type: String?,
+//            @SerializedName("uuid")
+//            val uuid: String?
+//        ) {
+//            @Keep
+//            data class Property(
+//                @SerializedName("address")
+//                val address: String?,
+//                @SerializedName("email")
+//                val email: String?,
+//                @SerializedName("phone")
+//                val phone: String?,
+//                @SerializedName("postcode")
+//                val postcode: String?
+//            )
+//        }
     }
 
     @Keep

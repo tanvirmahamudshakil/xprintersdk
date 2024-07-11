@@ -256,37 +256,37 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:id="@+id/refundContainer"
-                >
+<!--            <RelativeLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:id="@+id/refundContainer"-->
+<!--                >-->
 
-                <TextView
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_toLeftOf="@id/refunded"
-                    android:text="Refunded"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
+<!--                <TextView-->
+<!--                    android:layout_width="150dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_toLeftOf="@id/refunded"-->
+<!--                    android:text="Refunded"-->
+<!--                    android:textAlignment="textStart"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="20sp"-->
 
-                    />
+<!--                    />-->
 
-                <TextView
-                    android:id="@+id/refunded"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:width="100dp"
-                    android:text="0.00"
-                    android:gravity="end"
-                    android:textAlignment="textEnd"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    />
-            </RelativeLayout>
+<!--                <TextView-->
+<!--                    android:id="@+id/refunded"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:width="100dp"-->
+<!--                    android:text="0.00"-->
+<!--                    android:gravity="end"-->
+<!--                    android:textAlignment="textEnd"-->
+<!--                    android:textColor="@color/black"-->
+<!--                    android:textSize="20sp"-->
+<!--                    />-->
+<!--            </RelativeLayout>-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -531,6 +531,43 @@
 
                     />
             </RelativeLayout>
+            <ImageView
+                android:id="@+id/dottedBelowTotal"
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:src="@drawable/dotted"
+                android:contentDescription="Dotted" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/RefundContainer"
+                >
+
+                <TextView
+                    android:layout_width="151dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/refund"
+                    android:text="Refund"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/refund"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.00"
+                    android:gravity="end"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    android:width="100dp"
+                    android:layout_alignParentEnd="true"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+
+                    />
+            </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -562,8 +599,6 @@
 
                     />
             </RelativeLayout>
-
-
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="10dp"

@@ -556,6 +556,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }else{
                  businessdatadata.printOnCollection!!
              }
+
              val printSize: Int = fontsize
              val bind: OnlinePrint2Binding = OnlinePrint2Binding.inflate(LayoutInflater.from(context))
              bind.businessName.text = businessname
@@ -564,8 +565,19 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd-MMM hh:mm a")
              val formatter2 = SimpleDateFormat(" dd/MM hh:mm a")
-//             Log.e("date formet", "doInBackground: ${dateDifferent(orderModel.orderDate!!, orderModel.requestedDeliveryTimestamp!!)}", )
-//             Log.d("order date", "orderrootget: ${orderModel.orderDate}")
+             var totalRefund : Double = 0.0;
+             var totalReceivePound : Double = 0.0
+             var totalDue : Double = 0.0;
+             val refundList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "REFUND"}
+             val receivePoundList = orderModel.cashEntry?.filter { it?.type?.uppercase() != "REFUND"}
+             val changeAmount : Double = orderModel.changeAmount ?: 0.0;
+             refundList?.forEach {
+                 totalRefund += (it?.amount ?: 0.0)
+             }
+             receivePoundList?.forEach {
+                 totalReceivePound += (it?.amount ?: 0.0)
+             }
+             totalDue = (orderModel.payableAmount ?: 0.0) - (totalReceivePound - (orderModel.changeAmount ?: 0.0))
              var addedDeliveryCharge = 0.0
              bind.businessLocation.text = businessaddress
              bind.businessLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
@@ -592,7 +604,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      var asapdata = orderModel.property?.requestedDeliveryTimestampType;
                      bind.collectionAt.text = asapdata
                      bind.collectionAt.setTypeface(null, Typeface.BOLD)
-                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.asapFontSize!!.toFloat())
+                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.asapFontSize?.toFloat() ?: 16f)
 
                  }else{
                      bind.collectionAt.text = "REQUESTED at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
@@ -665,6 +677,20 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      }
                  }
              } else if (orderModel.orderChannel?.uppercase() != "ONLINE") {
+                 if(totalRefund > 0.0) {
+                     bind.RefundContainer.visibility = View.VISIBLE
+                     bind.refund.text = "£ " + String.format("%.2f", totalRefund)
+                 }else{
+                     bind.RefundContainer.visibility = View.GONE
+                 }
+
+                 if(changeAmount > 0.0) {
+                     bind.changeContainer.visibility = View.VISIBLE
+                     bind.change.text = "£ " + String.format("%.2f", changeAmount)
+                 }else{
+                     bind.changeContainer.visibility = View.GONE
+                 }
+
                  if(orderModel.status?.uppercase() == "REFUNDED") {
                      paidOrNot = "ORDER is REFUNDED"
                      bind.dueTotalContainer.visibility = View.VISIBLE
@@ -672,20 +698,23 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  }else{
                      if(orderModel.cashEntry != null && orderModel.cashEntry!!.isNotEmpty()) {
                          paidOrNot ="ORDER IS PAID"
-                         bind.dueTotal.text = "£ 0.0"
+                         bind.dueTotal.text = "£ " + String.format("%.2f", totalDue)
                      }else{
                          if(orderModel.paymentType?.uppercase() == "UNPAID_CASH") {
                              paidOrNot ="ORDER IS UNPAID(CASH)"
                              bind.dueTotalContainer.visibility = View.VISIBLE
-                             bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                             bind.dueTotal.text = "£ " + String.format("%.2f", totalDue)
+                                 //"£ " + String.format("%.2f", orderModel.payableAmount)
                          }else if(orderModel.paymentType?.uppercase() == "UNPAID_CARD") {
                              paidOrNot ="ORDER IS UNPAID(CARD)"
                              bind.dueTotalContainer.visibility = View.VISIBLE
-                             bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                             bind.dueTotal.text = "£ " + String.format("%.2f", totalDue)
+                                 //"£ " + String.format("%.2f", orderModel.payableAmount)
                          }else{
                              paidOrNot = "ORDER NOT PAID"
                              bind.dueTotalContainer.visibility = View.VISIBLE
-                             bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                             bind.dueTotal.text = "£ " + String.format("%.2f", totalDue)
+                                 //"£ " + String.format("%.2f", orderModel.payableAmount)
                          }
                      }
                  }
@@ -693,7 +722,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              } else  {
                  paidOrNot = "ORDER NOT PAID"
                  bind.dueTotalContainer.visibility = View.VISIBLE
-                 bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                 bind.dueTotal.text = "£ " + String.format("%.2f", totalDue)
+                     //"£ " + String.format("%.2f", orderModel.payableAmount)
              }
 //             else if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType!!.uppercase() == "CASH") {
 //                 if (orderModel.cashEntry!!.isEmpty()){
@@ -706,7 +736,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //             }
              bind.orderPaidMessage.text = paidOrNot
              bind.orderPaidMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
-             bind.refundContainer.visibility = View.GONE
+//             bind.refundContainer.visibility = View.GONE
              val subTotal: Double = orderModel.netAmount ?: 0.0
              bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
              if(orderModel.orderType == "DELIVERY") {
