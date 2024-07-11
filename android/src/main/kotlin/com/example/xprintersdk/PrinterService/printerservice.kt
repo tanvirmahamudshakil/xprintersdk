@@ -707,7 +707,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  } else if(totalRefund > 0.0) {
                      paidOrNot = "ORDER is PARTIAL REFUNDED"
                      bind.dueTotalContainer.visibility = View.VISIBLE
-                     bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                     bind.dueTotal.text = "£ 0.0"
                  } else{
                      if(orderModel.cashEntry != null && orderModel.cashEntry!!.isNotEmpty()) {
                          paidOrNot ="ORDER IS PAID"
