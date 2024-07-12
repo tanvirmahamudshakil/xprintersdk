@@ -893,6 +893,52 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      allitemsheight += childView!!.measuredHeight
                  }
              }
+             var dlAddress = "\n\n"
+             dlAddress = "\n\n"
+             if (orderModel.requesterGuest != null){
+                 val customerModel: OrderData.RequesterGuest? = orderModel.requesterGuest
+                 dlAddress += "Name : ${customerModel?.firstName} ${customerModel?.lastName}\n"
+                 dlAddress += "Phone : ${customerModel?.phone}"
+                 if (orderModel.shippingAddress != null) {
+                     val address: OrderData.ShippingAddress? = orderModel.shippingAddress
+                     if (address?.property != null) {
+                         val pro: OrderData.ShippingAddress.Property = address.property
+                         // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
+                         val building = pro.house ?: ""
+//                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
+                         val streetName = pro.state ?: ""
+                         val city = pro.town ?: ""
+                         val state = pro.state ?: ""
+                         val zip = pro.postcode ?: ""
+                         dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
+                     }
+                 }
+             }else{
+                 if(orderModel.requester != null) {
+                     val customerModel: OrderData.Requester? = orderModel.requester!!
+                     dlAddress += "Name : ${customerModel?.name}\n"
+                     dlAddress += "Phone : ${customerModel?.phone}"
+                     if (orderModel.shippingAddress != null) {
+                         val address: OrderData.ShippingAddress? = orderModel.shippingAddress
+                         if (address?.property != null) {
+                             val pro: OrderData.ShippingAddress.Property = address.property
+                             // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
+                             val building = pro.house ?: ""
+//                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
+                             val streetName = pro.state ?: ""
+                             val city = pro.town ?: ""
+                             val state = pro.state ?: ""
+                             val zip = pro.postcode ?: ""
+                             dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
+                         }
+                     }
+                 }
+
+             }
+
+             bind.address.text = dlAddress
+             bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
+
              if(orderModel.barcode != null) {
                  var barcodeBitmap = genBarcode(orderModel.barcode!!)
                  bind.barcode.setImageBitmap(barcodeBitmap)
