@@ -893,8 +893,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      allitemsheight += childView!!.measuredHeight
                  }
              }
-             var dlAddress = "\n\n"
-             dlAddress = "\n\n"
+             var dlAddress = ""
+
              if (orderModel.requesterGuest != null){
                  val customerModel: OrderData.RequesterGuest? = orderModel.requesterGuest
                  dlAddress += "Name : ${customerModel?.firstName} ${customerModel?.lastName}\n"
