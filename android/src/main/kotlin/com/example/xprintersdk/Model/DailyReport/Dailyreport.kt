@@ -37,5 +37,7 @@ data class Dailyreport(
         val totalrefundcardAmount: String?,
         @SerializedName("total_refund_cash_Amount")
         val totalrefundcashAmount: String?,
+        @SerializedName("total_change")
+        var totalChange : String?
     )
 }
