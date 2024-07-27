@@ -45,6 +45,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var nyxPrinterPrint = "nyxPrinterPrint";
   private var nyxPrinterInit = "nyxPrinterInit";
   private var nyxPrinterCheck = "nyxPrinterCheck";
+  private var dailyreportImagePrint = "dailyreportImagePrint";
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
@@ -85,7 +86,10 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       XprinterBookingRequestPrint(call, result)
     } else if (call.method == dailyreportPrint) {
       dailyReportPrint(call, result)
-    } else {
+    } else if (call.method == dailyreportImagePrint) {
+      dailyReportImageSave(call, result)
+    }
+    else {
       result.notImplemented()
     }
   }
@@ -191,13 +195,19 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val modeldata = Gson().fromJson<Dailyreport>(orderjson, Dailyreport::class.java)
     Log.d("DailyReport", "DailyReport: ${modeldata.data!!.date}")
     DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nyxPrinter).execute()
-//    if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
-//      DailyReportPage(context,modeldata,businessdata, xprinter, result,sunmiHelper, false).execute()
-//    }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
-//      DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
-//    }else{
-//      DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, ).execute()
-//    }
+
+  }
+
+  private fun dailyReportImageSave(call: MethodCall, result : Result) {
+    val orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
+    val printerbusinessdata = call.argument<String>("printer_model_data")
+    val orderjson = Gson().toJson(orderiteamdata)
+    val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+    Log.d("Online Booking Request", "Online Booking Request: ${orderiteamdata}")
+    val modeldata = Gson().fromJson<Dailyreport>(orderjson, Dailyreport::class.java)
+    Log.d("DailyReport", "DailyReport: ${modeldata.data!!.date}")
+    DailyReportPage(context,modeldata, businessdata,xprinter, result, sunmiHelper, true, nyxPrinter).execute()
+
   }
 
 

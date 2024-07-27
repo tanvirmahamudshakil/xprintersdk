@@ -21,6 +21,7 @@ class Xprintersdk {
   final String _nyxPrinterPrint = "nyxPrinterPrint";
   final String _nyxPrinterInit = "nyxPrinterInit";
   final String _nyxPrinterCheck = "nyxPrinterCheck";
+  final String _dailyreportImagePrint = "dailyreportImagePrint";
 
   Future<String?> getPlatformVersion() async {
     final version =
@@ -138,5 +139,16 @@ class Xprintersdk {
       "printer_model_data": jsonEncode(printermodel.toJson())
     };
     return await _methodChannel.invokeMethod(_dailyreportPrint, quary);
+  }
+
+   Future<bool> dailyReportImagePrint(
+    PrinterBusinessModel printermodel,
+    Map<String, Object?> bookingrequestIteam,
+  ) async {
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
+    return await _methodChannel.invokeMethod(_dailyreportImagePrint, quary);
   }
 }
