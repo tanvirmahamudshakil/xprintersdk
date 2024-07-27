@@ -294,36 +294,7 @@
 
 
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:src="@drawable/dotted"
-            android:contentDescription="Dotted" />
-        <RelativeLayout
-            android:id="@+id/totalChangeContainer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/totalChange"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Change:"
-                android:textAlignment="textStart"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-            <TextView
-                android:id="@+id/totalChangeBox"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:gravity="end"
-                android:text="05656516"
-                android:textAlignment="textEnd"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-        </RelativeLayout>
 
 
 <!--         total refund order amount-->

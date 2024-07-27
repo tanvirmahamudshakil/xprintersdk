@@ -215,7 +215,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         val totalCardOrderAmount = String.format("%.2f", dailyreport.data?.totalCardOrderAmount)
 
         val totalRefundCashAmount = dailyreport.data?.totalrefundcashAmount
-        var totalChangeAmount = dailyreport.data?.totalChange
+     //   var totalChangeAmount = dailyreport.data?.totalChange
        // val totalRefundCardAmount = dailyreport.data?.totalrefundcardAmount
 
         binding.reportDate.text = "Date: ${formatter.format(parser.parse(dailyreport.data?.date))}"
@@ -259,11 +259,11 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
 
 
         // total Change amount
-        var totalChange = totalChangeAmount?.toDouble() ?: 0.0
-        binding.totalChangeBox.text = "£ " + String.format("%.2f", totalChange) ;
-        binding.totalChangeBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
-        binding.totalChange.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
-
+ //       var totalChange = totalChangeAmount?.toDouble() ?: 0.0
+//        binding.totalChangeBox.text = "£ " + String.format("%.2f", totalChange) ;
+//        binding.totalChangeBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+//        binding.totalChange.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+//
 
 
         // total card
@@ -286,7 +286,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
 //        binding.totalRefundcash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
         // total balance
-        val totalBalance = totalPayment - totalRefundAmount - totalChange;
+        val totalBalance = totalPayment - totalRefundAmount ;
         binding.totalBalanceBox.text = "£ " + String.format("%.2f", totalBalance)
         binding.totalBalanceBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalBalance.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
