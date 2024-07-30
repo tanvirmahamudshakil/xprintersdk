@@ -48,6 +48,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var dailyreportImagePrint = "dailyreportImagePrint";
   private var allUSbList = "allUSbList";
 
+  
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
     context = flutterPluginBinding.applicationContext
