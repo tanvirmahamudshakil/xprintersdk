@@ -46,6 +46,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var nyxPrinterInit = "nyxPrinterInit";
   private var nyxPrinterCheck = "nyxPrinterCheck";
   private var dailyreportImagePrint = "dailyreportImagePrint";
+  private var allUSbList = "allUSbList";
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
@@ -88,8 +89,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       dailyReportPrint(call, result)
     } else if (call.method == dailyreportImagePrint) {
       dailyReportImageSave(call, result)
-    }
-    else {
+    } else if (call.method == allUSbList) {
+      getAllUsb(call, result)
+    } else {
       result.notImplemented()
     }
   }
@@ -232,6 +234,11 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nyxPrinter).execute()
+  }
+
+  private  fun getAllUsb(call: MethodCall, result : Result) {
+    var d = xprinter.getAllUSbList();
+    result.success(d)
   }
 
 }
