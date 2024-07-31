@@ -78,7 +78,7 @@ class Xprinter(mcontext : Context) {
         }
     }
 
-    fun connetUSB(result: MethodChannel.Result, xprinterPath : String) {
+    fun connetUSB(result: MethodChannel.Result) {
         val usbList = PosPrinterDev.GetUsbPathNames(context)
         Log.d("usblist", "connetUSB: $usbList")
         if (usbList != null && usbList.size > 0) {

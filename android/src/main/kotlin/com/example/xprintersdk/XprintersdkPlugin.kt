@@ -48,6 +48,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var dailyreportImagePrint = "dailyreportImagePrint";
 
 
+
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
     context = flutterPluginBinding.applicationContext
@@ -89,7 +90,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       dailyReportPrint(call, result)
     } else if (call.method == dailyreportImagePrint) {
       dailyReportImageSave(call, result)
-    }  else {
+    }else {
       result.notImplemented()
     }
   }
@@ -116,7 +117,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     if (businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "ipconnection"){
       xprinter.connectNet(businessdata.ip.toString(),result);
     }else if(businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "usbconnection"){
-      businessdata.xprinterpath?.let { xprinter.connetUSB(result, it) };
+      xprinter.connetUSB(result)
     }else{
      result.success(false)
     }
@@ -233,5 +234,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nyxPrinter).execute()
   }
+
+
 
 }
