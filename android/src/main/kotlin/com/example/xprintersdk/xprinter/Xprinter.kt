@@ -188,9 +188,9 @@ class Xprinter(mcontext : Context) {
     }
 
 
-  fun getAllUSbList() : List<String> {
+  fun getAllUSbList() : List<String>? {
       val usbList = PosPrinterDev.GetUsbPathNames(context)
-      return usbList ?: arrayListOf<String>();
+      return usbList;
   }
 
 }
