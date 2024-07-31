@@ -22,7 +22,6 @@ class Xprintersdk {
   final String _nyxPrinterInit = "nyxPrinterInit";
   final String _nyxPrinterCheck = "nyxPrinterCheck";
   final String _dailyreportImagePrint = "dailyreportImagePrint";
-  final String _allUSbList = "allUSbList";
 
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');
@@ -126,8 +125,4 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_dailyreportImagePrint, quary);
   }
 
-
-   Future getAllUSbList() async {
-    return await _methodChannel.invokeMethod(_allUSbList);
-  }
 }
