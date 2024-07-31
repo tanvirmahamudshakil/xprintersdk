@@ -48,7 +48,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var dailyreportImagePrint = "dailyreportImagePrint";
   private var allUSbList = "allUSbList";
 
-  
+
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
     context = flutterPluginBinding.applicationContext
@@ -119,7 +119,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     if (businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "ipconnection"){
       xprinter.connectNet(businessdata.ip.toString(),result);
     }else if(businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "usbconnection"){
-      xprinter.connetUSB(result);
+      businessdata.xprinterpath?.let { xprinter.connetUSB(result, it) };
     }else{
      result.success(false)
     }

@@ -78,12 +78,12 @@ class Xprinter(mcontext : Context) {
         }
     }
 
-    fun connetUSB(result: MethodChannel.Result) {
+    fun connetUSB(result: MethodChannel.Result, xprinterPath : String) {
         val usbList = PosPrinterDev.GetUsbPathNames(context)
         Log.d("usblist", "connetUSB: $usbList")
         if (usbList != null && usbList.size > 0) {
             if (binder != null) {
-                binder!!.ConnectUsbPort(context, usbList[0], object : TaskCallback {
+                binder!!.ConnectUsbPort(context,xprinterPath, object : TaskCallback {
                     override fun OnSucceed() {
                         result.success(true);
                     }

@@ -4,14 +4,9 @@
 
 import 'dart:convert';
 
+PrinterBusinessModel printerBusinessModelFromJson(String str) => PrinterBusinessModel.fromJson(json.decode(str));
 
-
-
-PrinterBusinessModel printerBusinessModelFromJson(String str) =>
-    PrinterBusinessModel.fromJson(json.decode(str));
-
-String printerBusinessModelToJson(PrinterBusinessModel data) =>
-    json.encode(data.toJson());
+String printerBusinessModelToJson(PrinterBusinessModel data) => json.encode(data.toJson());
 
 class PrinterBusinessModel {
   bool? weightShow;
@@ -50,13 +45,14 @@ class PrinterBusinessModel {
   int? asapFontSize;
   int? footervatFontSize;
   bool weightMultiplyingPrice;
+  String? xprinterPath;
 
   PrinterBusinessModel(
       {this.fontSize,
       this.weightShow = false,
       required this.orderChannel,
       this.header1Size,
-        required this.weightMultiplyingPrice,
+      required this.weightMultiplyingPrice,
       this.header2Size,
       this.serviceCharge = false,
       this.header3Size,
@@ -87,46 +83,48 @@ class PrinterBusinessModel {
       this.vatCompanyName,
       this.vatNote,
       this.printerStyle,
-      this.asapFontSize});
+      this.asapFontSize,
+      this.xprinterPath});
 
-  factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) =>
-      PrinterBusinessModel(
+  factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
         weightShow: json["weightShow"],
-          orderChannel: json["orderChannel"],
-          highlighttextsize: json["highlighttextsize"],
-          weightMultiplyingPrice: json["weightMultiplyingPrice"],
-          header1Size: json["header1Size"],
-          header2Size: json["header2Size"],
-          header3Size: json["header3Size"],
-          header4Size: json["header4Size"],
-          fontSize: json["font_size"],
-          printOnDelivery: json["print_on_delivery"],
-          printOnCollection: json["print_on_collection"],
-          printOnTableOrder: json["print_on_table_order"],
-          printOnTackwayOrder: json["print_on_tackway_order"],
-          autoPrint: json["auto_print"],
-          serviceCharge: json["serviceCharge"],
-          showOrderNoInvoice: json["show_order_no_invoice"],
-          selectPrinter: json["select_printer"],
-          printerConnection: json["printer_connection"],
-          ip: json["ip"],
-          bluetoothName: json["bluetooth_name"],
-          bluetoothAddress: json["bluetooth_address"],
-          businessname: json["businessname"],
-          businessphone: json["businessphone"],
-          businessaddress: json["businessaddress"],
-          highlight: json["highlight"],
-          papersSize: json["papersize"],
-          dynamicCollection: json['dynamicCollection'],
-          dynamicDelivery: json['dynamicDelivery'],
-          dynamicEatIn: json['dynamicEatIn'],
-          dynamicTakeaway: json['dynamicTakeaway'],
-          vatNumber: json["vat_number"],
-          vatCompanyName: json["vat_company_name"],
-          vatNote: json["vat_note"],
-          printerStyle: json["printer_style"],
-          footervatFontSize: json["footervatFontSize"],
-          asapFontSize: json["asapFontSize"]);
+        orderChannel: json["orderChannel"],
+        highlighttextsize: json["highlighttextsize"],
+        weightMultiplyingPrice: json["weightMultiplyingPrice"],
+        header1Size: json["header1Size"],
+        header2Size: json["header2Size"],
+        header3Size: json["header3Size"],
+        header4Size: json["header4Size"],
+        fontSize: json["font_size"],
+        printOnDelivery: json["print_on_delivery"],
+        printOnCollection: json["print_on_collection"],
+        printOnTableOrder: json["print_on_table_order"],
+        printOnTackwayOrder: json["print_on_tackway_order"],
+        autoPrint: json["auto_print"],
+        serviceCharge: json["serviceCharge"],
+        showOrderNoInvoice: json["show_order_no_invoice"],
+        selectPrinter: json["select_printer"],
+        printerConnection: json["printer_connection"],
+        ip: json["ip"],
+        bluetoothName: json["bluetooth_name"],
+        bluetoothAddress: json["bluetooth_address"],
+        businessname: json["businessname"],
+        businessphone: json["businessphone"],
+        businessaddress: json["businessaddress"],
+        highlight: json["highlight"],
+        papersSize: json["papersize"],
+        dynamicCollection: json['dynamicCollection'],
+        dynamicDelivery: json['dynamicDelivery'],
+        dynamicEatIn: json['dynamicEatIn'],
+        dynamicTakeaway: json['dynamicTakeaway'],
+        vatNumber: json["vat_number"],
+        vatCompanyName: json["vat_company_name"],
+        vatNote: json["vat_note"],
+        printerStyle: json["printer_style"],
+        footervatFontSize: json["footervatFontSize"],
+        asapFontSize: json["asapFontSize"],
+        xprinterPath: json["xprinter_path"],
+      );
 
   Map<String, dynamic> toJson() => {
         "orderChannel": orderChannel,
@@ -163,8 +161,8 @@ class PrinterBusinessModel {
         "header2Size": header2Size,
         "header3Size": header3Size,
         "header4Size": header4Size,
-        "footervatFontSize" : footervatFontSize,
+        "footervatFontSize": footervatFontSize,
         "serviceCharge": serviceCharge,
-
+        "xprinter_path": xprinterPath,
       };
 }
