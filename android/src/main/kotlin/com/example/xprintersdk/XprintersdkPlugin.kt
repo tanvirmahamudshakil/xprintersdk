@@ -239,7 +239,12 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
   private  fun getAllUsb(call: MethodCall, result : Result) {
     var d = xprinter.getAllUSbList();
-    result.success(d)
+    if(d != null && d.isNotEmpty()) {
+      result.success(d)
+    }else{
+      result.success(arrayListOf<String>())
+    }
+
   }
 
 }
