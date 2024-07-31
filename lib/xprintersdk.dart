@@ -127,7 +127,7 @@ class Xprintersdk {
   }
 
 
-   Future<List<String>> getAllUSbList() async {
+   Future getAllUSbList() async {
     return await _methodChannel.invokeMethod(_allUSbList);
   }
 }
