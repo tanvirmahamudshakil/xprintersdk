@@ -659,6 +659,26 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
              var paidOrNot = "";
              if (orderModel.orderChannel?.uppercase() == "ONLINE") {
+                 if(totalRefund > 0.0) {
+                     bind.RefundContainer.visibility = View.VISIBLE
+                     bind.refund.text = "£ " + String.format("%.2f", totalRefund)
+                 }else{
+                     bind.RefundContainer.visibility = View.GONE
+                 }
+
+                 if(changeAmount > 0.0) {
+                     bind.changeContainer.visibility = View.VISIBLE
+                     bind.change.text = "£ " + String.format("%.2f", changeAmount)
+                 }else{
+                     bind.changeContainer.visibility = View.GONE
+
+                 }
+                 if(totalRefund > 0.0 || changeAmount > 0.0) {
+                     bind.dottedBelowTotal.visibility = View.VISIBLE
+                 }else{
+                     bind.dottedBelowTotal.visibility = View.GONE
+                 }
+
                  if(orderModel.status?.uppercase() == "REFUNDED") {
                      paidOrNot = "ORDER is REFUNDED"
                      bind.dueTotalContainer.visibility = View.VISIBLE
@@ -682,7 +702,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      bind.refund.text = "£ " + String.format("%.2f", totalRefund)
                  }else{
                      bind.RefundContainer.visibility = View.GONE
-
                  }
 
                  if(changeAmount > 0.0) {

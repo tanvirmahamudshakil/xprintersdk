@@ -77,7 +77,9 @@ data class OrderData(
     @SerializedName("property")
     val property: PropertyXXX?,
     @SerializedName("vat")
-    var vat_amount: Double
+    var vat_amount: Double,
+    @SerializedName("order_id")
+    var order_id: Int
 ) {
     @Keep
     data class PropertyXXX(
