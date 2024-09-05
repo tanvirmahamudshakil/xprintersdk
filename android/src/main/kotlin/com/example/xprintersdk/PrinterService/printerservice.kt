@@ -591,7 +591,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }else{
                  bind.orderType.text =  getOrderType()
                  bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-
+326
              }
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
@@ -627,7 +627,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
              if(orderModel.orderChannel?.uppercase() == "ONLINE"){
                  bind.containerOrderNo.visibility = View.VISIBLE
-                 bind.orderNo.text = "${orderModel.id}";
+                 bind.orderNo.text = "${orderModel.order_id}";
                  bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                  bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
              }else{
