@@ -256,7 +256,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         } else {
             if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
                 str3.append(item.unit).append("x ").append(item.product.shortName)
-                if(businessdatadata.printerStyle == "3"){
+                if(businessdatadata.printerStyle == "2"){
                     if(item.product.property?.printorder == "2"){
                         str3.append("(Str)")
                     }
@@ -564,6 +564,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd-MMM hh:mm a")
+             val requestformatter = SimpleDateFormat("HH:mm")
              val formatter2 = SimpleDateFormat(" dd/MM hh:mm a")
              var totalRefund : Double = 0.0;
              var totalReceivePound : Double = 0.0
@@ -589,8 +590,27 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.orderType.text = "TABLE BOOKING #${orderModel.table_id}"
                  bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
              }else{
-                 bind.orderType.text =  getOrderType()
-                 bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+//                 bind.orderType.text =  getOrderType()
+//                 bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                 if(orderModel.property?.requestedDeliveryTimestampType != null) {
+                     if(businessdatadata.printerStyle == "3") {
+                         bind.orderType.text =  "${getOrderType()} ${orderModel.property?.requestedDeliveryTimestampType}"
+                         bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                     }else{
+                         bind.orderType.text =  getOrderType()
+                         bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                     }
+
+                 }else{
+                     if(businessdatadata.printerStyle == "3") {
+                         bind.orderType.text =  "${getOrderType()}"
+                         bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                     }else{
+                         bind.orderType.text =  getOrderType()
+                         bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                     }
+
+                 }
 326
              }
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
@@ -602,13 +622,32 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }else{
                  if(orderModel.property?.requestedDeliveryTimestampType != null) {
                      var asapdata = orderModel.property?.requestedDeliveryTimestampType;
-                     bind.collectionAt.text = asapdata
-                     bind.collectionAt.setTypeface(null, Typeface.BOLD)
-                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.asapFontSize?.toFloat() ?: 16f)
+                     if(businessdatadata.printerStyle == "3") {
+                         bind.collectionAt.setTypeface(null, Typeface.BOLD)
+                         bind.collectionAt.text = "REQUESTED at : ${requestformatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))} ${asapdata}"
+                         bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                     }else{
+                         bind.collectionAt.text = asapdata
+                         bind.collectionAt.setTypeface(null, Typeface.BOLD)
+                         bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.asapFontSize!!.toFloat())
+                     }
+//                     var asapdata = orderModel.property?.requestedDeliveryTimestampType;
+//                     bind.collectionAt.text = asapdata
+//                     bind.collectionAt.setTypeface(null, Typeface.BOLD)
+//                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.asapFontSize?.toFloat() ?: 16f)
 
                  }else{
-                     bind.collectionAt.text = "REQUESTED at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
-                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+//                     bind.collectionAt.text = "REQUESTED at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+//                     bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+
+                     if(businessdatadata.printerStyle == "3") {
+                         bind.collectionAt.setTypeface(null, Typeface.BOLD)
+                         bind.collectionAt.text = "REQUESTED at : ${requestformatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                         bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                     }else{
+                         bind.collectionAt.text = "REQUESTED at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
+                         bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                     }
                  }
 
              }
