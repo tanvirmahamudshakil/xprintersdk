@@ -46,6 +46,7 @@ class PrinterBusinessModel {
   int? footervatFontSize;
   bool weightMultiplyingPrice;
   String? xprinterPath;
+   bool? propertyshop;
 
   PrinterBusinessModel(
       {this.fontSize,
@@ -84,7 +85,8 @@ class PrinterBusinessModel {
       this.vatNote,
       this.printerStyle,
       this.asapFontSize,
-      this.xprinterPath});
+      this.xprinterPath,
+      this.propertyshop});
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
         weightShow: json["weightShow"],
@@ -124,6 +126,7 @@ class PrinterBusinessModel {
         footervatFontSize: json["footervatFontSize"],
         asapFontSize: json["asapFontSize"],
         xprinterPath: json["xprinter_path"],
+        propertyshop: json["propertyshop"]
       );
 
   Map<String, dynamic> toJson() => {
@@ -164,5 +167,6 @@ class PrinterBusinessModel {
         "footervatFontSize": footervatFontSize,
         "serviceCharge": serviceCharge,
         "xprinter_path": xprinterPath,
+        "propertyshop": propertyshop
       };
 }

@@ -9,9 +9,11 @@ import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.DailyReport.Dailyreport
 import com.example.xprintersdk.Model.LocalOrderData.LocalOrderData
 import com.example.xprintersdk.Model.OrderData.OrderData
+import com.example.xprintersdk.Model.ReturnModel.ReturnModel
 import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
 import com.example.xprintersdk.PrinterService.DailyReportPage
 import com.example.xprintersdk.PrinterService.RequestBookingprint
+import com.example.xprintersdk.PrinterService.ReturnPrint
 import com.example.xprintersdk.PrinterService.printerservice
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.xprinter.Xprinter
@@ -46,6 +48,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var nyxPrinterInit = "nyxPrinterInit";
   private var nyxPrinterCheck = "nyxPrinterCheck";
   private var dailyreportImagePrint = "dailyreportImagePrint";
+  private var propertyReturnPrint = "propertyReturnPrint";
 
 
 
@@ -90,6 +93,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       dailyReportPrint(call, result)
     } else if (call.method == dailyreportImagePrint) {
       dailyReportImageSave(call, result)
+    }  else if (call.method == propertyReturnPrint) {
+      propertyReturnPrint(call, result)
     }else {
       result.notImplemented()
     }
@@ -233,6 +238,18 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nyxPrinter).execute()
+  }
+
+
+  private fun propertyReturnPrint(call: MethodCall, result : Result) {
+    val orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
+    val printerbusinessdata = call.argument<String>("printer_model_data")
+    val orderjson = Gson().toJson(orderiteamdata)
+    val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+    val modeldata = Gson().fromJson<ReturnModel>(orderjson, ReturnModel::class.java)
+
+    ReturnPrint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nyxPrinter).execute()
+
   }
 
 

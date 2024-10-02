@@ -79,5 +79,7 @@ data class BusinessSetting(
     @SerializedName("footervatFontSize")
     var footervatFontSize : Int?,
     @SerializedName("xprinter_path")
-    var xprinterpath : String?
+    var xprinterpath : String?,
+    @SerializedName("propertyshop")
+    var propertyShop : Boolean?
 )
