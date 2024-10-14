@@ -576,7 +576,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
               // var totalDue : Double = 0.0;
              val refundList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "REFUND"}
              var cardPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CARD" || it?.type?.uppercase() == "CARD"}
-             var cashPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CSAH" || it?.type?.uppercase() == "CASH"}
+             var cashPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CASH" || it?.type?.uppercase() == "CASH"}
 
              val receivePoundList = orderModel.cashEntry?.filter { it?.type?.uppercase() != "REFUND"}
              val changeAmount : Double = orderModel.changeAmount ?: 0.0;
