@@ -570,13 +570,24 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              val requestformatter = SimpleDateFormat("HH:mm")
              val formatter2 = SimpleDateFormat(" dd/MM hh:mm a")
              var totalRefund : Double = 0.0;
+             var totalCardPaid : Double = 0.0;
+             var totalCashPaid: Double = 0.0;
              var totalReceivePound : Double = 0.0
               // var totalDue : Double = 0.0;
              val refundList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "REFUND"}
+             var cardPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CARD" || it?.type?.uppercase() == "CARD"}
+             var cashPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CSAH" || it?.type?.uppercase() == "CASH"}
+
              val receivePoundList = orderModel.cashEntry?.filter { it?.type?.uppercase() != "REFUND"}
              val changeAmount : Double = orderModel.changeAmount ?: 0.0;
              refundList?.forEach {
                  totalRefund += (it?.amount ?: 0.0)
+             }
+             cardPaidList?.forEach {
+                 totalCardPaid += (it?.amount?: 0.0)
+             }
+             cashPaidList?.forEach {
+                 totalCashPaid += (it?.amount?: 0.0)
              }
              receivePoundList?.forEach {
                  totalReceivePound += (it?.amount ?: 0.0)
@@ -821,8 +832,20 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.deliveryChargeContainer.visibility = View.GONE
              }
              bind.change.text = "£ " +  String.format( "%.2f",  orderModel.changeAmount)
-             bind.cardPayContainer.visibility = View.GONE
-             bind.cashPayContainer.visibility = View.GONE
+             if(totalCardPaid > 0) {
+                 bind.cardPayContainer.visibility = View.VISIBLE
+                 bind.cardPay.text = "£ " + String.format( "%.2f",  totalCardPaid)
+             } else{
+                 bind.cardPayContainer.visibility = View.GONE
+             }
+             if(totalCashPaid > 0) {
+                 bind.cashPayContainer.visibility = View.VISIBLE
+                 bind.cashPay.text = "£ " + String.format( "%.2f",  totalCashPaid)
+             }else{
+                 bind.cashPayContainer.visibility = View.GONE
+             }
+
+
              if (orderModel.orderChannel?.uppercase() == "ONLINE") {
                  if ((orderModel.discountedAmount ?: 0.0) > 0) {
                      bind.discount.text =
