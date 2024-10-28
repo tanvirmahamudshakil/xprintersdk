@@ -24,6 +24,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import net.nyx.printerclient.Nyxpinter
+import net.posprinter.POSConnect
 
 
 class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
@@ -64,6 +65,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
   override fun onMethodCall(call: MethodCall, result: Result) {
     if (call.method == xPrinterIntitalization) {
+
       xPrinterInitialization()
     } else if (call.method == nyxPrinterCheck) {
       nyxPrinterCheck(result)
