@@ -59,10 +59,13 @@ class LabelPrinter(context: Context) {
         curConnect = POSConnect.createDevice(POSConnect.DEVICE_TYPE_USB)
         curConnect!!.connect(pathName) { p0, p1, p2 ->
             if (POSConnect.CONNECT_SUCCESS == p0) {
+
                 result.success(true)
             } else {
+
                 result.success(false)
             }
+            UIUtils.toast(p0, mContext)
         }
     }
 
@@ -123,19 +126,13 @@ class LabelPrinter(context: Context) {
      }
 
      fun printBarcode(result: Result) {
-        printer.isConnect { p0 ->
-            if (POSConnect.CONNECT_SUCCESS == p0) {
-                printer.sizeMm(60.0, 30.0)
-                    .gapMm(0.0, 0.0)
-                    .cls()
-                    .barcode(60, 50, TSPLConst.CODE_TYPE_128, 108, "abcdef12345")
-                    .print()
-                result.success(true)
-            }else{
-                Toast.makeText(mContext, "printer not connect", Toast.LENGTH_SHORT).show()
-                result.success(false)
-            }
-        }
+         printer.sizeMm(60.0, 30.0)
+             .gapMm(0.0, 0.0)
+             .cls()
+             .barcode(60, 50, TSPLConst.CODE_TYPE_128, 108, "abcdef12345")
+             .print()
+         result.success(true)
+         
     }
 
 
