@@ -146,7 +146,8 @@ class Xprintersdk {
   }
 
   Future<List<String>> getLabelPrinterUsbList() async {
-    return await _methodChannel.invokeMethod(_labelPrinterUsbList);
+    var list = await _methodChannel.invokeMethod<List>(_labelPrinterUsbList);
+    return list?.map((e) => e.toString()).toList() ?? [];
   }
 
   Future<bool> labelPrinterUSbConnect({required String path_name}) async {
