@@ -20,9 +20,6 @@ allprojects {
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
-        flatDir {
-            dirs 'libs'
-        }
     }
 }
 
@@ -81,8 +78,8 @@ android {
 dependencies {
     implementation files('libs/PosPrinterSDK.jar')
 //    implementation fileTree(dir: "libs", include: ["*.aar"])
-//    implementation files('libs/printer-lib-3.2.0.jar')
-    implementation fileTree(dir: 'libs', include: ['*.aar'])
+    implementation files('libs/printer-lib.jar')
+//    implementation fileTree(dir: 'libs', include: ['*.aar'])
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.12.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'

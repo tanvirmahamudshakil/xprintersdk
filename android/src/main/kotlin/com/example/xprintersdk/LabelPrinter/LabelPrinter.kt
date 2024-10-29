@@ -18,7 +18,7 @@ import net.posprinter.posprinterface.IStatusCallback
 class LabelPrinter(context: Context) {
     var mContext : Context = context;
     var curConnect: IDeviceConnection? = null
-    private val printer = TSPLPrinter(curConnect)
+
 
     init {
         initalize()
@@ -112,6 +112,7 @@ class LabelPrinter(context: Context) {
 
 
      fun printPicCode(b: Bitmap) {
+       var printer = TSPLPrinter(curConnect)
          printer.isConnect { p0 ->
              if (POSConnect.CONNECT_SUCCESS == p0) {
                  printer.sizeMm(76.0, 300.0)
@@ -126,6 +127,7 @@ class LabelPrinter(context: Context) {
      }
 
      fun printBarcode(result: Result) {
+         var printer = TSPLPrinter(curConnect)
          printer.sizeMm(60.0, 30.0)
              .gapMm(0.0, 0.0)
              .cls()
