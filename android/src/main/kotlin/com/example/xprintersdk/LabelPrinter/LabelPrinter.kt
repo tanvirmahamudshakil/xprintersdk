@@ -1,5 +1,6 @@
 package com.example.xprintersdk.LabelPrinter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -111,6 +112,7 @@ class LabelPrinter(context: Context) {
 
 
 
+     @SuppressLint("SuspiciousIndentation")
      fun printPicCode(b: Bitmap) {
        var printer = TSPLPrinter(curConnect)
          printer.isConnect { p0 ->
