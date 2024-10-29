@@ -23,6 +23,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.text.bold
+import com.example.xprintersdk.LabelPrinter.LabelPrinter
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.OrderData.OrderData
 import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
@@ -30,6 +31,7 @@ import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ButcherOrderPrintBinding
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
+import com.example.xprintersdk.databinding.StickerprinterBinding
 import com.example.xprintersdk.xprinter.Xprinter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
@@ -43,7 +45,7 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 
-class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp) :
+class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp, labelPrinter : LabelPrinter) :
     AsyncTask<String, Int, Bitmap>()
      {
 
@@ -53,7 +55,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     private  var businessaddress: String
     private  var businessphone: String
     private var fontsize: Int = 30
-
+    private var labelPrinter: LabelPrinter
     private var noofprint: Int =1
     private var businessdatadata: BusinessSetting
     private var serviceBinding: Xprinter
@@ -79,6 +81,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         businessdatadata = businessdata
         result = mresult
         sunmiPrinter = sunmiHelper;
+        this.labelPrinter = labelPrinter
         bitmapSave = saveImage;
         header1 = businessdata.header1Size ?: 22;
         header2 = businessdata.header2Size ?: 22;
@@ -315,6 +318,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         binding.root.buildDrawingCache(true)
         return binding.root
     }
+
          fun unitGet(data: OrderData.OrderProduct?): String {
              val unitOfSale = data?.product?.property?.unit_of_sale
              return when (unitOfSale) {
@@ -342,6 +346,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  return totalItems
              }
          }
+
          fun truncateToTwoDecimalPlaces(value: Double): Double {
              val factor = 100.0
              return kotlin.math.floor(value * factor) / factor
@@ -442,7 +447,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 serviceBinding.printUSBbitamp(bitmap,result);
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!, result)
-            } else {
+            }
+            else {
                 sunmiPrinter.printBitmap(bitmap, 2, result)
             }
 
@@ -695,7 +701,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                      bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                  }
-
              }
              var allitemsheight = 0
              bind.items.removeAllViews()
@@ -762,7 +767,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      bind.change.text = "£ " + String.format("%.2f", changeAmount)
                  }else{
                      bind.changeContainer.visibility = View.GONE
-
                  }
                  if(totalRefund > 0.0 || changeAmount > 0.0) {
                      bind.dottedBelowTotal.visibility = View.VISIBLE
@@ -957,6 +961,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          }
 
          fun ButcherOrderPrint() : Bitmap {
+
              val printSize: Int = fontsize
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd-MMM hh:mm a")
@@ -1029,7 +1034,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
              val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
              return  bitmaplist
-
          }
 
          override fun doInBackground(vararg params: String?): Bitmap {

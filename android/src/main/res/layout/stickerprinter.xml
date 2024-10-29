@@ -1,6 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="600dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_gravity="center"
+    android:layout_height="300dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginVertical="10dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/itemName"
+            android:layout_width="wrap_content"
+            android:text="Apple"
+
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginVertical="10dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/priceSymbol"
+                android:layout_width="wrap_content"
+                android:text="Price£/kg"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/priceValue"
+                android:layout_width="wrap_content"
+                android:text="3.12"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/netWTkg"
+                android:layout_width="wrap_content"
+                android:text="NetWTkg"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/netwtvalue"
+                android:layout_width="wrap_content"
+                android:text="1.200"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/total"
+                android:layout_width="wrap_content"
+                android:text="Total £"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/totalvalue"
+                android:layout_width="wrap_content"
+                android:text="3.74"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/barcode"
+        android:layout_width="250dp"
+        android:src="@drawable/barcode"
+        android:layout_height="100dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/SaleDate"
+                android:layout_width="wrap_content"
+                android:text="Sale Date"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/saleDateValue"
+                android:layout_width="wrap_content"
+                android:text="2024.06.18"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/saleTime"
+                android:layout_width="wrap_content"
+                android:text="Sale Time"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/saleTimeValue"
+                android:layout_width="wrap_content"
+                android:text="12:17:52"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/ExpaireDate"
+                android:layout_width="wrap_content"
+                android:text="Expaire Date"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/expireDateValue"
+                android:layout_width="wrap_content"
+                android:text="12:17:52"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:layout_marginVertical="10dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="HaatBazar"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+</LinearLayout>

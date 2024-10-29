@@ -59,6 +59,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var labelPrinterUsbList = "labelPrinterusbList";
   private var labelPrinterConnectUSB = "labelPrinterConnectUSB";
   private var labelPrinterPrintBarCode = "labelPrinterPrintBarCode";
+//  private var labelPrinterPrintBarCode = "labelPrinterPrintBarCode";
 
 
 
@@ -289,13 +290,31 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     var pathName = call.argument<String>("path_name")
     if (pathName != null) {
       labelPrinter.connectUSB(pathName, result)
-    }else{
+    } else{
       result.success(false)
     }
   }
 
   private fun labelPrintBarCode(call: MethodCall, result : Result) {
-    labelPrinter.printBarcode(result)
+    val orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
+    val printerbusinessdata = call.argument<String>("printer_model_data")
+    val orderjson = Gson().toJson(orderiteamdata)
+    val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+
+    val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
+
+    if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
+      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false,nyxPrinter).execute()
+    }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
+      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false,nyxPrinter).execute()
+    }else{
+
+    }
   }
 
+
+
+  private fun labelPrinterPrintData(call: MethodCall, result : Result){
+
+  }
 }
