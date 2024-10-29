@@ -65,7 +65,7 @@ class LabelPrinter(context: Context) {
 
                 result.success(false)
             }
-            UIUtils.toast(p0, mContext)
+            UIUtils.toast(p1, mContext)
         }
     }
 
@@ -132,7 +132,7 @@ class LabelPrinter(context: Context) {
              .barcode(60, 50, TSPLConst.CODE_TYPE_128, 108, "abcdef12345")
              .print()
          result.success(true)
-         
+
     }
 
 
