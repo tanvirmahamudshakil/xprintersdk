@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import com.example.xprintersdk.LabelPrinter.LabelPrinter
 import com.example.xprintersdk.Model.BookingRequest.BookingRequest
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.DailyReport.Dailyreport
@@ -33,6 +34,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   lateinit var xprinter: Xprinter
   lateinit var sunmiHelper : SunmiHelp;
   lateinit var nyxPrinter : NyxprinterHelp;
+  lateinit var labelPrinter : LabelPrinter
   private var xPrinterIntitalization : String = "xPrinterIntitalization";
   private var xPrinterConnectionCheck ="xPrinterConnectionCheck";
   private var xPrinterConnect = "xPrinterConnect";
@@ -51,6 +53,12 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var dailyreportImagePrint = "dailyreportImagePrint";
   private var propertyReturnPrint = "propertyReturnPrint";
 
+  // label printer
+  private var labelPrinterInit = "labelPrinterInit";
+  private var labelPrinterUsbList = "labelPrinterusbList";
+  private var labelPrinterConnectUSB = "labelPrinterConnectUSB";
+  private var labelPrinterPrintBarCode = "labelPrinterPrintBarCode";
+
 
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -59,13 +67,13 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     xprinter = Xprinter(context)
     sunmiHelper= SunmiHelp()
     nyxPrinter = NyxprinterHelp(context)
+    labelPrinter = LabelPrinter(context)
     channel.setMethodCallHandler(this)
   }
 
 
   override fun onMethodCall(call: MethodCall, result: Result) {
     if (call.method == xPrinterIntitalization) {
-
       xPrinterInitialization()
     } else if (call.method == nyxPrinterCheck) {
       nyxPrinterCheck(result)
@@ -97,7 +105,16 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       dailyReportImageSave(call, result)
     }  else if (call.method == propertyReturnPrint) {
       propertyReturnPrint(call, result)
-    }else {
+    } else if (call.method == labelPrinterInit) {
+      labelPrinterInit(call, result)
+    } else if(call.method == labelPrinterUsbList) {
+      getLabelPrinterUSbList(call, result)
+    } else if (call.method == labelPrinterConnectUSB) {
+      connectLabelPrinterUSB(call, result)
+    } else if (call.method == labelPrinterPrintBarCode) {
+      labelPrintBarCode(call, result)
+    }
+    else {
       result.notImplemented()
     }
   }
@@ -147,10 +164,6 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     }
   }
 
-
-
-
-
   private fun sunmiPrinterInit(result: MethodChannel.Result) {
     sunmiHelper.initPrinter();
     result.success(true)
@@ -166,7 +179,6 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nyxPrinter).execute()
   }
 
-
   private fun bitmapImageDataSave(call: MethodCall, result : Result) {
     var orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
     var printerbusinessdata = call.argument<String>("printer_model_data")
@@ -177,7 +189,6 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
     printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true, nyxPrinter).execute()
   }
-
 
   private fun sunmiPrinterCheck(call: MethodCall, result : Result) {
       result.success(sunmiHelper.sunmiPrinter)
@@ -218,30 +229,26 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
   }
 
-
-
   // nyx printer
-
-
 
    private fun nyxprinterInit(result : Result) {
      nyxPrinter.initNyxPrinterService()
      result.success(true)
    }
 
-  private fun nyxPrinterCheck(result : Result) {
+   private fun nyxPrinterCheck(result : Result) {
     var d = nyxPrinter.checkNyxPrinter()
     result.success(d)
-  }
-  private fun  nyxPrintData(call: MethodCall, result : Result) {
+   }
+
+   private fun  nyxPrintData(call: MethodCall, result : Result) {
     val orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
     val printerbusinessdata = call.argument<String>("printer_model_data")
     val orderjson = Gson().toJson(orderiteamdata)
     val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nyxPrinter).execute()
-  }
-
+   }
 
   private fun propertyReturnPrint(call: MethodCall, result : Result) {
     val orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
@@ -255,5 +262,32 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   }
 
 
+
+
+
+  // label printer
+
+  private fun labelPrinterInit(call: MethodCall, result : Result) {
+    labelPrinter.initalize()
+    result.success(true)
+  }
+
+  private fun getLabelPrinterUSbList(call: MethodCall, result : Result) {
+    var data = labelPrinter.searchUsb()
+    result.success(data)
+  }
+
+  private fun connectLabelPrinterUSB(call: MethodCall, result : Result){
+    var pathName = call.argument<String>("path_name")
+    if (pathName != null) {
+      labelPrinter.connectUSB(pathName, result)
+    }else{
+      result.success(false)
+    }
+  }
+
+  private fun labelPrintBarCode(call: MethodCall, result : Result) {
+    labelPrinter.printBarcode(result)
+  }
 
 }

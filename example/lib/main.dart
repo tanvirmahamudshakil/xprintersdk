@@ -1,7 +1,4 @@
-
 import 'package:flutter/material.dart';
-
-
 import 'package:xprintersdk/Model/printerbusinessmodel.dart';
 import 'package:xprintersdk/xprintersdk.dart';
 
@@ -21,9 +18,21 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _platformVersion = 'Unknown';
   final _xprintersdkPlugin = Xprintersdk();
+  List<String> usbList = [];
+  String selectUsb = "";
+
+  labelPrinterInit() {
+    _xprintersdkPlugin.labelPrinterInit();
+  }
+
+  getUsbList() async {
+    usbList = await _xprintersdkPlugin.getLabelPrinterUsbList();
+    setState(() {});
+  }
 
   @override
   void initState() {
+    getUsbList();
     super.initState();
   }
 
@@ -38,6 +47,47 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text("Select Usb: ${selectUsb}"),
+            ),
+            SizedBox(height: 50),
+            MaterialButton(
+              onPressed: () {
+                labelPrinterInit();
+              },
+              child: Text("Label Printer Init"),
+            ),
+            MaterialButton(
+              onPressed: () {
+                getUsbList();
+              },
+              child: Text("Get All Usb List"),
+            ),
+
+            DropdownButtonFormField(
+              items: List.generate(usbList.length, (index) {
+                var d = usbList[index];
+                return DropdownMenuItem(value: d, child: Text(d));
+              }),
+              onChanged: (value) {
+                selectUsb = value!;
+                setState(() {});
+              },
+            ),
+            MaterialButton(
+              onPressed: () {
+                _xprintersdkPlugin.labelPrinterUSbConnect(path_name: selectUsb);
+              },
+              child: Text("Connect Label Printer"),
+            ),
+
+            MaterialButton(
+              onPressed: () {
+                _xprintersdkPlugin.labelPrinterPrintBarCode();
+              },
+              child: Text("Label Printer Bar Code"),
+            ),
             // MaterialButton(
             //   onPressed: () async {
             //     _xprintersdkPlugin.nyxPrinterInit();
@@ -94,18 +144,18 @@ class _MyAppState extends State<MyApp> {
             //   },
             //   child: const Text("local print"),
             // ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.sunmiPrinterServiceInitialization();
-              },
-              child: const Text("Sunmi Printer Service Init"),
-            ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.sunmiPrinterInitialization();
-              },
-              child: const Text("Sunmi Printer Init"),
-            ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.sunmiPrinterServiceInitialization();
+            //   },
+            //   child: const Text("Sunmi Printer Service Init"),
+            // ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.sunmiPrinterInitialization();
+            //   },
+            //   child: const Text("Sunmi Printer Init"),
+            // ),
             // MaterialButton(
             //   onPressed: () async {
             //     var data = await _xprintersdkPlugin.sunmiPrintBitmap(
@@ -123,12 +173,12 @@ class _MyAppState extends State<MyApp> {
             //   },
             //   child: const Text("Sunmi Print Bitmap"),
             // ),
-            MaterialButton(
-              onPressed: () async {
-                var data = await _xprintersdkPlugin.bitmapSave(printermodel, order2);
-              },
-              child: const Text("Bitmap Save"),
-            ),
+            // MaterialButton(
+            //   onPressed: () async {
+            //     var data = await _xprintersdkPlugin.bitmapSave(printermodel, order2);
+            //   },
+            //   child: const Text("Bitmap Save"),
+            // ),
             // MaterialButton(
             //   onPressed: () async {
             //     var data = await _xprintersdkPlugin.checkSunmiPrinter();

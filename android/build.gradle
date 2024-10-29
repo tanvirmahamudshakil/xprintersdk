@@ -88,6 +88,7 @@ dependencies {
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.github.tanvirmahamudshakil:Nyxprinter:4.0'
     implementation "com.google.zxing:core:3.5.3"
+    implementation 'io.github.jeremyliao:live-event-bus-x:1.8.0'
 
 
 }
