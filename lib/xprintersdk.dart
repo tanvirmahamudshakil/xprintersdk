@@ -22,7 +22,12 @@ class Xprintersdk {
   final String _nyxPrinterInit = "nyxPrinterInit";
   final String _nyxPrinterCheck = "nyxPrinterCheck";
   final String _dailyreportImagePrint = "dailyreportImagePrint";
-    final String _propertyReturnPrint = "propertyReturnPrint";
+  final String _propertyReturnPrint = "propertyReturnPrint";
+
+  final String _labelPrinterInit = "labelPrinterInit";
+  final String _labelPrinterUsbList = "labelPrinterusbList";
+  final String _labelPrinterConnectUSB = "labelPrinterConnectUSB";
+  final String _labelPrinterPrintBarCode = "labelPrinterPrintBarCode";
 
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');
@@ -126,7 +131,7 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_dailyreportImagePrint, quary);
   }
 
-    Future<bool> propertyShopReturnPrint(
+  Future<bool> propertyShopReturnPrint(
     PrinterBusinessModel printermodel,
     Map<String, Object?> propertyreturnData,
   ) async {
@@ -134,4 +139,23 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_propertyReturnPrint, quary);
   }
 
+  // label printer
+
+  Future<bool> labelPrinterInit() async {
+    return await _methodChannel.invokeMethod(_labelPrinterInit);
+  }
+
+  Future<List<String>> getLabelPrinterUsbList() async {
+    var list = await _methodChannel.invokeMethod<List>(_labelPrinterUsbList);
+    return list?.map((e) => e.toString()).toList() ?? [];
+  }
+
+  Future<bool> labelPrinterUSbConnect({required String path_name}) async {
+    Map<String, dynamic> quary = {"path_name": path_name};
+    return await _methodChannel.invokeMethod(_labelPrinterConnectUSB, quary);
+  }
+
+  Future<bool> labelPrinterPrintBarCode() async {
+    return await _methodChannel.invokeMethod(_labelPrinterPrintBarCode);
+  }
 }
