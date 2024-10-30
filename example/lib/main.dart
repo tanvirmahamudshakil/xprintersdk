@@ -86,7 +86,7 @@ class _MyAppState extends State<MyApp> {
 
             MaterialButton(
               onPressed: () {
-                _xprintersdkPlugin.labelPrinterPrintBarCode();
+                // _xprintersdkPlugin.labelPrinterPrintBarCode();
               },
               child: Text("Label Printer Bar Code"),
             ),

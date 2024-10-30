@@ -155,7 +155,12 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_labelPrinterConnectUSB, quary);
   }
 
-  Future<bool> labelPrinterPrintBarCode() async {
-    return await _methodChannel.invokeMethod(_labelPrinterPrintBarCode);
+  Future<bool> labelPrinterPrintBarCode({
+    required PrinterBusinessModel printermodel,
+    required Map<String, Object?> orderiteam,
+  }) async {
+    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
+
+    return await _methodChannel.invokeMethod(_labelPrinterPrintBarCode, quary);
   }
 }
