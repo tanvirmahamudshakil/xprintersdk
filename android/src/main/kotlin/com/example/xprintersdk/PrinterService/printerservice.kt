@@ -1058,7 +1058,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  }else{
                      bind.expireLayour.visibility = View.GONE
                  }
-                 
+
 
                  var barcode = "${orderModel.id}-${orderModel.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount}-${price}";
 
