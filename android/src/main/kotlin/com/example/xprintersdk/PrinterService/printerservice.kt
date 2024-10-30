@@ -1011,11 +1011,6 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
                  var discount = item?.discountableAmount ?: 0.0;
 
-
-
-
-
-
                  if (!component.isNullOrEmpty()) {
                      for (section in component) {
                          if ((section?.components != null) && section.components.isNotEmpty()) {
@@ -1058,6 +1053,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
                  bind.totalvalue.text = String.format("%.2f", price)
                  bind.businessName.text = businessname
+
+                 var barcode = "${orderModel.id}-${orderModel.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount}-${price}";
+
+                 var barcodeBitmap = genBarcode(barcode)
+                 bind.barcode.setImageBitmap(barcodeBitmap)
 
                  val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
                  return  bitmaplist
