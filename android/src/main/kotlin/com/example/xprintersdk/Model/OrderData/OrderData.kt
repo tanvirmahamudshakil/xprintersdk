@@ -518,6 +518,8 @@ data class OrderData(
                 val unit_product_type: String?,
                 @SerializedName("unit_of_sale")
                 val unit_of_sale: String?,
+                @SerializedName("expire_date")
+                val expire_date : String?
             )
         }
     }

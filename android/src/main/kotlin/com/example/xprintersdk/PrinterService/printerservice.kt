@@ -1053,6 +1053,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
                  bind.totalvalue.text = String.format("%.2f", price)
                  bind.businessName.text = businessname
+                 if(item?.product?.property?.expire_date != null ) {
+                      bind.expireDateValue.text = item?.product?.property?.expire_date
+                 }else{
+                     bind.expireLayour.visibility = View.GONE
+                 }
+                 
 
                  var barcode = "${orderModel.id}-${orderModel.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount}-${price}";
 
