@@ -128,14 +128,14 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         view.draw(canvas)
 
 
-        var bitmap: Bitmap = if (businessdatadata.paperSize == 80){
+        var bitmap: Bitmap = if (businessdatadata.paperSize == 80) {
             //create resized image and display
             val maxImageSize = 570f
             val ratio = maxImageSize / returnedBitmap.width
             val width = (ratio * returnedBitmap.width).roundToInt()
             val height = (ratio * returnedBitmap.height).roundToInt()
             Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
-        }else {
+        } else {
             val maxImageSize = 390f
             val ratio = maxImageSize / (returnedBitmap.width)
             val width = (ratio * returnedBitmap.width).roundToInt()
@@ -206,7 +206,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 binding.unitValue.visibility = View.VISIBLE
                 binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
                 binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
-            }else{
+            } else {
                 binding.unitValue.visibility = View.GONE
             }
 
@@ -447,6 +447,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 serviceBinding.printUSBbitamp(bitmap,result);
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!, result)
+            } else if (businessdatadata.selectPrinter!!.lowercase() == "label_printer") {
+                 labelPrinter.printPicCode(bitmap!!, result)
             }
             else {
                 sunmiPrinter.printBitmap(bitmap, 2, result)
@@ -961,51 +963,132 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          }
 
          fun ButcherOrderPrint() : Bitmap {
-
-             val printSize: Int = fontsize
-             val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-             val formatter = SimpleDateFormat("dd-MMM hh:mm a")
-             val bind: ButcherOrderPrintBinding = ButcherOrderPrintBinding.inflate(LayoutInflater.from(context))
-             bind.orderNo.text = "${orderModel.localId}"
-             bind.totalValue.text = "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
-             bind.Date.text = "Date : ${parser.parse(orderModel.orderDate)
-                 ?.let { formatter.format(it) }}"
-             bind.businessName.text = businessdatadata.businessname
-             var allitemsheight = 0
-             bind.items.removeAllViews()
-             var itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
-             var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
-             if(!sortIteam.isNullOrEmpty()){
-                 for (j in sortIteam.indices) {
-                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, context, 0, printSize)
-                     bind.items.addView(childView)
-                     allitemsheight += childView!!.measuredHeight
+             if(businessdatadata.selectPrinter!!.lowercase() == "label_printer" && orderModel.orderProducts != null && orderModel.orderProducts!!.isNotEmpty()) {
+                 val bind: StickerprinterBinding = StickerprinterBinding.inflate(LayoutInflater.from(context))
+                 val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+                 val formatter1 = SimpleDateFormat("yyyy.MM.dd")
+                 val formatter2 = SimpleDateFormat("HH:mm a")
+                 var unitName = orderModel.orderProducts?.first()?.product?.property?.unit_of_sale
+                 var item = orderModel.orderProducts?.first();
+                 var  component: List<OrderData.OrderProduct.Component?>?
+                 var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
+                 if(orderModel.orderChannel?.uppercase() == "ONLINE") {
+                     component = item?.components;
+                 } else {
+                     component = item?.components?.filter {i-> componentFilter(i)}
+                     extraIteam = item?.components?.filter { i-> i?.product?.type == "EXTRA-COMPONENT"}
                  }
-             }
-             var dlAddress = ""
 
-             if (orderModel.requesterGuest != null){
-                 val customerModel: OrderData.RequesterGuest? = orderModel.requesterGuest
-                 dlAddress += "Name : ${customerModel?.firstName} ${customerModel?.lastName}\n"
-                 dlAddress += "Phone : ${customerModel?.phone}"
-                 if (orderModel.shippingAddress != null) {
-                     val address: OrderData.ShippingAddress? = orderModel.shippingAddress
-                     if (address?.property != null) {
-                         val pro: OrderData.ShippingAddress.Property = address.property
-                         // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
-                         val building = pro.house ?: ""
-//                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
-                         val streetName = pro.state ?: ""
-                         val city = pro.town ?: ""
-                         val state = pro.state ?: ""
-                         val zip = pro.postcode ?: ""
-                         dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
+                 bind.itemName.text = orderModel.orderProducts?.first()?.product?.shortName
+                 bind.priceValue.text = orderModel.orderProducts?.first()?.netAmount.toString()
+                 bind.netwtvalue.text = orderModel.orderProducts?.first()?.product?.property?.unit_amount
+                 bind.saleDateValue.text =  parser.parse(orderModel.orderDate)
+                     ?.let { formatter1.format(it) }
+                 bind.saleTimeValue.text =  parser.parse(orderModel.orderDate)
+                     ?.let { formatter2.format(it) }
+                 var price = 0.0
+                 var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
+                     0.0;
+                 }else{
+                     item?.product?.property?.tare_weight?.toDouble() ?: 0.0
+                 }
+                 var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
+                     0.0
+                 } else{
+                     item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+                 }
+
+                 price = if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
+                     if(businessdatadata.weightMultiplyingPrice) {
+                         (item.netAmount ?: 0.0) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+                     }else{
+                         (item.netAmount ?: 0.0)
+                     }
+
+                 }else{
+                     (item?.netAmount ?: 0.0)
+                 }
+
+                 var discount = item?.discountableAmount ?: 0.0;
+
+
+
+
+
+
+                 if (!component.isNullOrEmpty()) {
+                     for (section in component) {
+                         if ((section?.components != null) && section.components.isNotEmpty()) {
+                             for (section2 in section.components) {
+                                 if (section2?.product?.shortName?.uppercase() != "NONE") {
+                                     price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
+                                 }
+                             }
+
+                         }
+
+                         price += section?.netAmount ?: 0.0;
                      }
                  }
-             }else{
-                 if(orderModel.requester != null) {
-                     val customerModel: OrderData.Requester? = orderModel.requester!!
-                     dlAddress += "Name : ${customerModel?.name}\n"
+
+                 if (extraIteam != null) {
+                     if (extraIteam.isNotEmpty()) {
+                         for (extraItem in extraIteam) {
+                             price += extraItem?.netAmount!!;
+                         }
+                     }
+                 }
+
+
+                 if(orderModel.orderChannel?.uppercase() != "ONLINE"){
+                     if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
+                         var p = String.format("%.2f", getOrderOfferPrice(item))
+                         price *=  p.toDouble()
+                     }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
+                         var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, orderModel.orderProducts))
+                         Log.e("price get", "getView: ${p}----")
+                         price =  p.toDouble()
+                     }else{
+                         price *= (item?.unit ?: 1)
+                     }
+
+                     var totaldiscount = (price * (discount / 100))
+                     price -= totaldiscount;
+                 }
+
+                 bind.totalvalue.text = String.format("%.2f", price)
+                 bind.businessName.text = businessname
+
+                 val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
+                 return  bitmaplist
+
+
+             } else{
+                 val printSize: Int = fontsize
+                 val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+                 val formatter = SimpleDateFormat("dd-MMM hh:mm a")
+                 val bind: ButcherOrderPrintBinding = ButcherOrderPrintBinding.inflate(LayoutInflater.from(context))
+                 bind.orderNo.text = "${orderModel.localId}"
+                 bind.totalValue.text = "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
+                 bind.Date.text = "Date : ${parser.parse(orderModel.orderDate)
+                     ?.let { formatter.format(it) }}"
+                 bind.businessName.text = businessdatadata.businessname
+                 var allitemsheight = 0
+                 bind.items.removeAllViews()
+                 var itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                 var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+                 if(!sortIteam.isNullOrEmpty()){
+                     for (j in sortIteam.indices) {
+                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, context, 0, printSize)
+                         bind.items.addView(childView)
+                         allitemsheight += childView!!.measuredHeight
+                     }
+                 }
+                 var dlAddress = ""
+
+                 if (orderModel.requesterGuest != null){
+                     val customerModel: OrderData.RequesterGuest? = orderModel.requesterGuest
+                     dlAddress += "Name : ${customerModel?.firstName} ${customerModel?.lastName}\n"
                      dlAddress += "Phone : ${customerModel?.phone}"
                      if (orderModel.shippingAddress != null) {
                          val address: OrderData.ShippingAddress? = orderModel.shippingAddress
@@ -1021,19 +1104,39 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                              dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
                          }
                      }
+                 }else{
+                     if(orderModel.requester != null) {
+                         val customerModel: OrderData.Requester? = orderModel.requester!!
+                         dlAddress += "Name : ${customerModel?.name}\n"
+                         dlAddress += "Phone : ${customerModel?.phone}"
+                         if (orderModel.shippingAddress != null) {
+                             val address: OrderData.ShippingAddress? = orderModel.shippingAddress
+                             if (address?.property != null) {
+                                 val pro: OrderData.ShippingAddress.Property = address.property
+                                 // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
+                                 val building = pro.house ?: ""
+//                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
+                                 val streetName = pro.state ?: ""
+                                 val city = pro.town ?: ""
+                                 val state = pro.state ?: ""
+                                 val zip = pro.postcode ?: ""
+                                 dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
+                             }
+                         }
+                     }
+
                  }
 
-             }
+                 bind.address.text = dlAddress
+                 bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
 
-             bind.address.text = dlAddress
-             bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
-
-             if(orderModel.barcode != null) {
-                 var barcodeBitmap = genBarcode(orderModel.barcode!!)
-                 bind.barcode.setImageBitmap(barcodeBitmap)
+                 if(orderModel.barcode != null) {
+                     var barcodeBitmap = genBarcode(orderModel.barcode!!)
+                     bind.barcode.setImageBitmap(barcodeBitmap)
+                 }
+                 val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
+                 return  bitmaplist
              }
-             val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
-             return  bitmaplist
          }
 
          override fun doInBackground(vararg params: String?): Bitmap {
