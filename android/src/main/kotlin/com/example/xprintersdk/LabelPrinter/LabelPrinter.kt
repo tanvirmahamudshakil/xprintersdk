@@ -2,6 +2,7 @@ package com.example.xprintersdk.LabelPrinter
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
 import android.widget.Toast
 import com.example.xprintersdk.LabelPrinter.utils.UIUtils
 import net.posprinter.IConnectListener
@@ -78,6 +79,18 @@ class LabelPrinter(context: Context) {
 //            ret = usbNames[0]
 //        }
         return usbNames
+    }
+
+    fun printerconnectCheck(result: Result) {
+        var printer = TSPLPrinter(curConnect)
+        printer.isConnect{
+            if (POSConnect.CONNECT_SUCCESS == it) {
+                result.success(true);
+            }else{
+                result.success(false);
+            }
+            Log.e("label printer connect", "printerconnectCheck: ${it}", )
+        }
     }
 
 

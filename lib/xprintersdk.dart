@@ -28,6 +28,7 @@ class Xprintersdk {
   final String _labelPrinterUsbList = "labelPrinterusbList";
   final String _labelPrinterConnectUSB = "labelPrinterConnectUSB";
   final String _labelPrinterPrintBarCode = "labelPrinterPrintBarCode";
+  final String _labelPrinterConnection = "labelPrinterConnection";
 
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');
@@ -162,5 +163,9 @@ class Xprintersdk {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
 
     return await _methodChannel.invokeMethod(_labelPrinterPrintBarCode, quary);
+  }
+
+  Future<bool> labelPrinterConnect() async {
+    return await _methodChannel.invokeMethod(_labelPrinterConnection);
   }
 }

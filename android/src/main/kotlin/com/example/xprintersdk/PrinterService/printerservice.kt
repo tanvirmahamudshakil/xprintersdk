@@ -49,21 +49,21 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     AsyncTask<String, Int, Bitmap>()
      {
 
-    private var context: Context
-    private  var orderModel: OrderData
-    private  var businessname: String
-    private  var businessaddress: String
-    private  var businessphone: String
-    private var fontsize: Int = 30
-    private var labelPrinter: LabelPrinter
-    private var noofprint: Int =1
-    private var businessdatadata: BusinessSetting
-    private var serviceBinding: Xprinter
-    private var result: MethodChannel.Result
-    private var sunmiPrinter : SunmiHelp
-    private var bitmapSave: Boolean
-    private var nyxprinter : NyxprinterHelp
-    private var header1 : Int = 22
+         private var context: Context
+         private  var orderModel: OrderData
+         private  var businessname: String
+         private  var businessaddress: String
+         private  var businessphone: String
+         private var fontsize: Int = 30
+         private var labelPrinter: LabelPrinter
+         private var noofprint: Int =1
+         private var businessdatadata: BusinessSetting
+         private var serviceBinding: Xprinter
+         private var result: MethodChannel.Result
+         private var sunmiPrinter : SunmiHelp
+         private var bitmapSave: Boolean
+         private var nyxprinter : NyxprinterHelp
+         private var header1 : Int = 22
          private var header2 : Int = 22
          private var header3 : Int = 22
          private var header4 : Int = 22
@@ -127,22 +127,28 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         // draw the view on the canvas
         view.draw(canvas)
 
+              if(businessdatadata.selectPrinter == "label_printer") {
+                  val widthInPixels = 406 // Adjust based on actual DPI and paper width
+                  val heightInPixels = 200
+                return  Bitmap.createScaledBitmap(returnedBitmap, widthInPixels, heightInPixels, true)
+              }else{
+                  var bitmap: Bitmap = if (businessdatadata.paperSize == 80) {
+                      //create resized image and display
+                      val maxImageSize = 570f
+                      val ratio = maxImageSize / returnedBitmap.width
+                      val width = (ratio * returnedBitmap.width).roundToInt()
+                      val height = (ratio * returnedBitmap.height).roundToInt()
+                      Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
+                  } else {
+                      val maxImageSize = 390f
+                      val ratio = maxImageSize / (returnedBitmap.width)
+                      val width = (ratio * returnedBitmap.width).roundToInt()
+                      val height = (ratio * returnedBitmap.height).roundToInt()
+                      Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
+                  }
+                  return bitmap;
+              }
 
-        var bitmap: Bitmap = if (businessdatadata.paperSize == 80) {
-            //create resized image and display
-            val maxImageSize = 570f
-            val ratio = maxImageSize / returnedBitmap.width
-            val width = (ratio * returnedBitmap.width).roundToInt()
-            val height = (ratio * returnedBitmap.height).roundToInt()
-            Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
-        } else {
-            val maxImageSize = 390f
-            val ratio = maxImageSize / (returnedBitmap.width)
-            val width = (ratio * returnedBitmap.width).roundToInt()
-            val height = (ratio * returnedBitmap.height).roundToInt()
-            Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
-        }
-        return bitmap;
     }
          fun getResizedBitmap(originalBitmap: Bitmap, targetWidth: Int, targetHeight: Int): Bitmap {
              val ratioX = targetWidth.toFloat() / originalBitmap.width

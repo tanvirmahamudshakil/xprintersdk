@@ -90,6 +90,14 @@ class _MyAppState extends State<MyApp> {
               },
               child: Text("Label Printer Bar Code"),
             ),
+
+            MaterialButton(
+              onPressed: () {
+                var d = _xprintersdkPlugin.labelPrinterConnect();
+                print("flutter lavel Printer ${d}");
+              },
+              child: Text("Label Printer Connect Check"),
+            ),
             // MaterialButton(
             //   onPressed: () async {
             //     _xprintersdkPlugin.nyxPrinterInit();

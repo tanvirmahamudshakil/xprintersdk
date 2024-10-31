@@ -59,6 +59,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var labelPrinterUsbList = "labelPrinterusbList";
   private var labelPrinterConnectUSB = "labelPrinterConnectUSB";
   private var labelPrinterPrintBarCode = "labelPrinterPrintBarCode";
+  private var labelPrinterConnection = "labelPrinterConnection";
 //  private var labelPrinterPrintBarCode = "labelPrinterPrintBarCode";
 
 
@@ -116,6 +117,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       connectLabelPrinterUSB(call, result)
     } else if (call.method == labelPrinterPrintBarCode) {
       labelPrintBarCode(call, result)
+    } else if (call.method == labelPrinterConnection) {
+      labelPrinterConnectCheck(call, result);
     }
     else {
       result.notImplemented()
@@ -314,7 +317,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
 
 
-  private fun labelPrinterPrintData(call: MethodCall, result : Result){
-
+  private fun labelPrinterConnectCheck(call: MethodCall, result : Result){
+    labelPrinter.printerconnectCheck(result)
   }
 }
