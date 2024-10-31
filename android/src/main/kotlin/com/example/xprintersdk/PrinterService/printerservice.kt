@@ -99,39 +99,50 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     }
 
           private fun getBitmapFromView(view: View): Bitmap {
-        var bitmaplist : ArrayList<Bitmap>  = ArrayList<Bitmap>();
-        val spec = View.MeasureSpec.makeMeasureSpec(
-            0,
-            View.MeasureSpec.UNSPECIFIED
-        )
-        view.measure(spec, spec)
-        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
-
-        //Define a bitmap with the same size as the view
-        val returnedBitmap = Bitmap.createBitmap(
-            view.measuredWidth,
-            view.measuredHeight,
-            Bitmap.Config.ARGB_8888
-        )
-        //Bind a canvas to it
-        val canvas = Canvas(returnedBitmap)
-        //Get the view's background
-        val bgDrawable = view.background
-        if (bgDrawable != null) {
-            //has background drawable, then draw it on the canvas
-            bgDrawable.draw(canvas)
-        } else {
-            //does not have background drawable, then draw white background on the canvas
-            canvas.drawColor(Color.WHITE)
-        }
-        // draw the view on the canvas
-        view.draw(canvas)
-
               if(businessdatadata.selectPrinter == "label_printer") {
                   val widthInPixels = 406 // Adjust based on actual DPI and paper width
                   val heightInPixels = 200
-                return  Bitmap.createScaledBitmap(returnedBitmap, widthInPixels, heightInPixels, true)
+                  view.measure(
+                      View.MeasureSpec.makeMeasureSpec(view.width, View.MeasureSpec.EXACTLY),
+                      View.MeasureSpec.makeMeasureSpec(view.height, View.MeasureSpec.EXACTLY)
+                  )
+                  view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+
+                  // Create a bitmap with the same dimensions as the view
+                  val bitmap = Bitmap.createBitmap(widthInPixels, heightInPixels, Bitmap.Config.ARGB_8888)
+                  val canvas = Canvas(bitmap)
+                  view.draw(canvas)
+                  return bitmap
               }else{
+                  var bitmaplist : ArrayList<Bitmap>  = ArrayList<Bitmap>();
+                  val spec = View.MeasureSpec.makeMeasureSpec(
+                      0,
+                      View.MeasureSpec.UNSPECIFIED
+                  )
+                  view.measure(spec, spec)
+                  view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+
+                  //Define a bitmap with the same size as the view
+                  val returnedBitmap = Bitmap.createBitmap(
+                      view.measuredWidth,
+                      view.measuredHeight,
+                      Bitmap.Config.ARGB_8888
+                  )
+                  //Bind a canvas to it
+                  val canvas = Canvas(returnedBitmap)
+                  //Get the view's background
+                  val bgDrawable = view.background
+                  if (bgDrawable != null) {
+                      //has background drawable, then draw it on the canvas
+                      bgDrawable.draw(canvas)
+                  } else {
+                      //does not have background drawable, then draw white background on the canvas
+                      canvas.drawColor(Color.WHITE)
+                  }
+                  // draw the view on the canvas
+                  view.draw(canvas)
+
+
                   var bitmap: Bitmap = if (businessdatadata.paperSize == 80) {
                       //create resized image and display
                       val maxImageSize = 570f
@@ -148,6 +159,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                   }
                   return bitmap;
               }
+
+
 
     }
          fun getResizedBitmap(originalBitmap: Bitmap, targetWidth: Int, targetHeight: Int): Bitmap {
