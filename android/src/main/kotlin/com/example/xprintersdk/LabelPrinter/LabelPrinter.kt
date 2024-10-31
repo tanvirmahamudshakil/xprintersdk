@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import android.widget.Toast
-import com.example.xprintersdk.LabelPrinter.utils.UIUtils
 import net.posprinter.IConnectListener
 import net.posprinter.IDeviceConnection
 import net.posprinter.POSConnect
@@ -38,7 +37,7 @@ class LabelPrinter(context: Context) {
 
                 result.success(false)
             }
-            UIUtils.toast(p1, mContext)
+
         }
     }
 
@@ -107,9 +106,9 @@ class LabelPrinter(context: Context) {
             var printer = TSPLPrinter(curConnect)
             printer.isConnect { p0 ->
                 if (POSConnect.CONNECT_SUCCESS == p0) {
-                    printer.sizeMm(76.0, 300.0)
+                    printer.sizeMm(76.0, 30.0)
                         .cls()
-                        .bitmapCompression(0, 0, TSPLConst.BMP_MODE_OVERWRITE, 600, b, AlgorithmType.Threshold)
+                        .bitmap(0, 0, TSPLConst.BMP_MODE_OVERWRITE, 600, b, AlgorithmType.Threshold)
                         .print(1)
                     result.success(true);
                 }else{
