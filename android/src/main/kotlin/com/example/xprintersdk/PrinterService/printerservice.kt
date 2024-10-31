@@ -128,8 +128,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         view.draw(canvas)
 
               if(businessdatadata.selectPrinter!!.lowercase() == "label_printer") {
-                  val widthInPixels = 450 // Adjust based on actual DPI and paper width
-                  val heightInPixels = 180
+                  val widthInPixels = 400
+                  val heightInPixels = 170
                 return Bitmap.createScaledBitmap(returnedBitmap, widthInPixels, heightInPixels, true)
               }else{
                   var bitmap: Bitmap = if (businessdatadata.paperSize == 80) {
