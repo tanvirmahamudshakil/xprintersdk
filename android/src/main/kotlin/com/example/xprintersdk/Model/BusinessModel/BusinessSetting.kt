@@ -81,5 +81,9 @@ data class BusinessSetting(
     @SerializedName("xprinter_path")
     var xprinterpath : String?,
     @SerializedName("propertyshop")
-    var propertyShop : Boolean?
+    var propertyShop : Boolean?,
+    @SerializedName("label_hight")
+    var label_hight: Int?,
+    @SerializedName("label_width")
+    var label_width: Int?,
 )
