@@ -34,18 +34,11 @@
             android:orientation="vertical"
             android:gravity="center"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/priceSymbol"
-                android:layout_width="wrap_content"
-                android:text="Price£/kg"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/priceValue"
                 android:layout_width="wrap_content"
-                android:text="3.12"
+                android:text="£ 3.12"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"/>
@@ -58,18 +51,10 @@
             android:gravity="center"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/netWTkg"
-                android:layout_width="wrap_content"
-                android:text="NetWTkg"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
-
-            <TextView
                 android:id="@+id/netwtvalue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1.200"
+                android:text="1.200 KG"
                 android:textColor="@color/black"
 
                 android:textStyle="bold" />
@@ -80,18 +65,11 @@
             android:orientation="vertical"
             android:gravity="center"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/total"
-                android:layout_width="wrap_content"
-                android:text="Total £"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/totalvalue"
                 android:layout_width="wrap_content"
-                android:text="3.74"
+                android:text="Total: £ 3.74"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"/>
@@ -109,52 +87,8 @@
         android:layout_width="match_parent"
         android:orientation="horizontal"
         android:layout_height="wrap_content">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/SaleDate"
-                android:layout_width="wrap_content"
-                android:text="Sale Date"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/saleDateValue"
-                android:layout_width="wrap_content"
-                android:text="2024.06.18"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/saleTime"
-                android:layout_width="wrap_content"
-                android:text="Sale Time"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
-
-            <TextView
-                android:id="@+id/saleTimeValue"
-                android:layout_width="wrap_content"
-                android:text="12:17:52"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
         <LinearLayout
             android:id="@+id/expireLayour"
             android:layout_width="wrap_content"
@@ -162,37 +96,15 @@
             android:orientation="vertical"
             android:gravity="center"
             android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/ExpaireDate"
-                android:layout_width="wrap_content"
-                android:text="Expaire Date"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/expireDateValue"
                 android:layout_width="wrap_content"
-                android:text="12:17:52"
+                android:text="Expiry: 12:17:52"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_marginVertical="10dp"
-        android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/businessName"
-            android:layout_width="wrap_content"
-            android:text="HaatBazar"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>
