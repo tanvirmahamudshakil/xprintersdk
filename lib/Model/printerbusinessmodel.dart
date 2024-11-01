@@ -16,6 +16,7 @@ class PrinterBusinessModel {
   int? header3Size;
   int? header4Size;
   int? fontSize;
+  int? labelFontSize;
   int printOnDelivery;
   int printOnCollection;
   int printOnTableOrder;
@@ -53,6 +54,7 @@ class PrinterBusinessModel {
   PrinterBusinessModel(
       {this.fontSize,
       this.labelPrinterHight,
+      this.labelFontSize,
       this.labelPrinterWidth,
       this.weightShow = false,
       required this.orderChannel,
@@ -94,6 +96,7 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
       weightShow: json["weightShow"],
+      labelFontSize: json["label_font_size"],
       labelPrinterHight: json["label_hight"],
       labelPrinterWidth: json["label_width"],
       orderChannel: json["orderChannel"],
@@ -136,6 +139,7 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
         "label_hight": labelPrinterHight,
+        "label_font_size": labelFontSize,
         "label_width": labelPrinterWidth,
         "orderChannel": orderChannel,
         "weightShow": weightShow ?? false,

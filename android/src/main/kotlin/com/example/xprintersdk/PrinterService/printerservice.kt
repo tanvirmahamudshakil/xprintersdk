@@ -985,13 +985,36 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      extraIteam = item?.components?.filter { i-> i?.product?.type == "EXTRA-COMPONENT"}
                  }
 
+
                  bind.itemName.text = orderModel.orderProducts?.first()?.product?.shortName
+                 bind.itemName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+
+                 bind.priceSymbol.text = "Price£/${unitName}"
+                 bind.priceSymbol.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+
                  bind.priceValue.text = orderModel.orderProducts?.first()?.netAmount.toString()
+                 bind.priceValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+
+
+                 bind.netWTkg.text = "NetWT${unitName}"
+                 bind.netWTkg.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+
                  bind.netwtvalue.text = orderModel.orderProducts?.first()?.product?.property?.unit_amount
-                 bind.saleDateValue.text =  parser.parse(orderModel.orderDate)
-                     ?.let { formatter1.format(it) }
-                 bind.saleTimeValue.text =  parser.parse(orderModel.orderDate)
-                     ?.let { formatter2.format(it) }
+                 bind.netwtvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+
+
+
+                 bind.saleDateValue.text =  parser.parse(orderModel.orderDate)?.let { formatter1.format(it) }
+                 bind.saleDateValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+                 bind.SaleDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+
+
+                 bind.saleTimeValue.text =  parser.parse(orderModel.orderDate)?.let { formatter2.format(it) }
+                 bind.saleTimeValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+                 bind.saleTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+
+
+
                  var price = 0.0
                  var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
                      0.0;
@@ -1058,15 +1081,21 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  }
 
                  bind.totalvalue.text = String.format("%.2f", price)
+                 bind.totalvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+                 bind.total.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+
                  bind.businessName.text = businessname
+                 bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
                  if(item?.product?.property?.expire_date != null ) {
                       bind.expireDateValue.text = item?.product?.property?.expire_date
+                     bind.expireDateValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+                     bind.ExpaireDate.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
                  }else{
                      bind.expireLayour.visibility = View.GONE
                  }
 
 
-                 var barcode = "${orderModel.id}-${orderModel.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount}-${price}";
+                 var barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount}-${price}";
 
                  var barcodeBitmap = genBarcode(barcode)
                  bind.barcode.setImageBitmap(barcodeBitmap)

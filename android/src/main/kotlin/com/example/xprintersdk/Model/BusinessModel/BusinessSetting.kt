@@ -86,4 +86,6 @@ data class BusinessSetting(
     var label_hight: Int?,
     @SerializedName("label_width")
     var label_width: Int?,
+    @SerializedName("label_font_size")
+    val labelFontSize: Int?,
 )
