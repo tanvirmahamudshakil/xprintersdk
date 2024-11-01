@@ -990,11 +990,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.itemName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
 
-                 bind.priceValue.text = "£ ${orderModel.orderProducts?.first()?.netAmount.toString()}"
+                 bind.priceValue.text = "Price per/${unitGet(item)} £${orderModel.orderProducts?.first()?.netAmount.toString()}"
                  bind.priceValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
 
-                 bind.netwtvalue.text = "${orderModel.orderProducts?.first()?.product?.property?.unit_amount} ${unitGet(item)}"
+                 bind.netwtvalue.text = "Net: ${orderModel.orderProducts?.first()?.product?.property?.unit_amount} ${unitGet(item)}"
                  bind.netwtvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
 
