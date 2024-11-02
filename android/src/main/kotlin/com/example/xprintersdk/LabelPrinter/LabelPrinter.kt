@@ -101,12 +101,12 @@ class LabelPrinter(context: Context) {
 
 
 
-    fun printPicCode(b: Bitmap, result: Result) {
+    fun printPicCode(b: Bitmap, result: Result, width: Double, height: Double) {
         if(curConnect != null) {
             var printer = TSPLPrinter(curConnect)
             printer.isConnect { p0 ->
                 if (POSConnect.CONNECT_SUCCESS == p0) {
-                    printer.sizeMm(76.0, 30.0)
+                    printer.sizeMm(width, height)
                         .cls()
                         .bitmap(0, 0, TSPLConst.BMP_MODE_OVERWRITE, 600, b, AlgorithmType.Threshold)
                         .print(1)

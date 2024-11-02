@@ -128,9 +128,18 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
         view.draw(canvas)
 
               if(businessdatadata.selectPrinter!!.lowercase() == "label_printer") {
-                  val widthInPixels = businessdatadata.label_width ?: 300
-                  val heightInPixels = businessdatadata.label_hight ?: 140
-                return Bitmap.createScaledBitmap(returnedBitmap, widthInPixels, heightInPixels, true)
+
+                  val displayMetrics = context.resources.displayMetrics
+                  val dpi = 203
+                  val widthMm = businessdatadata.label_width ?: 76
+                  val heightMm = businessdatadata.label_hight ?: 30
+                  // Convert mm to pixels
+                  val widthPx = (widthMm * dpi / 25.4f).toInt()
+                  val heightPx = (heightMm * dpi / 25.4f).toInt()
+
+//                  val widthInPixels = businessdatadata.label_width ?: 300
+//                  val heightInPixels = businessdatadata.label_hight ?: 140
+                return Bitmap.createScaledBitmap(returnedBitmap, widthPx, heightPx, true)
               }else{
                   var bitmap: Bitmap = if (businessdatadata.paperSize == 80) {
                       //create resized image and display
@@ -454,7 +463,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!, result)
             } else if (businessdatadata.selectPrinter!!.lowercase() == "label_printer") {
-                 labelPrinter.printPicCode(bitmap!!, result)
+                 labelPrinter.printPicCode(bitmap!!, result,(businessdatadata.label_width?.toDouble() ?: 76.0), (businessdatadata.label_hight?.toDouble() ?: 30.0))
             }
             else {
                 sunmiPrinter.printBitmap(bitmap, 2, result)
@@ -990,7 +999,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.itemName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
 
-                 bind.priceValue.text = "Price per/${unitGet(item)} £${orderModel.orderProducts?.first()?.netAmount.toString()}"
+                 bind.priceValue.text = "Price/${unitGet(item)} £${orderModel.orderProducts?.first()?.netAmount.toString()}"
                  bind.priceValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
 
@@ -1064,7 +1073,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      price -= totaldiscount;
                  }
 
-                 bind.totalvalue.text = "Total: £${String.format(" % .2f", price)}"
+                 bind.totalvalue.text = "Total: £${String.format(" %.2f", price)}"
                  bind.totalvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
 
