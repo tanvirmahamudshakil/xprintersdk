@@ -102,24 +102,24 @@ class LabelPrinter(context: Context) {
 
 
     fun printPicCode(b: Bitmap, result: Result, width: Double, height: Double) {
-        if(curConnect != null) {
-            var printer = TSPLPrinter(curConnect)
-            printer.isConnect { p0 ->
-                if (POSConnect.CONNECT_SUCCESS == p0) {
-                    printer.sizeMm(width, height)
-                        .cls()
-                        .bitmap(0, 0, TSPLConst.BMP_MODE_OVERWRITE, 600, b, AlgorithmType.Threshold)
-                        .print(1)
-                    result.success(true);
-                }else{
-                    Toast.makeText(mContext, "printer not connect", Toast.LENGTH_SHORT).show()
-                    result.success(false);
-                }
-            }
-        }else{
-            result.success(false);
-        }
-
+//        if(curConnect != null) {
+//            var printer = TSPLPrinter(curConnect)
+//            printer.isConnect { p0 ->
+//                if (POSConnect.CONNECT_SUCCESS == p0) {
+//                    printer.sizeMm(width, height)
+//                        .cls()
+//                        .bitmap(0, 0, TSPLConst.BMP_MODE_OVERWRITE, 600, b, AlgorithmType.Threshold)
+//                        .print(1)
+//                    result.success(true);
+//                }else{
+//                    Toast.makeText(mContext, "printer not connect", Toast.LENGTH_SHORT).show()
+//                    result.success(false);
+//                }
+//            }
+//        }else{
+//            result.success(false);
+//        }
+    result.success(true);
 
 
     }
@@ -133,6 +133,19 @@ class LabelPrinter(context: Context) {
             .print()
         result.success(true)
 
+    }
+
+     fun printContent(barcode: String, price: String, net: String,total: String, expire: String) {
+        var printer = TSPLPrinter(curConnect)
+        printer.sizeMm(60.0, 30.0)
+            .gapInch(0.0, 0.0)
+            .cls()
+            .barcode(30, 30, TSPLConst.CODE_TYPE_93, 70, TSPLConst.READABLE_LEFT, TSPLConst.ROTATION_0, 2, 2, barcode)
+            .text(38, 144, TSPLConst.FNT_16_24, TSPLConst.ROTATION_0, 1, 1, price)
+            .text(200, 144, TSPLConst.FNT_16_24, TSPLConst.ROTATION_0, 1, 1, net)
+            .text(38, 185, TSPLConst.FNT_16_24, TSPLConst.ROTATION_0, 1, 1, total)
+            .text(200, 185, TSPLConst.FNT_16_24, TSPLConst.ROTATION_0, 1, 1, expire)
+            .print(1)
     }
 
 

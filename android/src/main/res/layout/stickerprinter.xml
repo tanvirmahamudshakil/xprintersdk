@@ -39,7 +39,6 @@
                 android:layout_width="wrap_content"
                 android:text="Price/Kg £12"
                 android:textColor="@color/black"
-
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
@@ -56,8 +55,6 @@
                 android:text="Net: 5kg"
                 android:textColor="@color/black" />
         </LinearLayout>
-
-
     </LinearLayout>
 
     <ImageView

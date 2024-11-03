@@ -1091,6 +1091,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  var barcodeBitmap = genBarcode(barcode)
                  bind.barcode.setImageBitmap(barcodeBitmap)
 
+                 var p = "Price/${unitGet(item)} £${orderModel.orderProducts?.first()?.netAmount.toString()}";
+                 var net = "Net: ${orderModel.orderProducts?.first()?.product?.property?.unit_amount} ${unitGet(item)}"
+                 var t = "T: £${String.format("%.2f", price)}"
+                 var ex="Exp: ${item?.product?.property?.expire_date}";
+                 labelPrinter.printContent(barcode,p,net, t, ex);
                  val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
                  return  bitmaplist
 
