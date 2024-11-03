@@ -1073,12 +1073,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      price -= totaldiscount;
                  }
 
-                 bind.totalvalue.text = "Total: £${String.format("%.2f", price)}"
+                 bind.totalvalue.text = "T: £${String.format("%.2f", price)}"
                  bind.totalvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
 
                  if(item?.product?.property?.expire_date != null ) {
-                     bind.expireDateValue.text = "Expiry: ${item?.product?.property?.expire_date}"
+                     bind.expireDateValue.text = "Exp: ${item?.product?.property?.expire_date}"
                      bind.expireDateValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
                  }else{
