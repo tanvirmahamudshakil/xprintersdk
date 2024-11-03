@@ -16,7 +16,6 @@
             android:id="@+id/itemName"
             android:layout_width="wrap_content"
             android:text="Apple"
-            android:textStyle="bold"
             android:textColor="@color/black"
             android:layout_height="wrap_content"/>
 
@@ -39,7 +38,7 @@
                 android:layout_width="wrap_content"
                 android:text="Price/Kg £12"
                 android:textColor="@color/black"
-                android:textStyle="bold"
+
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
@@ -54,9 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Net: 5kg"
-                android:textColor="@color/black"
-
-                android:textStyle="bold" />
+                android:textColor="@color/black" />
         </LinearLayout>
 
 
@@ -84,7 +81,6 @@
                 android:layout_width="wrap_content"
                 android:text="Total: £3.74"
                 android:textColor="@color/black"
-                android:textStyle="bold"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
 
@@ -102,7 +98,6 @@
                 android:layout_width="wrap_content"
                 android:text="Expiry: 12/17/52"
                 android:textColor="@color/black"
-                android:textStyle="bold"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
