@@ -135,7 +135,7 @@ class LabelPrinter(context: Context) {
 
     }
 
-     fun printContent(barcode: String, price: String, net: String,total: String, expire: String) {
+     fun printContent(barcode: String, price: String, net: String,total: String, expire: String, productname : String) {
         var printer = TSPLPrinter(curConnect)
 //         printer.sizeMm(60.0, 30.0)
 //             .gapInch(0.0, 0.0)
@@ -164,10 +164,11 @@ class LabelPrinter(context: Context) {
              .direction(TSPLConst.DIRECTION_FORWARD)
              .reference(20, 0)
              .cls()
-             .text(30, 16, TSPLConst.FNT_8_12, TSPLConst.ROTATION_0, 1, 1, price)
-             .text(250, 16, TSPLConst.FNT_8_12, TSPLConst.ROTATION_0, 1, 1, net)
+             .text(30, 16, TSPLConst.FNT_8_12, TSPLConst.ROTATION_0, 1, 1, productname)
+             .text(30, 35, TSPLConst.FNT_8_12, TSPLConst.ROTATION_0, 1, 1, price)
+             .text(250, 35, TSPLConst.FNT_8_12, TSPLConst.ROTATION_0, 1, 1, net)
              // New barcode under the price and net weight row
-             .barcode(30, 50, TSPLConst.CODE_TYPE_93, 60, TSPLConst.READABLE_NONE, TSPLConst.ROTATION_0, 2, 2, barcode)
+             .barcode(30, 65, TSPLConst.CODE_TYPE_93, 60, TSPLConst.READABLE_NONE, TSPLConst.ROTATION_0, 2, 2, barcode)
              // Text for total price and expiry date under the new barcode
              .text(30, 150, TSPLConst.FNT_8_12, TSPLConst.ROTATION_0, 1, 1, total)
              .text(250, 150, TSPLConst.FNT_8_12, TSPLConst.ROTATION_0, 1, 1, expire)
