@@ -1,5 +1,6 @@
 package com.example.xprintersdk.PrinterService
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
@@ -977,6 +978,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              return  bitmaplist;
          }
 
+         @SuppressLint("DefaultLocale")
          fun ButcherOrderPrint() : Bitmap {
              if(businessdatadata.selectPrinter!!.lowercase() == "label_printer" && orderModel.orderProducts != null && orderModel.orderProducts!!.isNotEmpty()) {
                  val bind: StickerprinterBinding = StickerprinterBinding.inflate(LayoutInflater.from(context))
@@ -1086,15 +1088,15 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  }
 
 
-                 var barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount}-${price}";
+                 var barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
 
                  var barcodeBitmap = genBarcode(barcode)
                  bind.barcode.setImageBitmap(barcodeBitmap)
 
                  var p = "Price/${unitGet(item)} ${orderModel.orderProducts?.first()?.netAmount.toString()}";
-                 var net = "Net: ${orderModel.orderProducts?.first()?.product?.property?.unit_amount} ${unitGet(item)}"
-                 var t = "T: ${String.format("%.2f", price)}"
-                 var ex="Exp: ${item?.product?.property?.expire_date}";
+                 var net = "Net: ${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0} ${unitGet(item)}"
+                 var t = "Total: ${String.format("%.2f", price)}"
+                 var ex= if(item?.product?.property?.expire_date == null) "" else "Exp: ${item?.product?.property?.expire_date}";
                  labelPrinter.printContent(barcode,p,net, t, ex);
                  val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
                  return  bitmaplist
