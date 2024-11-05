@@ -164,14 +164,14 @@ class LabelPrinter(context: Context) {
              .direction(TSPLConst.DIRECTION_FORWARD)
              .reference(10, 0)
              .cls()
-             .text(10, 150, TSPLConst.FNT_24_32, TSPLConst.ROTATION_0, 1, 1, productname)
-             .text(10, 250, TSPLConst.FNT_24_32, TSPLConst.ROTATION_0, 1, 1, price)
-             .text(270, 250, TSPLConst.FNT_24_32, TSPLConst.ROTATION_0, 1, 1, net)
+             .text(10, 100, TSPLConst.FNT_24_32, TSPLConst.ROTATION_0, 1, 1, productname)
+             .text(10, 150, TSPLConst.FNT_24_32, TSPLConst.ROTATION_0, 1, 1, price)
+             .text(10, 200, TSPLConst.FNT_24_32, TSPLConst.ROTATION_0, 1, 1, net)
              // New barcode under the price and net weight row
              .barcode(10, 300, TSPLConst.CODE_TYPE_93, 100, TSPLConst.READABLE_NONE, TSPLConst.ROTATION_0, 2, 2, barcode)
              // Text for total price and expiry date under the new barcode
-             .text(10, 450, TSPLConst.FNT_24_32, TSPLConst.ROTATION_0, 1, 1, total)
-             .text(270, 450, TSPLConst.FNT_24_32, TSPLConst.ROTATION_0, 1, 1, expire)
+             .text(10, 420, TSPLConst.FNT_24_32, TSPLConst.ROTATION_0, 1, 1, total)
+             .text(10, 460, TSPLConst.FNT_24_32, TSPLConst.ROTATION_0, 1, 1, expire)
              .print(1);
     }
 
