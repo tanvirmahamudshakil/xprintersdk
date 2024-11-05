@@ -156,23 +156,15 @@ class LabelPrinter(context: Context) {
 //             .text(30, 320, TSPLConst.FNT_8_12, TSPLConst.ROTATION_0, 1, 1, expire)
 //             .print(1);
 
-         printer.sizeMm(65.0, 40.0)
+         printer.sizeInch(2.0, 2.0)
              .gapInch(0.0, 0.0)
-             .offsetInch(0.0)
-             .speed(5.0)
-             .density(10)
-             .direction(TSPLConst.DIRECTION_FORWARD)
-             .reference(10, 0)
              .cls()
-             .text(10, 16, TSPLConst.FNT_12_20, TSPLConst.ROTATION_0, 1, 1, productname)
-             .text(10, 40, TSPLConst.FNT_12_20, TSPLConst.ROTATION_0, 1, 1, price)
-             .text(270, 40, TSPLConst.FNT_12_20, TSPLConst.ROTATION_0, 1, 1, net)
-             // New barcode under the price and net weight row
-             .barcode(30, 70, TSPLConst.CODE_TYPE_93, 100, TSPLConst.READABLE_NONE, TSPLConst.ROTATION_0, 2, 2, barcode)
-             // Text for total price and expiry date under the new barcode
-             .text(10, 200, TSPLConst.FNT_12_20, TSPLConst.ROTATION_0, 1, 1, total)
-             .text(270, 200, TSPLConst.FNT_12_20, TSPLConst.ROTATION_0, 1, 1, expire)
-             .print(1);
+             .text(30, 70, TSPLConst.FNT_14_25, TSPLConst.ROTATION_0, 1, 1, price)
+             .text(200, 100, TSPLConst.FNT_14_25, TSPLConst.ROTATION_0, 1, 1, net)
+             .barcode(30, 130, TSPLConst.CODE_TYPE_93, 70, TSPLConst.READABLE_LEFT, TSPLConst.ROTATION_0, 2, 2, barcode)
+             .text(30, 220, TSPLConst.FNT_14_25, TSPLConst.ROTATION_0, 1, 1, total)
+             .text(200, 220, TSPLConst.FNT_14_25, TSPLConst.ROTATION_0, 1, 1, expire)
+             .print(1)
     }
 
 
