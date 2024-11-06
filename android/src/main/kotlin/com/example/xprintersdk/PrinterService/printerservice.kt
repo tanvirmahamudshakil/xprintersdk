@@ -1098,7 +1098,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  var t = "Total: ${String.format("%.2f", price)}"
                  var ex= if(item?.product?.property?.expire_date == null) "" else "Exp: ${item?.product?.property?.expire_date}";
                  labelPrinter.printContent(barcode,p,net, t, ex,
-                     (orderModel.orderProducts?.first()?.product?.shortName ?: "").toString()
+                     (orderModel.orderProducts?.first()?.product?.shortName ?: "").toString(),(businessdatadata.label_width?.toDouble() ?: 76.0), (businessdatadata.label_hight?.toDouble() ?: 76.0)
                  );
                  val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
                  return  bitmaplist
