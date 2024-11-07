@@ -614,7 +614,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //                     return bitmap
                      val bitMatrix: BitMatrix = MultiFormatWriter().encode(
                          inputValue,
-                         BarcodeFormat.CODE_128,  // Use CODE_128 or other formats as needed
+                         BarcodeFormat.CODE_93,  // Use CODE_128 or other formats as needed
                          width,
                          height,
                          hints
@@ -1177,6 +1177,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                          ViewGroup.LayoutParams.WRAP_CONTENT
                      )
                  }
+//                var layoutParams = ViewGroup.LayoutParams(
+//                         businessdatadata.barcode_width?: 400,
+//                    businessdatadata.barcode_hight?: 100,
+//                     )
                  bind.items.removeAllViews()
                  bind.items.addView(imageView)
 //                 bind.barcode.setImageBitmap(barcodeBitmap)
