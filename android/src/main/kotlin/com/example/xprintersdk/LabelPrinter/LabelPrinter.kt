@@ -108,7 +108,7 @@ class LabelPrinter(context: Context) {
                 if (POSConnect.CONNECT_SUCCESS == p0) {
                     printer.sizeMm(width, height)
                         .cls()
-                        .bitmapCompression(0, 0, TSPLConst.BMP_MODE_OVERWRITE_C, bitmapWidth, b, AlgorithmType.Threshold)
+                        .bitmap(0, 0, TSPLConst.BMP_MODE_OVERWRITE, 600, b, AlgorithmType.Threshold)
                         .print(1)
                     result.success(true);
                 }else{
