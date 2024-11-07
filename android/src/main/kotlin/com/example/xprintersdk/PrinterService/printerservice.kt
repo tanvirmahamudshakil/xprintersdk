@@ -108,30 +108,32 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  val dpi = businessdatadata.dpi ?: 203
                  val widthMm = businessdatadata.label_width ?: 76
                  val heightMm = businessdatadata.label_hight ?: 76
-                 // Convert mm to pixels
+
+// Convert mm to pixels
                  val widthPx = (widthMm * dpi / 25.4f).toInt()
                  val heightPx = (heightMm * dpi / 25.4f).toInt()
-                 val spec = View.MeasureSpec.makeMeasureSpec(
-                     0,
-                     View.MeasureSpec.UNSPECIFIED
-                 )
-                 view.measure(spec, spec)
-                 view.layout(0, 0, view.measuredWidth, view.measuredHeight)
 
-//                 view.layout(0, 0, widthPx, heightPx)
+// Measure and layout the view to the desired size
+                 val specWidth = View.MeasureSpec.makeMeasureSpec(widthPx, View.MeasureSpec.EXACTLY)
+                 val specHeight = View.MeasureSpec.makeMeasureSpec(heightPx, View.MeasureSpec.EXACTLY)
+                 view.measure(specWidth, specHeight)
+                 view.layout(0, 0, widthPx, heightPx)
+
+// Create the bitmap with specified dimensions
                  val bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888)
                  val canvas = Canvas(bitmap)
-                 //Get the view's background
-                 val bgDrawable = view.background
-                 if (bgDrawable != null) {
-                     //has background drawable, then draw it on the canvas
-                     bgDrawable.draw(canvas)
-                 } else {
-                     //does not have background drawable, then draw white background on the canvas
-                     canvas.drawColor(Color.WHITE)
-                 }
-                 // draw the view on the canvas
+
+// Optional: center the view within the canvas
+                 val offsetX = (widthPx - view.measuredWidth) / 2
+                 val offsetY = (heightPx - view.measuredHeight) / 2
+                 canvas.translate(offsetX.toFloat(), offsetY.toFloat())
+
+// Draw the view's background if it exists
+                 view.background?.draw(canvas) ?: canvas.drawColor(Color.WHITE)
+
+// Draw the view onto the canvas
                  view.draw(canvas)
+
                  return bitmap
 
              }else{
