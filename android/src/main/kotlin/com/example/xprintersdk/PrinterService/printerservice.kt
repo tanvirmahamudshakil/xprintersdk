@@ -1021,7 +1021,19 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              if(businessdatadata.selectPrinter!!.lowercase() == "label_printer" && orderModel.orderProducts != null && orderModel.orderProducts!!.isNotEmpty()) {
                  val bind: StickerprinterBinding = StickerprinterBinding.inflate(LayoutInflater.from(context))
 
-                 //bind.root.setDimensionsInMillimeters()
+                 val dpi = businessdatadata.dpi ?: 203
+                 val widthMm = businessdatadata.label_width ?: 76
+                 val heightMm = businessdatadata.label_hight ?: 76
+                 // Convert mm to pixels
+                 val widthPx = (widthMm * dpi / 25.4f).toInt()
+                 val heightPx = (heightMm * dpi / 25.4f).toInt()
+                 val layoutParamsd = ViewGroup.LayoutParams(
+                     ViewGroup.LayoutParams.WRAP_CONTENT,
+                     ViewGroup.LayoutParams.WRAP_CONTENT
+                 )
+                 layoutParamsd.width = widthPx
+                 layoutParamsd.height = heightPx
+                 bind.root.layoutParams = layoutParamsd
 
 
                  val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
