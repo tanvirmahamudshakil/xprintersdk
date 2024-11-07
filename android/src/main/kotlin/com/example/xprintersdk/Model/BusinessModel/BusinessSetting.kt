@@ -90,4 +90,8 @@ data class BusinessSetting(
     val labelFontSize: Int?,
     @SerializedName("dpi")
     val dpi: Int?,
+    @SerializedName("barcode_hight")
+    val barcode_hight: Int?,
+    @SerializedName("barcode_width")
+    val barcode_width: Int?,
 )

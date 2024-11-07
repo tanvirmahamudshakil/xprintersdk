@@ -103,9 +103,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
              if(businessdatadata.selectPrinter!!.lowercase() == "label_printer") {
 
-                 val dpi = 203
+                 val dpi = businessdatadata.dpi ?: 203
                  val widthMm = businessdatadata.label_width ?: 76
-                 val heightMm = businessdatadata.label_hight ?: 30
+                 val heightMm = businessdatadata.label_hight ?: 76
                  // Convert mm to pixels
                  val widthPx = (widthMm * dpi / 25.4f).toInt()
                  val heightPx = (heightMm * dpi / 25.4f).toInt()
@@ -471,7 +471,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!, result)
             } else if (businessdatadata.selectPrinter!!.lowercase() == "label_printer") {
-                 labelPrinter.printPicCode(bitmap!!, result,(businessdatadata.label_width?.toDouble() ?: 76.0), (businessdatadata.label_hight?.toDouble() ?: 30.0))
+                val dpi = businessdatadata.dpi ?: 203
+                val widthMm = businessdatadata.label_width ?: 76
+
+                val widthPx = (widthMm * dpi / 25.4f).toInt()
+                 labelPrinter.printPicCode(bitmap!!, result,(businessdatadata.label_width?.toDouble() ?: 76.0), (businessdatadata.label_hight?.toDouble() ?: 30.0), widthPx)
             }
             else {
                 sunmiPrinter.printBitmap(bitmap, 2, result)
@@ -556,8 +560,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          private fun genBarcode(barcode : String) : Bitmap? {
              // Geting input value from the EditText
              val inputValue = barcode.trim()
-             var width = 250;
-             var height = 100;
+             var width = businessdatadata.barcode_width ?: 250;
+             var height = businessdatadata.barcode_hight ?: 100;
              if (inputValue.isNotEmpty()) {
                  // Initializing a MultiFormatWriter to encode the input value
                  val mwriter = MultiFormatWriter()
@@ -989,6 +993,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          fun ButcherOrderPrint() : Bitmap {
              if(businessdatadata.selectPrinter!!.lowercase() == "label_printer" && orderModel.orderProducts != null && orderModel.orderProducts!!.isNotEmpty()) {
                  val bind: StickerprinterBinding = StickerprinterBinding.inflate(LayoutInflater.from(context))
+
+                 bind.root.setDimensionsInMillimeters()
+
+
                  val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
                  val formatter1 = SimpleDateFormat("yyyy.MM.dd")
                  val formatter2 = SimpleDateFormat("HH:mm a")
@@ -1082,17 +1090,17 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      price -= totaldiscount;
                  }
 
-                 bind.totalvalue.text = "T: ${String.format("%.2f", price)}"
+                 bind.totalvalue.text = "£${String.format("%.2f", price)}"
                  bind.totalvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
 
-                 if(item?.product?.property?.expire_date != null ) {
-                     bind.expireDateValue.text = "Exp: ${item?.product?.property?.expire_date}"
-                     bind.expireDateValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
-
-                 }else{
-                     bind.expireLayour.visibility = View.GONE
-                 }
+//                 if(item?.product?.property?.expire_date != null ) {
+//                     bind.expireDateValue.text = "Exp: ${item?.product?.property?.expire_date}"
+//                     bind.expireDateValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+//
+//                 }else{
+//                     bind.expireLayour.visibility = View.GONE
+//                 }
 
 
                  var barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
@@ -1185,6 +1193,20 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              }
          }
 
+
+         private fun View.setDimensionsInMillimeters() {
+             val dpi = businessdatadata.dpi ?: 203
+             val widthMm = businessdatadata.label_width ?: 76
+             val heightMm = businessdatadata.label_hight ?: 76
+             // Convert mm to pixels
+             val widthPx = (widthMm * dpi / 25.4f).toInt()
+             val heightPx = (heightMm * dpi / 25.4f).toInt()
+
+             val layoutParams = this.layoutParams
+             layoutParams.width = widthPx
+             layoutParams.height = heightPx
+             this.layoutParams = layoutParams
+         }
          override fun doInBackground(vararg params: String?): Bitmap {
              if(businessdatadata.orderChannel?.uppercase() == "BUTCHER") {
                  val ButcherorderBitmap = ButcherOrderPrint()

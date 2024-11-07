@@ -101,25 +101,25 @@ class LabelPrinter(context: Context) {
 
 
 
-    fun printPicCode(b: Bitmap, result: Result, width: Double, height: Double) {
-//        if(curConnect != null) {
-//            var printer = TSPLPrinter(curConnect)
-//            printer.isConnect { p0 ->
-//                if (POSConnect.CONNECT_SUCCESS == p0) {
-//                    printer.sizeMm(width, height)
-//                        .cls()
-//                        .bitmap(0, 0, TSPLConst.BMP_MODE_OVERWRITE, 600, b, AlgorithmType.Threshold)
-//                        .print(1)
-//                    result.success(true);
-//                }else{
-//                    Toast.makeText(mContext, "printer not connect", Toast.LENGTH_SHORT).show()
-//                    result.success(false);
-//                }
-//            }
-//        }else{
-//            result.success(false);
-//        }
-    result.success(true);
+    fun printPicCode(b: Bitmap, result: Result, width: Double, height: Double, bitmapWidth : Int) {
+        if(curConnect != null) {
+            var printer = TSPLPrinter(curConnect)
+            printer.isConnect { p0 ->
+                if (POSConnect.CONNECT_SUCCESS == p0) {
+                    printer.sizeMm(width, height)
+                        .cls()
+                        .bitmapCompression(0, 0, TSPLConst.BMP_MODE_OVERWRITE_C, bitmapWidth, b, AlgorithmType.Threshold)
+                        .print(1)
+                    result.success(true);
+                }else{
+                    Toast.makeText(mContext, "printer not connect", Toast.LENGTH_SHORT).show()
+                    result.success(false);
+                }
+            }
+        }else{
+            result.success(false);
+        }
+
 
 
     }
