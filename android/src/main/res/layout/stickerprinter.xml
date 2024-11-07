@@ -47,11 +47,16 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/barcode"
+<!--    <ImageView-->
+<!--        android:id="@+id/barcode"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:src="@drawable/barcode"-->
+<!--        android:layout_height="wrap_content"/>-->
+    <LinearLayout
+        android:id="@+id/items"
         android:layout_width="match_parent"
-
-        android:layout_height="20mm"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -21,6 +21,8 @@ import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.text.bold
@@ -1124,7 +1126,18 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  var barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
 
                  var barcodeBitmap = genBarcode(barcode)
-                 bind.barcode.setImageBitmap(barcodeBitmap)
+                 val imageView = ImageView(context).apply {
+                     setImageBitmap(barcodeBitmap)
+
+                     // Set layout parameters if needed (e.g., dynamic width and height)
+                     layoutParams = ViewGroup.LayoutParams(
+                         ViewGroup.LayoutParams.WRAP_CONTENT,
+                         ViewGroup.LayoutParams.WRAP_CONTENT
+                     )
+                 }
+                 bind.items.removeAllViews()
+                 bind.items.addView(imageView)
+//                 bind.barcode.setImageBitmap(barcodeBitmap)
 
 //                 var p = "Price/${unitGet(item)} ${orderModel.orderProducts?.first()?.netAmount.toString()}";
 //                 var net = "Net: ${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0} ${unitGet(item)}"
