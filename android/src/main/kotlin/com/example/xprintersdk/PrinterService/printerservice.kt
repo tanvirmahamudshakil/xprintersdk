@@ -109,10 +109,24 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  // Convert mm to pixels
                  val widthPx = (widthMm * dpi / 25.4f).toInt()
                  val heightPx = (heightMm * dpi / 25.4f).toInt()
-
+                 val spec = View.MeasureSpec.makeMeasureSpec(
+                     0,
+                     View.MeasureSpec.UNSPECIFIED
+                 )
+                 view.measure(spec, spec)
+                 view.layout(0, 0, widthPx, heightPx)
                  val bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888)
                  val canvas = Canvas(bitmap)
-                 view.layout(0, 0, widthPx, heightPx)
+                 //Get the view's background
+                 val bgDrawable = view.background
+                 if (bgDrawable != null) {
+                     //has background drawable, then draw it on the canvas
+                     bgDrawable.draw(canvas)
+                 } else {
+                     //does not have background drawable, then draw white background on the canvas
+                     canvas.drawColor(Color.WHITE)
+                 }
+                 // draw the view on the canvas
                  view.draw(canvas)
                  return bitmap
              }else{
