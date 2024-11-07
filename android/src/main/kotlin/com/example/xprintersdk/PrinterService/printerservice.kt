@@ -68,6 +68,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          private var header2 : Int = 22
          private var header3 : Int = 22
          private var header4 : Int = 22
+
          private var footervatFontSize : Int = 15
 
     init {
@@ -98,66 +99,72 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     fun capitalize(str: String): String? {
         return str.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
     }
+         private fun getBitmapFromView(view: View): Bitmap {
 
-          private fun getBitmapFromView(view: View): Bitmap {
-        var bitmaplist : ArrayList<Bitmap>  = ArrayList<Bitmap>();
-        val spec = View.MeasureSpec.makeMeasureSpec(
-            0,
-            View.MeasureSpec.UNSPECIFIED
-        )
-        view.measure(spec, spec)
-        view.layout(0, 0, view.measuredWidth, view.measuredHeight)
+             if(businessdatadata.selectPrinter!!.lowercase() == "label_printer") {
 
-        //Define a bitmap with the same size as the view
-        val returnedBitmap = Bitmap.createBitmap(
-            view.measuredWidth,
-            view.measuredHeight,
-            Bitmap.Config.ARGB_8888
-        )
-        //Bind a canvas to it
-        val canvas = Canvas(returnedBitmap)
-        //Get the view's background
-        val bgDrawable = view.background
-        if (bgDrawable != null) {
-            //has background drawable, then draw it on the canvas
-            bgDrawable.draw(canvas)
-        } else {
-            //does not have background drawable, then draw white background on the canvas
-            canvas.drawColor(Color.WHITE)
-        }
-        // draw the view on the canvas
-        view.draw(canvas)
+                 val dpi = 203
+                 val widthMm = businessdatadata.label_width ?: 76
+                 val heightMm = businessdatadata.label_hight ?: 30
+                 // Convert mm to pixels
+                 val widthPx = (widthMm * dpi / 25.4f).toInt()
+                 val heightPx = (heightMm * dpi / 25.4f).toInt()
 
-              if(businessdatadata.selectPrinter!!.lowercase() == "label_printer") {
+                 val bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888)
+                 val canvas = Canvas(bitmap)
+                 view.layout(0, 0, widthPx, heightPx)
+                 view.draw(canvas)
+                 return bitmap
+             }else{
+                 val spec = View.MeasureSpec.makeMeasureSpec(
+                     0,
+                     View.MeasureSpec.UNSPECIFIED
+                 )
+                 view.measure(spec, spec)
+                 view.layout(0, 0, view.measuredWidth, view.measuredHeight)
 
-                  val displayMetrics = context.resources.displayMetrics
-                  val dpi = 203
-                  val widthMm = businessdatadata.label_width ?: 76
-                  val heightMm = businessdatadata.label_hight ?: 30
-                  // Convert mm to pixels
-                  val widthPx = (widthMm * dpi / 25.4f).toInt()
-                  val heightPx = (heightMm * dpi / 25.4f).toInt()
+                 //Define a bitmap with the same size as the view
+                 val returnedBitmap = Bitmap.createBitmap(
+                     view.measuredWidth,
+                     view.measuredHeight,
+                     Bitmap.Config.ARGB_8888
+                 )
+                 //Bind a canvas to it
+                 val canvas = Canvas(returnedBitmap)
+                 //Get the view's background
+                 val bgDrawable = view.background
+                 if (bgDrawable != null) {
+                     //has background drawable, then draw it on the canvas
+                     bgDrawable.draw(canvas)
+                 } else {
+                     //does not have background drawable, then draw white background on the canvas
+                     canvas.drawColor(Color.WHITE)
+                 }
+                 // draw the view on the canvas
+                 view.draw(canvas)
 
-//                  val widthInPixels = businessdatadata.label_width ?: 300
-//                  val heightInPixels = businessdatadata.label_hight ?: 140
-                return Bitmap.createScaledBitmap(returnedBitmap, widthPx, heightPx, true)
-              }else{
-                  var bitmap: Bitmap = if (businessdatadata.paperSize == 80) {
-                      //create resized image and display
-                      val maxImageSize = 570f
-                      val ratio = maxImageSize / returnedBitmap.width
-                      val width = (ratio * returnedBitmap.width).roundToInt()
-                      val height = (ratio * returnedBitmap.height).roundToInt()
-                      Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
-                  } else {
-                      val maxImageSize = 390f
-                      val ratio = maxImageSize / (returnedBitmap.width)
-                      val width = (ratio * returnedBitmap.width).roundToInt()
-                      val height = (ratio * returnedBitmap.height).roundToInt()
-                      Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
-                  }
-                  return bitmap;
-              }
+
+                 var bitmap: Bitmap = if (businessdatadata.paperSize == 80) {
+                     //create resized image and display
+                     val maxImageSize = 570f
+                     val ratio = maxImageSize / returnedBitmap.width
+                     val width = (ratio * returnedBitmap.width).roundToInt()
+                     val height = (ratio * returnedBitmap.height).roundToInt()
+                     Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
+                 } else {
+                     val maxImageSize = 390f
+                     val ratio = maxImageSize / (returnedBitmap.width)
+                     val width = (ratio * returnedBitmap.width).roundToInt()
+                     val height = (ratio * returnedBitmap.height).roundToInt()
+                     Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
+                 }
+                 return bitmap;
+             }
+
+
+
+
+
 
     }
          fun getResizedBitmap(originalBitmap: Bitmap, targetWidth: Int, targetHeight: Int): Bitmap {
@@ -1093,13 +1100,11 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  var barcodeBitmap = genBarcode(barcode)
                  bind.barcode.setImageBitmap(barcodeBitmap)
 
-                 var p = "Price/${unitGet(item)} ${orderModel.orderProducts?.first()?.netAmount.toString()}";
-                 var net = "Net: ${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0} ${unitGet(item)}"
-                 var t = "Total: ${String.format("%.2f", price)}"
-                 var ex= if(item?.product?.property?.expire_date == null) "" else "Exp: ${item?.product?.property?.expire_date}";
-                 labelPrinter.printContent(barcode,p,net, t, ex,
-                     (orderModel.orderProducts?.first()?.product?.shortName ?: "").toString(),(businessdatadata.label_width?.toDouble() ?: 76.0), (businessdatadata.label_hight?.toDouble() ?: 76.0)
-                 );
+//                 var p = "Price/${unitGet(item)} ${orderModel.orderProducts?.first()?.netAmount.toString()}";
+//                 var net = "Net: ${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0} ${unitGet(item)}"
+//                 var t = "Total: ${String.format("%.2f", price)}"
+//                 var ex= if(item?.product?.property?.expire_date == null) "" else "Exp: ${item?.product?.property?.expire_date}";
+//
                  val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
                  return  bitmaplist
 

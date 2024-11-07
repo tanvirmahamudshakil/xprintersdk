@@ -88,4 +88,6 @@ data class BusinessSetting(
     var label_width: Int?,
     @SerializedName("label_font_size")
     val labelFontSize: Int?,
+    @SerializedName("dpi")
+    val dpi: Int?,
 )

@@ -50,6 +50,7 @@ class PrinterBusinessModel {
   bool? propertyshop;
   int? labelPrinterHight;
   int? labelPrinterWidth;
+  int? dpi;
 
   PrinterBusinessModel(
       {this.fontSize,
@@ -64,6 +65,7 @@ class PrinterBusinessModel {
       this.serviceCharge = false,
       this.header3Size,
       this.header4Size,
+      this.dpi,
       required this.highlighttextsize,
       required this.printOnDelivery,
       required this.printOnCollection,
@@ -96,6 +98,7 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
       weightShow: json["weightShow"],
+      dpi: json["dpi"],
       labelFontSize: json["label_font_size"],
       labelPrinterHight: json["label_hight"],
       labelPrinterWidth: json["label_width"],
@@ -156,6 +159,7 @@ class PrinterBusinessModel {
         "select_printer": selectPrinter,
         "printer_connection": printerConnection,
         "ip": ip,
+        "dpi": dpi,
         "bluetooth_name": bluetoothName,
         "bluetooth_address": bluetoothAddress,
         "businessname": businessname,
