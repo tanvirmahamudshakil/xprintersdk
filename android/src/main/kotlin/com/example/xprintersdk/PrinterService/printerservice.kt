@@ -37,7 +37,9 @@ import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.databinding.StickerprinterBinding
 import com.example.xprintersdk.xprinter.Xprinter
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
+import com.google.zxing.common.BitMatrix
 import io.flutter.plugin.common.MethodChannel
 import net.nyx.printerclient.Nyxpinter
 import java.io.ByteArrayOutputStream
@@ -592,20 +594,38 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              var width = businessdatadata.barcode_width ?: 250;
              var height = businessdatadata.barcode_hight ?: 100;
              if (inputValue.isNotEmpty()) {
+                 val hints = mapOf(
+                     EncodeHintType.MARGIN to 0  // Optional: set margin to 0 for a tighter fit
+                 )
                  // Initializing a MultiFormatWriter to encode the input value
-                 val mwriter = MultiFormatWriter()
+       //          val mwriter = MultiFormatWriter()
                  try {
-                     // Generating a barcode matrix
-                     val matrix = mwriter.encode(inputValue, BarcodeFormat.CODE_128, width, height)
-                     // Creating a bitmap to represent the barcode
-                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
-                     // Iterating through the matrix and set pixels in the bitmap
-                     for (i in 0 until width) {
-                         for (j in 0 until height) {
-                             bitmap.setPixel(i, j, if (matrix[i, j]) Color.BLACK else Color.WHITE)
+//                     // Generating a barcode matrix
+//                     val matrix = mwriter.encode(inputValue, BarcodeFormat.CODE_128, width, height)
+//                     // Creating a bitmap to represent the barcode
+//                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+//                     // Iterating through the matrix and set pixels in the bitmap
+//                     for (i in 0 until width) {
+//                         for (j in 0 until height) {
+//                             bitmap.setPixel(i, j, if (matrix[i, j]) Color.BLACK else Color.WHITE)
+//                         }
+//                     }
+//                     // Seting the bitmap as the image resource of the ImageView
+//                     return bitmap
+                     val bitMatrix: BitMatrix = MultiFormatWriter().encode(
+                         inputValue,
+                         BarcodeFormat.CODE_128,  // Use CODE_128 or other formats as needed
+                         width,
+                         height,
+                         hints
+                     )
+
+                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                     for (x in 0 until width) {
+                         for (y in 0 until height) {
+                             bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
                          }
                      }
-                     // Seting the bitmap as the image resource of the ImageView
                      return bitmap
                  } catch (e: Exception) {
                     return  null;
