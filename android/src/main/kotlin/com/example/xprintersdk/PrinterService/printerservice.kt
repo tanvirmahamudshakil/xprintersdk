@@ -1008,7 +1008,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              if(businessdatadata.selectPrinter!!.lowercase() == "label_printer" && orderModel.orderProducts != null && orderModel.orderProducts!!.isNotEmpty()) {
                  val bind: StickerprinterBinding = StickerprinterBinding.inflate(LayoutInflater.from(context))
 
-                bind.root.setDimensionsInMillimeters()
+                //bind.root.setDimensionsInMillimeters()
 
 
                  val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
