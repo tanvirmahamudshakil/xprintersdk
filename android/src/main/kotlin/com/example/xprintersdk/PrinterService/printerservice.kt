@@ -1062,7 +1062,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.netwtvalue.text = "Net: ${orderModel.orderProducts?.first()?.product?.property?.unit_amount} ${unitGet(item)}"
                  bind.netwtvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
-
+                 bind.businessName.text = businessname
+                 bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
                  var price = 0.0
                  var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
