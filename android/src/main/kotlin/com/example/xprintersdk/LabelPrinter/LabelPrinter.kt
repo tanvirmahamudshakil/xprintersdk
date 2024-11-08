@@ -107,14 +107,7 @@ class LabelPrinter(context: Context) {
             printer.isConnect { p0 ->
                 if (POSConnect.CONNECT_SUCCESS == p0) {
                     printer.sizeMm(width, height)
-                        .gapInch(0.0, 0.0)
-                        .offsetInch(0.0)
-                        .speed(5.0)
-                        .density(10)
-                        .direction(TSPLConst.DIRECTION_FORWARD)
-                        .reference(10, 0)
                         .cls()
-                        .barcode(barcode_x, barcode_y, TSPLConst.CODE_TYPE_93, 100, TSPLConst.READABLE_NONE, TSPLConst.ROTATION_0, 2, 2, barcode)
                         .bitmap(0, 0, TSPLConst.BMP_MODE_OVERWRITE, bitmapWidth, b, AlgorithmType.Threshold)
                         .print(1)
                     result.success(true);
