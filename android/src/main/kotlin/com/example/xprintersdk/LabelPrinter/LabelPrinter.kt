@@ -101,7 +101,7 @@ class LabelPrinter(context: Context) {
 
 
 
-    fun printPicCode(b: Bitmap, result: Result, width: Double, height: Double, bitmapWidth : Int, barcode_x : Int, barcode_y: Int, barcode:String) {
+    fun printPicCode(b: Bitmap, result: Result, width: Double, height: Double, bitmapWidth : Int) {
         if(curConnect != null) {
             var printer = TSPLPrinter(curConnect)
             printer.isConnect { p0 ->
