@@ -10,13 +10,8 @@ import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Typeface
-import android.icu.lang.UProperty.INT_START
 import android.os.AsyncTask
-import android.os.Build
 import android.provider.MediaStore
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.style.StyleSpan
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -24,8 +19,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.text.bold
 import com.example.xprintersdk.LabelPrinter.LabelPrinter
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.OrderData.OrderData
@@ -37,11 +30,9 @@ import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.databinding.StickerprinterBinding
 import com.example.xprintersdk.xprinter.Xprinter
 import com.google.zxing.BarcodeFormat
-import com.google.zxing.EncodeHintType
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.common.BitMatrix
 import io.flutter.plugin.common.MethodChannel
-import net.nyx.printerclient.Nyxpinter
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
@@ -74,6 +65,9 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          private var header4 : Int = 22
 
          private var footervatFontSize : Int = 15
+         lateinit var barcode: String
+         private val size_width = 660
+         private val size_height = 264
 
     init {
         context = mcontext;
@@ -511,8 +505,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      result,
                      (businessdatadata.label_width?.toDouble() ?: 76.0),
                      (businessdatadata.label_hight?.toDouble() ?: 30.0),
-                     widthPx,
-
+                     widthPx
                  )
             }
             else {
@@ -596,54 +589,27 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          }
 
          private fun genBarcode(barcode : String) : Bitmap? {
-             val inputValue = barcode.trim()
-             var width = businessdatadata.barcode_width ?: 250
-             var height = businessdatadata.barcode_hight ?: 100
-             val boldFactor = 5 // Increase this value for bolder lines
+             var widthd = businessdatadata.barcode_width ?: 250;
+             var heightd = businessdatadata.barcode_hight ?: 100;
 
-             if (inputValue.isNotEmpty()) {
-                 val hints = mapOf(
-                     EncodeHintType.MARGIN to 0  // Optional: set margin to 0 for a tighter fit
-                 )
-                 try {
-                     val bitMatrix: BitMatrix = MultiFormatWriter().encode(
-                         inputValue,
-                         BarcodeFormat.CODE_128,  // Use CODE_128 or other formats as needed
-                         width,
-                         height,
-                         hints
-                     )
-
-                     // Create a bitmap with the same size as the encoded matrix
-                     val bitmap = Bitmap.createBitmap(width * boldFactor, height, Bitmap.Config.ARGB_8888)
-
-                     // Loop through the matrix and set multiple pixels to create bold lines
-                     for (x in 0 until width) {
-                         for (y in 0 until height) {
-                             // Use boldFactor to set multiple pixels for black lines
-                             if (bitMatrix[x, y]) {
-                                 for (dx in 0 until boldFactor) {
-                                     for (dy in 0 until boldFactor) {
-                                         if (x * boldFactor + dx < bitmap.width && y + dy < height) {
-                                             bitmap.setPixel(x * boldFactor + dx, y + dy, Color.BLACK)
-                                         }
-                                     }
-                                 }
-                             } else {
-                                 bitmap.setPixel(x * boldFactor, y, Color.WHITE)
-                             }
-                         }
+             var bitMatrix: BitMatrix? = null
+             bitMatrix = MultiFormatWriter().encode(barcode, BarcodeFormat.CODE_128, widthd, heightd)
+             val width = bitMatrix.width
+             val height = bitMatrix.getHeight()
+             val pixels = IntArray(width * height)
+             for (i in 0 until height) {
+                 for (j in 0 until width) {
+                     if (bitMatrix[j, i]) {
+                         pixels[i * width + j] = -0x1000000
+                     } else {
+                         pixels[i * width + j] = -0x1
                      }
-
-                     return bitmap
-                 } catch (e: Exception) {
-                     return null
                  }
-             } else {
-                 // Showing an error message if the EditText is empty
-                 return null
              }
-
+             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+             bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+             return bitmap
+//
 //             val inputValue = barcode.trim()
 //             var width = businessdatadata.barcode_width ?: 250;
 //             var height = businessdatadata.barcode_hight ?: 100;
@@ -828,7 +794,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
              if(!sortIteam.isNullOrEmpty()){
                  for (j in sortIteam.indices) {
-                     Log.e("iteam sort", "doInBackground: ${j}", )
+                     Log.e("iteam sort", "doInBackground: ${j}")
                      val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, context, 0, printSize)
                      bind.items.addView(childView)
                      allitemsheight += childView!!.measuredHeight
@@ -1207,7 +1173,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //                 }
 
 
-                 var barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
+                  barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
 
                  var barcodeBitmap = genBarcode(barcode)
                  val imageView = ImageView(context).apply {
