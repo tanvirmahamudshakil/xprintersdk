@@ -74,6 +74,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          private var header4 : Int = 22
 
          private var footervatFontSize : Int = 15
+         lateinit var barcode: String
 
     init {
         context = mcontext;
@@ -506,7 +507,16 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                 val widthMm = businessdatadata.label_width ?: 76
 
                 val widthPx = (widthMm * dpi / 25.4f).toInt()
-                 labelPrinter.printPicCode(bitmap!!, result,(businessdatadata.label_width?.toDouble() ?: 76.0), (businessdatadata.label_hight?.toDouble() ?: 30.0), widthPx)
+                 labelPrinter.printPicCode(
+                     bitmap!!,
+                     result,
+                     (businessdatadata.label_width?.toDouble() ?: 76.0),
+                     (businessdatadata.label_hight?.toDouble() ?: 30.0),
+                     widthPx,
+                     businessdatadata.barcode_x ?: 10,
+                     businessdatadata.barcode_y ?: 10,
+                     barcode
+                 )
             }
             else {
                 sunmiPrinter.printBitmap(bitmap, 2, result)
@@ -1165,24 +1175,24 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //                 }
 
 
-                 var barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
+                  barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
 
-                 var barcodeBitmap = genBarcode(barcode)
-                 val imageView = ImageView(context).apply {
-                     setImageBitmap(barcodeBitmap)
-
-                     // Set layout parameters if needed (e.g., dynamic width and height)
-                     layoutParams = ViewGroup.LayoutParams(
-                         ViewGroup.LayoutParams.WRAP_CONTENT,
-                         ViewGroup.LayoutParams.WRAP_CONTENT
-                     )
-                 }
-//                var layoutParams = ViewGroup.LayoutParams(
-//                         businessdatadata.barcode_width?: 400,
-//                    businessdatadata.barcode_hight?: 100,
+//                 var barcodeBitmap = genBarcode(barcode)
+//                 val imageView = ImageView(context).apply {
+//                     setImageBitmap(barcodeBitmap)
+//
+//                     // Set layout parameters if needed (e.g., dynamic width and height)
+//                     layoutParams = ViewGroup.LayoutParams(
+//                         ViewGroup.LayoutParams.WRAP_CONTENT,
+//                         ViewGroup.LayoutParams.WRAP_CONTENT
 //                     )
+//                 }
+                var layoutParams = ViewGroup.LayoutParams(
+                         businessdatadata.barcode_width?: 400,
+                    businessdatadata.barcode_hight?: 100,
+                     )
                  bind.items.removeAllViews()
-                 bind.items.addView(imageView)
+                 bind.items.layoutParams = layoutParams
 //                 bind.barcode.setImageBitmap(barcodeBitmap)
 
 //                 var p = "Price/${unitGet(item)} ${orderModel.orderProducts?.first()?.netAmount.toString()}";

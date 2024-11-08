@@ -53,6 +53,8 @@ class PrinterBusinessModel {
   int? dpi;
   int? barcode_hight;
   int? barcode_width;
+  int? barcode_x;
+  int? barcode_y;
 
   PrinterBusinessModel(
       {this.fontSize,
@@ -97,12 +99,16 @@ class PrinterBusinessModel {
       this.vatNote,
       this.printerStyle,
       this.asapFontSize,
+      this.barcode_x,
+      this.barcode_y,
       this.xprinterPath,
       this.propertyshop});
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
       barcode_hight: json["barcode_hight"],
       barcode_width: json["barcode_width"],
+      barcode_x: json["barcode_x"],
+      barcode_y: json["barcode_y"],
       weightShow: json["weightShow"],
       dpi: json["dpi"],
       labelFontSize: json["label_font_size"],
@@ -148,6 +154,8 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
         "barcode_hight": barcode_hight,
+        "barcode_x" : barcode_x,
+        "barcode_y" : barcode_y,
         "barcode_width": barcode_width,
         "label_hight": labelPrinterHight,
         "label_font_size": labelFontSize,

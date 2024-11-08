@@ -94,4 +94,8 @@ data class BusinessSetting(
     val barcode_hight: Int?,
     @SerializedName("barcode_width")
     val barcode_width: Int?,
+    @SerializedName("barcode_x")
+    var barcode_x : Int?,
+    @SerializedName("barcode_y")
+    var barcode_y : Int?
 )
