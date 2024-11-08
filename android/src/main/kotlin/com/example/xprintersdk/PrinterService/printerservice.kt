@@ -1164,13 +1164,13 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  bind.totalvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
 
 
-//                 if(item?.product?.property?.expire_date != null ) {
-//                     bind.expireDateValue.text = "Exp: ${item?.product?.property?.expire_date}"
-//                     bind.expireDateValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
-//
-//                 }else{
-//                     bind.expireLayour.visibility = View.GONE
-//                 }
+                 if(item?.product?.property?.expire_date != null ) {
+                     bind.expire.text = "Exp: ${item?.product?.property?.expire_date}"
+                     bind.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+
+                 }else{
+                     bind.expirecontainer.visibility = View.GONE
+                 }
 
 
                   barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
