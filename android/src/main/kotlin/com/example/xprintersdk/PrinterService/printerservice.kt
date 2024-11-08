@@ -599,7 +599,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
              val inputValue = barcode.trim()
              var width = businessdatadata.barcode_width ?: 250
              var height = businessdatadata.barcode_hight ?: 100
-             val boldFactor = 2 // Increase this value for bolder lines
+             val boldFactor = 5 // Increase this value for bolder lines
 
              if (inputValue.isNotEmpty()) {
                  val hints = mapOf(
