@@ -14,6 +14,7 @@ import android.os.AsyncTask
 import android.provider.MediaStore
 import android.util.Log
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -1183,7 +1184,10 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      layoutParams = ViewGroup.LayoutParams(
                          ViewGroup.LayoutParams.WRAP_CONTENT,
                          ViewGroup.LayoutParams.WRAP_CONTENT
-                     )
+                     ).apply {
+                         Gravity.CENTER
+
+                     }
                  }
 //                var layoutParams = ViewGroup.LayoutParams(
 //                         businessdatadata.barcode_width?: 400,
