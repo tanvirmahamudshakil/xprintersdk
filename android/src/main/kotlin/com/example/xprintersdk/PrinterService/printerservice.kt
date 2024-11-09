@@ -1184,10 +1184,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      layoutParams = ViewGroup.LayoutParams(
                          ViewGroup.LayoutParams.WRAP_CONTENT,
                          ViewGroup.LayoutParams.WRAP_CONTENT
-                     ).apply {
-                         Gravity.CENTER
-
-                     }
+                     )
                  }
 //                var layoutParams = ViewGroup.LayoutParams(
 //                         businessdatadata.barcode_width?: 400,
