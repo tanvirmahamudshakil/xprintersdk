@@ -4,17 +4,11 @@
     android:layout_weight="1"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@drawable/border"
     android:layout_gravity="center"
-
     android:layout_height="wrap_content">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_margin="5dp"
-        android:background="@drawable/border"
-        android:layout_height="wrap_content">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_marginVertical="5dp"
@@ -159,6 +153,6 @@
                 android:text="Al-ISLA CASH AND CARRY"
                 android:textColor="@color/black" />
         </LinearLayout>
-    </LinearLayout>
+
 
 </LinearLayout>
