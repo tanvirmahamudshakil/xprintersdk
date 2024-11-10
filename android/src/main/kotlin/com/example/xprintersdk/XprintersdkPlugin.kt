@@ -64,6 +64,12 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var labelPrinterConnection = "labelPrinterConnection";
 //  private var labelPrinterPrintBarCode = "labelPrinterPrintBarCode";
 
+  private var printer80PrintImage = "printer80PrintImage"
+
+
+
+
+
 
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -122,6 +128,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       labelPrintBarCode(call, result)
     } else if (call.method == labelPrinterConnection) {
       labelPrinterConnectCheck(call, result);
+    } else if (call.method == printer80PrintImage) {
+      printer80Print(call, result)
     }
     else {
       result.notImplemented()
@@ -165,9 +173,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
 
     if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
-      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false,nyxPrinter, labelPrinter).execute()
+      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false,nyxPrinter, labelPrinter, printer80).execute()
     }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
-      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false,nyxPrinter, labelPrinter).execute()
+      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false,nyxPrinter, labelPrinter, printer80).execute()
     }else{
 
     }
@@ -189,7 +197,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nyxPrinter, labelPrinter).execute()
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nyxPrinter, labelPrinter, printer80).execute()
   }
 
 
@@ -201,7 +209,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("json data", "xprinterprint: ${orderiteamdata}")
     var modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     Log.d("order product length", "xprinterOnlineDataPrint: ${modeldata.orderProducts!!.size}")
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true, nyxPrinter, labelPrinter).execute()
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, true, nyxPrinter, labelPrinter, printer80).execute()
   }
 
 
@@ -265,7 +273,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val orderjson = Gson().toJson(orderiteamdata)
     val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
-    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nyxPrinter, labelPrinter).execute()
+    printerservice(context,modeldata,businessdata, xprinter, result, sunmiHelper, false, nyxPrinter, labelPrinter, printer80).execute()
   }
 
 
@@ -310,9 +318,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
 
     if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
-      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false,nyxPrinter, labelPrinter).execute()
+      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false,nyxPrinter, labelPrinter, printer80).execute()
     }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
-      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false,nyxPrinter, labelPrinter).execute()
+      printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false,nyxPrinter, labelPrinter, printer80).execute()
     }else{
 
     }
@@ -323,4 +331,27 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private fun labelPrinterConnectCheck(call: MethodCall, result : Result){
     labelPrinter.printerconnectCheck(result)
   }
+
+
+
+  //// printer 80
+
+  fun printer80Print(call: MethodCall, result : Result) {
+    val orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
+    val printerbusinessdata = call.argument<String>("printer_model_data")
+    val orderjson = Gson().toJson(orderiteamdata)
+    val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+
+    val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
+
+    printerservice(context,modeldata, businessdata,xprinter, result, sunmiHelper, false,nyxPrinter, labelPrinter, printer80).execute()
+//    if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
+//      printerservice(context,modeldata,businessdata, xprinter, result,sunmiHelper, false,nyxPrinter, labelPrinter, printer80).execute()
+//    }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
+//
+//    }else{
+//
+//    }
+  }
+
 }

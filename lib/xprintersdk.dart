@@ -29,6 +29,7 @@ class Xprintersdk {
   final String _labelPrinterConnectUSB = "labelPrinterConnectUSB";
   final String _labelPrinterPrintBarCode = "labelPrinterPrintBarCode";
   final String _labelPrinterConnection = "labelPrinterConnection";
+  final String _printer80PrintImage = "printer80PrintImage";
 
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');
@@ -167,5 +168,13 @@ class Xprintersdk {
 
   Future<bool> labelPrinterConnect() async {
     return await _methodChannel.invokeMethod(_labelPrinterConnection);
+  }
+
+  Future printer80PrintImage({
+    required PrinterBusinessModel printermodel,
+    required Map<String, Object?> orderiteam,
+  }) async {
+    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
+    return await _methodChannel.invokeMethod(_printer80PrintImage, quary);
   }
 }
