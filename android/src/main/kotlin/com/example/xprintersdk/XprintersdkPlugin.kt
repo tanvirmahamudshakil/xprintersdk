@@ -12,6 +12,7 @@ import com.example.xprintersdk.Model.LocalOrderData.LocalOrderData
 import com.example.xprintersdk.Model.OrderData.OrderData
 import com.example.xprintersdk.Model.ReturnModel.ReturnModel
 import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
+import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.PrinterService.DailyReportPage
 import com.example.xprintersdk.PrinterService.RequestBookingprint
 import com.example.xprintersdk.PrinterService.ReturnPrint
@@ -35,6 +36,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   lateinit var sunmiHelper : SunmiHelp;
   lateinit var nyxPrinter : NyxprinterHelp;
   lateinit var labelPrinter : LabelPrinter
+  lateinit var printer80 : printer80
   private var xPrinterIntitalization : String = "xPrinterIntitalization";
   private var xPrinterConnectionCheck ="xPrinterConnectionCheck";
   private var xPrinterConnect = "xPrinterConnect";
@@ -71,6 +73,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     sunmiHelper= SunmiHelp()
     nyxPrinter = NyxprinterHelp(context)
     labelPrinter = LabelPrinter(context)
+    printer80 = printer80()
     channel.setMethodCallHandler(this)
   }
 
