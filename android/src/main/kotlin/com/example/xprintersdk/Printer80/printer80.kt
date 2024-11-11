@@ -12,6 +12,7 @@ import android.widget.Toast
 import com.printer.sdk.PrinterConstants.Connect
 import com.printer.sdk.PrinterConstants.PAlign
 import com.printer.sdk.PrinterInstance
+import com.printer.sdk.usb.USBPort
 
 class printer80(context: Context) {
 
@@ -20,8 +21,8 @@ class printer80(context: Context) {
     private var CONNECTED: Boolean = false;
     init {
         val device = GetUsbPathNames(context)
-        @SuppressLint("HandlerLeak", "ShowToast")
-     if(device != null) mHandler = object : Handler(Looper.getMainLooper()) {
+   
+      mHandler = object : Handler(Looper.getMainLooper()) {
             override fun handleMessage(msg: Message) {
                 when (msg.what) {
                     Connect.SUCCESS -> {
@@ -29,12 +30,15 @@ class printer80(context: Context) {
                         Toast.makeText(context, "Connect successfull", Toast.LENGTH_SHORT).show()
                     }
                     Connect.FAILED -> {
+                        Toast.makeText(context, "Connect Faild", Toast.LENGTH_SHORT).show()
                         CONNECTED = false
                     }
                     Connect.CLOSED -> {
+                        Toast.makeText(context, "Connect Closed", Toast.LENGTH_SHORT).show()
                         CONNECTED = false
                     }
                     Connect.NODEVICE -> {
+                        Toast.makeText(context, "No Device Found", Toast.LENGTH_SHORT).show()
                         CONNECTED = false
                     }
 
@@ -42,8 +46,8 @@ class printer80(context: Context) {
             }
         }
 
-        if(device != null) mPrinter = PrinterInstance.getPrinterInstance(context, device, mHandler);
-        if(device != null)  initPrinter()
+        mPrinter = PrinterInstance.getPrinterInstance(context, device, mHandler);
+        initPrinter()
     }
 
 
@@ -84,10 +88,10 @@ class printer80(context: Context) {
     }
 
     fun GetUsbPathNames(context: Context): UsbDevice? {
-        var usbNames: MutableList<String?>?
-        val usbManager = context.getSystemService("usb") as UsbManager
-        if(usbManager.deviceList.isNotEmpty()) {
-            val usbList = usbManager.deviceList.values.first()
+        val usbManager = context.getSystemService(Context.USB_SERVICE) as UsbManager
+        val devices: HashMap<String, UsbDevice> = usbManager.getDeviceList()
+        if(devices.isNotEmpty()) {
+            val usbList = devices.values.find { USBPort.isUsbPrinter(it) }
             return  usbList;
         }else{
             return  null;
