@@ -79,7 +79,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     sunmiHelper= SunmiHelp()
     nyxPrinter = NyxprinterHelp(context)
     labelPrinter = LabelPrinter(context)
-    printer80 = printer80()
+    printer80 = printer80(context)
     channel.setMethodCallHandler(this)
   }
 
