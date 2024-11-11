@@ -98,6 +98,16 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
          var x_for_poundOfferApplyList  = mutableListOf<Int>();
+
+
+         fun rotateBitmap180(bitmap: Bitmap): Bitmap {
+             val matrix = Matrix().apply {
+                 postRotate(180f)
+             }
+             return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+         }
+
+
     fun capitalize(str: String): String? {
         return str.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
     }
@@ -134,7 +144,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 // Draw the view onto the canvas
                  view.draw(canvas)
 
-                 return bitmap
+                 return rotateBitmap180(bitmap)
 
              }else{
                  val spec = View.MeasureSpec.makeMeasureSpec(
