@@ -24,6 +24,7 @@ import com.example.xprintersdk.LabelPrinter.LabelPrinter
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.OrderData.OrderData
 import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
+import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ButcherOrderPrintBinding
 import com.example.xprintersdk.databinding.ModelPrint2Binding
@@ -42,9 +43,10 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 
-class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp, labelPrinter : LabelPrinter) :
+class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp, labelPrinter : LabelPrinter, printer80D : printer80) :
     AsyncTask<String, Int, Bitmap>()
      {
+
 
          private var context: Context
          private  var orderModel: OrderData
@@ -53,7 +55,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          private  var businessphone: String
          private var fontsize: Int = 30
          private var labelPrinter: LabelPrinter
-//         private var printer80: printer80
+         private var printer80: printer80
          private var noofprint: Int =1
          private var businessdatadata: BusinessSetting
          private var serviceBinding: Xprinter
@@ -74,7 +76,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
     init {
         context = mcontext;
         orderModel = morderModel;
-//        printer80 = printer80D
+        printer80 = printer80D
         serviceBinding = mserviceBinding;
         this.businessname = businessdata.businessname ?: "";
         this.businessaddress =  businessdata.businessaddress ?: "";
@@ -522,7 +524,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  )
             } else if (businessdatadata.selectPrinter!!.lowercase() == "printer80") {
                 if (bitmap != null) {
-//                    printer80.printBitmap(bitmap)
+                    printer80.printBitmap(bitmap)
                     result.success(true)
                 };
             }

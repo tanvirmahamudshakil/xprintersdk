@@ -79,7 +79,8 @@ dependencies {
     implementation files('libs/PosPrinterSDK.jar')
 //    implementation fileTree(dir: "libs", include: ["*.aar"])
     implementation files("libs/classes.jar")
-    implementation files("libs/printersdkv5.7.0.jar")
+//    implementation files("libs/printersdkv80_5.7.0.jar")
+    implementation files("libs/printersdkv80_5.7.0.jar")
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.12.0'
