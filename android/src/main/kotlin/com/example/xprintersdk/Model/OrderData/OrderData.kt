@@ -624,7 +624,7 @@ data class OrderData(
         val id: Int?,
         @SerializedName("name")
         val name: String?,
-        @SerializedName("property")
+        @SerializedName("prop")
         val `property`: Property?,
         @SerializedName("status")
         val status: Int?,
