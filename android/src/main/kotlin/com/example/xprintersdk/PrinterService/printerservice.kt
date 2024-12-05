@@ -665,6 +665,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
          }
 
 
+         @SuppressLint("DefaultLocale", "SetTextI18n")
          fun eposWaiterorderPrint() : Bitmap {
              noofprint = if (orderModel.orderType == "DELIVERY"){
                  businessdatadata.printOnDelivery!!
@@ -934,6 +935,8 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 //             bind.refundContainer.visibility = View.GONE
              val subTotal: Double = orderModel.netAmount ?: 0.0
              bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
+             bind.serviceChage.text = "£ " + String.format("%.2f", orderModel.serviceCharge ?: 0.0)
+             bind.tips.text = "£ " + String.format("%.2f", orderModel.tips ?: 0.0)
              if(orderModel.orderType == "DELIVERY") {
                  bind.deliveryChargeContainer.visibility = View.VISIBLE
                  bind.txtDeliveryCharge.text = "Delivery Charge";

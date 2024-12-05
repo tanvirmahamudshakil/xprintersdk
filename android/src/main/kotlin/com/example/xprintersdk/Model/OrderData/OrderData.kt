@@ -79,7 +79,11 @@ data class OrderData(
     @SerializedName("vat")
     var vat_amount: Double,
     @SerializedName("order_id")
-    var order_id: Int
+    var order_id: Int,
+    @SerializedName("service_charge")
+    var serviceCharge: Double?,
+    @SerializedName("tips")
+    var tips: Double?
 ) {
     @Keep
     data class PropertyXXX(
