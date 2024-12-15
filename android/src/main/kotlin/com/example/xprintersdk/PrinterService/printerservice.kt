@@ -1105,18 +1105,18 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
 
                  bind.itemName.text = orderModel.orderProducts?.first()?.product?.shortName
-                 bind.itemName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+                 bind.itemName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.item_name_font?.toFloat() ?: 22f)
 
 
                  bind.priceValue.text = "Price Per ${unitGet(item)} - £${orderModel.orderProducts?.first()?.netAmount.toString()}"
-                 bind.priceValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+                 bind.priceValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.price_per_weight_font?.toFloat() ?: 22f)
 
 
                  bind.netwtvalue.text = "Weight - ${orderModel.orderProducts?.first()?.product?.property?.unit_amount} ${unitGet(item)}"
-                 bind.netwtvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+                 bind.netwtvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.item_weight_font?.toFloat() ?: 22f)
 
                  bind.businessName.text = businessname
-                 bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+                 bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.business_name_font?.toFloat() ?: 22f)
 
                  var price = 0.0
                  var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
@@ -1184,12 +1184,12 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                  }
 
                  bind.totalvalue.text = "£${String.format("%.2f", price)}"
-                 bind.totalvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+                 bind.totalvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.item_price_font?.toFloat() ?: 22f)
 
 
                  if(item?.product?.property?.expire_date != null ) {
                      bind.expire.text = "Exp: ${item?.product?.property?.expire_date}"
-                     bind.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.labelFontSize?.toFloat() ?: 22f)
+                     bind.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.expire_date_font?.toFloat() ?: 22f)
 
                  }else{
                      bind.expirecontainer.visibility = View.GONE

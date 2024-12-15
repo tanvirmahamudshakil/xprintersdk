@@ -16,7 +16,7 @@ class PrinterBusinessModel {
   int? header3Size;
   int? header4Size;
   int? fontSize;
-  int? labelFontSize;
+
   int printOnDelivery;
   int printOnCollection;
   int printOnTableOrder;
@@ -55,11 +55,16 @@ class PrinterBusinessModel {
   int? barcode_width;
   int? barcode_x;
   int? barcode_y;
+  int itemNameFont;
+  int itemPricefont;
+  int itemWeightfont;
+  int expireDateFont;
+  int businessNameFont;
+  int pricePerWeightFont;
 
   PrinterBusinessModel(
       {this.fontSize,
       this.labelPrinterHight,
-      this.labelFontSize,
       this.labelPrinterWidth,
       this.barcode_hight,
       this.barcode_width,
@@ -102,16 +107,26 @@ class PrinterBusinessModel {
       this.barcode_x,
       this.barcode_y,
       this.xprinterPath,
-      this.propertyshop});
+      this.propertyshop,
+      required this.itemNameFont,
+      required this.itemPricefont,
+      required this.itemWeightfont,
+      required this.expireDateFont,
+      required this.businessNameFont, required this.pricePerWeightFont});
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
+    pricePerWeightFont: json["price_per_weight_font"],
+      businessNameFont: json["business_name_font"],
+      expireDateFont: json["expire_date_font"],
+      itemNameFont: json["item_name_font"],
+      itemPricefont: json["item_price_font"],
+      itemWeightfont: json["item_weight_font"],
       barcode_hight: json["barcode_hight"],
       barcode_width: json["barcode_width"],
       barcode_x: json["barcode_x"],
       barcode_y: json["barcode_y"],
       weightShow: json["weightShow"],
       dpi: json["dpi"],
-      labelFontSize: json["label_font_size"],
       labelPrinterHight: json["label_hight"],
       labelPrinterWidth: json["label_width"],
       orderChannel: json["orderChannel"],
@@ -153,12 +168,17 @@ class PrinterBusinessModel {
       propertyshop: json["propertyshop"]);
 
   Map<String, dynamic> toJson() => {
+    "price_per_weight_font": pricePerWeightFont,
+        "business_name_font": businessNameFont,
+        "expire_date_font": expireDateFont,
+        "item_name_font": itemNameFont,
+        "item_price_font": itemPricefont,
+        "item_weight_font": itemWeightfont,
         "barcode_hight": barcode_hight,
-        "barcode_x" : barcode_x,
-        "barcode_y" : barcode_y,
+        "barcode_x": barcode_x,
+        "barcode_y": barcode_y,
         "barcode_width": barcode_width,
         "label_hight": labelPrinterHight,
-        "label_font_size": labelFontSize,
         "label_width": labelPrinterWidth,
         "orderChannel": orderChannel,
         "weightShow": weightShow ?? false,

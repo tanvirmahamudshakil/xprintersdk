@@ -86,8 +86,7 @@ data class BusinessSetting(
     var label_hight: Int?,
     @SerializedName("label_width")
     var label_width: Int?,
-    @SerializedName("label_font_size")
-    val labelFontSize: Int?,
+
     @SerializedName("dpi")
     val dpi: Int?,
     @SerializedName("barcode_hight")
@@ -97,5 +96,17 @@ data class BusinessSetting(
     @SerializedName("barcode_x")
     var barcode_x : Int?,
     @SerializedName("barcode_y")
-    var barcode_y : Int?
+    var barcode_y : Int?,
+    @SerializedName("business_name_font")
+    val business_name_font: Int?,
+    @SerializedName("expire_date_font")
+    val expire_date_font: Int?,
+    @SerializedName("item_name_font")
+    val item_name_font: Int?,
+    @SerializedName("item_price_font")
+    val item_price_font: Int?,
+    @SerializedName("item_weight_font")
+    val item_weight_font: Int?,
+    @SerializedName("price_per_weight_font")
+    val price_per_weight_font: Int?,
 )
