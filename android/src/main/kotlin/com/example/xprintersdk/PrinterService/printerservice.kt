@@ -1183,7 +1183,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
                      price -= totaldiscount;
                  }
 
-                 bind.totalvalue.text = "£${String.format("%.2f", price)}"
+                 bind.totalvalue.text = "Total Price £${String.format("%.2f", price)}"
                  bind.totalvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.item_price_font?.toFloat() ?: 22f)
 
 
