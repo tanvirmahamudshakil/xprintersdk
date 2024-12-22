@@ -43,11 +43,9 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 
-class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp, labelPrinter : LabelPrinter, printer80D : printer80) :
+class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp, labelPrinter : LabelPrinter, printer80D : printer80,) :
     AsyncTask<String, Int, Bitmap>()
      {
-
-
          private var context: Context
          private  var orderModel: OrderData
          private  var businessname: String
