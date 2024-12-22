@@ -65,6 +65,8 @@ class PrinterBusinessModel {
   int singleProductPriceFont;
   int singleProductExpireFont;
   int singleProductPrintHight;
+  int singleProductBarcodeHight;
+  int singleProductBarCodeWidth;
 
   PrinterBusinessModel({
     this.fontSize,
@@ -122,10 +124,14 @@ class PrinterBusinessModel {
     required this.singleProductExpireFont,
     required this.singleProductPriceFont,
     required this.singleProductPrintHight,
+    required this.singleProductBarcodeHight,
+    required this.singleProductBarCodeWidth,
   });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
       pricePerWeightFont: json["price_per_weight_font"],
+      singleProductBarcodeHight: json["singleProductBarcodeHight"],
+      singleProductBarCodeWidth: json["singleProductBarCodeWidth"],
       singleProductExpireFont: json["singleProductExpireFont"],
       singleProductPriceFont: json["singleProductPriceFont"],
       singleProductNameFont: json["singleProductNameFont"],
@@ -182,6 +188,8 @@ class PrinterBusinessModel {
       propertyshop: json["propertyshop"]);
 
   Map<String, dynamic> toJson() => {
+        "singleProductBarcodeHight": singleProductBarcodeHight,
+        "singleProductBarCodeWidth": singleProductBarCodeWidth,
         "price_per_weight_font": pricePerWeightFont,
         "singleProductExpireFont": singleProductExpireFont,
         "singleProductPriceFont": singleProductPriceFont,

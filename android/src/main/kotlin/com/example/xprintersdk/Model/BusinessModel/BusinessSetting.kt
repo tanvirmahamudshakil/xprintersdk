@@ -118,5 +118,10 @@ data class BusinessSetting(
     @SerializedName("singleProductPrintHight")
     val singleProductPrintHight: Int?,
 
+    @SerializedName("singleProductBarcodeHight")
+    val singleProductBarcodeHight: Int?,
+    @SerializedName("singleProductBarCodeWidth")
+    val singleProductBarCodeWidth: Int?,
+
 
 )

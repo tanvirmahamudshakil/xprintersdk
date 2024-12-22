@@ -167,8 +167,8 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
      }
 
     private fun genBarcode(barcode : String) : Bitmap? {
-        var widthd = businessdata.barcode_width ?: 250;
-        var heightd = businessdata.barcode_hight ?: 100;
+        var widthd = businessdata.singleProductBarCodeWidth ?: 250;
+        var heightd = businessdata.singleProductBarcodeHight ?: 100;
 
         var bitMatrix: BitMatrix? = null
         bitMatrix = MultiFormatWriter().encode(barcode, BarcodeFormat.CODE_128, widthd, heightd)
