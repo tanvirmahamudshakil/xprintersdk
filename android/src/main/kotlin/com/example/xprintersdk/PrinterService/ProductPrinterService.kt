@@ -71,26 +71,20 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
          // draw the view on the canvas
          view.draw(canvas)
 
-//        //create resized image and display
-//        val maxImageSize = 570f
-//        val ratio = maxImageSize / returnedBitmap.width
-//        val width = (ratio * returnedBitmap.width).roundToInt()
-//        val height = (ratio * returnedBitmap.height).roundToInt()
-//        //return the bitmap
-//
-//        var bitmap = Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
          var bitmap: Bitmap = if (businessdata.paperSize == 80){
              //create resized image and display
              val maxImageSize = 570f
              val ratio = maxImageSize / returnedBitmap.width
              val width = (ratio * returnedBitmap.width).roundToInt()
-             val height = (ratio * returnedBitmap.height).roundToInt()
+//             val height = (ratio * returnedBitmap.height).roundToInt()
+             val height = businessdata.singleProductPrintHight ?: 239
              Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
          }else {
              val maxImageSize = 390f
              val ratio = maxImageSize / (returnedBitmap.width)
              val width = (ratio * returnedBitmap.width).roundToInt()
-             val height = (ratio * returnedBitmap.height).roundToInt()
+//             val height = (ratio * returnedBitmap.height).roundToInt()
+             val height = businessdata.singleProductPrintHight ?: 239
              Bitmap.createScaledBitmap(returnedBitmap, width, height, true)
          }
 
@@ -148,7 +142,13 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
      override fun doInBackground(vararg params: String?): Bitmap {
          var binding = ProductprintBinding.inflate(LayoutInflater.from(context))
          binding.itemName.text = productPrint.name
+         binding.itemName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductNameFont?.toFloat() ?: 20.0f)
          binding.expire.text = productPrint.expire
+         binding.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductExpireFont?.toFloat() ?: 20.0f)
+
+         binding.price.text = productPrint.price
+         binding.price.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductPriceFont?.toFloat() ?: 20.0f)
+
          if(productPrint.barcode != null) {
              var barcodeBitmap = genBarcode(productPrint.barcode!!)
              val imageView = ImageView(context).apply {

@@ -109,4 +109,14 @@ data class BusinessSetting(
     val item_weight_font: Int?,
     @SerializedName("price_per_weight_font")
     val price_per_weight_font: Int?,
+    @SerializedName("singleProductNameFont")
+    val singleProductNameFont: Int?,
+    @SerializedName("singleProductPriceFont")
+    val singleProductPriceFont: Int?,
+    @SerializedName("singleProductExpireFont")
+    val singleProductExpireFont: Int?,
+    @SerializedName("singleProductPrintHight")
+    val singleProductPrintHight: Int?,
+
+
 )
