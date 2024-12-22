@@ -143,10 +143,10 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
          var binding = ProductprintBinding.inflate(LayoutInflater.from(context))
          binding.itemName.text = productPrint.name
          binding.itemName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductNameFont?.toFloat() ?: 20.0f)
-         binding.expire.text = productPrint.expire
+         binding.expire.text = "Expire: ${productPrint.expire}"
          binding.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductExpireFont?.toFloat() ?: 20.0f)
 
-         binding.price.text = productPrint.price
+         binding.price.text = "£${productPrint.price}"
          binding.price.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductPriceFont?.toFloat() ?: 20.0f)
 
          if(productPrint.barcode != null) {
