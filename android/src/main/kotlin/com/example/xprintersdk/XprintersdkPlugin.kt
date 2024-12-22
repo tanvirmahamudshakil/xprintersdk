@@ -53,6 +53,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var dailyreportImagePrint = "dailyreportImagePrint";
   private var propertyReturnPrint = "propertyReturnPrint";
   private var productPrint = "productPrint";
+  private var productPrintImage = "productPrintImage";
 
 
   // label printer
@@ -127,6 +128,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       printer80Print(call, result)
     } else if(call.method == productPrint) {
       productPrint(call, result)
+    } else if (call.method == productPrintImage) {
+      productPrintImageSave(call, result)
     }
     else {
       result.notImplemented()
@@ -351,5 +354,16 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val modeldata = Gson().fromJson<ProductPrint>(orderjson, Dailyreport::class.java)
     ProductPrinterService(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nyxPrinter, printer80).execute()
   }
+
+  private fun productPrintImageSave(call: MethodCall, result : Result) {
+    val orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
+    val printerbusinessdata = call.argument<String>("printer_model_data")
+    val orderjson = Gson().toJson(orderiteamdata)
+    val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+    val modeldata = Gson().fromJson<ProductPrint>(orderjson, Dailyreport::class.java)
+    ProductPrinterService(context,modeldata, businessdata,xprinter, result, sunmiHelper, true, nyxPrinter, printer80).execute()
+
+  }
+
 
 }
