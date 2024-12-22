@@ -351,7 +351,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val printerbusinessdata = call.argument<String>("printer_model_data")
     val orderjson = Gson().toJson(orderiteamdata)
     val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
-    val modeldata = Gson().fromJson<ProductPrint>(orderjson, Dailyreport::class.java)
+    val modeldata = Gson().fromJson<ProductPrint>(orderjson, ProductPrint::class.java)
     ProductPrinterService(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nyxPrinter, printer80).execute()
   }
 
@@ -360,7 +360,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val printerbusinessdata = call.argument<String>("printer_model_data")
     val orderjson = Gson().toJson(orderiteamdata)
     val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
-    val modeldata = Gson().fromJson<ProductPrint>(orderjson, Dailyreport::class.java)
+    val modeldata = Gson().fromJson<ProductPrint>(orderjson, ProductPrint::class.java)
     ProductPrinterService(context,modeldata, businessdata,xprinter, result, sunmiHelper, true, nyxPrinter, printer80).execute()
 
   }
