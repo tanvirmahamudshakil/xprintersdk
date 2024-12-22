@@ -14,7 +14,6 @@ import android.os.AsyncTask
 import android.provider.MediaStore
 import android.util.Log
 import android.util.TypedValue
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,8 +42,18 @@ import java.util.Locale
 import kotlin.math.roundToInt
 
 
-class printerservice(mcontext: Context, morderModel: OrderData, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp, labelPrinter : LabelPrinter, printer80D : printer80,) :
-    AsyncTask<String, Int, Bitmap>()
+class orderPrinterService(
+    mcontext: Context,
+    morderModel: OrderData,
+    businessdata: BusinessSetting,
+    mserviceBinding: Xprinter,
+    mresult: MethodChannel.Result,
+    sunmiHelper : SunmiHelp,
+    saveImage: Boolean,
+    nyxp : NyxprinterHelp,
+    labelPrinter : LabelPrinter,
+    printer80D : printer80,
+    ) : AsyncTask<String, Int, Bitmap>()
      {
          private var context: Context
          private  var orderModel: OrderData
@@ -535,6 +544,7 @@ class printerservice(mcontext: Context, morderModel: OrderData, businessdata: Bu
 
         }
     }
+
          private fun resizeImage(bitmap: Bitmap?, w: Int, ischecked: Boolean): Bitmap? {
              var resizedBitmap: Bitmap? = null
              val width = bitmap!!.width

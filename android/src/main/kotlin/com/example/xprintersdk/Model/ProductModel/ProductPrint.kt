@@ -2,7 +2,7 @@ package com.example.xprintersdk.Model.ProductModel
 
 
 import com.google.gson.annotations.SerializedName
-import android.support.annotation.Keep
+import androidx.annotation.Keep
 
 @Keep
 data class ProductPrint(
@@ -11,5 +11,7 @@ data class ProductPrint(
     @SerializedName("name")
     val name: String?,
     @SerializedName("price")
-    val price: String?
+    val price: String?,
+    @SerializedName("expire")
+    val expire: String?
 )

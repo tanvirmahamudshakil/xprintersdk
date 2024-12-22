@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 
 import 'Model/printerbusinessmodel.dart';
+import 'Model/product_model.dart';
 
 class Xprintersdk {
   final _methodChannel = const MethodChannel('xprintersdk');
@@ -30,6 +31,7 @@ class Xprintersdk {
   final String _labelPrinterPrintBarCode = "labelPrinterPrintBarCode";
   final String _labelPrinterConnection = "labelPrinterConnection";
   final String _printer80PrintImage = "printer80PrintImage";
+  final String _productPrint = "productPrint";
 
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');
@@ -176,5 +178,13 @@ class Xprintersdk {
   }) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_printer80PrintImage, quary);
+  }
+
+  Future productPrint({
+    required PrinterBusinessModel printermodel,
+    required ProductPrint productprint,
+  }) async {
+    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(productprint.toJson())), "printer_model_data": jsonEncode(printermodel.toJson())};
+    return await _methodChannel.invokeMethod(_productPrint, quary);
   }
 }

@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.DailyReport.Dailyreport
 import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
+import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.DailyreportBinding
 import com.example.xprintersdk.xprinter.Xprinter
@@ -30,7 +31,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp) : AsyncTask<String, Int, Bitmap>() {
+class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp, printer80D : printer80) : AsyncTask<String, Int, Bitmap>() {
     private var context: Context
     private  var dailyreport: Dailyreport
     private  var businessname: String
@@ -44,6 +45,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean
     private var nyxprinter : NyxprinterHelp
+    private var printer80: printer80
     init {
         context = mcontext;
         dailyreport = report;
@@ -57,6 +59,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         result = mresult
         sunmiPrinter = sunmiHelper;
         bitmapSave = saveImage;
+        printer80 = printer80D
         this.nyxprinter = nyxp
     }
 
@@ -117,18 +120,17 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
 
     fun printBitmap(bitmap: Bitmap?)  {
         try {
-//            val originalBitmap: Bitmap? = bitmap
-//            val compressFormat = Bitmap.CompressFormat.JPEG
-//            val compressionQuality = 10 // Adjust the quality as needed
-//            val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
-//
-//            var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
             if(bitmapSave) {
                 saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
                 serviceBinding.printUSBbitamp(bitmap,result);
             }else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!, result)
+            }else if (businessdatadata.selectPrinter!!.lowercase() == "printer80") {
+                if (bitmap != null) {
+                    printer80.printBitmap(bitmap)
+                    result.success(true)
+                };
             } else{
                 sunmiPrinter.printBitmap(bitmap, 2, result)
             }

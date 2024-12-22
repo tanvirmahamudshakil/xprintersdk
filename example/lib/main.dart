@@ -219,6 +219,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   PrinterBusinessModel printermodel = PrinterBusinessModel(
+    
       orderChannel: "EPOS",
       weightMultiplyingPrice: false,
       highlighttextsize: 20,
