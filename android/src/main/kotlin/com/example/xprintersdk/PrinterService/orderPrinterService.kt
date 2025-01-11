@@ -617,60 +617,91 @@ class orderPrinterService(
          }
 
          private fun genBarcode(barcode : String) : Bitmap? {
-             var widthd = businessdatadata.barcode_width ?: 250;
-             var heightd = businessdatadata.barcode_hight ?: 100;
-
-             var bitMatrix: BitMatrix? = null
-             bitMatrix = MultiFormatWriter().encode(barcode, BarcodeFormat.CODE_128, widthd, heightd)
-             val width = bitMatrix.width
-             val height = bitMatrix.getHeight()
-             val pixels = IntArray(width * height)
-             for (i in 0 until height) {
-                 for (j in 0 until width) {
-                     if (bitMatrix[j, i]) {
-                         pixels[i * width + j] = -0x1000000
-                     } else {
-                         pixels[i * width + j] = -0x1
+             // Geting input value from the EditText
+             val inputValue = barcode.trim()
+             var width = 250;
+             var height = 100;
+             if (inputValue.isNotEmpty()) {
+                 // Initializing a MultiFormatWriter to encode the input value
+                 val mwriter = MultiFormatWriter()
+                 try {
+                     // Generating a barcode matrix
+                     val matrix = mwriter.encode(inputValue, BarcodeFormat.CODE_128, width, height)
+                     // Creating a bitmap to represent the barcode
+                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+                     // Iterating through the matrix and set pixels in the bitmap
+                     for (i in 0 until width) {
+                         for (j in 0 until height) {
+                             bitmap.setPixel(i, j, if (matrix[i, j]) Color.BLACK else Color.WHITE)
+                         }
                      }
+                     // Seting the bitmap as the image resource of the ImageView
+                     return bitmap
+                 } catch (e: Exception) {
+                     return  null;
                  }
+             } else {
+                 // Showing an error message if the EditText is empty
+                 return  null;
              }
-             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-             bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-             return bitmap
-//
-//             val inputValue = barcode.trim()
-//             var width = businessdatadata.barcode_width ?: 250;
-//             var height = businessdatadata.barcode_hight ?: 100;
-//             if (inputValue.isNotEmpty()) {
-//                 val hints = mapOf(
-//                     EncodeHintType.MARGIN to 0  // Optional: set margin to 0 for a tighter fit
-//                 )
-//                 // Initializing a MultiFormatWriter to encode the input value
-//       //          val mwriter = MultiFormatWriter()
-//                 try {
-//                     val bitMatrix: BitMatrix = MultiFormatWriter().encode(
-//                         inputValue,
-//                         BarcodeFormat.CODE_128,  // Use CODE_128 or other formats as needed
-//                         width,
-//                         height,
-//                         hints
-//                     )
-//
-//                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-//                     for (x in 0 until width) {
-//                         for (y in 0 until height) {
-//                             bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
-//                         }
-//                     }
-//                     return bitmap
-//                 } catch (e: Exception) {
-//                    return  null;
-//                 }
-//             } else {
-//                 // Showing an error message if the EditText is empty
-//                return  null;
-//             }
          }
+
+
+//         private fun genBarcode(barcode : String) : Bitmap? {
+//             var widthd = businessdatadata.barcode_width ?: 250;
+//             var heightd = businessdatadata.barcode_hight ?: 100;
+//
+//             var bitMatrix: BitMatrix? = null
+//             bitMatrix = MultiFormatWriter().encode(barcode, BarcodeFormat.CODE_128, widthd, heightd)
+//             val width = bitMatrix.width
+//             val height = bitMatrix.getHeight()
+//             val pixels = IntArray(width * height)
+//             for (i in 0 until height) {
+//                 for (j in 0 until width) {
+//                     if (bitMatrix[j, i]) {
+//                         pixels[i * width + j] = -0x1000000
+//                     } else {
+//                         pixels[i * width + j] = -0x1
+//                     }
+//                 }
+//             }
+//             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+//             bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+//             return bitmap
+////
+////             val inputValue = barcode.trim()
+////             var width = businessdatadata.barcode_width ?: 250;
+////             var height = businessdatadata.barcode_hight ?: 100;
+////             if (inputValue.isNotEmpty()) {
+////                 val hints = mapOf(
+////                     EncodeHintType.MARGIN to 0  // Optional: set margin to 0 for a tighter fit
+////                 )
+////                 // Initializing a MultiFormatWriter to encode the input value
+////       //          val mwriter = MultiFormatWriter()
+////                 try {
+////                     val bitMatrix: BitMatrix = MultiFormatWriter().encode(
+////                         inputValue,
+////                         BarcodeFormat.CODE_128,  // Use CODE_128 or other formats as needed
+////                         width,
+////                         height,
+////                         hints
+////                     )
+////
+////                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+////                     for (x in 0 until width) {
+////                         for (y in 0 until height) {
+////                             bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+////                         }
+////                     }
+////                     return bitmap
+////                 } catch (e: Exception) {
+////                    return  null;
+////                 }
+////             } else {
+////                 // Showing an error message if the EditText is empty
+////                return  null;
+////             }
+//         }
 
 
          @SuppressLint("DefaultLocale", "SetTextI18n")
