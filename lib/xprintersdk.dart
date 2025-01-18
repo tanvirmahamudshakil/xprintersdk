@@ -33,6 +33,7 @@ class Xprintersdk {
   final String _printer80PrintImage = "printer80PrintImage";
   final String _productPrint = "productPrint";
   final String _productPrintImage = "productPrintImage";
+  final String _butcherItemStickerPrinter = "butcherItemStickerPrinter";
 
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');
@@ -72,7 +73,10 @@ class Xprintersdk {
     PrinterBusinessModel printermodel,
     Map<String, Object?> orderiteam,
   ) async {
-    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(orderiteam)),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
     return await _methodChannel.invokeMethod(_xPrinterPrintLocalData, quary);
   }
 
@@ -116,7 +120,10 @@ class Xprintersdk {
     PrinterBusinessModel printermodel,
     Map<String, Object?> bookingrequestIteam,
   ) async {
-    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
     return await _methodChannel.invokeMethod(_xPrinterbookingRequest, quary);
   }
 
@@ -124,7 +131,10 @@ class Xprintersdk {
     PrinterBusinessModel printermodel,
     Map<String, Object?> bookingrequestIteam,
   ) async {
-    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
     return await _methodChannel.invokeMethod(_dailyreportPrint, quary);
   }
 
@@ -132,7 +142,10 @@ class Xprintersdk {
     PrinterBusinessModel printermodel,
     Map<String, Object?> bookingrequestIteam,
   ) async {
-    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
     return await _methodChannel.invokeMethod(_dailyreportImagePrint, quary);
   }
 
@@ -140,7 +153,10 @@ class Xprintersdk {
     PrinterBusinessModel printermodel,
     Map<String, Object?> propertyreturnData,
   ) async {
-    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(propertyreturnData)), "printer_model_data": jsonEncode(printermodel.toJson())};
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(propertyreturnData)),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
     return await _methodChannel.invokeMethod(_propertyReturnPrint, quary);
   }
 
@@ -164,7 +180,10 @@ class Xprintersdk {
     required PrinterBusinessModel printermodel,
     required Map<String, Object?> orderiteam,
   }) async {
-    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(orderiteam)),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
 
     return await _methodChannel.invokeMethod(_labelPrinterPrintBarCode, quary);
   }
@@ -177,7 +196,10 @@ class Xprintersdk {
     required PrinterBusinessModel printermodel,
     required Map<String, Object?> orderiteam,
   }) async {
-    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(orderiteam)),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
     return await _methodChannel.invokeMethod(_printer80PrintImage, quary);
   }
 
@@ -185,14 +207,34 @@ class Xprintersdk {
     required PrinterBusinessModel printermodel,
     required ProductPrint productprint,
   }) async {
-    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(productprint.toJson())), "printer_model_data": jsonEncode(printermodel.toJson())};
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(productprint.toJson())),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
     return await _methodChannel.invokeMethod(_productPrint, quary);
   }
+
   Future productPrintImage({
     required PrinterBusinessModel printermodel,
     required ProductPrint productprint,
   }) async {
-    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(productprint.toJson())), "printer_model_data": jsonEncode(printermodel.toJson())};
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(productprint.toJson())),
+      "printer_model_data": jsonEncode(printermodel.toJson())
+    };
+    return await _methodChannel.invokeMethod(_productPrintImage, quary);
+  }
+
+  Future butcherItemStickerPrinter({
+    required PrinterBusinessModel printermodel,
+    required ProductPrint productprint,
+    required bool barcode,
+  }) async {
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(productprint.toJson())),
+      "printer_model_data": jsonEncode(printermodel.toJson()),
+      "barcode": barcode
+    };
     return await _methodChannel.invokeMethod(_productPrintImage, quary);
   }
 }
