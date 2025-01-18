@@ -227,11 +227,11 @@ class Xprintersdk {
 
   Future butcherItemStickerPrinter({
     required PrinterBusinessModel printermodel,
-    required ProductPrint productprint,
+    required Map<String, Object?> orderiteam,
     required bool barcode,
   }) async {
     Map<String, dynamic> quary = {
-      "orderiteam": jsonDecode(jsonEncode(productprint.toJson())),
+      "orderiteam": jsonDecode(jsonEncode(orderiteam)),
       "printer_model_data": jsonEncode(printermodel.toJson()),
       "barcode": barcode
     };
