@@ -26,6 +26,7 @@ import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
 import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ButcherOrderPrintBinding
+import com.example.xprintersdk.databinding.ButcherOrderStyle2Binding
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.databinding.StickerprinterBinding
@@ -53,6 +54,7 @@ class orderPrinterService(
     nyxp : NyxprinterHelp,
     labelPrinter : LabelPrinter,
     printer80D : printer80,
+    var barcodePrint: Boolean?
     ) : AsyncTask<String, Int, Bitmap>()
      {
          private var context: Context
@@ -777,7 +779,6 @@ class orderPrinterService(
                      }
 
                  }
-326
              }
              bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
                  ?.let { formatter.format(it) }}"
@@ -1110,6 +1111,15 @@ class orderPrinterService(
 
          @SuppressLint("DefaultLocale")
          fun ButcherOrderPrint() : Bitmap {
+             if(businessdatadata.butcherPrintStyle == "1") {
+               return  butcherOrderPrintStyle1()
+             }else{
+               return  butcherOrderPrintStyle2()
+             }
+
+         }
+
+         fun butcherOrderPrintStyle1() : Bitmap {
              if(businessdatadata.selectPrinter!!.lowercase() == "label_printer" && orderModel.orderProducts != null && orderModel.orderProducts!!.isNotEmpty()) {
                  val bind: StickerprinterBinding = StickerprinterBinding.inflate(LayoutInflater.from(context))
 
@@ -1235,7 +1245,7 @@ class orderPrinterService(
                  }
 
 
-                  barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
+                 barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
 
                  var barcodeBitmap = genBarcode2(barcode)
                  val imageView = ImageView(context).apply {
@@ -1340,6 +1350,130 @@ class orderPrinterService(
              }
          }
 
+
+         fun butcherItemgetViewStyle2(listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?): View? {
+             val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
+
+
+
+
+             val str3 = StringBuilder()
+             var price = 0.0
+             var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
+                 0.0;
+             }else{
+                 item?.product?.property?.tare_weight?.toDouble() ?: 0.0
+             }
+             var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
+                 0.0
+             } else{
+                 item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+             }
+
+
+             if(unitAmount == 0.0) {
+                 binding.unitValue.visibility = View.GONE
+             }else{
+                 if(businessdatadata.weightShow) {
+                     binding.unitValue.visibility = View.VISIBLE
+                     binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
+                     binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (businessdatadata.butcherStickerFont.toFloat() - 5))
+                 } else {
+                     binding.unitValue.visibility = View.GONE
+                 }
+
+             }
+             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
+                 if(businessdatadata.weightMultiplyingPrice) {
+                     price = (item.netAmount ?: 0.0) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+                 }else{
+                     price = (item.netAmount ?: 0.0)
+                 }
+
+             }else{
+                 price = (item?.netAmount ?: 0.0)
+             }
+
+             var discount = item?.discountableAmount ?: 0.0;
+
+
+             if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
+                 str3.append(item.unit).append("x ").append(item.product.shortName)
+                 if(businessdatadata.printerStyle == "2"){
+                     if(item.product.property?.printorder == "2"){
+                         str3.append("(Str)")
+                     }
+                 }
+             }
+
+
+
+             if(orderModel.orderChannel?.uppercase() != "ONLINE"){
+//            price *= (item?.unit ?: 1)
+                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
+                     var p = String.format("%.2f", getOrderOfferPrice(item))
+                     price *=  p.toDouble()
+                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
+                     var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+                     Log.e("price get", "getView: ${p}----")
+                     price =  p.toDouble()
+                 }else{
+                     price *= (item?.unit ?: 1)
+                 }
+
+                 var totaldiscount = (price * (discount / 100))
+                 price -= totaldiscount;
+             }
+             Log.e("price get", "getView: ${price}----")
+             if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
+             binding.itemText.text = str3.toString()
+             binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.butcherStickerFont.toFloat().toFloat())
+             if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
+                 binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
+             } else{
+                 binding.itemPrice.visibility = View.GONE
+             }
+             binding.itemPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.butcherStickerFont.toFloat().toFloat())
+             binding.root.buildDrawingCache(true)
+             return binding.root
+         }
+
+
+
+         fun butcherOrderPrintStyle2(): Bitmap {
+             val bind: ButcherOrderStyle2Binding = ButcherOrderStyle2Binding.inflate(LayoutInflater.from(context))
+             val printSize: Int = fontsize
+             var allitemsheight = 0
+             bind.items.removeAllViews()
+             var itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+             var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+             if(!sortIteam.isNullOrEmpty()){
+                 for (j in sortIteam.indices) {
+                     val childView = butcherItemgetViewStyle2(sortIteam,sortIteam[j])
+                     bind.items.addView(childView)
+                     allitemsheight += childView!!.measuredHeight
+                 }
+             }
+
+             if(barcodePrint == true && orderModel.barcode != null) {
+                 var barcodeBitmap = genBarcode2(orderModel.barcode!!)
+                 val imageView = ImageView(context).apply {
+                     setImageBitmap(barcodeBitmap)
+
+                     layoutParams = ViewGroup.LayoutParams(
+                         ViewGroup.LayoutParams.WRAP_CONTENT,
+                         ViewGroup.LayoutParams.WRAP_CONTENT
+                     )
+                 }
+                 bind.barcode.removeAllViews()
+                 bind.barcode.addView(imageView)
+             }else{
+                 bind.barcode.removeAllViews()
+             }
+
+             val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
+             return  bitmaplist
+         }
 
          private fun View.setDimensionsInMillimeters() {
              val dpi = businessdatadata.dpi ?: 203

@@ -16,7 +16,6 @@ class PrinterBusinessModel {
   int? header3Size;
   int? header4Size;
   int? fontSize;
-
   int printOnDelivery;
   int printOnCollection;
   int printOnTableOrder;
@@ -67,13 +66,19 @@ class PrinterBusinessModel {
   int singleProductPrintHight;
   int singleProductBarcodeHight;
   int singleProductBarCodeWidth;
+  int maxItemPrint;
+  String butcherPrintStyle;
+  int butcherStickerFont;
 
   PrinterBusinessModel({
     this.fontSize,
-    this.labelPrinterHight,
+    required this.butcherPrintStyle,
+    required this.labelPrinterHight,
     this.labelPrinterWidth,
+    required this.butcherStickerFont,
     this.barcode_hight,
     this.barcode_width,
+    required this.maxItemPrint,
     this.weightShow = false,
     required this.orderChannel,
     this.header1Size,
@@ -130,6 +135,9 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
       pricePerWeightFont: json["price_per_weight_font"],
+      butcherStickerFont: json["butcherStickerFont"],
+      maxItemPrint: json["maxItemPrint"],
+      butcherPrintStyle: json["butcherPrintStyle"],
       singleProductBarcodeHight: json["singleProductBarcodeHight"],
       singleProductBarCodeWidth: json["singleProductBarCodeWidth"],
       singleProductExpireFont: json["singleProductExpireFont"],
@@ -189,6 +197,9 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
         "singleProductBarcodeHight": singleProductBarcodeHight,
+        "butcherStickerFont": butcherStickerFont,
+        "maxItemPrint": maxItemPrint,
+        "butcherPrintStyle": butcherPrintStyle,
         "singleProductBarCodeWidth": singleProductBarCodeWidth,
         "price_per_weight_font": pricePerWeightFont,
         "singleProductExpireFont": singleProductExpireFont,

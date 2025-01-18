@@ -120,8 +120,14 @@ data class BusinessSetting(
 
     @SerializedName("singleProductBarcodeHight")
     val singleProductBarcodeHight: Int?,
+
     @SerializedName("singleProductBarCodeWidth")
     val singleProductBarCodeWidth: Int?,
-
+    @SerializedName("maxItemPrint")
+    val maxItemPrint: Int?,
+    @SerializedName("butcherPrintStyle")
+    val butcherPrintStyle: String,
+    @SerializedName("butcherStickerFont")
+   val butcherStickerFont: Int
 
 )
