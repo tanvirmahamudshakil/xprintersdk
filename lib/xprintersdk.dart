@@ -237,4 +237,16 @@ class Xprintersdk {
     };
     return await _methodChannel.invokeMethod(_productPrintImage, quary);
   }
+  Future butcherItemStickerImagePrinter({
+    required PrinterBusinessModel printermodel,
+    required Map<String, Object?> orderiteam,
+    required bool barcode,
+  }) async {
+    Map<String, dynamic> quary = {
+      "orderiteam": jsonDecode(jsonEncode(orderiteam)),
+      "printer_model_data": jsonEncode(printermodel.toJson()),
+      "barcode": barcode
+    };
+    return await _methodChannel.invokeMethod(_productPrintImage, quary);
+  }
 }
