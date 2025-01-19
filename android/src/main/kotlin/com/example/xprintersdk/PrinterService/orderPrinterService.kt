@@ -1450,7 +1450,7 @@ class orderPrinterService(
                      allitemsheight += childView!!.measuredHeight
                  }
              }
-             Toast.makeText(context, "${barcodePrint} -- ${orderModel.barcode}", Toast.LENGTH_SHORT).show()
+
 
              if(barcodePrint == true && orderModel.barcode != null) {
                  Toast.makeText(context, "${barcodePrint} -- ${orderModel.barcode}", Toast.LENGTH_SHORT).show()
@@ -1465,8 +1465,9 @@ class orderPrinterService(
                  }
                  bind.barcode.removeAllViews()
                  bind.barcode.addView(imageView)
-                 Toast.makeText(context, "${barcodePrint} -- ${orderModel.barcode}", Toast.LENGTH_SHORT).show()
+
              }else{
+
                  bind.barcode.removeAllViews()
              }
 
