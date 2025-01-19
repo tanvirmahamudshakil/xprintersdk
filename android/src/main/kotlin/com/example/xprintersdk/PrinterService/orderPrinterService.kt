@@ -1451,11 +1451,7 @@ class orderPrinterService(
                  }
              }
 
-             Log.e("butcherOrderData", "butcherOrderPrintStyle2: ${barcodePrint} -------- ${orderModel.barcode}", )
-
-
              if(barcodePrint == true && orderModel.barcode != null) {
-                 Toast.makeText(context, "${barcodePrint} -- ${orderModel.barcode}", Toast.LENGTH_SHORT).show()
                  var barcodeBitmap = genBarcode2(orderModel.barcode!!)
                  val imageView = ImageView(context).apply {
                      setImageBitmap(barcodeBitmap)
@@ -1469,7 +1465,6 @@ class orderPrinterService(
                  bind.barcode.addView(imageView)
 
              }else{
-
                  bind.barcode.removeAllViews()
              }
 
