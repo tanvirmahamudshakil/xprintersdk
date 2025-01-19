@@ -1353,6 +1353,18 @@ class orderPrinterService(
 
          fun butcherItemgetViewStyle2(listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?): View? {
              val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
+             var  component: List<OrderData.OrderProduct.Component?>?
+             var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
+             if(orderModel.orderChannel?.uppercase() == "ONLINE") {
+                 component = item?.components;
+             } else {
+                 component = item?.components?.filter {i-> componentFilter(i)}
+                 //   extraIteam = item?.components?.filter { i-> i?.product?.property?.itemtype != null && (i.product.property.itemtype?.lowercase() == "topping" || i.product.property.itemtype?.lowercase() == "addon" || i.product.property.itemtype?.lowercase() == "dressing")}
+                 extraIteam = item?.components?.filter { i-> i?.product?.type == "EXTRA-COMPONENT"}
+
+             }
+
+
              val str3 = StringBuilder()
              var price = 0.0
              var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
@@ -1373,7 +1385,7 @@ class orderPrinterService(
                  if(businessdatadata.weightShow) {
                      binding.unitValue.visibility = View.VISIBLE
                      binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
-                     binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (businessdatadata.butcherStickerFont.toFloat() - 5))
+                     binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
                  } else {
                      binding.unitValue.visibility = View.GONE
                  }
@@ -1392,16 +1404,60 @@ class orderPrinterService(
 
              var discount = item?.discountableAmount ?: 0.0;
 
+             if (!component.isNullOrEmpty()) {
+                 str3.append(item?.unit).append("x ").append(item?.product?.shortName)
+                 for (section in component) {
+                     var _comName = ""
+                     if (section?.product?.shortName?.uppercase() != "NONE") {
+                         _comName = section?.product?.shortName ?: ""
+                     }
+                     if ((section?.components != null) && section.components.isNotEmpty()) {
+                         for (section2 in section.components) {
+                             if (section2?.product?.shortName?.uppercase() != "NONE") {
+                                 _comName += " -> " + "${section2?.unit ?: 1}x " + section2?.product?.shortName;
+                                 price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
+                             }
+                         }
 
-             if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
-                 str3.append(item.unit).append("x ").append(item.product.shortName)
-                 if(businessdatadata.printerStyle == "2"){
-                     if(item.product.property?.printorder == "2"){
-                         str3.append("(Str)")
+                     }
+                     if (_comName != "") {
+                         if(businessdatadata.printerStyle == "1") {
+                             str3.append("\n").append(_comName)
+                         }else{
+                             str3.append(" -> ").append(_comName)
+                         }
+
+                     }
+                     price += section?.netAmount ?: 0.0;
+                 }
+             } else {
+                 if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
+                     str3.append(item.unit).append("x ").append(item.product.shortName)
+                     if(businessdatadata.printerStyle == "2"){
+                         if(item.product.property?.printorder == "2"){
+                             str3.append("(Str)")
+                         }
                      }
                  }
+
              }
 
+             if (extraIteam != null) {
+                 val topping = StringBuilder()
+                 if (extraIteam.isNotEmpty()) {
+                     if(businessdatadata.printerStyle == "1") {
+                         topping.append("\n")
+                     }else{
+                         topping.append(" -> ")
+                     }
+//                val topping = java.lang.StringBuilder("\n")
+                     for (extraItem in extraIteam) {
+                         topping.append("  *").append(extraItem?.product?.shortName)
+                         price += extraItem?.netAmount!!;
+                     }
+                     str3.append(topping.toString())
+                 }
+             }
 
 
              if(orderModel.orderChannel?.uppercase() != "ONLINE"){
@@ -1423,22 +1479,25 @@ class orderPrinterService(
              Log.e("price get", "getView: ${price}----")
              if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
              binding.itemText.text = str3.toString()
-             binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.butcherStickerFont.toFloat().toFloat())
+             binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
              if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
                  binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
              } else{
                  binding.itemPrice.visibility = View.GONE
              }
-             binding.itemPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.butcherStickerFont.toFloat().toFloat())
+             binding.itemPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
              binding.root.buildDrawingCache(true)
+
              return binding.root
          }
 
 
 
+         @SuppressLint("DefaultLocale")
          fun butcherOrderPrintStyle2(): Bitmap {
              val bind: ButcherOrderStyle2Binding = ButcherOrderStyle2Binding.inflate(LayoutInflater.from(context))
              val printSize: Int = fontsize
+
              var allitemsheight = 0
              bind.items.removeAllViews()
              var itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
@@ -1450,6 +1509,10 @@ class orderPrinterService(
                      allitemsheight += childView!!.measuredHeight
                  }
              }
+
+
+             bind.totalPrice.text = "Total Price £${String.format("%.2f", orderModel.payableAmount)}"
+             bind.totalPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.butcherStickerFont.toFloat() ?: 22f)
 
              if(barcodePrint == true && orderModel.barcode != null) {
                  var barcodeBitmap = genBarcode2(orderModel.barcode!!)
