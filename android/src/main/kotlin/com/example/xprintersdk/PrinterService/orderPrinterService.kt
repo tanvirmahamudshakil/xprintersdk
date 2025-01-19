@@ -1510,9 +1510,14 @@ class orderPrinterService(
                  }
              }
 
+             if(barcodePrint == true) {
+                 bind.totalPrice.text = "Total Price £${String.format("%.2f", orderModel.payableAmount)}"
+                 bind.totalPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.butcherStickerFont.toFloat() ?: 22f)
+             }else{
+                 bind.totalPrice.visibility = View.GONE
+             }
 
-             bind.totalPrice.text = "Total Price £${String.format("%.2f", orderModel.payableAmount)}"
-             bind.totalPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.butcherStickerFont.toFloat() ?: 22f)
+
 
              if(barcodePrint == true && orderModel.barcode != null) {
                  var barcodeBitmap = genBarcode2(orderModel.barcode!!)
