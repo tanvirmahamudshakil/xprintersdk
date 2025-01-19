@@ -1353,10 +1353,6 @@ class orderPrinterService(
 
          fun butcherItemgetViewStyle2(listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?): View? {
              val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
-
-
-
-
              val str3 = StringBuilder()
              var price = 0.0
              var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
@@ -1454,8 +1450,10 @@ class orderPrinterService(
                      allitemsheight += childView!!.measuredHeight
                  }
              }
+             Toast.makeText(context, "${barcodePrint} -- ${orderModel.barcode}", Toast.LENGTH_SHORT).show()
 
              if(barcodePrint == true && orderModel.barcode != null) {
+                 Toast.makeText(context, "${barcodePrint} -- ${orderModel.barcode}", Toast.LENGTH_SHORT).show()
                  var barcodeBitmap = genBarcode2(orderModel.barcode!!)
                  val imageView = ImageView(context).apply {
                      setImageBitmap(barcodeBitmap)
@@ -1467,6 +1465,7 @@ class orderPrinterService(
                  }
                  bind.barcode.removeAllViews()
                  bind.barcode.addView(imageView)
+                 Toast.makeText(context, "${barcodePrint} -- ${orderModel.barcode}", Toast.LENGTH_SHORT).show()
              }else{
                  bind.barcode.removeAllViews()
              }
