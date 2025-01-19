@@ -235,7 +235,7 @@ class Xprintersdk {
       "printer_model_data": jsonEncode(printermodel.toJson()),
       "barcode": barcode
     };
-    return await _methodChannel.invokeMethod(_productPrintImage, quary);
+    return await _methodChannel.invokeMethod(_butcherItemStickerPrinter, quary);
   }
   Future butcherItemStickerImagePrinter({
     required PrinterBusinessModel printermodel,
@@ -247,6 +247,6 @@ class Xprintersdk {
       "printer_model_data": jsonEncode(printermodel.toJson()),
       "barcode": barcode
     };
-    return await _methodChannel.invokeMethod(_productPrintImage, quary);
+    return await _methodChannel.invokeMethod(_butcherItemStickerPrinter, quary);
   }
 }
