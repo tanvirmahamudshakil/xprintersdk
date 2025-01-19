@@ -1451,6 +1451,8 @@ class orderPrinterService(
                  }
              }
 
+             Log.e("butcherOrderData", "butcherOrderPrintStyle2: ${barcodePrint} -------- ${orderModel.barcode}", )
+
 
              if(barcodePrint == true && orderModel.barcode != null) {
                  Toast.makeText(context, "${barcodePrint} -- ${orderModel.barcode}", Toast.LENGTH_SHORT).show()
