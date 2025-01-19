@@ -1516,6 +1516,9 @@ class orderPrinterService(
              }else{
                  bind.totalPrice.visibility = View.GONE
              }
+             bind.businessName.text = businessname
+             bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.business_name_font?.toFloat() ?: 22f)
+
 
 
 
