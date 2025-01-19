@@ -34,6 +34,7 @@ class Xprintersdk {
   final String _productPrint = "productPrint";
   final String _productPrintImage = "productPrintImage";
   final String _butcherItemStickerPrinter = "butcherItemStickerPrinter";
+  final String _butcherStickerImageSave = "butcherStickerImageSave";
 
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');
@@ -237,6 +238,7 @@ class Xprintersdk {
     };
     return await _methodChannel.invokeMethod(_butcherItemStickerPrinter, quary);
   }
+
   Future butcherItemStickerImagePrinter({
     required PrinterBusinessModel printermodel,
     required Map<String, Object?> orderiteam,
@@ -247,6 +249,6 @@ class Xprintersdk {
       "printer_model_data": jsonEncode(printermodel.toJson()),
       "barcode": barcode
     };
-    return await _methodChannel.invokeMethod(_butcherItemStickerPrinter, quary);
+    return await _methodChannel.invokeMethod(_butcherStickerImageSave, quary);
   }
 }
