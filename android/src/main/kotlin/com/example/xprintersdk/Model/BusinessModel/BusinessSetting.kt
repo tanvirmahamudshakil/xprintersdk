@@ -128,6 +128,9 @@ data class BusinessSetting(
     @SerializedName("butcherPrintStyle")
     val butcherPrintStyle: String,
     @SerializedName("butcherStickerFont")
-   val butcherStickerFont: Int
+    val butcherStickerFont: Int,
+    @SerializedName("expireDateShow")
+    val expireDateShow: Boolean
+
 
 )

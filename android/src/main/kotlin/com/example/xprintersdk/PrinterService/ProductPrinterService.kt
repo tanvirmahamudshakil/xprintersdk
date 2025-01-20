@@ -139,12 +139,19 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
      }
 
 
+     @SuppressLint("SetTextI18n")
      override fun doInBackground(vararg params: String?): Bitmap {
          var binding = ProductprintBinding.inflate(LayoutInflater.from(context))
          binding.itemName.text = productPrint.name
          binding.itemName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductNameFont?.toFloat() ?: 20.0f)
-         binding.expire.text = "Expire: ${productPrint.expire}"
-         binding.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductExpireFont?.toFloat() ?: 20.0f)
+         if(businessdata.expireDateShow && !productPrint.expire.isNullOrEmpty()) {
+             binding.expire.text = "Expire: ${productPrint.expire}"
+             binding.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductExpireFont?.toFloat() ?: 20.0f)
+         }else{
+             binding.expire.visibility = View.GONE
+
+         }
+
 
          binding.price.text = "£${productPrint.price}"
          binding.price.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductPriceFont?.toFloat() ?: 20.0f)
