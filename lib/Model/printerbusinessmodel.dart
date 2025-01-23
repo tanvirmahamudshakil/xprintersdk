@@ -70,10 +70,12 @@ class PrinterBusinessModel {
   String butcherPrintStyle;
   int butcherStickerFont;
   bool expireDateShow;
+  bool branchNameShow;
 
   PrinterBusinessModel({
     this.fontSize,
     required this.expireDateShow,
+    required this.branchNameShow,
     required this.butcherPrintStyle,
     required this.labelPrinterHight,
     this.labelPrinterWidth,
@@ -137,6 +139,7 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
       pricePerWeightFont: json["price_per_weight_font"],
+      branchNameShow: json["branchNameShow"],
       expireDateShow: json["expireDateShow"],
       butcherStickerFont: json["butcherStickerFont"],
       maxItemPrint: json["maxItemPrint"],
@@ -199,6 +202,7 @@ class PrinterBusinessModel {
       propertyshop: json["propertyshop"]);
 
   Map<String, dynamic> toJson() => {
+        "branchNameShow": branchNameShow,
         "singleProductBarcodeHight": singleProductBarcodeHight,
         "butcherStickerFont": butcherStickerFont,
         "expireDateShow": expireDateShow,

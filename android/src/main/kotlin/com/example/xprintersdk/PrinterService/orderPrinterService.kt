@@ -752,8 +752,13 @@ class orderPrinterService(
              bind.businessLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
              bind.businessPhone.text = businessphone
              bind.businessPhone.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
-             bind.branchName.text = orderModel.branch?.name?.uppercase()
-             bind.branchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+             if(businessdatadata.branchNameShow) {
+                 bind.branchName.text = orderModel.branch?.name?.uppercase()
+                 bind.branchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+             }else{
+                 bind.branchName.visibility = View.GONE
+             }
+
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderType.text = "TABLE BOOKING #${orderModel.table_id}"
                  bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
