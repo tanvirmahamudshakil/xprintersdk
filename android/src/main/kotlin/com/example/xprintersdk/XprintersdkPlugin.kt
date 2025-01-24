@@ -203,7 +203,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
 
   private fun printer80Init(call: MethodCall, result: Result) {
-    printer80 = printer80(context)
+    printer80.connected()
     var printer80Status = printer80.statusCheck()
     result.success(printer80Status)
   }
