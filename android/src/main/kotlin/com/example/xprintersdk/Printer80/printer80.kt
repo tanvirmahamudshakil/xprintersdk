@@ -21,10 +21,7 @@ class printer80(context: Context) {
     private var CONNECTED: Boolean = false;
     var mcontext : Context = context;
 
-
-
-
-    fun connected() {
+    init {
         val device = GetUsbPathNames(mcontext)
 
         if(device != null) {
@@ -56,8 +53,14 @@ class printer80(context: Context) {
             }
 
             mPrinter = PrinterInstance.getPrinterInstance(mcontext, device, mHandler);
-            connected()
+            connectedPrinter()
         }
+    }
+
+
+
+    fun connectedPrinter() {
+
         mPrinter?.initPrinter()
         connectionOpen()
     }
