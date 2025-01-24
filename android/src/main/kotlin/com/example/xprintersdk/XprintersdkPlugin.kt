@@ -69,6 +69,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
   private var printer80PrintImage = "printer80PrintImage"
 
+  private var printer80Printinitalize = "printer80Printinitalize"
+
 
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -78,7 +80,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     sunmiHelper= SunmiHelp()
     nyxPrinter = NyxprinterHelp(context)
     labelPrinter = LabelPrinter(context)
-   printer80 = printer80(context)
+    printer80 = printer80(context)
     channel.setMethodCallHandler(this)
   }
 
@@ -137,7 +139,10 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       butcherStickerPrint(call, result)
     } else if (call.method == butcherStickerImageSave) {
       butcherStickerImageSave(call, result)
-    } else {
+    } else if (call.method == printer80Printinitalize) {
+      printer80Init(call, result)
+    }
+    else {
       result.notImplemented()
     }
   }
@@ -194,6 +199,13 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private fun sunmiPrinterInit(result: MethodChannel.Result) {
     sunmiHelper.initPrinter();
     result.success(true)
+  }
+
+
+  private fun printer80Init(call: MethodCall, result: Result) {
+    printer80 = printer80(context)
+    var printer80Status = printer80.statusCheck()
+    result.success(printer80Status)
   }
 
   private fun sunmiPrintData(call: MethodCall, result : Result) {

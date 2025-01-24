@@ -19,39 +19,9 @@ class printer80(context: Context) {
     var mPrinter: PrinterInstance? = null
     private var mHandler : Handler?= null
     private var CONNECTED: Boolean = false;
-    init {
-        val device = GetUsbPathNames(context)
+    var mcontext : Context = context;
 
-        if(device != null) {
-            mHandler = object : Handler(Looper.getMainLooper()) {
-                override fun handleMessage(msg: Message) {
-                    when (msg.what) {
-                        Connect.SUCCESS -> {
-                            CONNECTED = true;
-                            Toast.makeText(context, "Connect successfull", Toast.LENGTH_SHORT).show()
-                        }
-                        Connect.FAILED -> {
-                            Toast.makeText(context, "Connect Faild", Toast.LENGTH_SHORT).show()
-                            CONNECTED = false
-                        }
-                        Connect.CLOSED -> {
-                            Toast.makeText(context, "Connect Closed", Toast.LENGTH_SHORT).show()
-                            CONNECTED = false
-                        }
-                        Connect.NODEVICE -> {
-                            Toast.makeText(context, "No Device Found", Toast.LENGTH_SHORT).show()
-                            CONNECTED = false
-                        }
 
-                    }
-                }
-            }
-
-            mPrinter = PrinterInstance.getPrinterInstance(context, device, mHandler);
-            initPrinter()
-        }
-
-    }
 
 
 
@@ -59,6 +29,39 @@ class printer80(context: Context) {
 
 
     fun initPrinter() {
+        val device = GetUsbPathNames(mcontext)
+
+        if(device != null) {
+
+            mHandler = object : Handler(Looper.getMainLooper()) {
+                override fun handleMessage(msg: Message) {
+                    when (msg.what) {
+
+
+                        Connect.SUCCESS -> {
+                            CONNECTED = true;
+                            Toast.makeText(mcontext, "Connect successfull", Toast.LENGTH_SHORT).show()
+                        }
+                        Connect.FAILED -> {
+                            Toast.makeText(mcontext, "Connect Faild", Toast.LENGTH_SHORT).show()
+                            CONNECTED = false
+                        }
+                        Connect.CLOSED -> {
+                            Toast.makeText(mcontext, "Connect Closed", Toast.LENGTH_SHORT).show()
+                            CONNECTED = false
+                        }
+                        Connect.NODEVICE -> {
+                            Toast.makeText(mcontext, "No Device Found", Toast.LENGTH_SHORT).show()
+                            CONNECTED = false
+                        }
+
+                    }
+                }
+            }
+
+            mPrinter = PrinterInstance.getPrinterInstance(mcontext, device, mHandler);
+            initPrinter()
+        }
         mPrinter?.initPrinter()
         connectionOpen()
     }
