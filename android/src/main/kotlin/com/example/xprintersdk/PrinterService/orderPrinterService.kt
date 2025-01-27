@@ -124,36 +124,22 @@ class orderPrinterService(
          private fun getBitmapFromView(view: View): Bitmap {
 
              if(businessdatadata.selectPrinter!!.lowercase() == "label_printer") {
-
                  val dpi = businessdatadata.dpi ?: 203
                  val widthMm = businessdatadata.label_width ?: 76
                  val heightMm = businessdatadata.label_hight ?: 76
-
-// Convert mm to pixels
                  val widthPx = (widthMm * dpi / 25.4f).toInt()
                  val heightPx = (heightMm * dpi / 25.4f).toInt()
-
-// Measure and layout the view to the desired size
                  val specWidth = View.MeasureSpec.makeMeasureSpec(widthPx, View.MeasureSpec.EXACTLY)
                  val specHeight = View.MeasureSpec.makeMeasureSpec(heightPx, View.MeasureSpec.EXACTLY)
                  view.measure(specWidth, specHeight)
                  view.layout(0, 0, widthPx, heightPx)
-
-// Create the bitmap with specified dimensions
                  val bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888)
                  val canvas = Canvas(bitmap)
-
-// Optional: center the view within the canvas
                  val offsetX = (widthPx - view.measuredWidth) / 2
                  val offsetY = (heightPx - view.measuredHeight) / 2
                  canvas.translate(offsetX.toFloat(), offsetY.toFloat())
-
-// Draw the view's background if it exists
                  view.background?.draw(canvas) ?: canvas.drawColor(Color.WHITE)
-
-// Draw the view onto the canvas
                  view.draw(canvas)
-
                  return rotateBitmap180(bitmap)
 
              }else{
@@ -170,23 +156,17 @@ class orderPrinterService(
                      view.measuredHeight,
                      Bitmap.Config.ARGB_8888
                  )
-                 //Bind a canvas to it
                  val canvas = Canvas(returnedBitmap)
-                 //Get the view's background
                  val bgDrawable = view.background
                  if (bgDrawable != null) {
-                     //has background drawable, then draw it on the canvas
                      bgDrawable.draw(canvas)
                  } else {
-                     //does not have background drawable, then draw white background on the canvas
                      canvas.drawColor(Color.WHITE)
                  }
-                 // draw the view on the canvas
                  view.draw(canvas)
 
 
                  var bitmap: Bitmap = if (businessdatadata.paperSize == 80) {
-                     //create resized image and display
                      val maxImageSize = 570f
                      val ratio = maxImageSize / returnedBitmap.width
                      val width = (ratio * returnedBitmap.width).roundToInt()
@@ -201,19 +181,6 @@ class orderPrinterService(
                  }
                  return bitmap;
              }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     }
          fun getResizedBitmap(originalBitmap: Bitmap, targetWidth: Int, targetHeight: Int): Bitmap {
@@ -243,153 +210,233 @@ class orderPrinterService(
              }
          }
 
-          fun getView( listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int ,position: Int, mCtx: Context?, style: Int, fontSize: Int): View? {
-        val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(mCtx))
-        var  component: List<OrderData.OrderProduct.Component?>?
-        var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
-        if(orderModel.orderChannel?.uppercase() == "ONLINE") {
-            component = item?.components;
-        } else {
-             component = item?.components?.filter {i-> componentFilter(i)}
-          //   extraIteam = item?.components?.filter { i-> i?.product?.property?.itemtype != null && (i.product.property.itemtype?.lowercase() == "topping" || i.product.property.itemtype?.lowercase() == "addon" || i.product.property.itemtype?.lowercase() == "dressing")}
-            extraIteam = item?.components?.filter { i-> i?.product?.type == "EXTRA-COMPONENT"}
-
-        }
+         fun getView( listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int ,position: Int): View? {
+             val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
+             var  component: List<OrderData.OrderProduct.Component?>?
+             var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
 
 
-        val str3 = StringBuilder()
-        var price = 0.0
-        var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
-                   0.0;
-              }else{
-                   item?.product?.property?.tare_weight?.toDouble() ?: 0.0
-              }
-        var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
-             0.0
-        } else{
-            item?.product?.property?.unit_amount?.toDouble() ?: 0.0
-        }
+             if(orderModel.orderChannel?.uppercase() == "ONLINE") {
+                 component = item?.components;
+             } else {
+                 component = item?.components?.filter {i-> componentFilter(i)}
+                 extraIteam = item?.components?.filter { i-> i?.product?.type == "EXTRA-COMPONENT"}
+             }
+             val str3 = StringBuilder()
+//             var price = 0.0
+             var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
+                 0.0;
+             }else{
+                 item?.product?.property?.tare_weight?.toDouble() ?: 0.0
+             }
+             var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
+                 0.0
+             } else{
+                 item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+             }
+             if(unitAmount == 0.0) {
+                 binding.unitValue.visibility = View.GONE
+             }else{
+                 if(businessdatadata.weightShow) {
+                     binding.unitValue.visibility = View.VISIBLE
+                     binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
+                     binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
+                 } else {
+                     binding.unitValue.visibility = View.GONE
+                 }
+             }
+//             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
+//                 if(businessdatadata.weightMultiplyingPrice) {
+//                     price = (item.netAmount ?: 0.0) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+//                 }else{
+//                     price = (item.netAmount ?: 0.0)
+//                 }
+//             }else{
+//                 price = (item?.netAmount ?: 0.0)
+//             }
+             var discount = item?.discountableAmount ?: 0.0;
+             if (position < iteamLength - 1) {
+                 if ((listorderProducts!![position]?.product?.property?.printorder?.toInt()
+                         ?: 0) < (listorderProducts[position + 1]?.product?.property?.printorder?.toInt()
+                         ?: 0)) {
+                     binding.underLine.visibility = View.VISIBLE
+                 }
+             }
+             if (!component.isNullOrEmpty()) {
+                 str3.append(item?.unit).append("x ").append(item?.product?.shortName)
+                 for (section in component) {
+                     var _comName = ""
+                     if (section?.product?.shortName?.uppercase() != "NONE") {
+                         _comName = section?.product?.shortName ?: ""
+                     }
+                     if ((section?.components != null) && section.components.isNotEmpty()) {
+                         for (section2 in section.components) {
+                             if (section2?.product?.shortName?.uppercase() != "NONE") {
+                                 _comName += " -> " + "${section2?.unit ?: 1}x " + section2?.product?.shortName;
+                                // price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
+                             }
+                         }
+                     }
+                     if (_comName != "") {
+                         if(businessdatadata.printerStyle == "1") {
+                             str3.append("\n").append(_comName)
+                         }else{
+                             str3.append(" -> ").append(_comName)
+                         }
+                     }
+                    // price += section?.netAmount ?: 0.0;
+                 }
+             } else {
+                 if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
+                     str3.append(item.unit).append("x ").append(item.product.shortName)
+                     if(businessdatadata.printerStyle == "2"){
+                         if(item.product.property?.printorder == "2"){
+                             str3.append("(Str)")
+                         }
+                     }
+                 }
+             }
 
-
-        if(unitAmount == 0.0) {
-            binding.unitValue.visibility = View.GONE
-        }else{
-            if(businessdatadata.weightShow) {
-                binding.unitValue.visibility = View.VISIBLE
-                binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
-                binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
-            } else {
-                binding.unitValue.visibility = View.GONE
-            }
-
-        }
-        if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
-            if(businessdatadata.weightMultiplyingPrice) {
-                price = (item.netAmount ?: 0.0) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
-            }else{
-                price = (item.netAmount ?: 0.0)
-            }
-
-        }else{
-            price = (item?.netAmount ?: 0.0)
-        }
-
-        var discount = item?.discountableAmount ?: 0.0;
-        if (position < iteamLength - 1) {
-            if ((listorderProducts!![position]?.product?.property?.printorder?.toInt()
-                            ?: 0) < (listorderProducts[position + 1]?.product?.property?.printorder?.toInt()
-                            ?: 0)) {
-
-                binding.underLine.visibility = View.VISIBLE
-            }
-
-        }
-
-        if (!component.isNullOrEmpty()) {
-            str3.append(item?.unit).append("x ").append(item?.product?.shortName)
-            for (section in component) {
-                var _comName = ""
-                if (section?.product?.shortName?.uppercase() != "NONE") {
-                    _comName = section?.product?.shortName ?: ""
-                }
-                if ((section?.components != null) && section.components.isNotEmpty()) {
-                    for (section2 in section.components) {
-                        if (section2?.product?.shortName?.uppercase() != "NONE") {
-                            _comName += " -> " + "${section2?.unit ?: 1}x " + section2?.product?.shortName;
-                            price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
-                        }
-                    }
-
-                }
-                if (_comName != "") {
-                    if(businessdatadata.printerStyle == "1") {
-                        str3.append("\n").append(_comName)
-                    }else{
-                        str3.append(" -> ").append(_comName)
-                    }
-
-                }
-                price += section?.netAmount ?: 0.0;
-            }
-        } else {
-            if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
-                str3.append(item.unit).append("x ").append(item.product.shortName)
-                if(businessdatadata.printerStyle == "2"){
-                    if(item.product.property?.printorder == "2"){
-                        str3.append("(Str)")
-                    }
-                }
-            }
-
-        }
-
-        if (extraIteam != null) {
-            val topping = StringBuilder()
-            if (extraIteam.isNotEmpty()) {
-                if(businessdatadata.printerStyle == "1") {
-                    topping.append("\n")
-                }else{
-                    topping.append(" -> ")
-                }
+             if (extraIteam != null) {
+                 val topping = StringBuilder()
+                 if (extraIteam.isNotEmpty()) {
+                     if(businessdatadata.printerStyle == "1") {
+                         topping.append("\n")
+                     }else{
+                         topping.append(" -> ")
+                     }
 //                val topping = java.lang.StringBuilder("\n")
-                for (extraItem in extraIteam) {
-                    topping.append("  *").append(extraItem?.product?.shortName)
-                    price += extraItem?.netAmount!!;
-                }
-                str3.append(topping.toString())
-            }
-        }
-
-
-        if(orderModel.orderChannel?.uppercase() != "ONLINE"){
-//            price *= (item?.unit ?: 1)
-            if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
-                var p = String.format("%.2f", getOrderOfferPrice(item))
-                price *=  p.toDouble()
-            }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
-                var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
-                Log.e("price get", "getView: ${p}----")
-                price =  p.toDouble()
-            }else{
-                price *= (item?.unit ?: 1)
-            }
-
-            var totaldiscount = (price * (discount / 100))
-            price -= totaldiscount;
-        }
-        Log.e("price get", "getView: ${price}----")
-        if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
-        binding.itemText.text = str3.toString()
-        binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
-        if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
-           binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
-        } else{
-           binding.itemPrice.visibility = View.GONE
-        }
-        binding.itemPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
-        binding.root.buildDrawingCache(true)
-        return binding.root
+                     for (extraItem in extraIteam) {
+                         topping.append("  *").append(extraItem?.product?.shortName)
+                        // price += extraItem?.netAmount!!;
+                     }
+                     str3.append(topping.toString())
+                 }
+             }
+             var price : Double = 0.0;
+             if(orderModel.orderChannel?.uppercase() == "ONLINE") {
+                 price = calculatePriceForOnlineOrder(item)
+             }else  {
+                 price = calculatePriceForLocalOrder(listorderProducts, item)
+             }
+             val totaldiscount = (price * (discount / 100))
+             price -= totaldiscount;
+//             if(orderModel.orderChannel?.uppercase() != "ONLINE"){
+////            price *= (item?.unit ?: 1)
+//                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
+//                     var p = String.format("%.2f", getOrderOfferPrice(item))
+//                     price *=  p.toDouble()
+//                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
+//                     var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+//                     Log.e("price get", "getView: ${p}----")
+//                     price =  p.toDouble()
+//                 }else{
+//                     price *= (item?.unit ?: 1)
+//                 }
+//                 var totaldiscount = (price * (discount / 100))
+//                 price -= totaldiscount;
+//             }
+             Log.e("price get", "getView: ${price}----")
+             if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
+             binding.itemText.text = str3.toString()
+             binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
+             if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
+                 binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
+             } else{
+                 binding.itemPrice.visibility = View.GONE
+             }
+             binding.itemPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
+             binding.root.buildDrawingCache(true)
+             return binding.root
     }
+
+
+         fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?,item: OrderData.OrderProduct?) : Double {
+             var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
+             var total: Double = 0.0;
+             val components = item?.components ?: emptyList();
+             for (element in components){
+                 total += (element?.netAmount ?: 0.0)
+                 val subComponentes = element?.components ?: emptyList()
+                 for (element2 in subComponentes) {
+                     total += (element2?.netAmount ?: 0.0)
+                 }
+             }
+             var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
+                 0.0;
+             }else{
+                 item?.product?.property?.tare_weight?.toDouble() ?: 0.0
+             }
+             var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
+                 0.0
+             } else{
+                 item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+             }
+
+             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
+                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
+                     if(weightmultiplayprice) {
+                         val p = String.format("%.2f", getOrderOfferPrice(item))
+                         total = ((total + (item.netAmount ?: 0.0)) * p.toDouble()) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+                     }else{
+                         val p = String.format("%.2f", getOrderOfferPrice(item))
+                         total = ((total + (item.netAmount ?: 0.0)) * p.toDouble())
+                     }
+
+                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
+                     if(weightmultiplayprice) {
+                         var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+                         total =  p.toDouble() * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+                     }else{
+                         var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+                         total =  p.toDouble()
+                     }
+
+                 }else{
+                     if(weightmultiplayprice) {
+                         total = (((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble()) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight))
+                     }else{
+                         total = ((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble())
+                     }
+                 }
+
+             }
+
+             return total
+         }
+
+         fun calculatePriceForOnlineOrder(item: OrderData.OrderProduct?) : Double {
+             var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
+             var total: Double = 0.0;
+             val components = item?.components ?: emptyList();
+             for (element in components){
+                 total += (element?.netAmount ?: 0.0)
+                 val subComponentes = element?.components ?: emptyList()
+                 for (element2 in subComponentes) {
+                     total += (element2?.netAmount ?: 0.0)
+                 }
+             }
+             var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
+                 0.0;
+             }else{
+                 item?.product?.property?.tare_weight?.toDouble() ?: 0.0
+             }
+             var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
+                 0.0
+             } else{
+                 item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+             }
+
+             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
+                 if(weightmultiplayprice) {
+                     total = (((total + (item.netAmount ?: 0.0))) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight))
+                 }else{
+                     total = ((total + (item.netAmount ?: 0.0)))
+                 }
+
+             }
+             return total
+         }
 
          fun unitGet(data: OrderData.OrderProduct?): String {
              val unitOfSale = data?.product?.property?.unit_of_sale
@@ -861,7 +908,7 @@ class orderPrinterService(
              if(!sortIteam.isNullOrEmpty()){
                  for (j in sortIteam.indices) {
                      Log.e("iteam sort", "doInBackground: ${j}")
-                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, context, 0, printSize)
+                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                      bind.items.addView(childView)
                      allitemsheight += childView!!.measuredHeight
                  }
@@ -1295,7 +1342,7 @@ class orderPrinterService(
                  var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
                  if(!sortIteam.isNullOrEmpty()){
                      for (j in sortIteam.indices) {
-                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, context, 0, printSize)
+                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                          bind.items.addView(childView)
                          allitemsheight += childView!!.measuredHeight
                      }
@@ -1356,146 +1403,146 @@ class orderPrinterService(
          }
 
 
-         fun butcherItemgetViewStyle2(listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?): View? {
-             val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
-             var  component: List<OrderData.OrderProduct.Component?>?
-             var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
-             if(orderModel.orderChannel?.uppercase() == "ONLINE") {
-                 component = item?.components;
-             } else {
-                 component = item?.components?.filter {i-> componentFilter(i)}
-                 //   extraIteam = item?.components?.filter { i-> i?.product?.property?.itemtype != null && (i.product.property.itemtype?.lowercase() == "topping" || i.product.property.itemtype?.lowercase() == "addon" || i.product.property.itemtype?.lowercase() == "dressing")}
-                 extraIteam = item?.components?.filter { i-> i?.product?.type == "EXTRA-COMPONENT"}
-
-             }
-
-
-             val str3 = StringBuilder()
-             var price = 0.0
-             var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
-                 0.0;
-             }else{
-                 item?.product?.property?.tare_weight?.toDouble() ?: 0.0
-             }
-             var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
-                 0.0
-             } else{
-                 item?.product?.property?.unit_amount?.toDouble() ?: 0.0
-             }
-
-
-             if(unitAmount == 0.0) {
-                 binding.unitValue.visibility = View.GONE
-             }else{
-                 if(businessdatadata.weightShow) {
-                     binding.unitValue.visibility = View.VISIBLE
-                     binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
-                     binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
-                 } else {
-                     binding.unitValue.visibility = View.GONE
-                 }
-
-             }
-             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
-                 if(businessdatadata.weightMultiplyingPrice) {
-                     price = (item.netAmount ?: 0.0) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
-                 }else{
-                     price = (item.netAmount ?: 0.0)
-                 }
-
-             }else{
-                 price = (item?.netAmount ?: 0.0)
-             }
-
-             var discount = item?.discountableAmount ?: 0.0;
-
-             if (!component.isNullOrEmpty()) {
-                 str3.append(item?.unit).append("x ").append(item?.product?.shortName)
-                 for (section in component) {
-                     var _comName = ""
-                     if (section?.product?.shortName?.uppercase() != "NONE") {
-                         _comName = section?.product?.shortName ?: ""
-                     }
-                     if ((section?.components != null) && section.components.isNotEmpty()) {
-                         for (section2 in section.components) {
-                             if (section2?.product?.shortName?.uppercase() != "NONE") {
-                                 _comName += " -> " + "${section2?.unit ?: 1}x " + section2?.product?.shortName;
-                                 price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
-                             }
-                         }
-
-                     }
-                     if (_comName != "") {
-                         if(businessdatadata.printerStyle == "1") {
-                             str3.append("\n").append(_comName)
-                         }else{
-                             str3.append(" -> ").append(_comName)
-                         }
-
-                     }
-                     price += section?.netAmount ?: 0.0;
-                 }
-             } else {
-                 if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
-                     str3.append(item.unit).append("x ").append(item.product.shortName)
-                     if(businessdatadata.printerStyle == "2"){
-                         if(item.product.property?.printorder == "2"){
-                             str3.append("(Str)")
-                         }
-                     }
-                 }
-
-             }
-
-             if (extraIteam != null) {
-                 val topping = StringBuilder()
-                 if (extraIteam.isNotEmpty()) {
-                     if(businessdatadata.printerStyle == "1") {
-                         topping.append("\n")
-                     }else{
-                         topping.append(" -> ")
-                     }
-//                val topping = java.lang.StringBuilder("\n")
-                     for (extraItem in extraIteam) {
-                         topping.append("  *").append(extraItem?.product?.shortName)
-                         price += extraItem?.netAmount!!;
-                     }
-                     str3.append(topping.toString())
-                 }
-             }
-
-
-             if(orderModel.orderChannel?.uppercase() != "ONLINE"){
-//            price *= (item?.unit ?: 1)
-                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
-                     var p = String.format("%.2f", getOrderOfferPrice(item))
-                     price *=  p.toDouble()
-                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
-                     var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
-                     Log.e("price get", "getView: ${p}----")
-                     price =  p.toDouble()
-                 }else{
-                     price *= (item?.unit ?: 1)
-                 }
-
-                 var totaldiscount = (price * (discount / 100))
-                 price -= totaldiscount;
-             }
-             Log.e("price get", "getView: ${price}----")
-             if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
-             binding.itemText.text = str3.toString()
-             binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
-             if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
-                 binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
-             } else{
-                 binding.itemPrice.visibility = View.GONE
-             }
-             binding.itemPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
-             binding.root.buildDrawingCache(true)
-
-             return binding.root
-         }
-
+//         fun butcherItemgetViewStyle2(listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?): View? {
+//             val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
+//             var  component: List<OrderData.OrderProduct.Component?>?
+//             var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
+//             if(orderModel.orderChannel?.uppercase() == "ONLINE") {
+//                 component = item?.components;
+//             } else {
+//                 component = item?.components?.filter {i-> componentFilter(i)}
+//                 //   extraIteam = item?.components?.filter { i-> i?.product?.property?.itemtype != null && (i.product.property.itemtype?.lowercase() == "topping" || i.product.property.itemtype?.lowercase() == "addon" || i.product.property.itemtype?.lowercase() == "dressing")}
+//                 extraIteam = item?.components?.filter { i-> i?.product?.type == "EXTRA-COMPONENT"}
+//
+//             }
+//
+//
+//             val str3 = StringBuilder()
+//             var price = 0.0
+//             var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
+//                 0.0;
+//             }else{
+//                 item?.product?.property?.tare_weight?.toDouble() ?: 0.0
+//             }
+//             var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
+//                 0.0
+//             } else{
+//                 item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+//             }
+//
+//
+//             if(unitAmount == 0.0) {
+//                 binding.unitValue.visibility = View.GONE
+//             }else{
+//                 if(businessdatadata.weightShow) {
+//                     binding.unitValue.visibility = View.VISIBLE
+//                     binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
+//                     binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
+//                 } else {
+//                     binding.unitValue.visibility = View.GONE
+//                 }
+//
+//             }
+//             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
+//                 if(businessdatadata.weightMultiplyingPrice) {
+//                     price = (item.netAmount ?: 0.0) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+//                 }else{
+//                     price = (item.netAmount ?: 0.0)
+//                 }
+//
+//             }else{
+//                 price = (item?.netAmount ?: 0.0)
+//             }
+//
+//             var discount = item?.discountableAmount ?: 0.0;
+//
+//             if (!component.isNullOrEmpty()) {
+//                 str3.append(item?.unit).append("x ").append(item?.product?.shortName)
+//                 for (section in component) {
+//                     var _comName = ""
+//                     if (section?.product?.shortName?.uppercase() != "NONE") {
+//                         _comName = section?.product?.shortName ?: ""
+//                     }
+//                     if ((section?.components != null) && section.components.isNotEmpty()) {
+//                         for (section2 in section.components) {
+//                             if (section2?.product?.shortName?.uppercase() != "NONE") {
+//                                 _comName += " -> " + "${section2?.unit ?: 1}x " + section2?.product?.shortName;
+//                                 price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
+//                             }
+//                         }
+//
+//                     }
+//                     if (_comName != "") {
+//                         if(businessdatadata.printerStyle == "1") {
+//                             str3.append("\n").append(_comName)
+//                         }else{
+//                             str3.append(" -> ").append(_comName)
+//                         }
+//
+//                     }
+//                     price += section?.netAmount ?: 0.0;
+//                 }
+//             } else {
+//                 if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
+//                     str3.append(item.unit).append("x ").append(item.product.shortName)
+//                     if(businessdatadata.printerStyle == "2"){
+//                         if(item.product.property?.printorder == "2"){
+//                             str3.append("(Str)")
+//                         }
+//                     }
+//                 }
+//
+//             }
+//
+//             if (extraIteam != null) {
+//                 val topping = StringBuilder()
+//                 if (extraIteam.isNotEmpty()) {
+//                     if(businessdatadata.printerStyle == "1") {
+//                         topping.append("\n")
+//                     }else{
+//                         topping.append(" -> ")
+//                     }
+////                val topping = java.lang.StringBuilder("\n")
+//                     for (extraItem in extraIteam) {
+//                         topping.append("  *").append(extraItem?.product?.shortName)
+//                         price += extraItem?.netAmount!!;
+//                     }
+//                     str3.append(topping.toString())
+//                 }
+//             }
+//
+//
+//             if(orderModel.orderChannel?.uppercase() != "ONLINE"){
+////            price *= (item?.unit ?: 1)
+//                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
+//                     var p = String.format("%.2f", getOrderOfferPrice(item))
+//                     price *=  p.toDouble()
+//                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
+//                     var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+//                     Log.e("price get", "getView: ${p}----")
+//                     price =  p.toDouble()
+//                 }else{
+//                     price *= (item?.unit ?: 1)
+//                 }
+//
+//                 var totaldiscount = (price * (discount / 100))
+//                 price -= totaldiscount;
+//             }
+//             Log.e("price get", "getView: ${price}----")
+//             if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
+//             binding.itemText.text = str3.toString()
+//             binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
+//             if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
+//                 binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
+//             } else{
+//                 binding.itemPrice.visibility = View.GONE
+//             }
+//             binding.itemPrice.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
+//             binding.root.buildDrawingCache(true)
+//
+//             return binding.root
+//         }
+//
 
 
          @SuppressLint("DefaultLocale")
@@ -1509,7 +1556,8 @@ class orderPrinterService(
              var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
              if(!sortIteam.isNullOrEmpty()){
                  for (j in sortIteam.indices) {
-                     val childView = butcherItemgetViewStyle2(sortIteam,sortIteam[j])
+//                     val childView = butcherItemgetViewStyle2(sortIteam,sortIteam[j])
+                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                      bind.items.addView(childView)
                      allitemsheight += childView!!.measuredHeight
                  }
