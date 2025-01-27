@@ -400,6 +400,18 @@ class orderPrinterService(
                      }
                  }
 
+             }else{
+                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
+                     val p = String.format("%.2f", getOrderOfferPrice(item))
+                     total = ((total + (item.netAmount ?: 0.0)) * p.toDouble())
+
+                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
+                     var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+                     total =  p.toDouble()
+
+                 }else{
+                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
+                 }
              }
 
              return total
@@ -434,6 +446,8 @@ class orderPrinterService(
                      total = ((total + (item.netAmount ?: 0.0)))
                  }
 
+             }else{
+                 total = ((total + (item?.netAmount ?: 0.0)))
              }
              return total
          }
