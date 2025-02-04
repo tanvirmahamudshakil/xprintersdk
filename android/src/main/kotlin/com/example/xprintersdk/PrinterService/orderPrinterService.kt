@@ -318,6 +318,7 @@ class orderPrinterService(
              if(orderModel.orderChannel?.uppercase() == "ONLINE") {
                  price = calculatePriceForOnlineOrder(item)
              }else  {
+                 Log.e("price value data", "getView: ${calculatePriceForLocalOrder(listorderProducts, item)}", )
                  price = calculatePriceForLocalOrder(listorderProducts, item)
              }
              val totaldiscount = (price * (discount / 100))
