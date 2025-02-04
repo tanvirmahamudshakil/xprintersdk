@@ -210,7 +210,7 @@ class orderPrinterService(
              }
          }
 
-         @SuppressLint("DefaultLocale")
+
          fun getView(listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int, position: Int): View? {
              val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
              var  component: List<OrderData.OrderProduct.Component?>?
@@ -318,7 +318,7 @@ class orderPrinterService(
              if(orderModel.orderChannel?.uppercase() == "ONLINE") {
                  price = calculatePriceForOnlineOrder(item)
              }else  {
-                 Log.e("price value data", "getView: ${calculatePriceForLocalOrder(listorderProducts, item)}", )
+
                  price = calculatePriceForLocalOrder(listorderProducts, item)
              }
              val totaldiscount = (price * (discount / 100))
@@ -378,10 +378,10 @@ class orderPrinterService(
              if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
                  if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
                      if(weightmultiplayprice) {
-                         val p = String.format("%.2f", getOrderOfferPrice(item))
+                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
                          total = ((total + (item.netAmount ?: 0.0)) * p.toDouble()) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
                      }else{
-                         val p = String.format("%.2f", getOrderOfferPrice(item))
+                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
                          total = ((total + (item.netAmount ?: 0.0)) * p.toDouble())
                      }
 
@@ -404,8 +404,10 @@ class orderPrinterService(
 
              }else{
                  if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
-                     Log.e("calculatePriceForLocalOrder", "calculatePriceForLocalOrder: ${getOrderOfferPrice(item)}", )
-                     val p = String.format("%.2f", getOrderOfferPrice(item))
+
+                    val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
+
+                    
                      total = ((total + (item.netAmount ?: 0.0)) * p.toDouble())
 
                  }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
