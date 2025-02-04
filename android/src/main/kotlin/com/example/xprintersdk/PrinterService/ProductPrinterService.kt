@@ -153,7 +153,7 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
          }
 
 
-         binding.price.text = "£${productPrint.price}"
+         binding.price.text = "£${productPrint.price ?: "0.0"}"
          binding.price.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductPriceFont?.toFloat() ?: 20.0f)
 
          if(productPrint.barcode != null) {

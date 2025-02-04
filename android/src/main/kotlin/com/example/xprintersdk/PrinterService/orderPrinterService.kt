@@ -210,7 +210,8 @@ class orderPrinterService(
              }
          }
 
-         fun getView( listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int ,position: Int): View? {
+         @SuppressLint("DefaultLocale")
+         fun getView(listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int, position: Int): View? {
              val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
              var  component: List<OrderData.OrderProduct.Component?>?
              var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
@@ -402,6 +403,7 @@ class orderPrinterService(
 
              }else{
                  if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
+                     Log.e("calculatePriceForLocalOrder", "calculatePriceForLocalOrder: ${getOrderOfferPrice(item)}", )
                      val p = String.format("%.2f", getOrderOfferPrice(item))
                      total = ((total + (item.netAmount ?: 0.0)) * p.toDouble())
 
