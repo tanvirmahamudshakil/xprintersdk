@@ -19,6 +19,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.xprintersdk.Barcode.barcodeSetting
+import com.example.xprintersdk.Bitmap.bitmapSetting
 import com.example.xprintersdk.LabelPrinter.LabelPrinter
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.OrderData.OrderData
@@ -33,7 +35,6 @@ import com.example.xprintersdk.databinding.StickerprinterBinding
 import com.example.xprintersdk.xprinter.Xprinter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
-import com.google.zxing.common.BitMatrix
 import io.flutter.plugin.common.MethodChannel
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
@@ -127,20 +128,21 @@ class orderPrinterService(
                  val dpi = businessdatadata.dpi ?: 203
                  val widthMm = businessdatadata.label_width ?: 76
                  val heightMm = businessdatadata.label_hight ?: 76
-                 val widthPx = (widthMm * dpi / 25.4f).toInt()
-                 val heightPx = (heightMm * dpi / 25.4f).toInt()
-                 val specWidth = View.MeasureSpec.makeMeasureSpec(widthPx, View.MeasureSpec.EXACTLY)
-                 val specHeight = View.MeasureSpec.makeMeasureSpec(heightPx, View.MeasureSpec.EXACTLY)
-                 view.measure(specWidth, specHeight)
-                 view.layout(0, 0, widthPx, heightPx)
-                 val bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888)
-                 val canvas = Canvas(bitmap)
-                 val offsetX = (widthPx - view.measuredWidth) / 2
-                 val offsetY = (heightPx - view.measuredHeight) / 2
-                 canvas.translate(offsetX.toFloat(), offsetY.toFloat())
-                 view.background?.draw(canvas) ?: canvas.drawColor(Color.WHITE)
-                 view.draw(canvas)
-                 return rotateBitmap180(bitmap)
+//                 val widthPx = (widthMm * dpi / 25.4f).toInt()
+//                 val heightPx = (heightMm * dpi / 25.4f).toInt()
+//                 val specWidth = View.MeasureSpec.makeMeasureSpec(widthPx, View.MeasureSpec.EXACTLY)
+//                 val specHeight = View.MeasureSpec.makeMeasureSpec(heightPx, View.MeasureSpec.EXACTLY)
+//                 view.measure(specWidth, specHeight)
+//                 view.layout(0, 0, widthPx, heightPx)
+//                 val bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888)
+//                 val canvas = Canvas(bitmap)
+//                 val offsetX = (widthPx - view.measuredWidth) / 2
+//                 val offsetY = (heightPx - view.measuredHeight) / 2
+//                 canvas.translate(offsetX.toFloat(), offsetY.toFloat())
+//                 view.background?.draw(canvas) ?: canvas.drawColor(Color.WHITE)
+//                 view.draw(canvas)
+                 var labelBitmap = bitmapSetting().labelprinterBitmap(view, dpi, widthMm, heightMm)
+                 return rotateBitmap180(labelBitmap)
 
              }else{
                  val spec = View.MeasureSpec.makeMeasureSpec(
@@ -573,12 +575,6 @@ class orderPrinterService(
 
          fun printBitmap(bitmap: Bitmap?)  {
         try {
-//            val originalBitmap: Bitmap? = bitmap
-//            val compressFormat = Bitmap.CompressFormat.JPEG
-//            val compressionQuality = 10 // Adjust the quality as needed
-//            val compressedData = originalBitmap?.let { compressBitmap(it, compressFormat, compressionQuality) }
-//
-//            var b2 = resizeImage(byteArrayToBitmap(compressedData!!), 550, true)
             if(bitmapSave) {
                 saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
@@ -713,64 +709,64 @@ class orderPrinterService(
                  return  null;
              }
          }
-
-
-         private fun genBarcode2(barcode : String) : Bitmap? {
-             var widthd = businessdatadata.barcode_width ?: 250;
-             var heightd = businessdatadata.barcode_hight ?: 100;
-
-             var bitMatrix: BitMatrix? = null
-             bitMatrix = MultiFormatWriter().encode(barcode, BarcodeFormat.CODE_128, widthd, heightd)
-             val width = bitMatrix.width
-             val height = bitMatrix.getHeight()
-             val pixels = IntArray(width * height)
-             for (i in 0 until height) {
-                 for (j in 0 until width) {
-                     if (bitMatrix[j, i]) {
-                         pixels[i * width + j] = -0x1000000
-                     } else {
-                         pixels[i * width + j] = -0x1
-                     }
-                 }
-             }
-             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-             bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-             return bitmap
 //
-//             val inputValue = barcode.trim()
-//             var width = businessdatadata.barcode_width ?: 250;
-//             var height = businessdatadata.barcode_hight ?: 100;
-//             if (inputValue.isNotEmpty()) {
-//                 val hints = mapOf(
-//                     EncodeHintType.MARGIN to 0  // Optional: set margin to 0 for a tighter fit
-//                 )
-//                 // Initializing a MultiFormatWriter to encode the input value
-//       //          val mwriter = MultiFormatWriter()
-//                 try {
-//                     val bitMatrix: BitMatrix = MultiFormatWriter().encode(
-//                         inputValue,
-//                         BarcodeFormat.CODE_128,  // Use CODE_128 or other formats as needed
-//                         width,
-//                         height,
-//                         hints
-//                     )
 //
-//                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-//                     for (x in 0 until width) {
-//                         for (y in 0 until height) {
-//                             bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
-//                         }
+//         private fun genBarcode2(barcode : String) : Bitmap? {
+//             var widthd = businessdatadata.barcode_width ?: 250;
+//             var heightd = businessdatadata.barcode_hight ?: 100;
+//
+//             var bitMatrix: BitMatrix? = null
+//             bitMatrix = MultiFormatWriter().encode(barcode, BarcodeFormat.CODE_128, widthd, heightd)
+//             val width = bitMatrix.width
+//             val height = bitMatrix.getHeight()
+//             val pixels = IntArray(width * height)
+//             for (i in 0 until height) {
+//                 for (j in 0 until width) {
+//                     if (bitMatrix[j, i]) {
+//                         pixels[i * width + j] = -0x1000000
+//                     } else {
+//                         pixels[i * width + j] = -0x1
 //                     }
-//                     return bitmap
-//                 } catch (e: Exception) {
-//                    return  null;
 //                 }
-//             } else {
-//                 // Showing an error message if the EditText is empty
-//                return  null;
 //             }
-         }
-
+//             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+//             bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+//             return bitmap
+////
+////             val inputValue = barcode.trim()
+////             var width = businessdatadata.barcode_width ?: 250;
+////             var height = businessdatadata.barcode_hight ?: 100;
+////             if (inputValue.isNotEmpty()) {
+////                 val hints = mapOf(
+////                     EncodeHintType.MARGIN to 0  // Optional: set margin to 0 for a tighter fit
+////                 )
+////                 // Initializing a MultiFormatWriter to encode the input value
+////       //          val mwriter = MultiFormatWriter()
+////                 try {
+////                     val bitMatrix: BitMatrix = MultiFormatWriter().encode(
+////                         inputValue,
+////                         BarcodeFormat.CODE_128,  // Use CODE_128 or other formats as needed
+////                         width,
+////                         height,
+////                         hints
+////                     )
+////
+////                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+////                     for (x in 0 until width) {
+////                         for (y in 0 until height) {
+////                             bitmap.setPixel(x, y, if (bitMatrix[x, y]) Color.BLACK else Color.WHITE)
+////                         }
+////                     }
+////                     return bitmap
+////                 } catch (e: Exception) {
+////                    return  null;
+////                 }
+////             } else {
+////                 // Showing an error message if the EditText is empty
+////                return  null;
+////             }
+//         }
+//
 
          @SuppressLint("DefaultLocale", "SetTextI18n")
          fun eposWaiterorderPrint() : Bitmap {
@@ -1289,7 +1285,7 @@ class orderPrinterService(
 
                  if(orderModel.orderChannel?.uppercase() != "ONLINE"){
                      if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
-                         var p = String.format("%.2f", getOrderOfferPrice(item))
+                         var p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
                          price *=  p.toDouble()
                      }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
                          var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, orderModel.orderProducts))
@@ -1317,8 +1313,9 @@ class orderPrinterService(
 
 
                  barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
-
-                 var barcodeBitmap = genBarcode2(barcode)
+                 var widthd = businessdatadata.barcode_width ?: 250;
+                 var heightd = businessdatadata.barcode_hight ?: 100;
+                 var barcodeBitmap = barcodeSetting().generateBarcode(barcode,businessdatadata.barcode_dpi,widthd, heightd)    // genBarcode2(barcode)
                  val imageView = ImageView(context).apply {
                      setImageBitmap(barcodeBitmap)
 
@@ -1595,7 +1592,9 @@ class orderPrinterService(
 
 
              if(barcodePrint == true && orderModel.barcode != null) {
-                 var barcodeBitmap = genBarcode2(orderModel.barcode!!)
+                 var widthd = businessdatadata.barcode_width ?: 250;
+                 var heightd = businessdatadata.barcode_hight ?: 100;
+                 var barcodeBitmap =  barcodeSetting().generateBarcode(orderModel.barcode!!, businessdatadata.barcode_dpi, widthd, heightd)   //genBarcode2(orderModel.barcode!!)
                  val imageView = ImageView(context).apply {
                      setImageBitmap(barcodeBitmap)
 

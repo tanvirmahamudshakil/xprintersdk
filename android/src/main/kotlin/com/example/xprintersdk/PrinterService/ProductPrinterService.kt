@@ -4,10 +4,8 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.Matrix
 import android.os.AsyncTask
 import android.provider.MediaStore
 import android.util.TypedValue
@@ -16,23 +14,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.xprintersdk.Barcode.barcodeSetting
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
-import com.example.xprintersdk.Model.DailyReport.Dailyreport
 import com.example.xprintersdk.Model.ProductModel.ProductPrint
 import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
 import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.Sunmi.SunmiHelp
-import com.example.xprintersdk.databinding.DailyreportBinding
 import com.example.xprintersdk.databinding.ProductprintBinding
 import com.example.xprintersdk.xprinter.Xprinter
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.MultiFormatWriter
-import com.google.zxing.common.BitMatrix
 import io.flutter.plugin.common.MethodChannel
-import java.io.ByteArrayOutputStream
 import java.io.OutputStream
-import java.text.SimpleDateFormat
-import java.util.Locale
 import kotlin.math.roundToInt
 
 class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, var businessdata: BusinessSetting, var mserviceBinding: Xprinter, var mresult: MethodChannel.Result, var sunmiHelper : SunmiHelp, var saveImage: Boolean, var nyxp : NyxprinterHelp ,var printer80 : printer80) : AsyncTask<String, Int, Bitmap>() {
@@ -139,6 +130,7 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
      }
 
 
+
      @SuppressLint("SetTextI18n")
      override fun doInBackground(vararg params: String?): Bitmap {
          var binding = ProductprintBinding.inflate(LayoutInflater.from(context))
@@ -157,7 +149,10 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
          binding.price.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductPriceFont?.toFloat() ?: 20.0f)
 
          if(productPrint.barcode != null) {
-             var barcodeBitmap = genBarcode(productPrint.barcode!!)
+             var widthd = businessdata.singleProductBarCodeWidth ?: 250;
+             var heightd = businessdata.singleProductBarcodeHight ?: 100;
+             var barcodeBitmap = barcodeSetting().generateBarcode(productPrint.barcode!!,businessdata.barcode_dpi,widthd, heightd)
+            // var barcodeBitmap = genBarcode(productPrint.barcode!!)
              val imageView = ImageView(context).apply {
                  setImageBitmap(barcodeBitmap)
                  layoutParams = ViewGroup.LayoutParams(
@@ -173,28 +168,28 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
 
      }
 
-    private fun genBarcode(barcode : String) : Bitmap? {
-        var widthd = businessdata.singleProductBarCodeWidth ?: 250;
-        var heightd = businessdata.singleProductBarcodeHight ?: 100;
-
-        var bitMatrix: BitMatrix? = null
-        bitMatrix = MultiFormatWriter().encode(barcode, BarcodeFormat.CODE_128, widthd, heightd)
-        val width = bitMatrix.width
-        val height = bitMatrix.getHeight()
-        val pixels = IntArray(width * height)
-        for (i in 0 until height) {
-            for (j in 0 until width) {
-                if (bitMatrix[j, i]) {
-                    pixels[i * width + j] = -0x1000000
-                } else {
-                    pixels[i * width + j] = -0x1
-                }
-            }
-        }
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
-        return bitmap
-    }
+//    private fun genBarcode(barcode : String) : Bitmap? {
+//        var widthd = businessdata.singleProductBarCodeWidth ?: 250;
+//        var heightd = businessdata.singleProductBarcodeHight ?: 100;
+//
+//        var bitMatrix: BitMatrix? = null
+//        bitMatrix = MultiFormatWriter().encode(barcode, BarcodeFormat.CODE_128, widthd, heightd)
+//        val width = bitMatrix.width
+//        val height = bitMatrix.getHeight()
+//        val pixels = IntArray(width * height)
+//        for (i in 0 until height) {
+//            for (j in 0 until width) {
+//                if (bitMatrix[j, i]) {
+//                    pixels[i * width + j] = -0x1000000
+//                } else {
+//                    pixels[i * width + j] = -0x1
+//                }
+//            }
+//        }
+//        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+//        bitmap.setPixels(pixels, 0, width, 0, 0, width, height)
+//        return bitmap
+//    }
 
 
      override fun onPostExecute(result: Bitmap?) {

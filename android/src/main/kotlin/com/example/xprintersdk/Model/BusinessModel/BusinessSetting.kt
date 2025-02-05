@@ -133,6 +133,10 @@ data class BusinessSetting(
     val expireDateShow: Boolean,
     @SerializedName("branchNameShow")
     val branchNameShow : Boolean,
+    @SerializedName("barcode_dpi")
+    val barcode_dpi: Int,
+
+
 
 
 )
