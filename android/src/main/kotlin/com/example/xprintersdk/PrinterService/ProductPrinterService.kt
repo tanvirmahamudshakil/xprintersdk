@@ -180,7 +180,7 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
         var bitMatrix: BitMatrix? = null
         bitMatrix = MultiFormatWriter().encode(barcode, BarcodeFormat.CODE_128, widthd, heightd)
         val width = bitMatrix.width
-        val height = bitMatrix.getHeight()
+        val height = bitMatrix.height
         val pixels = IntArray(width * height)
         for (i in 0 until height) {
             for (j in 0 until width) {

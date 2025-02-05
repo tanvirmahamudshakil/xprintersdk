@@ -19,6 +19,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.xprintersdk.Barcode.BarcodeData
+import com.example.xprintersdk.Bitmap.BitmapData
 import com.example.xprintersdk.LabelPrinter.LabelPrinter
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.OrderData.OrderData
@@ -127,20 +129,24 @@ class orderPrinterService(
                  val dpi = businessdatadata.dpi ?: 203
                  val widthMm = businessdatadata.label_width ?: 76
                  val heightMm = businessdatadata.label_hight ?: 76
-                 val widthPx = (widthMm * dpi / 25.4f).toInt()
-                 val heightPx = (heightMm * dpi / 25.4f).toInt()
-                 val specWidth = View.MeasureSpec.makeMeasureSpec(widthPx, View.MeasureSpec.EXACTLY)
-                 val specHeight = View.MeasureSpec.makeMeasureSpec(heightPx, View.MeasureSpec.EXACTLY)
-                 view.measure(specWidth, specHeight)
-                 view.layout(0, 0, widthPx, heightPx)
-                 val bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888)
-                 val canvas = Canvas(bitmap)
-                 val offsetX = (widthPx - view.measuredWidth) / 2
-                 val offsetY = (heightPx - view.measuredHeight) / 2
-                 canvas.translate(offsetX.toFloat(), offsetY.toFloat())
-                 view.background?.draw(canvas) ?: canvas.drawColor(Color.WHITE)
-                 view.draw(canvas)
-                 return rotateBitmap180(bitmap)
+                 Log.e("getBitmapFromView", "getBitmapFromView: ${businessdatadata.label_width} --- ${businessdatadata.label_hight}", )
+//                 val widthPx = (widthMm * dpi / 25.4f).toInt()
+//                 val heightPx = (heightMm * dpi / 25.4f).toInt()
+//                 val specWidth = View.MeasureSpec.makeMeasureSpec(widthPx, View.MeasureSpec.EXACTLY)
+//                 val specHeight = View.MeasureSpec.makeMeasureSpec(heightPx, View.MeasureSpec.EXACTLY)
+//                 view.measure(specWidth, specHeight)
+//                 view.layout(0, 0, widthPx, heightPx)
+//                 val bitmap = Bitmap.createBitmap(widthPx, heightPx, Bitmap.Config.ARGB_8888)
+//                 val canvas = Canvas(bitmap)
+//                 val offsetX = (widthPx - view.measuredWidth) / 2
+//                 val offsetY = (heightPx - view.measuredHeight) / 2
+//                 canvas.translate(offsetX.toFloat(), offsetY.toFloat())
+//                 view.background?.draw(canvas) ?: canvas.drawColor(Color.WHITE)
+//                 view.draw(canvas)
+//                 return rotateBitmap180(bitmap)
+
+
+                 return  BitmapData().createHighQualityBitmap(view, 203, 57, 63)
 
              }else{
                  val spec = View.MeasureSpec.makeMeasureSpec(
@@ -715,7 +721,7 @@ class orderPrinterService(
          }
 
 
-         private fun genBarcode2(barcode : String) : Bitmap? {
+         private fun genBarcode2(barcode : String) : Bitmap {
              var widthd = businessdatadata.barcode_width ?: 250;
              var heightd = businessdatadata.barcode_hight ?: 100;
 
@@ -1289,7 +1295,7 @@ class orderPrinterService(
 
                  if(orderModel.orderChannel?.uppercase() != "ONLINE"){
                      if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
-                         var p = String.format("%.2f", getOrderOfferPrice(item))
+                         var p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
                          price *=  p.toDouble()
                      }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
                          var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, orderModel.orderProducts))
@@ -1318,7 +1324,10 @@ class orderPrinterService(
 
                  barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
 
-                 var barcodeBitmap = genBarcode2(barcode)
+//                 var barcodeBitmap = genBarcode2(barcode)
+//                 var widthd = businessdatadata.barcode_width ?: 250;
+                 var heightd = businessdatadata.barcode_hight ?: 100;
+                 var barcodeBitmap = BarcodeData().generateBarcode(barcode, 320, 67, 10)
                  val imageView = ImageView(context).apply {
                      setImageBitmap(barcodeBitmap)
 
