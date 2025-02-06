@@ -37,14 +37,7 @@ class LabelPrinter(context: Context) {
             }
 
         }
-        val printer = TSPLPrinter(curConnect)
-        printer.isConnect{
-            if (POSConnect.CONNECT_SUCCESS == it) {
-                result.success(true);
-            }else{
-                result.success(false);
-            }
-        }
+        result.success(true);
     }
 
 
