@@ -59,9 +59,18 @@ class LabelPrinter(context: Context) {
         curConnect = POSConnect.createDevice(POSConnect.DEVICE_TYPE_ETHERNET)
         curConnect!!.connect(ipAddress){ p0, p1, p2 ->
             if (POSConnect.CONNECT_SUCCESS == p0) {
-                result.success(true)
+                Toast.makeText(mContext, "Printer Connected", Toast.LENGTH_SHORT).show()
             } else {
-                result.success(false)
+                Toast.makeText(mContext, "Printer Disconnect", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        val printer = TSPLPrinter(curConnect)
+        printer.isConnect{
+            if (POSConnect.CONNECT_SUCCESS == it) {
+                result.success(true);
+            }else{
+                result.success(false);
             }
         }
     }
