@@ -37,6 +37,7 @@ class Xprinter(mcontext : Context) {
         context.bindService(posService, conn, Context.BIND_AUTO_CREATE)
     }
 
+
     fun disposeBinding(result: MethodChannel.Result) {
         binder!!.DisconnectCurrentPort(object : TaskCallback {
             override fun OnSucceed() {

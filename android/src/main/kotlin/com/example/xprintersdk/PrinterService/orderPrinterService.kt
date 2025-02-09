@@ -121,12 +121,13 @@ class orderPrinterService(
          }
 
 
+
     fun capitalize(str: String): String? {
         return str.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
     }
          private fun getBitmapFromView(view: View): Bitmap {
 
-             if(businessdatadata.selectPrinter!!.lowercase() == "label_printer") {
+             if(businessdatadata.selectPrinter!!.lowercase() == "xprinter") {
                  val dpi = businessdatadata.dpi ?: 203
                  val widthMm = businessdatadata.label_width ?: 76
                  val heightMm = businessdatadata.label_hight ?: 76
@@ -1190,7 +1191,7 @@ class orderPrinterService(
          }
 
          fun butcherOrderPrintStyle1() : Bitmap {
-             if(businessdatadata.selectPrinter!!.lowercase() == "label_printer" && orderModel.orderProducts != null && orderModel.orderProducts!!.isNotEmpty()) {
+             if(businessdatadata.selectPrinter!!.lowercase() == "xprinter" && orderModel.orderProducts != null && orderModel.orderProducts!!.isNotEmpty()) {
                  val bind: StickerprinterBinding = StickerprinterBinding.inflate(LayoutInflater.from(context))
 
 //                 val dpi = businessdatadata.dpi ?: 203
