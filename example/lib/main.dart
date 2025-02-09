@@ -27,14 +27,14 @@ class _MyAppState extends State<MyApp> {
     "tips": 0.0,
     "order_id": null,
     "errorcode": 0,
-    "barcode": "EPOS_1738670106176025",
+    "barcode": "BUTCHER_1738670106176025",
     "local_id": 1,
     "tableUniqID": 1738670106176025,
     "selectDiscount": 0.0,
     "table_id": null,
     "order_type": "COLLECTION",
     "changeAmount": 0.0,
-    "order_channel": "EPOS",
+    "order_channel": "BUTCHER",
     "order_date": "2025-02-04 18:48:44",
     "requester_type": "PROVIDER",
     "requester_id": 0,
@@ -168,13 +168,18 @@ class _MyAppState extends State<MyApp> {
   List<String> usbList = [];
   String selectUsb = "";
 
-  labelPrinterInit() {
-    _xprintersdkPlugin.bitmapSave(printermodel, ordermodeldata);
+  labelPrinterInit() async {
+    _xprintersdkPlugin.XprinterInitialization();
+    // _xprintersdkPlugin.bitmapSave(printermodel, ordermodeldata);
   }
 
   getUsbList() async {
-    usbList = await _xprintersdkPlugin.getLabelPrinterUsbList();
-    setState(() {});
+    // usbList = await _xprintersdkPlugin.getLabelPrinterUsbList();
+    // setState(() {});
+    var connect = await _xprintersdkPlugin.XPrinterConnect(printermodel);
+    if (connect) {
+      _xprintersdkPlugin.XPrinterPrintOnLineData(printermodel, ordermodeldata);
+    }
   }
 
   @override
@@ -364,6 +369,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   PrinterBusinessModel printermodel = PrinterBusinessModel(
+    barcode_dpi: 203,
     branchNameShow: true,
     businessNameFont: 12,
     butcherPrintStyle: "1",
@@ -374,7 +380,7 @@ class _MyAppState extends State<MyApp> {
     itemPricefont: 20,
     itemWeightfont: 12,
     labelPrinterHight: 12,
-    orderChannel: "EPOS",
+    orderChannel: "BUTCHER",
     weightMultiplyingPrice: false,
     highlighttextsize: 20,
     dynamicCollection: "Collection",

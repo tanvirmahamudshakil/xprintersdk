@@ -11,6 +11,7 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.AsyncTask
+import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.util.TypedValue
@@ -19,6 +20,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.example.xprintersdk.Barcode.barcodeSetting
 import com.example.xprintersdk.Bitmap.bitmapSetting
 import com.example.xprintersdk.LabelPrinter.LabelPrinter
@@ -680,11 +682,12 @@ class orderPrinterService(
              }
          }
 
+
          private fun genBarcode(barcode : String) : Bitmap? {
              // Geting input value from the EditText
              val inputValue = barcode.trim()
-             var width = 250;
-             var height = 100;
+             var width = 1000;
+             var height = 200;
              if (inputValue.isNotEmpty()) {
                  // Initializing a MultiFormatWriter to encode the input value
                  val mwriter = MultiFormatWriter()
@@ -692,7 +695,7 @@ class orderPrinterService(
                      // Generating a barcode matrix
                      val matrix = mwriter.encode(inputValue, BarcodeFormat.CODE_128, width, height)
                      // Creating a bitmap to represent the barcode
-                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+                     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
                      // Iterating through the matrix and set pixels in the bitmap
                      for (i in 0 until width) {
                          for (j in 0 until height) {
@@ -1311,7 +1314,6 @@ class orderPrinterService(
                      bind.expirecontainer.visibility = View.GONE
                  }
 
-
                  barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
                  var widthd = businessdatadata.barcode_width ?: 250;
                  var heightd = businessdatadata.barcode_hight ?: 100;
@@ -1410,7 +1412,10 @@ class orderPrinterService(
                  bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
 
                  if(orderModel.barcode != null) {
+
                      var barcodeBitmap = genBarcode(orderModel.barcode!!)
+
+
                      bind.barcode.setImageBitmap(barcodeBitmap)
                  }
                  val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
