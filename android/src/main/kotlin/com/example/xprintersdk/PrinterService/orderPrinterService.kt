@@ -686,8 +686,8 @@ class orderPrinterService(
          private fun genBarcode(barcode : String) : Bitmap? {
              // Geting input value from the EditText
              val inputValue = barcode.trim()
-             var width = 639;
-             var height = 200;
+             var width = businessdatadata.butcher_order_barcode_width;
+             var height = businessdatadata.butcher_order_barcode_hight;
              if (inputValue.isNotEmpty()) {
                  // Initializing a MultiFormatWriter to encode the input value
                  val mwriter = MultiFormatWriter()

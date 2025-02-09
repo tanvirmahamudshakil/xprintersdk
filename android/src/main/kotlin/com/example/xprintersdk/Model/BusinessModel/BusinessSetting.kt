@@ -135,6 +135,11 @@ data class BusinessSetting(
     val branchNameShow : Boolean,
     @SerializedName("barcode_dpi")
     val barcode_dpi: Int,
+    @SerializedName("butcher_order_barcode_hight")
+    val butcher_order_barcode_hight: Int,
+    @SerializedName("butcher_order_barcode_width")
+    val butcher_order_barcode_width: Int,
+
 
 
 
