@@ -1,19 +1,30 @@
 var ordermodeldata = {
   "id": null,
+<<<<<<< HEAD
   "online_order_id": null,
   "service_charge": 0.0,
   "tips": 0.0,
   "order_id": null,
   "errorcode": 0,
   "barcode": "EPOS_1738670106176025",
+=======
+  "errorcode": 4,
+  "barcode": "BUTCHER_1720666714947071",
+>>>>>>> origin/labelprinter_v2
   "local_id": 1,
   "tableUniqID": 1738670106176025,
   "selectDiscount": 0.0,
   "table_id": null,
   "order_type": "COLLECTION",
+<<<<<<< HEAD
   "changeAmount": 0.0,
   "order_channel": "EPOS",
   "order_date": "2025-02-04 18:48:44",
+=======
+  "changeAmount": 10,
+  "order_channel": "BUTCHER",
+  "order_date": "2024-07-11 08:59:04",
+>>>>>>> origin/labelprinter_v2
   "requester_type": "PROVIDER",
   "requester_id": 0,
   "requester_uuid": 0,
@@ -381,7 +392,11 @@ var butcherOrder = {
     "status": null,
     "created_at": null,
     "updated_at": null,
+<<<<<<< HEAD
     "prop": null
+=======
+    "property": null
+>>>>>>> origin/labelprinter_v2
   },
   "waiterInfo": {
     "firstName": "Admin",
@@ -391,8 +406,13 @@ var butcherOrder = {
     "phone": "admin",
     "password": "0000",
     "orderList": [],
+<<<<<<< HEAD
     "loginTime": "2025-02-05 11:42:20",
     "logoutTime": "2025-02-05 11:42:20"
+=======
+    "loginTime": "2024-07-11 08:55:55",
+    "logoutTime": "2024-07-11 08:55:55"
+>>>>>>> origin/labelprinter_v2
   },
   "order_files": [],
   "prescriber": null,
