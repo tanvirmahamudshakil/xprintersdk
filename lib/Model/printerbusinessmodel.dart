@@ -74,9 +74,11 @@ class PrinterBusinessModel {
   int barcode_dpi;
   int butcher_order_barcode_width;
   int butcher_order_barcode_hight;
+  bool order_group;
 
   PrinterBusinessModel({
     this.fontSize,
+    required this.order_group,
     required this.barcode_dpi,
     required this.butcher_order_barcode_width,
     required this.butcher_order_barcode_hight,
@@ -144,6 +146,7 @@ class PrinterBusinessModel {
   });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
+      order_group: json["order_group"],
       pricePerWeightFont: json["price_per_weight_font"],
       butcher_order_barcode_hight: json["butcher_order_barcode_hight"],
       butcher_order_barcode_width: json["butcher_order_barcode_width"],
@@ -212,6 +215,7 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
         "branchNameShow": branchNameShow,
+        "order_group": order_group,
         "butcher_order_barcode_hight": butcher_order_barcode_hight,
         "butcher_order_barcode_width": butcher_order_barcode_width,
         "barcode_dpi": barcode_dpi,

@@ -31,6 +31,7 @@ import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ButcherOrderPrintBinding
 import com.example.xprintersdk.databinding.ButcherOrderStyle2Binding
+import com.example.xprintersdk.databinding.GroupPrintViewBinding
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.databinding.StickerprinterBinding
@@ -919,19 +920,41 @@ class orderPrinterService(
                      bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                  }
              }
-             var allitemsheight = 0
              bind.items.removeAllViews()
-             var itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
-             var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
-             if(!sortIteam.isNullOrEmpty()){
-                 for (j in sortIteam.indices) {
-                     Log.e("iteam sort", "doInBackground: ${j}")
-                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
-                     bind.items.addView(childView)
-                     allitemsheight += childView!!.measuredHeight
+             var allitemsheight = 0
+             if(businessdatadata.order_group) {
+                 val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                 val groupProduct = itemproduict?.groupBy { it?.product?.property?.product_group }
+                 if (groupProduct != null) {
+                     for ((key, productList) in groupProduct) {
+                         val childView = groupOrderPrintView(productList)
+                         bind.items.addView(childView)
+                         allitemsheight += childView.measuredHeight
+                     }
+                 }else{
+                     val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                     val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+                     if(!sortIteam.isNullOrEmpty()){
+                         for (j in sortIteam.indices) {
+                             val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
+                             bind.items.addView(childView)
+                             allitemsheight += childView!!.measuredHeight
+                         }
+                     }
                  }
 
+             }else{
+                 val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                 val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+                 if(!sortIteam.isNullOrEmpty()){
+                     for (j in sortIteam.indices) {
+                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
+                         bind.items.addView(childView)
+                         allitemsheight += childView!!.measuredHeight
+                     }
+                 }
              }
+
              var paidOrNot = "";
              if (orderModel.orderChannel?.uppercase() == "ONLINE") {
                  if(totalRefund > 0.0) {
@@ -1145,9 +1168,6 @@ class orderPrinterService(
 
              comment += """
 
-
-
-
         """.trimIndent()
 
 
@@ -1178,6 +1198,26 @@ class orderPrinterService(
 
              return  bitmaplist;
          }
+
+
+
+         fun groupOrderPrintView(itemproduict: List<OrderData.OrderProduct?>?) : View {
+             val bind: GroupPrintViewBinding = GroupPrintViewBinding.inflate(LayoutInflater.from(context))
+             bind.groupHeader.text = "${itemproduict?.first()?.product?.property?.product_group?.uppercase()}"
+             bind.groupHeader.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
+             val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+             bind.groupItem.removeAllViews()
+             var allitemsheight = 0
+             if(!sortIteam.isNullOrEmpty()){
+                 for (j in sortIteam.indices) {
+                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
+                     bind.groupItem.addView(childView)
+                     allitemsheight += childView!!.measuredHeight
+                 }
+             }
+             return  bind.root
+         }
+
 
          @SuppressLint("DefaultLocale")
          fun ButcherOrderPrint() : Bitmap {
