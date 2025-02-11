@@ -26,6 +26,8 @@ data class OrderData(
     val discountedAmount: Double?,
     @SerializedName("id")
     val id: Int?,
+    @SerializedName("online_order_id")
+    val online_order_id: Int?,
     @SerializedName("local_id")
     val localId: Int?,
     @SerializedName("net_amount")

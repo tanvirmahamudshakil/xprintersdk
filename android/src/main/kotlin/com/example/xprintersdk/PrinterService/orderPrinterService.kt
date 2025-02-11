@@ -904,7 +904,7 @@ class orderPrinterService(
              }
              if(orderModel.orderChannel?.uppercase() == "ONLINE"){
                  bind.containerOrderNo.visibility = View.VISIBLE
-                 bind.orderNo.text = "${orderModel.order_id}";
+                 bind.orderNo.text = "${orderModel.online_order_id}";
                  bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                  bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
              }else{
