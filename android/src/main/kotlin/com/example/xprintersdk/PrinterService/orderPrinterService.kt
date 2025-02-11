@@ -924,7 +924,8 @@ class orderPrinterService(
              var allitemsheight = 0
              if(businessdatadata.order_group) {
                  val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
-                 val groupProduct = itemproduict?.groupBy { it?.product?.property?.product_group }
+                 val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.product_group_sort?.toInt() ?: 1 })
+                 val groupProduct = sortIteam?.groupBy { it?.product?.property?.product_group }
                  if (groupProduct != null) {
                      for ((key, productList) in groupProduct) {
                          val childView = groupOrderPrintView(productList)
