@@ -75,6 +75,7 @@ class PrinterBusinessModel {
   int butcher_order_barcode_width;
   int butcher_order_barcode_hight;
   bool order_group;
+  bool show_category_name;
 
   PrinterBusinessModel({
     this.fontSize,
@@ -143,6 +144,7 @@ class PrinterBusinessModel {
     required this.singleProductPrintHight,
     required this.singleProductBarcodeHight,
     required this.singleProductBarCodeWidth,
+    required this.show_category_name,
   });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
@@ -211,7 +213,7 @@ class PrinterBusinessModel {
       footervatFontSize: json["footervatFontSize"],
       asapFontSize: json["asapFontSize"],
       xprinterPath: json["xprinter_path"],
-      propertyshop: json["propertyshop"]);
+      propertyshop: json["propertyshop"], show_category_name: json["show_category_name"]);
 
   Map<String, dynamic> toJson() => {
         "branchNameShow": branchNameShow,
@@ -279,6 +281,7 @@ class PrinterBusinessModel {
         "footervatFontSize": footervatFontSize,
         "serviceCharge": serviceCharge,
         "xprinter_path": xprinterPath,
-        "propertyshop": propertyshop
+        "propertyshop": propertyshop,
+        "show_category_name": show_category_name,
       };
 }

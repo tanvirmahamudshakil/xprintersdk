@@ -270,7 +270,7 @@ class orderPrinterService(
              }
              if (!component.isNullOrEmpty()) {
                  if (businessdatadata.show_category_name && item?.categoryName != null){
-                     str3.append(item?.unit).append("x ").append("${item.product?.shortName},${item.categoryName}")
+                     str3.append(item.unit).append("x ").append("${item.product?.shortName},${item.categoryName}")
                  }else{
                      str3.append(item?.unit).append("x ").append(item?.product?.shortName)
                  }
