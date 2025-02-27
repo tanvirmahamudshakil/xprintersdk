@@ -269,7 +269,12 @@ class orderPrinterService(
                  }
              }
              if (!component.isNullOrEmpty()) {
-                 str3.append(item?.unit).append("x ").append(item?.product?.shortName)
+                 if (businessdatadata.show_category_name && item?.categoryName != null){
+                     str3.append(item?.unit).append("x ").append("${item.product?.shortName},${item.categoryName}")
+                 }else{
+                     str3.append(item?.unit).append("x ").append(item?.product?.shortName)
+                 }
+
                  for (section in component) {
                      var _comName = ""
                      if (section?.product?.shortName?.uppercase() != "NONE") {
@@ -294,7 +299,12 @@ class orderPrinterService(
                  }
              } else {
                  if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
-                     str3.append(item.unit).append("x ").append(item.product.shortName)
+                     if (businessdatadata.show_category_name && item.categoryName != null){
+                         str3.append(item.unit).append("x ").append("${item.product.shortName},${item.categoryName}")
+                     }else{
+                         str3.append(item.unit).append("x ").append(item.product.shortName)
+                     }
+
                      if(businessdatadata.printerStyle == "2"){
                          if(item.product.property?.printorder == "2"){
                              str3.append("(Str)")

@@ -141,6 +141,8 @@ data class BusinessSetting(
     val butcher_order_barcode_width: Int,
     @SerializedName("order_group")
     var order_group: Boolean,
+    @SerializedName("show_category_name")
+    var show_category_name: Boolean,
 
 
 
