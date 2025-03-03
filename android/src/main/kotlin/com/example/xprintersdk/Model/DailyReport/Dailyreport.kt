@@ -41,5 +41,13 @@ data class Dailyreport(
         var totalChange : String?,
         @SerializedName("totalReturn")
         val totalReturn: String?,
+        @SerializedName("epos_cash_amount")
+        val epos_cash_amount: String?,
+        @SerializedName("epos_card_amount")
+        val epos_card_amount: String?,
+        @SerializedName("online_cash_amount")
+        val online_cash_amount: String?,
+        @SerializedName("online_card_amount")
+        val online_card_amount: String?,
     )
 }
