@@ -1,0 +1,2 @@
+/Users/tanvir/Desktop/Flutter Project/Yuma-Technology/xprintersdk/example/android/app/.cxx/Debug/e2n3766o/x86_64/CMakeFiles/rebuild_cache.dir
+/Users/tanvir/Desktop/Flutter Project/Yuma-Technology/xprintersdk/example/android/app/.cxx/Debug/e2n3766o/x86_64/CMakeFiles/edit_cache.dir
