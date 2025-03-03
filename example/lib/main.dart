@@ -685,6 +685,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   PrinterBusinessModel printermodel = PrinterBusinessModel(
+    show_category_name: false,
     butcher_order_barcode_hight: 10,
     butcher_order_barcode_width: 30,
     order_group: true,
