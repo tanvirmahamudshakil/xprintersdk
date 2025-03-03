@@ -8,7 +8,7 @@
 
        <LinearLayout
            android:orientation="vertical"
-           android:gravity="center"
+           android:gravity="bottom|center"
            android:layout_weight="1"
            android:layout_gravity="center"
            android:layout_width="match_parent"
