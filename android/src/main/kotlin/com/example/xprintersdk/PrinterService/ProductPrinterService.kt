@@ -162,6 +162,13 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
              }
              binding.items.removeAllViews()
              binding.items.addView(imageView)
+             if(businessdata.barcode_text_show) {
+                 binding.barcodeValue.visibility = View.VISIBLE
+                 binding.barcodeValue.text = productPrint.barcode!!
+                 binding.barcodeValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.barcode_text_size.toFloat() ?: 15f)
+             }else{
+                 binding.barcodeValue.visibility = View.GONE
+             }
          }
          val bitmaplist: Bitmap =  getBitmapFromView(binding.root)
          return  bitmaplist;

@@ -143,6 +143,10 @@ data class BusinessSetting(
     var order_group: Boolean,
     @SerializedName("show_category_name")
     var show_category_name: Boolean,
+    @SerializedName("barcode_text_show")
+    var barcode_text_show: Boolean,
+    @SerializedName("barcode_text_size")
+    var barcode_text_size: Int
 
 
 

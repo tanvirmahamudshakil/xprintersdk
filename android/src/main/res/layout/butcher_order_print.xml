@@ -136,6 +136,13 @@
             android:layout_width="match_parent"
             android:src="@drawable/barcode"
             android:layout_height="100dp"/>
+        <TextView
+            android:id="@+id/barcode_value"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:text="124574587458"
+            android:textColor="@color/black"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 

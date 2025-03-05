@@ -1364,8 +1364,19 @@ class orderPrinterService(
                  }else{
                      bind.expirecontainer.visibility = View.GONE
                  }
+                 var netamount = String.format("%.2f", orderModel.orderProducts?.first()?.netAmount ?: 0.0)
+                 var totalPrice = String.format("%.2f", price)
 
-                 barcode = "${orderModel.orderProducts?.first()?.id}-${orderModel.orderProducts?.first()?.netAmount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${price}";
+                 barcode = "${orderModel.orderProducts?.first()?.id}-${netamount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${totalPrice}";
+                 if(businessdatadata.barcode_text_show) {
+                     bind.barcodeValue.visibility = View.VISIBLE
+                     bind.barcodeValue.text = barcode
+                     bind.barcodeValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.barcode_text_size.toFloat() ?: 15f)
+                 }else{
+                     bind.barcodeValue.visibility = View.GONE
+                 }
+
+
                  var widthd = businessdatadata.barcode_width ?: 250;
                  var heightd = businessdatadata.barcode_hight ?: 100;
                  var barcodeBitmap = barcodeSetting().generateBarcode(barcode,businessdatadata.barcode_dpi,widthd, heightd)    // genBarcode2(barcode)
@@ -1463,11 +1474,16 @@ class orderPrinterService(
                  bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
 
                  if(orderModel.barcode != null) {
-
                      var barcodeBitmap = genBarcode(orderModel.barcode!!)
-
-
                      bind.barcode.setImageBitmap(barcodeBitmap)
+                     if(businessdatadata.barcode_text_show) {
+                         bind.barcodeValue.visibility = View.VISIBLE
+                         bind.barcodeValue.text = orderModel.barcode
+                         bind.barcodeValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.barcode_text_size.toFloat() ?: 15f)
+                     }else{
+                         bind.barcodeValue.visibility = View.GONE
+                     }
+
                  }
                  val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
                  return  bitmaplist
@@ -1661,8 +1677,16 @@ class orderPrinterService(
                  }
                  bind.barcode.removeAllViews()
                  bind.barcode.addView(imageView)
+                 if(businessdatadata.barcode_text_show) {
+                     bind.barcodeValue.visibility = View.VISIBLE
+                     bind.barcodeValue.text = orderModel.barcode
+                     bind.barcodeValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.barcode_text_size.toFloat() ?: 15f)
+                 }else{
+                     bind.barcodeValue.visibility = View.GONE
+                 }
 
-             }else{
+
+                 }else{
                  bind.barcode.removeAllViews()
              }
 
