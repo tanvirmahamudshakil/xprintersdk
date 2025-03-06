@@ -31,6 +31,7 @@ import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ButcherOrderPrintBinding
 import com.example.xprintersdk.databinding.ButcherOrderStyle2Binding
+import com.example.xprintersdk.databinding.GroceryinvoiceBinding
 import com.example.xprintersdk.databinding.GroupPrintViewBinding
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
@@ -240,17 +241,24 @@ class orderPrinterService(
              } else{
                  item?.product?.property?.unit_amount?.toDouble() ?: 0.0
              }
-             if(unitAmount == 0.0) {
-                 binding.unitValue.visibility = View.GONE
+             if(businessdatadata.invoice_type == "GROCERY") {
+                 binding.unitValue.visibility = View.VISIBLE
+                 binding.unitValue.text = "${item?.unit ?: 1}"
+                 binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
              }else{
-                 if(businessdatadata.weightShow) {
-                     binding.unitValue.visibility = View.VISIBLE
-                     binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
-                     binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
-                 } else {
+                 if(unitAmount == 0.0) {
                      binding.unitValue.visibility = View.GONE
+                 }else{
+                     if(businessdatadata.weightShow) {
+                         binding.unitValue.visibility = View.VISIBLE
+                         binding.unitValue.text = "${unitAmount} ${unitGet(item)}"
+                         binding.unitValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
+                     } else {
+                         binding.unitValue.visibility = View.GONE
+                     }
                  }
              }
+
 //             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
 //                 if(businessdatadata.weightMultiplyingPrice) {
 //                     price = (item.netAmount ?: 0.0) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
@@ -270,9 +278,19 @@ class orderPrinterService(
              }
              if (!component.isNullOrEmpty()) {
                  if (businessdatadata.show_category_name && item?.categoryName != null){
-                     str3.append(item.unit).append("x ").append("${item.product?.shortName},${item.categoryName}")
+                     if(businessdatadata.invoice_type == "GROCERY") {
+                         str3.append("${item.product?.shortName},${item.categoryName}")
+                     }else{
+                         str3.append(item.unit).append("x ").append("${item.product?.shortName},${item.categoryName}")
+                     }
+
                  }else{
-                     str3.append(item?.unit).append("x ").append(item?.product?.shortName)
+                     if(businessdatadata.invoice_type == "GROCERY"){
+                         str3.append(item?.product?.shortName)
+                     }else{
+                         str3.append(item?.unit).append("x ").append(item?.product?.shortName)
+                     }
+
                  }
 
                  for (section in component) {
@@ -300,9 +318,19 @@ class orderPrinterService(
              } else {
                  if (item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
                      if (businessdatadata.show_category_name && item.categoryName != null){
-                         str3.append(item.unit).append("x ").append("${item.product.shortName},${item.categoryName}")
+                         if(businessdatadata.invoice_type == "GROCERY"){
+                             str3.append("${item.product.shortName},${item.categoryName}")
+                         }else{
+                             str3.append(item.unit).append("x ").append("${item.product.shortName},${item.categoryName}")
+                         }
+
                      }else{
-                         str3.append(item.unit).append("x ").append(item.product.shortName)
+                         if(businessdatadata.invoice_type == "GROCERY"){
+                             str3.append(item.product.shortName)
+                         }else{
+                             str3.append(item.unit).append("x ").append(item.product.shortName)
+                         }
+
                      }
 
                      if(businessdatadata.printerStyle == "2"){
@@ -1210,6 +1238,239 @@ class orderPrinterService(
              return  bitmaplist;
          }
 
+         fun groceryInvoice() : Bitmap {
+             noofprint = if (orderModel.orderType == "DELIVERY"){
+                 businessdatadata.printOnDelivery!!
+             }else{
+                 businessdatadata.printOnCollection!!
+             }
+
+             val printSize: Int = fontsize
+             val bind: GroceryinvoiceBinding = GroceryinvoiceBinding.inflate(LayoutInflater.from(context))
+             bind.businessName.text = businessname
+             bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+             bind.emailaddress.text = businessdatadata.business_email
+             bind.emailaddress.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+
+             val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
+             val formatter = SimpleDateFormat("dd/mm/yyyy HH:mm:ss")
+
+             var totalRefund : Double = 0.0;
+             var totalCardPaid : Double = 0.0;
+             var totalCashPaid: Double = 0.0;
+             var totalReceivePound : Double = 0.0
+             // var totalDue : Double = 0.0;
+             val refundList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "REFUND"}
+             var cardPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CARD" || it?.type?.uppercase() == "CARD"}
+             var cashPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CASH" || it?.type?.uppercase() == "CASH"}
+
+             val receivePoundList = orderModel.cashEntry?.filter { it?.type?.uppercase() != "REFUND"}
+             val changeAmount : Double = orderModel.changeAmount ?: 0.0;
+             refundList?.forEach {
+                 totalRefund += (it?.amount ?: 0.0)
+             }
+             cardPaidList?.forEach {
+                 totalCardPaid += (it?.amount?: 0.0)
+             }
+             cashPaidList?.forEach {
+                 totalCashPaid += (it?.amount?: 0.0)
+             }
+             receivePoundList?.forEach {
+                 totalReceivePound += (it?.amount ?: 0.0)
+             }
+             // totalDue = (orderModel.payableAmount ?: 0.0) - (totalReceivePound - (orderModel.changeAmount ?: 0.0))
+             var addedDeliveryCharge = 0.0
+             bind.businessLocation.text = businessaddress
+             bind.businessLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+             bind.businessPhone.text = businessphone
+             bind.businessPhone.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+             if(businessdatadata.branchNameShow) {
+                 bind.branchName.text = orderModel.branch?.name?.uppercase()
+                 bind.branchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+             }else{
+                 bind.branchName.visibility = View.GONE
+             }
+
+
+             bind.orderTime.text = "${parser.parse(orderModel.orderDate)
+                 ?.let { formatter.format(it) }}"
+             bind.orderTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+
+
+
+             bind.items.removeAllViews()
+             var allitemsheight = 0
+             if(businessdatadata.order_group) {
+                 val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                 val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.product_group_sort?.toInt() ?: 1 })
+                 val groupProduct = sortIteam?.groupBy { it?.product?.property?.product_group }
+                 if (groupProduct != null) {
+                     for ((key, productList) in groupProduct) {
+                         val childView = groupOrderPrintView(productList)
+                         bind.items.addView(childView)
+                         allitemsheight += childView.measuredHeight
+                     }
+                 }else{
+                     val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                     val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+                     if(!sortIteam.isNullOrEmpty()){
+                         for (j in sortIteam.indices) {
+                             val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
+                             bind.items.addView(childView)
+                             allitemsheight += childView!!.measuredHeight
+                         }
+                     }
+                 }
+
+             }else{
+                 val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                 val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+                 if(!sortIteam.isNullOrEmpty()){
+                     for (j in sortIteam.indices) {
+                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
+                         bind.items.addView(childView)
+                         allitemsheight += childView!!.measuredHeight
+                     }
+                 }
+             }
+
+             var paidOrNot = "";
+             if (orderModel.orderChannel?.uppercase() == "ONLINE") {
+
+
+
+                 if(orderModel.status?.uppercase() == "REFUNDED") {
+                     paidOrNot = "ORDER is REFUNDED"
+
+                 }else{
+                     if(orderModel.paymentType?.uppercase() == "CARD" || orderModel.paymentType?.uppercase() == "EPOS_CARD"){
+                         paidOrNot ="ORDER IS PAID"
+                     }else if(orderModel.paymentType?.uppercase() == "CASH" || orderModel.paymentType?.uppercase() == "EPOS_CASH") {
+                         if (orderModel.cashEntry == null || orderModel.cashEntry!!.isEmpty()){
+                             paidOrNot = "ORDER NOT PAID"
+
+                         }else{
+                             paidOrNot ="ORDER IS PAID"
+                         }
+                     }
+                 }
+             } else if (orderModel.orderChannel?.uppercase() != "ONLINE") {
+                 if(totalRefund > 0.0) {
+
+                 }else{
+
+                 }
+
+                 if(changeAmount > 0.0) {
+
+                 }else{
+
+                 }
+
+
+                 if(orderModel.status?.uppercase() == "REFUNDED") {
+                     paidOrNot = "ORDER is REFUND"
+
+
+                 } else if(totalRefund > 0.0) {
+                     paidOrNot = "ORDER is PARTIAL REFUND"
+
+                 } else{
+                     if(orderModel.cashEntry != null && orderModel.cashEntry!!.isNotEmpty()) {
+                         paidOrNot ="ORDER IS PAID"
+
+                     }else{
+                         if(orderModel.paymentType?.uppercase() == "UNPAID_CASH") {
+                             paidOrNot ="ORDER IS UNPAID(CASH)"
+
+                             //"£ " + String.format("%.2f", orderModel.payableAmount)
+                         }else if(orderModel.paymentType?.uppercase() == "UNPAID_CARD") {
+                             paidOrNot ="ORDER IS UNPAID(CARD)"
+
+                             //"£ " + String.format("%.2f", orderModel.payableAmount)
+                         }else{
+                             paidOrNot = "ORDER NOT PAID"
+
+                             //"£ " + String.format("%.2f", orderModel.payableAmount)
+                         }
+                     }
+                 }
+
+             } else  {
+                 paidOrNot = "ORDER NOT PAID"
+
+                 //"£ " + String.format("%.2f", orderModel.payableAmount)
+             }
+//             else if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType!!.uppercase() == "CASH") {
+//                 if (orderModel.cashEntry!!.isEmpty()){
+//                     paidOrNot = "ORDER NOT PAID"
+//                     bind.dueTotalContainer.visibility = View.VISIBLE
+//                     bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+//                 }else{
+//                     paidOrNot ="ORDER IS PAID"
+//                 }
+//             }
+
+//             bind.refundContainer.visibility = View.GONE
+             val subTotal: Double = orderModel.netAmount ?: 0.0
+             bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
+
+             if(orderModel.orderType == "DELIVERY") {
+
+             }else{
+
+             }
+
+             if(totalCardPaid > 0) {
+                 bind.cardPayContainer.visibility = View.VISIBLE
+                 bind.cardPay.text = "£ " + String.format( "%.2f",  totalCardPaid)
+             } else{
+                 bind.cardPayContainer.visibility = View.GONE
+             }
+             if(totalCashPaid > 0) {
+                 bind.cashPayContainer.visibility = View.VISIBLE
+                 bind.cashPay.text = "£ " + String.format( "%.2f",  totalCashPaid)
+             }else{
+                 bind.cashPayContainer.visibility = View.GONE
+             }
+
+
+
+
+
+
+             bind.total.text =
+                 "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
+             var dlAddress = "Service charge is not included\n\n"
+             if(businessdatadata.serviceCharge) {
+                 dlAddress = "Service charge is not included\n\n"
+             }else{
+                 dlAddress = "\n\n"
+             }
+
+
+
+             if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
+                 bind.vatNumberCompany.text = "VAT no ${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
+
+                 bind.vatNumberCompany.visibility = View.VISIBLE
+                 bind.vatNumberCompany.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
+             }else{
+                 bind.vatNumberCompany.visibility = View.GONE
+             }
+
+             if(!businessdatadata.vatNote.isNullOrEmpty() ) {
+                 bind.vatNote.text = "${businessdatadata.vatNote}"
+                 bind.vatNote.visibility = View.VISIBLE
+                 bind.vatNote.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
+             }else{
+                 bind.vatNote.visibility = View.GONE
+             }
+
+             val bitmaplist: Bitmap =  getBitmapFromView(bind.root)
+
+             return  bitmaplist;
+         }
 
 
          fun groupOrderPrintView(itemproduict: List<OrderData.OrderProduct?>?) : View {
@@ -1718,8 +1979,14 @@ class orderPrinterService(
                  val ButcherorderBitmap = ButcherOrderPrint()
                  return ButcherorderBitmap;
              }else{
-                 val orderBitmap = eposWaiterorderPrint()
-                 return orderBitmap
+                 if(businessdatadata.invoice_type == "GROCERY") {
+                     val orderBitmap =  groceryInvoice()
+                     return orderBitmap
+                 }else{
+                     val orderBitmap = eposWaiterorderPrint()
+                     return orderBitmap
+                 }
+
              }
          }
 

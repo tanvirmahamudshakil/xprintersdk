@@ -83,9 +83,12 @@ class PrinterBusinessModel {
   int yuma_netamount_length;
   int yuma_weight_length;
   int yuma_totalprice_length;
+  String invoice_type;
+  String business_email;
 
   PrinterBusinessModel({
     this.fontSize,
+    required this.business_email,
     required this.yuma_productid_length,
     required this.yuma_netamount_length,
 
@@ -113,6 +116,7 @@ class PrinterBusinessModel {
     this.serviceCharge = false,
     this.header3Size,
     this.header4Size,
+
     this.dpi,
     required this.highlighttextsize,
     required this.printOnDelivery,
@@ -160,10 +164,13 @@ class PrinterBusinessModel {
     required this.show_category_name,
     required this.barcode_text_show,
     required this.barcode_text_size,
+    required this.invoice_type,
   });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
     yuma_productid_length: json["yuma_productid_length"],
+    business_email: json["business_email"],
+    invoice_type: json["invoice_type"],
     yuma_netamount_length: json["yuma_netamount_length"],
     yuma_weight_length: json["yuma_weight_length"],
 
@@ -241,6 +248,8 @@ class PrinterBusinessModel {
   );
 
   Map<String, dynamic> toJson() => {
+    "invoice_type": invoice_type,
+    "business_email": business_email,
     "yuma_productid_length": yuma_productid_length,
     "yuma_netamount_length": yuma_netamount_length,
     "yuma_weight_length": yuma_weight_length,

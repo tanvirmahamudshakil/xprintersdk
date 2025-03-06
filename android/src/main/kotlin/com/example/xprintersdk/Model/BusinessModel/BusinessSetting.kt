@@ -155,6 +155,10 @@ data class BusinessSetting(
     var yuma_weight_length : Int,
     @SerializedName("yuma_totalprice_length")
     var yuma_totalprice_length : Int,
+    @SerializedName("invoice_type")
+    var invoice_type: String,
+    @SerializedName("business_email")
+    var business_email: String,
 
 
 

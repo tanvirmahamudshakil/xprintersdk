@@ -16,18 +16,6 @@
         android:gravity="center"
         android:id="@+id/rootViewPrint"
         >
-        <!--        <TextView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:text="REDMANGO"-->
-        <!--            android:textAlignment="center"-->
-        <!--            android:textSize="23sp"-->
-        <!--            android:textStyle="bold"-->
-        <!--            android:textColor="@color/black"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            android:id="@+id/logoTitle"-->
-        <!--            />-->
-
         <TextView
             android:id="@+id/businessName"
             android:layout_width="match_parent"

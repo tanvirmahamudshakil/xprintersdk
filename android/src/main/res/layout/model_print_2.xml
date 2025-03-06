@@ -18,10 +18,9 @@
             android:layout_height="wrap_content"
 
             android:textColor="@color/black"
-            android:layout_marginStart="10dp"
-            android:layout_marginBottom="3dp"
+
             android:textSize="18sp"
-            android:textStyle="bold"
+
             android:text="45651564156"
             />
         <TextView
@@ -31,7 +30,7 @@
             android:layout_weight="1"
             android:text="0.000 g"
             android:textSize="18sp"
-            android:textStyle="bold"
+
             android:layout_height="wrap_content"/>
 
         <TextView
@@ -43,7 +42,7 @@
             android:gravity="end"
             android:textColor="@color/black"
             android:textSize="18sp"
-            android:textStyle="bold"
+
             android:text="104.568"
             />
 
