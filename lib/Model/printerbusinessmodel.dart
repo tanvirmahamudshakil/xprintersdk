@@ -79,8 +79,19 @@ class PrinterBusinessModel {
   bool barcode_text_show;
   int barcode_text_size;
 
+  int yuma_productid_length;
+  int yuma_netamount_length;
+  int yuma_weight_length;
+  int yuma_totalprice_length;
+
   PrinterBusinessModel({
     this.fontSize,
+    required this.yuma_productid_length,
+    required this.yuma_netamount_length,
+
+    required this.yuma_weight_length,
+    required this.yuma_totalprice_length,
+
     required this.order_group,
     required this.barcode_dpi,
     required this.butcher_order_barcode_width,
@@ -152,6 +163,12 @@ class PrinterBusinessModel {
   });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
+    yuma_productid_length: json["yuma_productid_length"],
+    yuma_netamount_length: json["yuma_netamount_length"],
+    yuma_weight_length: json["yuma_weight_length"],
+
+    yuma_totalprice_length: json["yuma_totalprice_length"],
+
     order_group: json["order_group"],
     barcode_text_show: json["barcode_text_show"],
     barcode_text_size: json["barcode_text_size"],
@@ -224,6 +241,10 @@ class PrinterBusinessModel {
   );
 
   Map<String, dynamic> toJson() => {
+    "yuma_productid_length": yuma_productid_length,
+    "yuma_netamount_length": yuma_netamount_length,
+    "yuma_weight_length": yuma_weight_length,
+    "yuma_totalprice_length": yuma_totalprice_length,
     "branchNameShow": branchNameShow,
     "barcode_text_show": barcode_text_show,
     "barcode_text_size": barcode_text_size,

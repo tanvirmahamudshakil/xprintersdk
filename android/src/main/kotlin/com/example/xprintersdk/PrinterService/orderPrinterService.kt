@@ -1364,10 +1364,16 @@ class orderPrinterService(
                  }else{
                      bind.expirecontainer.visibility = View.GONE
                  }
-                 var netamount = String.format("%.2f", orderModel.orderProducts?.first()?.netAmount ?: 0.0)
-                 var totalPrice = String.format("%.2f", price)
+                 val productId = orderModel.orderProducts?.first()?.id.toString().padStart(businessdatadata.yuma_productid_length, '0')
+                 val netAmount = "${String.format("%.2f", orderModel.orderProducts?.first()?.netAmount ?: 0.0)}".replace(".", "").padStart(businessdatadata.yuma_netamount_length, '0')  // "0200"
+                 val weight = "${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}".padStart(businessdatadata.yuma_weight_length, '0')  // "05"
+                 val totalPrice = "${String.format("%.2f", price)}".replace(".", "").padStart(businessdatadata.yuma_totalprice_length, '0')
 
-                 barcode = "${orderModel.orderProducts?.first()?.id}-${netamount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${totalPrice}";
+                 //barcode = "${orderModel.orderProducts?.first()?.id}-${netamount}-${orderModel.orderProducts?.first()?.product?.property?.unit_amount ?: 0}-${totalPrice}";
+
+                 barcode = "${productId}${netAmount}${weight}${totalPrice}";
+
+
                  if(businessdatadata.barcode_text_show) {
                      bind.barcodeValue.visibility = View.VISIBLE
                      bind.barcodeValue.text = barcode

@@ -146,7 +146,15 @@ data class BusinessSetting(
     @SerializedName("barcode_text_show")
     var barcode_text_show: Boolean,
     @SerializedName("barcode_text_size")
-    var barcode_text_size: Int
+    var barcode_text_size: Int,
+    @SerializedName("yuma_productid_length")
+    var yuma_productid_length : Int,
+    @SerializedName("yuma_netamount_length")
+    var yuma_netamount_length : Int,
+    @SerializedName("yuma_weight_length")
+    var yuma_weight_length : Int,
+    @SerializedName("yuma_totalprice_length")
+    var yuma_totalprice_length : Int,
 
 
 
