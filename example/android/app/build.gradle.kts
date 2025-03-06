@@ -37,6 +37,13 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    packagingOptions {
+        resources {
+            excludes.add("resources.arsc")
+            excludes.add("AndroidManifest.xml")
+        }
+    }
 }
 
 flutter {
