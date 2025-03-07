@@ -159,6 +159,14 @@ data class BusinessSetting(
     var invoice_type: String,
     @SerializedName("business_email")
     var business_email: String,
+    @SerializedName("grocery_barcode_hight")
+    var grocery_barcode_hight: Int,
+    @SerializedName("grocery_barcode_width")
+    var grocery_barcode_width: Int,
+    @SerializedName("grocery_barcode_text_show")
+    var grocery_barcode_text_show: Boolean,
+    @SerializedName("grocery_barcode_text_size")
+    var grocery_barcode_text_size: Int,
 
 
 

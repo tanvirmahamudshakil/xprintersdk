@@ -1334,92 +1334,10 @@ class orderPrinterService(
                  }
              }
 
-             var paidOrNot = "";
-             if (orderModel.orderChannel?.uppercase() == "ONLINE") {
 
 
-
-                 if(orderModel.status?.uppercase() == "REFUNDED") {
-                     paidOrNot = "ORDER is REFUNDED"
-
-                 }else{
-                     if(orderModel.paymentType?.uppercase() == "CARD" || orderModel.paymentType?.uppercase() == "EPOS_CARD"){
-                         paidOrNot ="ORDER IS PAID"
-                     }else if(orderModel.paymentType?.uppercase() == "CASH" || orderModel.paymentType?.uppercase() == "EPOS_CASH") {
-                         if (orderModel.cashEntry == null || orderModel.cashEntry!!.isEmpty()){
-                             paidOrNot = "ORDER NOT PAID"
-
-                         }else{
-                             paidOrNot ="ORDER IS PAID"
-                         }
-                     }
-                 }
-             } else if (orderModel.orderChannel?.uppercase() != "ONLINE") {
-                 if(totalRefund > 0.0) {
-
-                 }else{
-
-                 }
-
-                 if(changeAmount > 0.0) {
-
-                 }else{
-
-                 }
-
-
-                 if(orderModel.status?.uppercase() == "REFUNDED") {
-                     paidOrNot = "ORDER is REFUND"
-
-
-                 } else if(totalRefund > 0.0) {
-                     paidOrNot = "ORDER is PARTIAL REFUND"
-
-                 } else{
-                     if(orderModel.cashEntry != null && orderModel.cashEntry!!.isNotEmpty()) {
-                         paidOrNot ="ORDER IS PAID"
-
-                     }else{
-                         if(orderModel.paymentType?.uppercase() == "UNPAID_CASH") {
-                             paidOrNot ="ORDER IS UNPAID(CASH)"
-
-                             //"£ " + String.format("%.2f", orderModel.payableAmount)
-                         }else if(orderModel.paymentType?.uppercase() == "UNPAID_CARD") {
-                             paidOrNot ="ORDER IS UNPAID(CARD)"
-
-                             //"£ " + String.format("%.2f", orderModel.payableAmount)
-                         }else{
-                             paidOrNot = "ORDER NOT PAID"
-
-                             //"£ " + String.format("%.2f", orderModel.payableAmount)
-                         }
-                     }
-                 }
-
-             } else  {
-                 paidOrNot = "ORDER NOT PAID"
-
-                 //"£ " + String.format("%.2f", orderModel.payableAmount)
-             }
-//             else if (orderModel.orderChannel!!.uppercase() == "ONLINE" && orderModel.paymentType!!.uppercase() == "CASH") {
-//                 if (orderModel.cashEntry!!.isEmpty()){
-//                     paidOrNot = "ORDER NOT PAID"
-//                     bind.dueTotalContainer.visibility = View.VISIBLE
-//                     bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
-//                 }else{
-//                     paidOrNot ="ORDER IS PAID"
-//                 }
-//             }
-
-//             bind.refundContainer.visibility = View.GONE
              val subTotal: Double = orderModel.netAmount ?: 0.0
              bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
-
-             if(orderModel.orderType == "DELIVERY") {
-
-             }else{
-
-             }
 
              if(totalCardPaid > 0) {
                  bind.cardPayContainer.visibility = View.VISIBLE
@@ -1435,23 +1353,12 @@ class orderPrinterService(
              }
 
 
-
-
-
-
              bind.total.text =
                  "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
-             var dlAddress = "Service charge is not included\n\n"
-             if(businessdatadata.serviceCharge) {
-                 dlAddress = "Service charge is not included\n\n"
-             }else{
-                 dlAddress = "\n\n"
-             }
-
 
 
              if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
-                 bind.vatNumberCompany.text = "VAT no ${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
+                 bind.vatNumberCompany.text = "VAT Number: ${businessdatadata.vatNumber}"
 
                  bind.vatNumberCompany.visibility = View.VISIBLE
                  bind.vatNumberCompany.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
@@ -1465,6 +1372,41 @@ class orderPrinterService(
                  bind.vatNote.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
              }else{
                  bind.vatNote.visibility = View.GONE
+             }
+
+
+
+
+
+
+
+
+
+             var widthd = businessdatadata.grocery_barcode_width;
+             var heightd = businessdatadata.grocery_barcode_hight;
+             var barcodeBitmap = barcodeSetting().generateBarcode(orderModel.orderUniqID.toString(),businessdatadata.barcode_dpi,widthd, heightd)    // genBarcode2(barcode)
+             val imageView = ImageView(context).apply {
+                 setImageBitmap(barcodeBitmap)
+
+                 // Set layout parameters if needed (e.g., dynamic width and height)
+                 layoutParams = ViewGroup.LayoutParams(
+                     ViewGroup.LayoutParams.WRAP_CONTENT,
+                     ViewGroup.LayoutParams.WRAP_CONTENT
+                 )
+             }
+//                var layoutParams = ViewGroup.LayoutParams(
+//                         businessdatadata.barcode_width?: 400,
+//                    businessdatadata.barcode_hight?: 100,
+//                     )
+             bind.barcodeItem.removeAllViews()
+             bind.barcodeItem.addView(imageView)
+
+             if(businessdatadata.barcode_text_show) {
+                 bind.barcodeValue.visibility = View.VISIBLE
+                 bind.barcodeValue.text = orderModel.orderUniqID.toString()
+                 bind.barcodeValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.barcode_text_size.toFloat())
+             }else{
+                 bind.barcodeValue.visibility = View.GONE
              }
 
              val bitmaplist: Bitmap =  getBitmapFromView(bind.root)

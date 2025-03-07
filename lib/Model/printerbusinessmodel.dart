@@ -85,9 +85,21 @@ class PrinterBusinessModel {
   int yuma_totalprice_length;
   String invoice_type;
   String business_email;
+  int grocery_barcode_hight;
+
+  int grocery_barcode_width;
+  bool grocery_barcode_text_show;
+
+  int grocery_barcode_text_size;
 
   PrinterBusinessModel({
     this.fontSize,
+    required this.grocery_barcode_hight,
+    required this.grocery_barcode_width,
+
+    required this.grocery_barcode_text_show,
+    required this.grocery_barcode_text_size,
+
     required this.business_email,
     required this.yuma_productid_length,
     required this.yuma_netamount_length,
@@ -168,6 +180,12 @@ class PrinterBusinessModel {
   });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
+    grocery_barcode_hight: json["grocery_barcode_hight"],
+    grocery_barcode_width: json["grocery_barcode_width"],
+    grocery_barcode_text_show: json["grocery_barcode_text_show"],
+
+    grocery_barcode_text_size: json["grocery_barcode_text_size"],
+
     yuma_productid_length: json["yuma_productid_length"],
     business_email: json["business_email"],
     invoice_type: json["invoice_type"],
@@ -249,6 +267,11 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
     "invoice_type": invoice_type,
+    "grocery_barcode_hight": grocery_barcode_hight,
+    "grocery_barcode_width": grocery_barcode_width,
+    "grocery_barcode_text_show": grocery_barcode_text_show,
+    "grocery_barcode_text_size": grocery_barcode_text_size,
+
     "business_email": business_email,
     "yuma_productid_length": yuma_productid_length,
     "yuma_netamount_length": yuma_netamount_length,

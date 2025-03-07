@@ -423,6 +423,11 @@ class _MyAppState extends State<MyApp> {
   }
 
   PrinterBusinessModel printermodel = PrinterBusinessModel.fromJson({
+    "grocery_barcode_hight": 5,
+    "grocery_barcode_width": 30,
+    "grocery_barcode_text_show": true,
+    "grocery_barcode_text_size": 10,
+
     "yuma_productid_length": 8,
     "business_email": "yuma@tech.com",
     "invoice_type": "GROCERY",
