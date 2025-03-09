@@ -1561,7 +1561,7 @@ class orderPrinterService(
 
 
                  if(item?.product?.property?.expire_date != null ) {
-                     bind.expire.text = "Exp: ${item?.product?.property?.expire_date}"
+                     bind.expire.text = "${businessdatadata.expire_name} ${item?.product?.property?.expire_date}"
                      bind.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.expire_date_font?.toFloat() ?: 22f)
 
                  }else{

@@ -167,6 +167,8 @@ data class BusinessSetting(
     var grocery_barcode_text_show: Boolean,
     @SerializedName("grocery_barcode_text_size")
     var grocery_barcode_text_size: Int,
+    @SerializedName("expire_name")
+    var expire_name : String,
 
 
 
