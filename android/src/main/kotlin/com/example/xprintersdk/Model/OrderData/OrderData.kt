@@ -87,7 +87,9 @@ data class OrderData(
     @SerializedName("service_charge")
     var serviceCharge: Double?,
     @SerializedName("tips")
-    var tips: Double?
+    var tips: Double?,
+    @SerializedName("bestbeforeDate")
+    var bestbeforeDate: String?
 ) {
     @Keep
     data class PropertyXXX(

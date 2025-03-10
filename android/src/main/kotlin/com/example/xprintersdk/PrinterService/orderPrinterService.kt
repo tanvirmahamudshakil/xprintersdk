@@ -1403,7 +1403,7 @@ class orderPrinterService(
 
              if(businessdatadata.barcode_text_show) {
                  bind.barcodeValue.visibility = View.VISIBLE
-                 bind.barcodeValue.text = orderModel.orderUniqID.toString()
+                 bind.barcodeValue.text = "A${orderModel.orderUniqID}"
                  bind.barcodeValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.barcode_text_size.toFloat())
              }else{
                  bind.barcodeValue.visibility = View.GONE
@@ -1560,8 +1560,8 @@ class orderPrinterService(
                  bind.totalvalue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.item_price_font?.toFloat() ?: 22f)
 
 
-                 if(item?.product?.property?.expire_date != null ) {
-                     bind.expire.text = "${businessdatadata.expire_name} ${item?.product?.property?.expire_date}"
+                 if(!orderModel.bestbeforeDate.isNullOrEmpty() ) {
+                     bind.expire.text = "${businessdatadata.expire_name} ${orderModel.bestbeforeDate}"
                      bind.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.expire_date_font?.toFloat() ?: 22f)
 
                  }else{
