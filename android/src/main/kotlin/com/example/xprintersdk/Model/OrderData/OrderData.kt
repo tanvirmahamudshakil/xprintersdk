@@ -8,7 +8,7 @@ import androidx.annotation.Keep
 data class OrderData(
     @SerializedName("barcode")
     val barcode: String?,
-    @SerializedName("tableUniqID")
+    @SerializedName("epos_unique_id")
     val orderUniqID: Long,
     @SerializedName("branch")
     val branch: Branch?,
