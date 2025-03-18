@@ -92,6 +92,7 @@ class PrinterBusinessModel {
 
   int grocery_barcode_text_size;
   String expire_name;
+  bool starter_group;
 
   PrinterBusinessModel({
     this.fontSize,
@@ -179,10 +180,12 @@ class PrinterBusinessModel {
     required this.barcode_text_show,
     required this.barcode_text_size,
     required this.invoice_type,
+    required this.starter_group,
   });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
     expire_name: json["expire_name"],
+    starter_group: json["starter_group"],
     grocery_barcode_hight: json["grocery_barcode_hight"],
     grocery_barcode_width: json["grocery_barcode_width"],
     grocery_barcode_text_show: json["grocery_barcode_text_show"],
@@ -270,6 +273,7 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
     "invoice_type": invoice_type,
+    "starter_group": starter_group,
     "expire_name": expire_name,
     "grocery_barcode_hight": grocery_barcode_hight,
     "grocery_barcode_width": grocery_barcode_width,

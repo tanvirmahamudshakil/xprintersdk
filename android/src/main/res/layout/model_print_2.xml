@@ -6,16 +6,6 @@
     android:orientation="vertical"
     android:layout_marginBottom="10dp"
     >
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/underLine"
-        android:text="sdbsdhvsd"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:visibility="gone"
-        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -57,6 +47,12 @@
             />
 
     </LinearLayout>
-
+    <ImageView
+        android:layout_width="400dp"
+        android:layout_height="5dp"
+        android:id="@+id/underLine"
+        android:src="@drawable/dotted"
+        android:visibility="gone"
+        />
 
 </LinearLayout>
