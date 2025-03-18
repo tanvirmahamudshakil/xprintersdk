@@ -984,7 +984,7 @@ class orderPrinterService(
 
              } else if (businessdatadata.starter_group) {
                  val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
-                 val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.product_group_sort?.toInt() ?: 0 })
+                 val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
                  val groupProduct = sortIteam?.groupBy { it?.product?.property?.printorder }
                  if (!groupProduct.isNullOrEmpty()) {
                      for ((key, productList) in groupProduct) {
