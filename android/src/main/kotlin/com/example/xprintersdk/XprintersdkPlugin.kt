@@ -243,7 +243,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     Log.d("Online Booking Request", "Online Booking Request: ${orderiteamdata}")
     var modeldata = Gson().fromJson<BookingRequest>(orderjson, BookingRequest::class.java)
     Log.d("Online Booking Request", "bookingRequestData: ${modeldata.name}")
-    RequestBookingprint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nyxPrinter).execute()
+    RequestBookingprint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nyxPrinter, printer80).execute()
   }
 
   private fun dailyReportPrint(call: MethodCall, result : Result) {
@@ -302,7 +302,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     val modeldata = Gson().fromJson<ReturnModel>(orderjson, ReturnModel::class.java)
 
-    ReturnPrint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nyxPrinter).execute()
+    ReturnPrint(context,modeldata, businessdata,xprinter, result, sunmiHelper, false, nyxPrinter,printer80).execute()
 
   }
 

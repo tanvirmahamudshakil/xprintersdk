@@ -141,13 +141,9 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
              binding.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductExpireFont?.toFloat() ?: 20.0f)
          }else{
              binding.expire.visibility = View.GONE
-
          }
-
-
          binding.price.text = "£${productPrint.price ?: "0.0"}"
          binding.price.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductPriceFont?.toFloat() ?: 20.0f)
-
          if(productPrint.barcode != null) {
              var widthd = businessdata.singleProductBarCodeWidth ?: 250;
              var heightd = businessdata.singleProductBarcodeHight ?: 100;

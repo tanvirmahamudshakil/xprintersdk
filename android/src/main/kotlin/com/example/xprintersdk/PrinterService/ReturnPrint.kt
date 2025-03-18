@@ -17,6 +17,7 @@ import com.example.xprintersdk.Model.BookingRequest.BookingRequest
 import com.example.xprintersdk.Model.BusinessModel.BusinessSetting
 import com.example.xprintersdk.Model.ReturnModel.ReturnModel
 import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
+import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.BookingrequestuiBinding
 import com.example.xprintersdk.databinding.ReturnPrintBinding
@@ -28,12 +29,13 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class ReturnPrint(mcontext: Context, returnprint: ReturnModel, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp) : AsyncTask<String, Int, Bitmap>() {
+class ReturnPrint(mcontext: Context, returnprint: ReturnModel, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp, printer80D : printer80) : AsyncTask<String, Int, Bitmap>() {
 
     private var context: Context
     private  var propertyrReturnprint: ReturnModel
     private  var businessname: String
     private  var businessaddress: String
+    private var printer80: printer80
     private  var businessphone: String
     private var fontsize: Int = 30
     private var noofprint: Int =1
@@ -45,6 +47,7 @@ class ReturnPrint(mcontext: Context, returnprint: ReturnModel, businessdata: Bus
     private var nyxprinter: NyxprinterHelp
     init {
         context = mcontext;
+        printer80 = printer80D
         propertyrReturnprint = returnprint;
         serviceBinding = mserviceBinding;
         this.businessname = businessdata.businessname!!;
@@ -128,6 +131,11 @@ class ReturnPrint(mcontext: Context, returnprint: ReturnModel, businessdata: Bus
                 serviceBinding.printUSBbitamp(bitmap,result);
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!, result)
+            } else if (businessdatadata.selectPrinter!!.lowercase() == "printer80") {
+                if (bitmap != null) {
+                    printer80.printBitmap(bitmap)
+                    result.success(true)
+                };
             } else{
                 sunmiPrinter.printBitmap(bitmap, 2, result)
             }
