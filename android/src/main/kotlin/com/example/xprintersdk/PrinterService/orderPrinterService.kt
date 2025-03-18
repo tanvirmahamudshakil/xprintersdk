@@ -273,6 +273,8 @@ class orderPrinterService(
                  if ((listorderProducts!![position]?.product?.property?.printorder?.toInt()
                          ?: 0) < (listorderProducts[position + 1]?.product?.property?.printorder?.toInt()
                          ?: 0)) {
+                     binding.underLine.text = item?.product?.property?.printorder
+                     binding.underLine.setTextSize(TypedValue.COMPLEX_UNIT_SP, (header3.toFloat() - 5))
                      binding.underLine.visibility = View.VISIBLE
                  }
              }
