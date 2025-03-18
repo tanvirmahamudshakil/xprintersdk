@@ -269,13 +269,13 @@ class orderPrinterService(
 //                 price = (item?.netAmount ?: 0.0)
 //             }
              var discount = item?.discountableAmount ?: 0.0;
-             if (position < iteamLength - 1) {
-                 if ((listorderProducts!![position]?.product?.property?.printorder?.toInt()
-                         ?: 0) < (listorderProducts[position + 1]?.product?.property?.printorder?.toInt()
-                         ?: 0)) {
-                     binding.underLine.visibility = View.VISIBLE
-                 }
-             }
+//             if (position < iteamLength - 1) {
+//                 if ((listorderProducts!![position]?.product?.property?.printorder?.toInt()
+//                         ?: 0) < (listorderProducts[position + 1]?.product?.property?.printorder?.toInt()
+//                         ?: 0)) {
+//                     binding.underLine.visibility = View.VISIBLE
+//                 }
+//             }
              if (!component.isNullOrEmpty()) {
                  if (businessdatadata.show_category_name && item?.categoryName != null){
                      if(businessdatadata.invoice_type == "GROCERY") {
