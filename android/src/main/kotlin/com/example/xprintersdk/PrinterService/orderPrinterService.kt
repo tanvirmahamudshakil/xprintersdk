@@ -224,7 +224,7 @@ class orderPrinterService(
              var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
              if(kitchenPrint) {
                  binding.unitValue.visibility = View.GONE
-                 binding.unitValue.visibility = View.GONE
+                 binding.itemPrice.visibility = View.GONE
              }
 
              if(orderModel.orderChannel?.uppercase() == "ONLINE") {
