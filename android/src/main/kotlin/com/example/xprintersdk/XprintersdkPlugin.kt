@@ -71,8 +71,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
   private var printer80Printinitalize = "printer80Printinitalize"
 
-  private var kitchenPrint = "kitchenPrint"
 
+  private var kitchenPrint = "kitchenPrint"
+  private var kitchenPrintImageGallay = "kitchenPrintImageGallay"
 
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -145,6 +146,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       printer80Init(call, result)
     } else if (call.method == kitchenPrint) {
       kitchenPrint(call, result)
+    } else if (call.method == kitchenPrintImageGallay) {
+      kitchenPrintImageGallay(call, result)
     }
     else {
       result.notImplemented()
@@ -364,6 +367,15 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
     orderPrinterService(context,modeldata, businessdata,xprinter, result, sunmiHelper, false,nyxPrinter, labelPrinter,printer80, false, true).execute()
+  }
+
+  fun kitchenPrintImageGallay(call: MethodCall, result : Result) {
+    val orderiteamdata = call.argument<Map<String, Any>>("orderiteam")
+    val printerbusinessdata = call.argument<String>("printer_model_data")
+    val orderjson = Gson().toJson(orderiteamdata)
+    val businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+    val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
+    orderPrinterService(context,modeldata, businessdata,xprinter, result, sunmiHelper, true,nyxPrinter, labelPrinter,printer80, false, true).execute()
   }
 
 

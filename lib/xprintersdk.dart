@@ -38,6 +38,7 @@ class Xprintersdk {
 
   final String _printer80Printinitalize = "printer80Printinitalize";
   final String _kitchenPrint = "kitchenPrint";
+  final String _kitchenPrintImageGallay = "kitchenPrintImageGallay";
 
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');
@@ -156,6 +157,11 @@ class Xprintersdk {
   Future kitchenPrint({required PrinterBusinessModel printermodel, required Map<String, Object?> orderiteam}) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_kitchenPrint, quary);
+  }
+
+  Future kitchenPrintImageGallay({required PrinterBusinessModel printermodel, required Map<String, Object?> orderiteam}) async {
+    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
+    return await _methodChannel.invokeMethod(_kitchenPrintImageGallay, quary);
   }
 
   Future productPrint({required PrinterBusinessModel printermodel, required ProductPrint productprint}) async {

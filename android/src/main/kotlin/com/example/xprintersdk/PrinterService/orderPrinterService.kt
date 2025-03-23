@@ -226,7 +226,7 @@ class orderPrinterService(
                  binding.unitValue.visibility = View.GONE
                  binding.unitValue.visibility = View.GONE
              }
-             
+
              if(orderModel.orderChannel?.uppercase() == "ONLINE") {
                  component = item?.components;
              } else {
