@@ -59,7 +59,8 @@ class orderPrinterService(
     nyxp : NyxprinterHelp,
     labelPrinter : LabelPrinter,
     printer80D : printer80,
-    var barcodePrint: Boolean?
+    var barcodePrint: Boolean?,
+    var kitchenPrint : Boolean,
     ) : AsyncTask<String, Int, Bitmap>()
      {
          private var context: Context
@@ -221,8 +222,11 @@ class orderPrinterService(
              val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
              var  component: List<OrderData.OrderProduct.Component?>?
              var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
-
-
+             if(kitchenPrint) {
+                 binding.unitValue.visibility = View.GONE
+                 binding.unitValue.visibility = View.GONE
+             }
+             
              if(orderModel.orderChannel?.uppercase() == "ONLINE") {
                  component = item?.components;
              } else {

@@ -117,10 +117,8 @@ data class BusinessSetting(
     val singleProductExpireFont: Int?,
     @SerializedName("singleProductPrintHight")
     val singleProductPrintHight: Int?,
-
     @SerializedName("singleProductBarcodeHight")
     val singleProductBarcodeHight: Int?,
-
     @SerializedName("singleProductBarCodeWidth")
     val singleProductBarCodeWidth: Int?,
     @SerializedName("maxItemPrint")

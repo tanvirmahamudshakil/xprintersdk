@@ -37,6 +37,7 @@ class Xprintersdk {
   final String _butcherStickerImageSave = "butcherStickerImageSave";
 
   final String _printer80Printinitalize = "printer80Printinitalize";
+  final String _kitchenPrint = "kitchenPrint";
 
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');
@@ -64,26 +65,17 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_xPrinterConnect, quary);
   }
 
-  Future XPrinterPrintOnLineData(
-    PrinterBusinessModel printermodel,
-    Map<String, Object?> orderiteam,
-  ) async {
+  Future XPrinterPrintOnLineData(PrinterBusinessModel printermodel, Map<String, Object?> orderiteam) async {
     Map<String, dynamic> quary = {"orderiteam": orderiteam, "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_xPrinterPrintOnlineData, quary);
   }
 
-  Future XPrinterPrintLocalData(
-    PrinterBusinessModel printermodel,
-    Map<String, Object?> orderiteam,
-  ) async {
+  Future XPrinterPrintLocalData(PrinterBusinessModel printermodel, Map<String, Object?> orderiteam) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_xPrinterPrintLocalData, quary);
   }
 
-  Future sunmiPrintBitmap(
-    PrinterBusinessModel printermodel,
-    Map<String, Object?> orderiteam,
-  ) async {
+  Future sunmiPrintBitmap(PrinterBusinessModel printermodel, Map<String, Object?> orderiteam) async {
     Map<String, dynamic> quary = {"orderiteam": orderiteam, "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_sunmiPrint, quary);
   }
@@ -96,18 +88,12 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_nyxPrinterCheck);
   }
 
-  Future nyxPrinterPrintBitmap(
-    PrinterBusinessModel printermodel,
-    Map<String, Object?> orderiteam,
-  ) async {
+  Future nyxPrinterPrintBitmap(PrinterBusinessModel printermodel, Map<String, Object?> orderiteam) async {
     Map<String, dynamic> quary = {"orderiteam": orderiteam, "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_nyxPrinterPrint, quary);
   }
 
-  Future bitmapSave(
-    PrinterBusinessModel printermodel,
-    Map<String, Object?> orderiteam,
-  ) async {
+  Future bitmapSave(PrinterBusinessModel printermodel, Map<String, Object?> orderiteam) async {
     Map<String, dynamic> quary = {"orderiteam": orderiteam, "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_bitmapImageSave, quary);
   }
@@ -116,34 +102,22 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_sunmiPrinterCheck);
   }
 
-  Future bookingRequestPrint(
-    PrinterBusinessModel printermodel,
-    Map<String, Object?> bookingrequestIteam,
-  ) async {
+  Future bookingRequestPrint(PrinterBusinessModel printermodel, Map<String, Object?> bookingrequestIteam) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_xPrinterbookingRequest, quary);
   }
 
-  Future<bool> dailyReportPrint(
-    PrinterBusinessModel printermodel,
-    Map<String, Object?> bookingrequestIteam,
-  ) async {
+  Future<bool> dailyReportPrint(PrinterBusinessModel printermodel, Map<String, Object?> bookingrequestIteam) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_dailyreportPrint, quary);
   }
 
-  Future<bool> dailyReportImagePrint(
-    PrinterBusinessModel printermodel,
-    Map<String, Object?> bookingrequestIteam,
-  ) async {
+  Future<bool> dailyReportImagePrint(PrinterBusinessModel printermodel, Map<String, Object?> bookingrequestIteam) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(bookingrequestIteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_dailyreportImagePrint, quary);
   }
 
-  Future<bool> propertyShopReturnPrint(
-    PrinterBusinessModel printermodel,
-    Map<String, Object?> propertyreturnData,
-  ) async {
+  Future<bool> propertyShopReturnPrint(PrinterBusinessModel printermodel, Map<String, Object?> propertyreturnData) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(propertyreturnData)), "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_propertyReturnPrint, quary);
   }
@@ -164,10 +138,7 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_labelPrinterConnectUSB, quary);
   }
 
-  Future<bool> labelPrinterPrintBarCode({
-    required PrinterBusinessModel printermodel,
-    required Map<String, Object?> orderiteam,
-  }) async {
+  Future<bool> labelPrinterPrintBarCode({required PrinterBusinessModel printermodel, required Map<String, Object?> orderiteam}) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
 
     return await _methodChannel.invokeMethod(_labelPrinterPrintBarCode, quary);
@@ -177,47 +148,36 @@ class Xprintersdk {
     return await _methodChannel.invokeMethod(_labelPrinterConnection);
   }
 
-  Future printer80PrintImage({
-    required PrinterBusinessModel printermodel,
-    required Map<String, Object?> orderiteam,
-  }) async {
+  Future printer80PrintImage({required PrinterBusinessModel printermodel, required Map<String, Object?> orderiteam}) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_printer80PrintImage, quary);
   }
 
-  Future productPrint({
-    required PrinterBusinessModel printermodel,
-    required ProductPrint productprint,
-  }) async {
+  Future kitchenPrint({required PrinterBusinessModel printermodel, required Map<String, Object?> orderiteam}) async {
+    Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson())};
+    return await _methodChannel.invokeMethod(_kitchenPrint, quary);
+  }
+
+  Future productPrint({required PrinterBusinessModel printermodel, required ProductPrint productprint}) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(productprint.toJson())), "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_productPrint, quary);
   }
 
-  Future productPrintImage({
-    required PrinterBusinessModel printermodel,
-    required ProductPrint productprint,
-  }) async {
+  Future productPrintImage({required PrinterBusinessModel printermodel, required ProductPrint productprint}) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(productprint.toJson())), "printer_model_data": jsonEncode(printermodel.toJson())};
     return await _methodChannel.invokeMethod(_productPrintImage, quary);
   }
 
-  Future butcherItemStickerPrinter({
-    required PrinterBusinessModel printermodel,
-    required Map<String, Object?> orderiteam,
-    required bool barcode,
-  }) async {
+  Future butcherItemStickerPrinter({required PrinterBusinessModel printermodel, required Map<String, Object?> orderiteam, required bool barcode}) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson()), "barcode": barcode};
     return await _methodChannel.invokeMethod(_butcherItemStickerPrinter, quary);
   }
 
-  Future butcherItemStickerImagePrinter({
-    required PrinterBusinessModel printermodel,
-    required Map<String, Object?> orderiteam,
-    required bool barcode,
-  }) async {
+  Future butcherItemStickerImagePrinter({required PrinterBusinessModel printermodel, required Map<String, Object?> orderiteam, required bool barcode}) async {
     Map<String, dynamic> quary = {"orderiteam": jsonDecode(jsonEncode(orderiteam)), "printer_model_data": jsonEncode(printermodel.toJson()), "barcode": barcode};
     return await _methodChannel.invokeMethod(_butcherStickerImageSave, quary);
   }
+
   Future printer80Initalize() async {
     return await _methodChannel.invokeMethod(_printer80Printinitalize);
   }
