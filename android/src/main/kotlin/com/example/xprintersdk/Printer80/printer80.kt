@@ -1,6 +1,4 @@
 package com.example.xprintersdk.Printer80
-
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.hardware.usb.UsbDevice
@@ -15,7 +13,6 @@ import com.printer.sdk.PrinterInstance
 import com.printer.sdk.usb.USBPort
 
 class printer80(context: Context) {
-
     var mPrinter: PrinterInstance? = null
     private var mHandler : Handler?= null
     private var CONNECTED: Boolean = false;
@@ -29,8 +26,6 @@ class printer80(context: Context) {
             mHandler = object : Handler(Looper.getMainLooper()) {
                 override fun handleMessage(msg: Message) {
                     when (msg.what) {
-
-
                         Connect.SUCCESS -> {
                             CONNECTED = true;
                             Toast.makeText(mcontext, "Connect successfull", Toast.LENGTH_SHORT).show()
@@ -47,7 +42,6 @@ class printer80(context: Context) {
                             Toast.makeText(mcontext, "No Device Found", Toast.LENGTH_SHORT).show()
                             CONNECTED = false
                         }
-
                     }
                 }
             }
@@ -60,7 +54,6 @@ class printer80(context: Context) {
 
 
     fun connectedPrinter() {
-
         mPrinter?.initPrinter()
         connectionOpen()
     }
@@ -71,6 +64,7 @@ class printer80(context: Context) {
 
     fun connectionOpen() {
         mPrinter?.openConnection()
+
     }
 
     fun closeConnection() {

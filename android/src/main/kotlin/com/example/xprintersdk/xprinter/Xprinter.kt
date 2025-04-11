@@ -83,8 +83,6 @@ class Xprinter(mcontext : Context) {
 
         if (usbList != null && usbList.size > 0) {
             if (binder != null) {
-                binder!!.ClearBuffer()
-                
                 binder!!.ConnectUsbPort(context,usbList[0], object : TaskCallback {
                     override fun OnSucceed() {
                         result.success(true);

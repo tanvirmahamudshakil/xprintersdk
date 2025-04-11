@@ -1,0 +1,3 @@
+-dontwarn com.felhr.deviceids.**
+-dontwarn com.felhr.usbserial.**
+-dontwarn com.felhr.utils.**

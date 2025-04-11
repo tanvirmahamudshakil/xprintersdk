@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 
 import 'package:xprintersdk/Model/printerbusinessmodel.dart';
 import 'package:xprintersdk/xprintersdk.dart';
@@ -77,7 +79,37 @@ class _MyAppState extends State<MyApp> {
           "discountable": 1.0,
           "creator_id": 1,
           "creator_uuid": "9c870ba8-9807-4ece-8f91-55f6754396e5",
-          "property": {"expire_date": null, "product_group_sort": "1", "product_group": "", "platform": null, "unit_amount": "0", "master": "0", "epos_category": "bakery", "is_coupon": null, "category": "bakery", "featured": null, "unit_of_sale": "KG", "discount_type": null, "discount_value": null, "print_order": "10", "print_order_enable": "0", "purchase_price": null, "tare_weight": "0", "total_unit": null, "total_unit_price": null, "cost_price": null, "sale_price_without_tax": null, "sale_price_with_tax": null, "margin": null, "supplier": null, "orderCode": null, "sell_on_till": null, "unit_product_type": null, "unit_of_purchase": null, "available_to_butcher": "0"},
+          "property": {
+            "expire_date": null,
+            "product_group_sort": "1",
+            "product_group": "",
+            "platform": null,
+            "unit_amount": "0",
+            "master": "0",
+            "epos_category": "bakery",
+            "is_coupon": null,
+            "category": "bakery",
+            "featured": null,
+            "unit_of_sale": "KG",
+            "discount_type": null,
+            "discount_value": null,
+            "print_order": "10",
+            "print_order_enable": "0",
+            "purchase_price": null,
+            "tare_weight": "0",
+            "total_unit": null,
+            "total_unit_price": null,
+            "cost_price": null,
+            "sale_price_without_tax": null,
+            "sale_price_with_tax": null,
+            "margin": null,
+            "supplier": null,
+            "orderCode": null,
+            "sell_on_till": null,
+            "unit_product_type": null,
+            "unit_of_purchase": null,
+            "available_to_butcher": "0",
+          },
           "files": [],
         },
         "components": [],
@@ -112,7 +144,37 @@ class _MyAppState extends State<MyApp> {
           "discountable": 1.0,
           "creator_id": 1,
           "creator_uuid": "9c870ba8-9807-4ece-8f91-55f6754396e5",
-          "property": {"expire_date": null, "product_group_sort": "1", "product_group": "", "platform": null, "unit_amount": "0", "master": "0", "epos_category": "bakery", "is_coupon": null, "category": "bakery", "featured": null, "unit_of_sale": "KG", "discount_type": null, "discount_value": null, "print_order": "10", "print_order_enable": "0", "purchase_price": null, "tare_weight": "0", "total_unit": null, "total_unit_price": null, "cost_price": null, "sale_price_without_tax": null, "sale_price_with_tax": null, "margin": null, "supplier": null, "orderCode": null, "sell_on_till": null, "unit_product_type": null, "unit_of_purchase": null, "available_to_butcher": "0"},
+          "property": {
+            "expire_date": null,
+            "product_group_sort": "1",
+            "product_group": "",
+            "platform": null,
+            "unit_amount": "0",
+            "master": "0",
+            "epos_category": "bakery",
+            "is_coupon": null,
+            "category": "bakery",
+            "featured": null,
+            "unit_of_sale": "KG",
+            "discount_type": null,
+            "discount_value": null,
+            "print_order": "10",
+            "print_order_enable": "0",
+            "purchase_price": null,
+            "tare_weight": "0",
+            "total_unit": null,
+            "total_unit_price": null,
+            "cost_price": null,
+            "sale_price_without_tax": null,
+            "sale_price_with_tax": null,
+            "margin": null,
+            "supplier": null,
+            "orderCode": null,
+            "sell_on_till": null,
+            "unit_product_type": null,
+            "unit_of_purchase": null,
+            "available_to_butcher": "0",
+          },
           "files": [],
         },
         "components": [],
@@ -147,7 +209,37 @@ class _MyAppState extends State<MyApp> {
           "discountable": 1.0,
           "creator_id": 1,
           "creator_uuid": "9c870ba8-9807-4ece-8f91-55f6754396e5",
-          "property": {"expire_date": null, "product_group_sort": "1", "product_group": "", "platform": null, "unit_amount": "0", "master": "0", "epos_category": "bakery", "is_coupon": null, "category": "bakery", "featured": null, "unit_of_sale": "KG", "discount_type": null, "discount_value": null, "print_order": "10", "print_order_enable": "0", "purchase_price": null, "tare_weight": "0", "total_unit": null, "total_unit_price": null, "cost_price": null, "sale_price_without_tax": null, "sale_price_with_tax": null, "margin": null, "supplier": null, "orderCode": null, "sell_on_till": null, "unit_product_type": null, "unit_of_purchase": null, "available_to_butcher": "0"},
+          "property": {
+            "expire_date": null,
+            "product_group_sort": "1",
+            "product_group": "",
+            "platform": null,
+            "unit_amount": "0",
+            "master": "0",
+            "epos_category": "bakery",
+            "is_coupon": null,
+            "category": "bakery",
+            "featured": null,
+            "unit_of_sale": "KG",
+            "discount_type": null,
+            "discount_value": null,
+            "print_order": "10",
+            "print_order_enable": "0",
+            "purchase_price": null,
+            "tare_weight": "0",
+            "total_unit": null,
+            "total_unit_price": null,
+            "cost_price": null,
+            "sale_price_without_tax": null,
+            "sale_price_with_tax": null,
+            "margin": null,
+            "supplier": null,
+            "orderCode": null,
+            "sell_on_till": null,
+            "unit_product_type": null,
+            "unit_of_purchase": null,
+            "available_to_butcher": "0",
+          },
           "files": [],
         },
         "components": [],
@@ -182,7 +274,37 @@ class _MyAppState extends State<MyApp> {
           "discountable": 1.0,
           "creator_id": 1,
           "creator_uuid": "9c870ba8-9807-4ece-8f91-55f6754396e5",
-          "property": {"expire_date": null, "product_group_sort": "1", "product_group": "", "platform": null, "unit_amount": "0", "master": "0", "epos_category": "bakery", "is_coupon": null, "category": "bakery", "featured": null, "unit_of_sale": "KG", "discount_type": null, "discount_value": null, "print_order": "10", "print_order_enable": "0", "purchase_price": null, "tare_weight": "0", "total_unit": null, "total_unit_price": null, "cost_price": null, "sale_price_without_tax": null, "sale_price_with_tax": null, "margin": null, "supplier": null, "orderCode": null, "sell_on_till": null, "unit_product_type": null, "unit_of_purchase": null, "available_to_butcher": "0"},
+          "property": {
+            "expire_date": null,
+            "product_group_sort": "1",
+            "product_group": "",
+            "platform": null,
+            "unit_amount": "0",
+            "master": "0",
+            "epos_category": "bakery",
+            "is_coupon": null,
+            "category": "bakery",
+            "featured": null,
+            "unit_of_sale": "KG",
+            "discount_type": null,
+            "discount_value": null,
+            "print_order": "10",
+            "print_order_enable": "0",
+            "purchase_price": null,
+            "tare_weight": "0",
+            "total_unit": null,
+            "total_unit_price": null,
+            "cost_price": null,
+            "sale_price_without_tax": null,
+            "sale_price_with_tax": null,
+            "margin": null,
+            "supplier": null,
+            "orderCode": null,
+            "sell_on_till": null,
+            "unit_product_type": null,
+            "unit_of_purchase": null,
+            "available_to_butcher": "0",
+          },
           "files": [],
         },
         "components": [],
@@ -197,8 +319,28 @@ class _MyAppState extends State<MyApp> {
     ],
     "requester": null,
     "requester_guest": null,
-    "shipping_address": {"id": null, "name": null, "type": null, "creator_type": null, "creator_id": null, "status": null, "created_at": null, "updated_at": null, "prop": null},
-    "waiterInfo": {"firstName": "Admin", "id": 0, "role": "ADMIN", "lastName": "", "phone": "admin", "password": "0000", "orderList": [], "loginTime": "2025-03-06 05:43:39", "logoutTime": "2025-03-06 05:43:39"},
+    "shipping_address": {
+      "id": null,
+      "name": null,
+      "type": null,
+      "creator_type": null,
+      "creator_id": null,
+      "status": null,
+      "created_at": null,
+      "updated_at": null,
+      "prop": null,
+    },
+    "waiterInfo": {
+      "firstName": "Admin",
+      "id": 0,
+      "role": "ADMIN",
+      "lastName": "",
+      "phone": "admin",
+      "password": "0000",
+      "orderList": [],
+      "loginTime": "2025-03-06 05:43:39",
+      "logoutTime": "2025-03-06 05:43:39",
+    },
     "order_files": [],
     "prescriber": null,
     "payment": null,
@@ -221,17 +363,13 @@ class _MyAppState extends State<MyApp> {
 
   labelPrinterInit() async {
     _xprintersdkPlugin.XprinterInitialization();
-    // _xprintersdkPlugin.bitmapSave(printermodel, ordermodeldata);
   }
 
-  getUsbList() async {
-    // usbList = await _xprintersdkPlugin.getLabelPrinterUsbList();
-    // setState(() {});
-    // var connect = await _xprintersdkPlugin.XPrinterConnect(printermodel);
-    // if (connect) {
-    //   _xprintersdkPlugin.XPrinterPrintOnLineData(printermodel, ordermodeldata);
-    // }
-    //_xprintersdkPlugin.bitmapSave(printermodel, ordermodeldata);
+  getUsbList() async {}
+
+  Future xprinterConnectionCheck() async {
+    var connected = await _xprintersdkPlugin.XPrinterConnect(printermodel);
+    Get.showSnackbar(GetSnackBar(title: "Status", message: "printer connection status ${connected}"));
   }
 
   @override
@@ -240,182 +378,37 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  // Platform messages are asynchronous, so we initialize in an async method.
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('Plugin example app')),
         body: Column(
           children: [
+            MaterialButton(
+              onPressed: () {
+                labelPrinterInit();
+              },
+              child: Text("Printer init"),
+            ),
+            MaterialButton(
+              onPressed: () {
+                xprinterConnectionCheck();
+              },
+              child: Text("Printer connect status"),
+            ),
+            MaterialButton(
+              onPressed: () {
+                xprinterConnectionCheck();
+              },
+              child: Text("Printer connect status"),
+            ),
             MaterialButton(
               onPressed: () async {
                 await _xprintersdkPlugin.bitmapSave(printermodel, ordermodeldata);
               },
               child: Text("Print image"),
             ),
-            // Padding(padding: const EdgeInsets.all(8.0), child: Text("Select Usb: ${selectUsb}")),
-            // SizedBox(height: 50),
-            // MaterialButton(
-            //   onPressed: () {
-            //     labelPrinterInit();
-            //   },
-            //   child: Text("Label Printer Init"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () {
-            //     getUsbList();
-            //   },
-            //   child: Text("Get All Usb List"),
-            // ),
-
-            // DropdownButtonFormField(
-            //   items: List.generate(usbList.length, (index) {
-            //     var d = usbList[index];
-            //     return DropdownMenuItem(value: d, child: Text(d));
-            //   }),
-            //   onChanged: (value) {
-            //     selectUsb = value!;
-            //     setState(() {});
-            //   },
-            // ),
-            // MaterialButton(
-            //   onPressed: () {
-            //     _xprintersdkPlugin.labelPrinterUSbConnect(path_name: selectUsb);
-            //   },
-            //   child: Text("Connect Label Printer"),
-            // ),
-
-            // MaterialButton(
-            //   onPressed: () {
-            //     // _xprintersdkPlugin.labelPrinterPrintBarCode();
-            //   },
-            //   child: Text("Label Printer Bar Code"),
-            // ),
-
-            // MaterialButton(
-            //   onPressed: () {
-            //     var d = _xprintersdkPlugin.labelPrinterConnect();
-            //     print("flutter lavel Printer ${d}");
-            //   },
-            //   child: Text("Label Printer Connect Check"),
-            // ),
-
-            // MaterialButton(
-            //   onPressed: () async {
-            //     _xprintersdkPlugin.nyxPrinterInit();
-            //   },
-            //   child: const Text("NyxPrinter init"),
-            // ),
-
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.checkNyxPrinter();
-            //     print(data.toString());
-            //   },
-            //   child: const Text("NyxPrinter Check"),
-            // ),
-
-            // MaterialButton(
-            //   onPressed: () async {
-            //     _xprintersdkPlugin.nyxPrinterPrintBitmap(printermodel, order2);
-            //   },
-            //   child: const Text("NyxPrinter print order"),
-            // ),
-
-            // MaterialButton(
-            //     onPressed: () {
-            //       _xprintersdkPlugin.XprinterInitialization();
-            //     },
-            //     child: const Text("Xprinter Initialization")),
-            // MaterialButton(
-            //     onPressed: () async {
-            //       var data = await _xprintersdkPlugin.XPrinterConnectionCheck();
-            //       print(data);
-            //     },
-            //     child: const Text("Xprinter connection check")),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data =
-            //         await _xprintersdkPlugin.XPrinterConnect(printermodel);
-            //     print(data);
-            //   },
-            //   child: const Text("Xprinter connect"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(
-            //         printermodel, orderjson5);
-            //     print(data);
-            //   },
-            //   child: const Text("Xprinter print"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.XPrinterPrintLocalData(
-            //         printermodel, localorder);
-            //   },
-            //   child: const Text("local print"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.sunmiPrinterServiceInitialization();
-            //   },
-            //   child: const Text("Sunmi Printer Service Init"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.sunmiPrinterInitialization();
-            //   },
-            //   child: const Text("Sunmi Printer Init"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.sunmiPrintBitmap(
-            //         printermodel, orderjson4);
-            //     print("${data}");
-            //     Future.delayed(const Duration(seconds: 2), () {
-            //       showDialog(
-            //           context: context,
-            //           builder: (_) {
-            //             return AlertDialog(
-            //               title: Text("sunmi print $data"),
-            //             );
-            //           });
-            //     });
-            //   },
-            //   child: const Text("Sunmi Print Bitmap"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.bitmapSave(printermodel, order2);
-            //   },
-            //   child: const Text("Bitmap Save"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.checkSunmiPrinter();
-            //     print(data.toString());
-            //   },
-            //   child: const Text("Sunmi Printer Check"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.bookingRequestPrint(
-            //         printermodel, bookingRequest);
-            //     print(data.toString());
-            //   },
-            //   child: const Text("Bookign Request print"),
-            // ),
-            // MaterialButton(
-            //   onPressed: () async {
-            //     var data = await _xprintersdkPlugin.dailyReportPrint(
-            //         printermodel, dailyReport);
-            //     print(data.toString());
-            //   },
-            //   child: const Text("Daily Report print"),
-            // )
           ],
         ),
       ),
@@ -423,11 +416,11 @@ class _MyAppState extends State<MyApp> {
   }
 
   PrinterBusinessModel printermodel = PrinterBusinessModel.fromJson({
+    "starter_group": true,
     "grocery_barcode_hight": 5,
     "grocery_barcode_width": 30,
     "grocery_barcode_text_show": true,
     "grocery_barcode_text_size": 10,
-
     "yuma_productid_length": 8,
     "business_email": "yuma@tech.com",
     "invoice_type": "GROCERY",
@@ -475,7 +468,7 @@ class _MyAppState extends State<MyApp> {
     "print_on_tackway_order": 1,
     "auto_print": true,
     "show_order_no_invoice": true,
-    "select_printer": "printer80",
+    "select_printer": "xprinter",
     "printer_connection": "usbconnection",
     "ip": "",
     "dpi": 203,
