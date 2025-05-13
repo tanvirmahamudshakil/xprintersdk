@@ -240,13 +240,13 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
 
 
         // epos cash
-        binding.EposCashAmount.text = dailyreport.data?.epos_cash_amount.toString()
+        binding.EposCashAmount.text = "£ "+ dailyreport.data?.epos_cash_amount.toString()
         binding.EposCashAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.eposcash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
 
         // epos card
-        binding.eposCardAmount.text = dailyreport.data?.epos_card_amount.toString()
+        binding.eposCardAmount.text = "£ "+ dailyreport.data?.epos_card_amount.toString()
         binding.eposCardAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.eposcard.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
@@ -254,13 +254,13 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
 
 
         // online card
-        binding.OnlineCardAmount.text = dailyreport.data?.online_card_amount.toString()
+        binding.OnlineCardAmount.text = "£ "+ dailyreport.data?.online_card_amount.toString()
         binding.OnlineCardAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.OnlineCard.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
 
         // online cash
-        binding.OnlineCashAmount.text = dailyreport.data?.online_cash_amount.toString()
+        binding.OnlineCashAmount.text ="£ "+ dailyreport.data?.online_cash_amount.toString()
         binding.OnlineCashAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.Onlinecash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
