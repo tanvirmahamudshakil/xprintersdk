@@ -13,6 +13,7 @@ import com.sunmi.peripheral.printer.InnerResultCallback
 import com.sunmi.peripheral.printer.SunmiPrinterService
 import com.sunmi.peripheral.printer.WoyouConsts
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.MethodChannel.Result
 
 class SunmiHelp {
     var NoSunmiPrinter = 0x00000000
@@ -450,14 +451,50 @@ class SunmiHelp {
      *
      * Reference to https://docs.sunmi.com/general-function-modules/external-device-debug/cash-box-driver/}
      */
-    fun openCashBox() {
-        if (sunmiPrinterService == null) {
-            //TODO Service disconnection processing
-            return
-        }
+    fun openCashBox(result : Result, context: Context?) {
         try {
-            sunmiPrinterService!!.openDrawer(null)
+            if (sunmiPrinterService == null) {
+                initSunmiPrinterService(context)
+                if (sunmiPrinterService != null) {
+                    sunmiPrinterService!!.openDrawer(object : InnerResultCallback() {
+                        override fun onRunResult(p0: Boolean) {
+                            result.success(p0)
+                        }
+
+                        override fun onReturnString(p0: String?) {
+                            Log.e("onReturnString", "${p0}")
+                        }
+
+                        override fun onRaiseException(p0: Int, p1: String?) {
+                            Log.e("onRaiseException", "${p0}")
+                        }
+
+                        override fun onPrintResult(p0: Int, p1: String?) {
+                            Log.e("onPrintResult", "${p0}")
+                        }
+                    })
+                }
+            }else{
+                sunmiPrinterService!!.openDrawer(object : InnerResultCallback() {
+                    override fun onRunResult(p0: Boolean) {
+                        result.success(p0)
+                    }
+
+                    override fun onReturnString(p0: String?) {
+                        Log.e("onReturnString", "${p0}")
+                    }
+
+                    override fun onRaiseException(p0: Int, p1: String?) {
+                        Log.e("onRaiseException", "${p0}")
+                    }
+
+                    override fun onPrintResult(p0: Int, p1: String?) {
+                        Log.e("onPrintResult", "${p0}")
+                    }
+                })
+            }
         } catch (e: RemoteException) {
+            result.success(false)
             handleRemoteException(e)
         }
     }

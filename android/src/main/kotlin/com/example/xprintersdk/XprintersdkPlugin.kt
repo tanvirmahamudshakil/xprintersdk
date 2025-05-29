@@ -74,6 +74,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
   private var kitchenPrint = "kitchenPrint"
   private var kitchenPrintImageGallay = "kitchenPrintImageGallay"
+  private var openCashDrawer = "openCashDrawer"
 
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -148,6 +149,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       kitchenPrint(call, result)
     } else if (call.method == kitchenPrintImageGallay) {
       kitchenPrintImageGallay(call, result)
+    } else if (call.method == openCashDrawer) {
+      openCshDrawerBox(call, result)
     }
     else {
       result.notImplemented()
@@ -164,6 +167,10 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private fun sunmiPrinterService(result: MethodChannel.Result) {
     sunmiHelper.initSunmiPrinterService(context)
     result.success(true)
+  }
+
+  private fun openCshDrawerBox(call: MethodCall, result : Result) {
+    sunmiHelper.openCashBox( result, context)
   }
 
   private fun xPrinterConnectionCheck(result: Result) {
