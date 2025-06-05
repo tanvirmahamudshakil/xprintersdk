@@ -48,6 +48,8 @@ class printer80(context: Context) {
 
             mPrinter = PrinterInstance.getPrinterInstance(mcontext, device, mHandler);
             connectedPrinter()
+        }else{
+            Toast.makeText(mcontext, "device found null", Toast.LENGTH_SHORT).show()
         }
     }
 
