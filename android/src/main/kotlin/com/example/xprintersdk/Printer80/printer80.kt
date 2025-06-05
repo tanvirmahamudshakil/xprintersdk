@@ -79,18 +79,23 @@ class printer80(context: Context) {
 
 
     fun printBitmap(bitmap : Bitmap) {
-        mPrinter?.printImage(
-            bitmap,
-            PAlign.NONE,
-            0,
-            128
-        )
-        mPrinter?.cutPaper(65, 50)
+        if(mPrinter != null) {
+            mPrinter?.printImage(
+                bitmap,
+                PAlign.NONE,
+                0,
+                128
+            )
+            mPrinter?.cutPaper(65, 50)
+            Toast.makeText(mcontext, "successfully data send in printer80", Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(mcontext, "printer80 null. can not prinnt", Toast.LENGTH_SHORT).show()
+        }
     }
 
     fun GetUsbPathNames(context: Context): UsbDevice? {
         val usbManager = context.getSystemService(Context.USB_SERVICE) as UsbManager
-        val devices: HashMap<String, UsbDevice> = usbManager.getDeviceList()
+        val devices: HashMap<String, UsbDevice> = usbManager.deviceList
         if(devices.isNotEmpty()) {
             val usbList = devices.values.find { USBPort.isUsbPrinter(it) }
             return  usbList;
