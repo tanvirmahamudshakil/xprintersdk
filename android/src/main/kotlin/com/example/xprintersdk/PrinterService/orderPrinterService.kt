@@ -45,6 +45,7 @@ import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import kotlin.math.floor
 import kotlin.math.roundToInt
 
 
@@ -444,7 +445,16 @@ class orderPrinterService(
                          total =  p.toDouble()
                      }
 
-                 }else{
+                 } else if (item?.offer?.offer?.type == "%_DISCOUNT" && item?.offer?.offer?.status == 1){
+                     if(weightmultiplayprice) {
+                         var p = String.format("%.2f", persentDisocunt(item))
+                         total =  p.toDouble() * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+                     }else{
+                         var p = String.format("%.2f", persentDisocunt(item))
+                         total =  p.toDouble()
+                     }
+                 }
+                 else{
                      if(weightmultiplayprice) {
                          total = (((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble()) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight))
                      }else{
@@ -464,7 +474,11 @@ class orderPrinterService(
                      var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
                      total =  p.toDouble()
 
-                 }else{
+                 }  else if (item?.offer?.offer?.type == "%_DISCOUNT" && item?.offer?.offer?.status == 1) {
+                     var p = String.format("%.2f", persentDisocunt(item))
+                     total =  p.toDouble()
+
+                 } else{
                      total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
                  }
              }
@@ -537,7 +551,36 @@ class orderPrinterService(
 
          fun truncateToTwoDecimalPlaces(value: Double): Double {
              val factor = 100.0
-             return kotlin.math.floor(value * factor) / factor
+             return floor(value * factor) / factor
+         }
+
+         fun persentDisocunt(data: OrderData.OrderProduct) : Double {
+             val buy : Int = data.offer?.offer?.buy ?: 0
+             val forPound : Double = data.offer?.offer?.offerFor ?: 0.0
+             val unit: Int = data.unit ?: 1;
+             return  calculateDiscountTotalPrice(
+                 quantity = unit, unitPrice = data.netAmount ?: 0.0,
+                 discountPercent = forPound,
+                 discountPerQuantity = buy
+             )
+
+         }
+
+         fun calculateDiscountTotalPrice(
+             quantity: Int,
+             unitPrice: Double,
+             discountPercent: Double,
+             discountPerQuantity: Int
+         ): Double {
+             val discountedSets = quantity / discountPerQuantity // how many full groups
+             val nonDiscountedItems = quantity % discountPerQuantity
+
+             val discountedTotal = discountedSets * discountPerQuantity * unitPrice * (discountPercent / 100)
+             val nonDiscountedTotal = nonDiscountedItems * unitPrice
+
+
+
+             return discountedTotal + nonDiscountedTotal
          }
 
          fun xForPoundOfferLocalDetailOrder(data: OrderData.OrderProduct, listorderProducts: List<OrderData.OrderProduct?>?): Double {
