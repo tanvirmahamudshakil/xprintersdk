@@ -574,8 +574,8 @@ class orderPrinterService(
          ): Double {
              val discountedSets = quantity / discountPerQuantity // how many full groups
              val nonDiscountedItems = quantity % discountPerQuantity
-             var totalAmount = unitPrice * quantity
-             val discountedTotal = discountedSets * discountPerQuantity * unitPrice * (discountPercent / 100)
+             var totalAmount = discountedSets * discountPerQuantity * unitPrice
+             val discountedTotal =totalAmount * (discountPercent / 100)
              val nonDiscountedTotal = nonDiscountedItems * unitPrice
              return (totalAmount - discountedTotal) + nonDiscountedTotal
          }
