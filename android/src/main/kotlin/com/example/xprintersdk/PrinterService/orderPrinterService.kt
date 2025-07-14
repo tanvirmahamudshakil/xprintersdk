@@ -1503,17 +1503,19 @@ class orderPrinterService(
 
 
          fun getStarterName(printerorder : String) : String {
-            if(printerorder == "2") {
-                return "Starter";
-            }else if (printerorder == "3") {
-                return "Main Dish";
-            } else if (printerorder == "4") {
-                return  "Side Dish";
-            } else if (printerorder == "5") {
-                return  "Sundries";
-            } else{
-                return  "";
-            }
+             if(printerorder == "1") {
+                 return "Set Meal";
+             } else if(printerorder == "2") {
+                 return "Starter";
+             } else if (printerorder == "3") {
+                 return "Main Dish";
+             } else if (printerorder == "4") {
+                 return  "Side Dish";
+             } else if (printerorder == "5") {
+                 return  "Sundries";
+             } else{
+                 return  "Others";
+             }
          }
 
 
