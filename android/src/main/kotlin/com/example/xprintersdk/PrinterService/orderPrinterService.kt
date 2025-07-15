@@ -719,13 +719,13 @@ class orderPrinterService(
          }
 
 
-    fun compressBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int): ByteArray {
+         fun compressBitmap(bitmap: Bitmap, format: Bitmap.CompressFormat, quality: Int): ByteArray {
         val stream = ByteArrayOutputStream()
         bitmap.compress(format, quality, stream)
         return stream.toByteArray()
     }
 
-    fun byteArrayToBitmap(byteArray: ByteArray): Bitmap {
+         fun byteArrayToBitmap(byteArray: ByteArray): Bitmap {
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
