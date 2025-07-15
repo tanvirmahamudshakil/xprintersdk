@@ -194,6 +194,7 @@ class orderPrinterService(
              }
 
     }
+
          fun getResizedBitmap(originalBitmap: Bitmap, targetWidth: Int, targetHeight: Int): Bitmap {
              val ratioX = targetWidth.toFloat() / originalBitmap.width
              val ratioY = targetHeight.toFloat() / originalBitmap.height
@@ -566,12 +567,7 @@ class orderPrinterService(
 
          }
 
-         fun calculateDiscountTotalPrice(
-             quantity: Int,
-             unitPrice: Double,
-             discountPercent: Double,
-             discountPerQuantity: Int
-         ): Double {
+         fun calculateDiscountTotalPrice(quantity: Int, unitPrice: Double, discountPercent: Double, discountPerQuantity: Int): Double {
              val discountedSets = quantity / discountPerQuantity // how many full groups
              val nonDiscountedItems = quantity % discountPerQuantity
              var totalAmount = discountedSets * discountPerQuantity * unitPrice
@@ -1486,8 +1482,14 @@ class orderPrinterService(
 
          fun groupOrderPrintView(itemproduict: List<OrderData.OrderProduct?>?) : View {
              val bind: GroupPrintViewBinding = GroupPrintViewBinding.inflate(LayoutInflater.from(context))
-             bind.groupHeader.text = "${itemproduict?.first()?.product?.property?.product_group?.uppercase()}"
-             bind.groupHeader.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
+             if(businessdatadata.groupHeaderShow) {
+                 bind.groupHeader.visibility = View.VISIBLE
+                 bind.groupHeader.text = "${itemproduict?.first()?.product?.property?.product_group?.uppercase()}"
+                 bind.groupHeader.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
+             }else{
+                 bind.groupHeader.visibility = View.GONE
+             }
+
              val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
              bind.groupItem.removeAllViews()
              var allitemsheight = 0
@@ -1521,8 +1523,14 @@ class orderPrinterService(
 
          fun starterGroupView(itemproduict: List<OrderData.OrderProduct?>?) : View {
              val bind: GroupPrintViewBinding = GroupPrintViewBinding.inflate(LayoutInflater.from(context))
-             bind.groupHeader.text = getStarterName(itemproduict?.first()?.product?.property?.printorder ?: "0")
-             bind.groupHeader.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
+             if(businessdatadata.groupHeaderShow) {
+                 bind.groupHeader.visibility = View.VISIBLE
+                 bind.groupHeader.text = getStarterName(itemproduict?.first()?.product?.property?.printorder ?: "0")
+                 bind.groupHeader.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
+             }else{
+                 bind.groupHeader.visibility = View.GONE
+             }
+
              val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
              bind.groupItem.removeAllViews()
              var allitemsheight = 0

@@ -170,6 +170,9 @@ data class BusinessSetting(
     @SerializedName("starter_group")
     var starter_group : Boolean,
 
+    @SerializedName("groupHeaderShow")
+    var groupHeaderShow : Boolean,
+
 
 
 
