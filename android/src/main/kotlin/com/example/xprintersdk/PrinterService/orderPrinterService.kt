@@ -1008,8 +1008,10 @@ class orderPrinterService(
                  val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.product_group_sort?.toInt() ?: 0 })
                  val groupProduct = sortIteam?.groupBy { it?.product?.property?.product_group }
                  if (!groupProduct.isNullOrEmpty()) {
-                     for ((key, productList) in groupProduct) {
-                         val childView = groupOrderPrintView(productList)
+                     for ((index, entry) in groupProduct.entries.withIndex()) {
+                         val key = entry.key
+                         val productList = entry.value
+                         val childView = groupOrderPrintView(productList, index)
                          bind.items.addView(childView)
                          allitemsheight += childView.measuredHeight
                      }
@@ -1030,8 +1032,10 @@ class orderPrinterService(
                  val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
                  val groupProduct = sortIteam?.groupBy { it?.product?.property?.printorder }
                  if (!groupProduct.isNullOrEmpty()) {
-                     for ((key, productList) in groupProduct) {
-                         val childView = starterGroupView(productList)
+                     for ((index, entry) in groupProduct.entries.withIndex()) {
+                         val key = entry.key
+                         val productList = entry.value
+                         val childView = starterGroupView(productList, index)
                          bind.items.addView(childView)
                          allitemsheight += childView.measuredHeight
                      }
@@ -1370,8 +1374,10 @@ class orderPrinterService(
                  val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.product_group_sort?.toInt() ?: 1 })
                  val groupProduct = sortIteam?.groupBy { it?.product?.property?.product_group }
                  if (groupProduct != null) {
-                     for ((key, productList) in groupProduct) {
-                         val childView = groupOrderPrintView(productList)
+                     for ((index, entry) in groupProduct.entries.withIndex()) {
+                         val key = entry.key
+                         val productList = entry.value
+                         val childView = groupOrderPrintView(productList, index)
                          bind.items.addView(childView)
                          allitemsheight += childView.measuredHeight
                      }
@@ -1480,7 +1486,7 @@ class orderPrinterService(
          }
 
 
-         fun groupOrderPrintView(itemproduict: List<OrderData.OrderProduct?>?) : View {
+         fun groupOrderPrintView(itemproduict: List<OrderData.OrderProduct?>?,  index : Int) : View {
              val bind: GroupPrintViewBinding = GroupPrintViewBinding.inflate(LayoutInflater.from(context))
              if(businessdatadata.groupHeaderShow) {
                  bind.groupHeader.visibility = View.VISIBLE
@@ -1488,6 +1494,9 @@ class orderPrinterService(
                  bind.groupHeader.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
              }else{
                  bind.groupHeader.visibility = View.GONE
+                 if(index == 0) {
+                     bind.dotted.visibility = View.GONE
+                 }
              }
 
              val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
@@ -1521,7 +1530,7 @@ class orderPrinterService(
          }
 
 
-         fun starterGroupView(itemproduict: List<OrderData.OrderProduct?>?) : View {
+         fun starterGroupView(itemproduict: List<OrderData.OrderProduct?>?, index : Int) : View {
              val bind: GroupPrintViewBinding = GroupPrintViewBinding.inflate(LayoutInflater.from(context))
              if(businessdatadata.groupHeaderShow) {
                  bind.groupHeader.visibility = View.VISIBLE
@@ -1529,6 +1538,9 @@ class orderPrinterService(
                  bind.groupHeader.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
              }else{
                  bind.groupHeader.visibility = View.GONE
+                 if(index == 0) {
+                     bind.dotted.visibility = View.GONE
+                 }
              }
 
              val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
