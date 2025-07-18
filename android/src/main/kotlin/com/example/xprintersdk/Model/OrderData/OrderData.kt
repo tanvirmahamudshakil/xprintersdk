@@ -278,6 +278,8 @@ data class OrderData(
     data class OrderProduct(
         @SerializedName("comment")
         val comment: String?,
+        @SerializedName("category_id")
+        val categoryId: Int,
         @SerializedName("components")
         val components: List<Component?>?,
         @SerializedName("discountable_amount")

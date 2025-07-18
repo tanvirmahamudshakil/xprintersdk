@@ -114,6 +114,7 @@ class orderPrinterService(
     }
 
          var x_for_poundOfferApplyList  = mutableListOf<Int>();
+         var banquetOfferApplyCartList = mutableListOf<MutableMap<String, Any?>>()
 
 
          fun rotateBitmap180(bitmap: Bitmap): Bitmap {
@@ -427,7 +428,7 @@ class orderPrinterService(
                  item?.product?.property?.unit_amount?.toDouble() ?: 0.0
              }
 
-             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
+             if(!orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
                  if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
                      if(weightmultiplayprice) {
                          val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
@@ -463,7 +464,7 @@ class orderPrinterService(
                      }
                  }
 
-             }else{
+             }else if(!orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() != "WEIGHT") {
                  if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
 
                     val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
@@ -482,6 +483,9 @@ class orderPrinterService(
                  } else{
                      total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
                  }
+             } else if (orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() != "WEIGHT") {
+                 var p = getBanquetOfferForLocal(item, listorderProducts)
+                 total = ((total + (item?.netAmount ?: 0.0)) * (p).toDouble())
              }
 
              return total
@@ -490,69 +494,71 @@ class orderPrinterService(
 
          fun getBanquetOfferForLocal(item: OrderData.OrderProduct?, listorderProducts: List<OrderData.OrderProduct?>?
          ): Int {
-             val isOfferItem = businessdatadata.b .any { it.offerProductId == data.id }
+             val isOfferItem = businessdatadata.items?.any { it?.offerProductID == item?.id }
 
-             if (createOrder.itemList.firstOrNull()?.id == data.id) {
-                 createOrder.banquetOfferApplyCartList.clear()
+             if (listorderProducts?.firstOrNull()?.id == item?.id) {
+                 banquetOfferApplyCartList.clear()
              }
 
-             if (isOfferItem) {
-                 return data.unit ?: 1
+             if (isOfferItem == true) {
+                 return item?.unit ?: 1
              } else {
-                 val banquetOfferIndex = createOrder.allbnquetOffer.indexOfFirst {
-                     it.categoryId?.contains(data.category_id.toString()) == true
+                 val banquetOfferIndex = businessdatadata.items?.indexOfFirst {
+                     it?.categoryID?.contains(item?.categoryId.toString()) == true
                  }
 
                  if (banquetOfferIndex != -1) {
-                     val banquetOffer = createOrder.allbnquetOffer[banquetOfferIndex]
-                     val freeLimit = banquetOffer.freeQuantity ?: 0
+                     val banquetOffer = businessdatadata.items?.get(banquetOfferIndex!!)
+                     val freeLimit = banquetOffer?.freeQuantity ?: 0
 
-                     val isAvailableInCart = createOrder.itemList.filter {
-                         it.id == banquetOffer.offerProductId
+                     val isAvailableInCart = listorderProducts?.filter {
+                         it?.id == banquetOffer?.offerProductID
                      }
 
-                     if (isAvailableInCart.isNotEmpty()) {
-                         val offerProductQty = isAvailableInCart.first().unit ?: 1
+                     if (!isAvailableInCart.isNullOrEmpty()) {
+                         val offerProductQty = isAvailableInCart.first()?.unit ?: 1
                          val totalFreeLimit = freeLimit * offerProductQty
 
-                         val categoryIds = banquetOffer.categoryId
+                         val categoryIds = banquetOffer?.categoryID
                              ?.split(",")
                              ?.mapNotNull { it.toIntOrNull() }
                              ?: emptyList()
 
-                         val offerItems = createOrder.itemList.filter {
-                             categoryIds.contains(it.category_id)
+                         val offerItems = listorderProducts?.filter {
+                             categoryIds.contains(it?.categoryId)
                          }
 
                          var remainingFree = totalFreeLimit
-                         val currentItemId = data.id ?: 0
+                         val currentItemId = item?.id ?: 0
 
-                         for (item in offerItems) {
-                             val itemQty = item.unit ?: 1
-                             var freeForThisItem = 0
+                         if (offerItems != null) {
+                             for (item in offerItems) {
+                                 val itemQty = item?.unit ?: 1
+                                 var freeForThisItem = 0
 
-                             if (remainingFree > 0) {
-                                 freeForThisItem = if (itemQty <= remainingFree) itemQty else remainingFree
-                             }
+                                 if (remainingFree > 0) {
+                                     freeForThisItem = if (itemQty <= remainingFree) itemQty else remainingFree
+                                 }
 
-                             remainingFree -= freeForThisItem
+                                 remainingFree -= freeForThisItem
 
-                             val alreadyExists = createOrder.banquetOfferApplyCartList.any {
-                                 it["id"] == item.id
-                             }
+                                 val alreadyExists = banquetOfferApplyCartList.any {
+                                     it["id"] == item?.id
+                                 }
 
-                             if (!alreadyExists) {
-                                 createOrder.banquetOfferApplyCartList.add(
-                                     mutableMapOf(
-                                         "id" to item.id,
-                                         "freeQty" to freeForThisItem,
-                                         "totalQty" to itemQty
+                                 if (!alreadyExists) {
+                                     banquetOfferApplyCartList.add(
+                                         mutableMapOf(
+                                             "id" to item?.id,
+                                             "freeQty" to freeForThisItem,
+                                             "totalQty" to itemQty
+                                         )
                                      )
-                                 )
+                                 }
                              }
                          }
 
-                         val found = createOrder.banquetOfferApplyCartList.filter {
+                         val found = banquetOfferApplyCartList.filter {
                              it["id"] == currentItemId
                          }
 
@@ -563,13 +569,13 @@ class orderPrinterService(
                              println("sdnjbvjshdv $found---$paidQty")
                              return paidQty
                          } else {
-                             return data.unit ?: 1
+                             return item?.unit ?: 1
                          }
                      } else {
-                         return data.unit ?: 1
+                         return item?.unit ?: 1
                      }
                  } else {
-                     return data.unit ?: 1
+                     return item?.unit ?: 1
                  }
              }
          }

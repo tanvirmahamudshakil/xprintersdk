@@ -184,13 +184,13 @@ data class BusinessSetting(
     @Keep
     data class BanquetOfferElement (
         @SerializedName("id")
-        val id: Long,
+        val id: Int,
         @SerializedName("offer_product_id")
-        val offerProductID: Long,
+        val offerProductID: Int,
         @SerializedName("category_id")
         val categoryID: String,
         @SerializedName("free_quantity")
-        val freeQuantity: Long,
+        val freeQuantity: Int,
         @SerializedName("created_at")
         val createdAt: Any? = null,
         @SerializedName("updated_at")
