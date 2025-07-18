@@ -62,6 +62,7 @@ android {
         testImplementation 'org.mockito:mockito-core:5.1.0'
     }
 
+
     testOptions {
         unitTests.all {
             useJUnitPlatform()
@@ -74,6 +75,9 @@ android {
         }
     }
 }
+
+
+
 
 dependencies {
     implementation(files("libs/PosPrinterSDK.jar"))

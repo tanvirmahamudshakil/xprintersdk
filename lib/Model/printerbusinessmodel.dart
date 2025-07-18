@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:xprintersdk/Model/banquet_offer.dart';
+
 PrinterBusinessModel printerBusinessModelFromJson(String str) => PrinterBusinessModel.fromJson(json.decode(str));
 
 String printerBusinessModelToJson(PrinterBusinessModel data) => json.encode(data.toJson());
@@ -94,6 +96,7 @@ class PrinterBusinessModel {
   String expire_name;
   bool starter_group;
   bool groupHeaderShow;
+  List<BanquetOffer>? banquetoffer;
 
   PrinterBusinessModel({
     this.fontSize,
@@ -116,6 +119,7 @@ class PrinterBusinessModel {
     required this.branchNameShow,
     required this.butcherPrintStyle,
     required this.labelPrinterHight,
+    this.banquetoffer,
     this.labelPrinterWidth,
     required this.butcherStickerFont,
     this.barcode_hight,
@@ -182,6 +186,7 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
     expire_name: json["expire_name"],
+    banquetoffer: json["banquetoffer"] == null ? [] : List<BanquetOffer>.from(json["banquetoffer"]!.map((x) => BanquetOffer.fromJson(x))),
     groupHeaderShow: json["groupHeaderShow"],
     starter_group: json["starter_group"],
     grocery_barcode_hight: json["grocery_barcode_hight"],
@@ -267,6 +272,7 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
     "invoice_type": invoice_type,
+    "banquetoffer": banquetoffer == null ? [] : List<dynamic>.from(banquetoffer!.map((x) => x.toJson())),
     "groupHeaderShow": groupHeaderShow,
     "starter_group": starter_group,
     "expire_name": expire_name,

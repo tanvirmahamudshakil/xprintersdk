@@ -8,6 +8,9 @@ import androidx.annotation.Keep
 data class OrderData(
     @SerializedName("barcode")
     val barcode: String?,
+
+    @SerializedName("isOfferApply")
+    var isOfferApply: Boolean,
     @SerializedName("epos_unique_id")
     val orderUniqID: Long,
     @SerializedName("branch")

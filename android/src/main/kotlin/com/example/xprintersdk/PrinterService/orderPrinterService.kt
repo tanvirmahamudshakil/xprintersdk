@@ -487,6 +487,94 @@ class orderPrinterService(
              return total
          }
 
+
+         fun getBanquetOfferForLocal(item: OrderData.OrderProduct?, listorderProducts: List<OrderData.OrderProduct?>?
+         ): Int {
+             val isOfferItem = businessdatadata.b .any { it.offerProductId == data.id }
+
+             if (createOrder.itemList.firstOrNull()?.id == data.id) {
+                 createOrder.banquetOfferApplyCartList.clear()
+             }
+
+             if (isOfferItem) {
+                 return data.unit ?: 1
+             } else {
+                 val banquetOfferIndex = createOrder.allbnquetOffer.indexOfFirst {
+                     it.categoryId?.contains(data.category_id.toString()) == true
+                 }
+
+                 if (banquetOfferIndex != -1) {
+                     val banquetOffer = createOrder.allbnquetOffer[banquetOfferIndex]
+                     val freeLimit = banquetOffer.freeQuantity ?: 0
+
+                     val isAvailableInCart = createOrder.itemList.filter {
+                         it.id == banquetOffer.offerProductId
+                     }
+
+                     if (isAvailableInCart.isNotEmpty()) {
+                         val offerProductQty = isAvailableInCart.first().unit ?: 1
+                         val totalFreeLimit = freeLimit * offerProductQty
+
+                         val categoryIds = banquetOffer.categoryId
+                             ?.split(",")
+                             ?.mapNotNull { it.toIntOrNull() }
+                             ?: emptyList()
+
+                         val offerItems = createOrder.itemList.filter {
+                             categoryIds.contains(it.category_id)
+                         }
+
+                         var remainingFree = totalFreeLimit
+                         val currentItemId = data.id ?: 0
+
+                         for (item in offerItems) {
+                             val itemQty = item.unit ?: 1
+                             var freeForThisItem = 0
+
+                             if (remainingFree > 0) {
+                                 freeForThisItem = if (itemQty <= remainingFree) itemQty else remainingFree
+                             }
+
+                             remainingFree -= freeForThisItem
+
+                             val alreadyExists = createOrder.banquetOfferApplyCartList.any {
+                                 it["id"] == item.id
+                             }
+
+                             if (!alreadyExists) {
+                                 createOrder.banquetOfferApplyCartList.add(
+                                     mutableMapOf(
+                                         "id" to item.id,
+                                         "freeQty" to freeForThisItem,
+                                         "totalQty" to itemQty
+                                     )
+                                 )
+                             }
+                         }
+
+                         val found = createOrder.banquetOfferApplyCartList.filter {
+                             it["id"] == currentItemId
+                         }
+
+                         if (found.isNotEmpty()) {
+                             val freeQty = found.first()["freeQty"] as? Int ?: 0
+                             val totalQty = found.first()["totalQty"] as? Int ?: 0
+                             val paidQty = totalQty - freeQty
+                             println("sdnjbvjshdv $found---$paidQty")
+                             return paidQty
+                         } else {
+                             return data.unit ?: 1
+                         }
+                     } else {
+                         return data.unit ?: 1
+                     }
+                 } else {
+                     return data.unit ?: 1
+                 }
+             }
+         }
+
+
          fun calculatePriceForOnlineOrder(item: OrderData.OrderProduct?) : Double {
              var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
              var total: Double = 0.0;

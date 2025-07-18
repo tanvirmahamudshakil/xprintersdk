@@ -172,10 +172,28 @@ data class BusinessSetting(
 
     @SerializedName("groupHeaderShow")
     var groupHeaderShow : Boolean,
+    @SerializedName("banquetoffer")
+    val items: List<BanquetOfferElement?>?,
 
 
 
 
 
 
-)
+){
+    @Keep
+    data class BanquetOfferElement (
+        @SerializedName("id")
+        val id: Long,
+        @SerializedName("offer_product_id")
+        val offerProductID: Long,
+        @SerializedName("category_id")
+        val categoryID: String,
+        @SerializedName("free_quantity")
+        val freeQuantity: Long,
+        @SerializedName("created_at")
+        val createdAt: Any? = null,
+        @SerializedName("updated_at")
+        val updatedAt: Any? = null
+    )
+}
