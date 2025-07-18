@@ -496,9 +496,9 @@ class orderPrinterService(
 
          fun getBanquetOfferForLocal(item: OrderData.OrderProduct?, listorderProducts: List<OrderData.OrderProduct?>?
          ): Int {
-             val isOfferItem = businessdatadata.items?.any { it?.offerProductID == item?.productId }
+             val isOfferItem = businessdatadata.items?.any { it?.offerProductID == item?.id }
              Log.e("banquetoffer", "isOfferItem: $isOfferItem", )
-             if (listorderProducts?.firstOrNull()?.id == item?.productId) {
+             if (listorderProducts?.firstOrNull()?.id == item?.id) {
                  banquetOfferApplyCartList.clear()
                  Log.e("banquetoffer", "banquetOfferApplyCartList.clear()", )
              }
@@ -519,10 +519,10 @@ class orderPrinterService(
                      val banquetOffer = businessdatadata.items?.get(banquetOfferIndex!!)
 
                      val freeLimit = banquetOffer?.freeQuantity ?: 0
-
+                     Log.e("banquetoffer", "listorderProducts ${listorderProducts?.size}", )
                      val isAvailableInCart = listorderProducts?.filter {
-                         Log.e("banquetoffer", "listorderProducts ${it?.id}--- ${it?.productId}---${banquetOffer?.offerProductID}", )
-                         it?.productId == banquetOffer?.offerProductID
+                         Log.e("banquetoffer", "listorderProducts ${it?.id}------${banquetOffer?.offerProductID}", )
+                         it?.id == banquetOffer?.offerProductID
                      }
 
 
@@ -545,7 +545,7 @@ class orderPrinterService(
                              }
 
                              var remainingFree = totalFreeLimit
-                             val currentItemId = item?.productId ?: 0
+                             val currentItemId = item?.id ?: 0
 
                              if (offerItems != null) {
                                  for (item in offerItems) {
@@ -559,13 +559,13 @@ class orderPrinterService(
                                      remainingFree -= freeForThisItem
 
                                      val alreadyExists = banquetOfferApplyCartList.any {
-                                         it["id"] == item?.productId
+                                         it["id"] == item?.id
                                      }
 
                                      if (!alreadyExists) {
                                          banquetOfferApplyCartList.add(
                                              mutableMapOf(
-                                                 "id" to item?.productId,
+                                                 "id" to item?.id,
                                                  "freeQty" to freeForThisItem,
                                                  "totalQty" to itemQty
                                              )
