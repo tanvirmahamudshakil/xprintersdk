@@ -1124,7 +1124,7 @@ class orderPrinterService(
                      for ((index, entry) in groupProduct.entries.withIndex()) {
                          val key = entry.key
                          val productList = entry.value
-                         val childView = groupOrderPrintView(productList, index)
+                         val childView = groupOrderPrintView(productList, index, itemproduict)
                          bind.items.addView(childView)
                          allitemsheight += childView.measuredHeight
                      }
@@ -1490,7 +1490,7 @@ class orderPrinterService(
                      for ((index, entry) in groupProduct.entries.withIndex()) {
                          val key = entry.key
                          val productList = entry.value
-                         val childView = groupOrderPrintView(productList, index)
+                         val childView = groupOrderPrintView(productList, index, itemproduict)
                          bind.items.addView(childView)
                          allitemsheight += childView.measuredHeight
                      }
@@ -1599,7 +1599,7 @@ class orderPrinterService(
          }
 
 
-         fun groupOrderPrintView(itemproduict: List<OrderData.OrderProduct?>?,  index : Int) : View {
+         fun groupOrderPrintView(itemproduict: List<OrderData.OrderProduct?>?,  index : Int, itemproduictWithOutSort: List<OrderData.OrderProduct?>?) : View {
              val bind: GroupPrintViewBinding = GroupPrintViewBinding.inflate(LayoutInflater.from(context))
              if(businessdatadata.groupHeaderShow) {
                  bind.groupHeader.visibility = View.VISIBLE
@@ -1617,7 +1617,7 @@ class orderPrinterService(
              var allitemsheight = 0
              if(!sortIteam.isNullOrEmpty()){
                  for (j in sortIteam.indices) {
-                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduict)
+                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduictWithOutSort!!)
                      bind.groupItem.addView(childView)
                      allitemsheight += childView!!.measuredHeight
                  }
