@@ -521,6 +521,7 @@ class orderPrinterService(
                      val freeLimit = banquetOffer?.freeQuantity ?: 0
 
                      val isAvailableInCart = listorderProducts?.filter {
+                         Log.e("banquetoffer", "listorderProducts ${it?.productId}---${banquetOffer?.offerProductID}", )
                          it?.productId == banquetOffer?.offerProductID
                      }
 
