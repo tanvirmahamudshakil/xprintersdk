@@ -408,6 +408,7 @@ class orderPrinterService(
 
          fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?,item: OrderData.OrderProduct?) : Double {
              var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
+             Log.e("banquetoffer", "banquetApply: ${orderModel.isOfferApply}", )
              var total: Double = 0.0;
              val components = item?.components ?: emptyList();
              for (element in components){
@@ -485,7 +486,8 @@ class orderPrinterService(
                  }
              } else if (orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() != "WEIGHT") {
                  var p = getBanquetOfferForLocal(item, listorderProducts)
-                 total = ((total + (item?.netAmount ?: 0.0)) * (p).toDouble())
+                 Log.e("banquetoffer", "total quantity: $p===total: ${total}--netamount:-${item?.netAmount}", )
+                 total = ((total + (item?.netAmount ?: 0.0)) * p)
              }
 
              return total
@@ -566,7 +568,7 @@ class orderPrinterService(
                              val freeQty = found.first()["freeQty"] as? Int ?: 0
                              val totalQty = found.first()["totalQty"] as? Int ?: 0
                              val paidQty = totalQty - freeQty
-                             println("sdnjbvjshdv $found---$paidQty")
+                             Log.e("banquetoffer", "getBanquetOfferForLocal: $found---$paidQty", )
                              return paidQty
                          } else {
                              return item?.unit ?: 1
