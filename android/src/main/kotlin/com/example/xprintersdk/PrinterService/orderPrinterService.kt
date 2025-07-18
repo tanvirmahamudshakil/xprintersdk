@@ -496,9 +496,9 @@ class orderPrinterService(
 
          fun getBanquetOfferForLocal(item: OrderData.OrderProduct?, listorderProducts: List<OrderData.OrderProduct?>?
          ): Int {
-             val isOfferItem = businessdatadata.items?.any { it?.offerProductID == item?.id }
+             val isOfferItem = businessdatadata.items?.any { it?.offerProductID == item?.productId }
              Log.e("banquetoffer", "isOfferItem: $isOfferItem", )
-             if (listorderProducts?.firstOrNull()?.id == item?.id) {
+             if (listorderProducts?.firstOrNull()?.id == item?.productId) {
                  banquetOfferApplyCartList.clear()
                  Log.e("banquetoffer", "banquetOfferApplyCartList.clear()", )
              }
@@ -521,7 +521,7 @@ class orderPrinterService(
                      val freeLimit = banquetOffer?.freeQuantity ?: 0
 
                      val isAvailableInCart = listorderProducts?.filter {
-                         it?.id == banquetOffer?.offerProductID
+                         it?.productId == banquetOffer?.offerProductID
                      }
 
 
@@ -544,7 +544,7 @@ class orderPrinterService(
                              }
 
                              var remainingFree = totalFreeLimit
-                             val currentItemId = item?.id ?: 0
+                             val currentItemId = item?.productId ?: 0
 
                              if (offerItems != null) {
                                  for (item in offerItems) {
@@ -558,13 +558,13 @@ class orderPrinterService(
                                      remainingFree -= freeForThisItem
 
                                      val alreadyExists = banquetOfferApplyCartList.any {
-                                         it["id"] == item?.id
+                                         it["id"] == item?.productId
                                      }
 
                                      if (!alreadyExists) {
                                          banquetOfferApplyCartList.add(
                                              mutableMapOf(
-                                                 "id" to item?.id,
+                                                 "id" to item?.productId,
                                                  "freeQty" to freeForThisItem,
                                                  "totalQty" to itemQty
                                              )
