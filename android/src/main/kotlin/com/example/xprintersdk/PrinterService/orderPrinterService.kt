@@ -224,7 +224,7 @@ class orderPrinterService(
          }
 
 
-         fun getView(listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int, position: Int,  itemproduictWithOutSort: List<OrderData.OrderProduct?>): View? {
+         fun getView(listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?, iteamLength : Int, position: Int): View? {
              val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
              var  component: List<OrderData.OrderProduct.Component?>?
              var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
@@ -372,7 +372,7 @@ class orderPrinterService(
                  price = calculatePriceForOnlineOrder(item)
              }else  {
 
-                 price = calculatePriceForLocalOrder(listorderProducts, item, itemproduictWithOutSort)
+                 price = calculatePriceForLocalOrder(listorderProducts, item)
              }
              val totaldiscount = (price * (discount / 100))
              price -= totaldiscount;
@@ -406,7 +406,7 @@ class orderPrinterService(
     }
 
 
-         fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?,item: OrderData.OrderProduct?, itemproduictWithOutSort: List<OrderData.OrderProduct?>) : Double {
+         fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?,item: OrderData.OrderProduct?) : Double {
              var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
              Log.e("banquetoffer", "banquetApply: ${orderModel.isOfferApply}", )
              var total: Double = 0.0;
@@ -485,7 +485,7 @@ class orderPrinterService(
                      total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
                  }
              } else if (orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() != "WEIGHT") {
-                 var p = getBanquetOfferForLocal(item, itemproduictWithOutSort)
+                 var p = getBanquetOfferForLocal(item)
                  Log.e("banquetoffer", "total quantity: $p===total: ${total}--netamount:-${item?.netAmount}", )
                  total = ((total + (item?.netAmount ?: 0.0)) * p)
              }
@@ -494,8 +494,9 @@ class orderPrinterService(
          }
 
 
-         fun getBanquetOfferForLocal(item: OrderData.OrderProduct?, itemproduictWithOutSort: List<OrderData.OrderProduct?>
+         fun getBanquetOfferForLocal(item: OrderData.OrderProduct?,
          ): Int {
+             var itemproduictWithOutSort = orderModel.orderProducts;
              val isOfferItem = businessdatadata.items?.any { it?.offerProductID == item?.id }
              Log.e("banquetoffer", "isOfferItem: $isOfferItem", )
              if (itemproduictWithOutSort?.firstOrNull()?.id == item?.id) {
@@ -1124,7 +1125,7 @@ class orderPrinterService(
                      for ((index, entry) in groupProduct.entries.withIndex()) {
                          val key = entry.key
                          val productList = entry.value
-                         val childView = groupOrderPrintView(productList, index, itemproduict)
+                         val childView = groupOrderPrintView(productList, index)
                          bind.items.addView(childView)
                          allitemsheight += childView.measuredHeight
                      }
@@ -1133,7 +1134,7 @@ class orderPrinterService(
                      val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
                      if(!sortIteam.isNullOrEmpty()){
                          for (j in sortIteam.indices) {
-                             val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduict)
+                             val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                              bind.items.addView(childView)
                              allitemsheight += childView!!.measuredHeight
                          }
@@ -1157,7 +1158,7 @@ class orderPrinterService(
                      val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
                      if(!sortIteam.isNullOrEmpty()){
                          for (j in sortIteam.indices) {
-                             val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduict)
+                             val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                              bind.items.addView(childView)
                              allitemsheight += childView!!.measuredHeight
                          }
@@ -1169,7 +1170,7 @@ class orderPrinterService(
                  val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
                  if(!sortIteam.isNullOrEmpty()){
                      for (j in sortIteam.indices) {
-                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduict)
+                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                          bind.items.addView(childView)
                          allitemsheight += childView!!.measuredHeight
                      }
@@ -1490,7 +1491,7 @@ class orderPrinterService(
                      for ((index, entry) in groupProduct.entries.withIndex()) {
                          val key = entry.key
                          val productList = entry.value
-                         val childView = groupOrderPrintView(productList, index, itemproduict)
+                         val childView = groupOrderPrintView(productList, index)
                          bind.items.addView(childView)
                          allitemsheight += childView.measuredHeight
                      }
@@ -1499,7 +1500,7 @@ class orderPrinterService(
                      val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
                      if(!sortIteam.isNullOrEmpty()){
                          for (j in sortIteam.indices) {
-                             val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduict)
+                             val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                              bind.items.addView(childView)
                              allitemsheight += childView!!.measuredHeight
                          }
@@ -1511,7 +1512,7 @@ class orderPrinterService(
                  val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
                  if(!sortIteam.isNullOrEmpty()){
                      for (j in sortIteam.indices) {
-                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduict)
+                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                          bind.items.addView(childView)
                          allitemsheight += childView!!.measuredHeight
                      }
@@ -1599,7 +1600,7 @@ class orderPrinterService(
          }
 
 
-         fun groupOrderPrintView(itemproduict: List<OrderData.OrderProduct?>?,  index : Int, itemproduictWithOutSort: List<OrderData.OrderProduct?>?) : View {
+         fun groupOrderPrintView(itemproduict: List<OrderData.OrderProduct?>?,  index : Int) : View {
              val bind: GroupPrintViewBinding = GroupPrintViewBinding.inflate(LayoutInflater.from(context))
              if(businessdatadata.groupHeaderShow) {
                  bind.groupHeader.visibility = View.VISIBLE
@@ -1617,7 +1618,7 @@ class orderPrinterService(
              var allitemsheight = 0
              if(!sortIteam.isNullOrEmpty()){
                  for (j in sortIteam.indices) {
-                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduictWithOutSort!!)
+                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j,)
                      bind.groupItem.addView(childView)
                      allitemsheight += childView!!.measuredHeight
                  }
@@ -1661,7 +1662,7 @@ class orderPrinterService(
              var allitemsheight = 0
              if(!sortIteam.isNullOrEmpty()){
                  for (j in sortIteam.indices) {
-                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduict)
+                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                      bind.groupItem.addView(childView)
                      allitemsheight += childView!!.measuredHeight
                  }
@@ -1868,7 +1869,7 @@ class orderPrinterService(
                  var sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
                  if(!sortIteam.isNullOrEmpty()){
                      for (j in sortIteam.indices) {
-                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduict!!)
+                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j,)
                          bind.items.addView(childView)
                          allitemsheight += childView!!.measuredHeight
                      }
@@ -2091,7 +2092,7 @@ class orderPrinterService(
              if(!sortIteam.isNullOrEmpty()){
                  for (j in sortIteam.indices) {
 //                     val childView = butcherItemgetViewStyle2(sortIteam,sortIteam[j])
-                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j, itemproduict!!)
+                     val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                      bind.items.addView(childView)
                      allitemsheight += childView!!.measuredHeight
                  }
