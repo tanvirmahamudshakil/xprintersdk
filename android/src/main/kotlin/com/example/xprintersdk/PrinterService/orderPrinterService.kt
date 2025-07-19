@@ -544,7 +544,7 @@ class orderPrinterService(
                                  categoryIds.contains(it?.categoryId)
                              }
 
-                            var offerItems = offerItems1.reversed()
+                            var offerItems = offerItems1.toList().reversed()
 
                              var remainingFree = totalFreeLimit
                              val currentItemId = item?.id ?: 0
