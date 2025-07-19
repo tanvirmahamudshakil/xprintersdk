@@ -540,9 +540,11 @@ class orderPrinterService(
                                  ?.mapNotNull { it.toIntOrNull() }
                                  ?: emptyList()
 
-                             val offerItems = itemproduictWithOutSort?.filter {
+                             val offerItems1 = itemproduictWithOutSort.filter {
                                  categoryIds.contains(it?.categoryId)
-                             }?.reversed()
+                             }
+
+                            var offerItems = offerItems1.reversed()
 
                              var remainingFree = totalFreeLimit
                              val currentItemId = item?.id ?: 0
