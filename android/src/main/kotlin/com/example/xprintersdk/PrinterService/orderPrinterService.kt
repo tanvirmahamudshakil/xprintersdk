@@ -408,7 +408,7 @@ class orderPrinterService(
 
          fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?,item: OrderData.OrderProduct?) : Double {
              var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
-             Log.e("banquetoffer", "banquetApply: ${orderModel.isOfferApply}", )
+
              var total: Double = 0.0;
              val components = item?.components ?: emptyList();
              for (element in components){
@@ -486,7 +486,7 @@ class orderPrinterService(
                  }
              } else if (orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() != "WEIGHT") {
                  var p = getBanquetOfferForLocal(item)
-                 Log.e("banquetoffer", "total quantity: $p===total: ${total}--netamount:-${item?.netAmount}", )
+
                  total = ((total + (item?.netAmount ?: 0.0)) * p)
              }
 
@@ -498,20 +498,20 @@ class orderPrinterService(
          ): Int {
              var itemproduictWithOutSort = orderModel.orderProducts;
              val isOfferItem = businessdatadata.items?.any { it?.offerProductID == item?.id }
-             Log.e("banquetoffer", "isOfferItem: $isOfferItem", )
+
              if (itemproduictWithOutSort?.firstOrNull()?.id == item?.id) {
                  banquetOfferApplyCartList.clear()
-                 Log.e("banquetoffer", "banquetOfferApplyCartList.clear()", )
+
              }
 
              if (isOfferItem == true) {
-                 Log.e("banquetoffer", "isOfferItem", )
+
                  return item?.unit ?: 1
              } else {
                  val banquetOfferIndex = businessdatadata.items?.indexOfFirst {
                      it?.categoryID?.contains(item?.categoryId.toString()) == true
                  }
-                 Log.e("banquetoffer", "banquetOfferIndex ${banquetOfferIndex}", )
+
 
 
 
@@ -520,15 +520,15 @@ class orderPrinterService(
                      val banquetOffer = businessdatadata.items?.get(banquetOfferIndex!!)
 
                      val freeLimit = banquetOffer?.freeQuantity ?: 0
-                     Log.e("banquetoffer", "listorderProducts ${itemproduictWithOutSort?.size}", )
+
                      val isAvailableInCart = itemproduictWithOutSort?.filter {
-                         Log.e("banquetoffer", "listorderProducts ${it?.id}------${banquetOffer?.offerProductID}", )
+
                          it?.id == banquetOffer?.offerProductID
                      }
 
 
 
-                     Log.e("banquetoffer", "isAvailableInCart ${isAvailableInCart?.size}", )
+
 
                      isAvailableInCart?.size?.let {
                          if (it > 0) {
@@ -578,13 +578,13 @@ class orderPrinterService(
                              val found = banquetOfferApplyCartList.filter {
                                  it["id"] == currentItemId
                              }
-                             Log.e("banquetoffer", "found ${found}", )
+
 
                              if (found.isNotEmpty()) {
                                  val freeQty = found.first()["freeQty"] as? Int ?: 0
                                  val totalQty = found.first()["totalQty"] as? Int ?: 0
                                  val paidQty = totalQty - freeQty
-                                 Log.e("banquetoffer", "getBanquetOfferForLocal: $found---$paidQty", )
+
                                  return paidQty
                              } else {
                                  return item?.unit ?: 1
