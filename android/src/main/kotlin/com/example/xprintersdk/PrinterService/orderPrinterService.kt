@@ -494,8 +494,7 @@ class orderPrinterService(
          }
 
 
-         fun getBanquetOfferForLocal(item: OrderData.OrderProduct?,
-         ): Int {
+         fun getBanquetOfferForLocal(item: OrderData.OrderProduct?): Int {
              var itemproduictWithOutSort = orderModel.orderProducts;
              val isOfferItem = businessdatadata.items?.any { it?.offerProductID == item?.id }
 
@@ -543,7 +542,7 @@ class orderPrinterService(
 
                              val offerItems = itemproduictWithOutSort?.filter {
                                  categoryIds.contains(it?.categoryId)
-                             }
+                             }?.reversed()
 
                              var remainingFree = totalFreeLimit
                              val currentItemId = item?.id ?: 0
