@@ -494,25 +494,126 @@ class orderPrinterService(
          }
 
 
-         fun getBanquetOfferForLocal(item: OrderData.OrderProduct?): Int {
+//         fun getBanquetOfferForLocal(item: OrderData.OrderProduct?): Int {
+//             var itemproduictWithOutSort = orderModel.orderProducts;
+//             val isOfferItem = businessdatadata.items?.any { it?.offerProductID == item?.id }
+//
+//             if (itemproduictWithOutSort?.firstOrNull()?.id == item?.id) {
+//                 banquetOfferApplyCartList.clear()
+//
+//             }
+//
+//             if (isOfferItem == true) {
+//
+//                 return item?.unit ?: 1
+//             } else {
+//                 val banquetOfferIndex = businessdatadata.items?.indexOfFirst {
+//                     it?.categoryID?.contains(item?.categoryId.toString()) == true
+//                 }
+//
+//
+//
+//
+//                 if (banquetOfferIndex != -1) {
+//
+//                     val banquetOffer = businessdatadata.items?.get(banquetOfferIndex!!)
+//
+//                     val freeLimit = banquetOffer?.freeQuantity ?: 0
+//
+//                     val isAvailableInCart = itemproduictWithOutSort?.filter {
+//
+//                         it?.id == banquetOffer?.offerProductID
+//                     }
+//
+//
+//
+//
+//
+//                     isAvailableInCart?.size?.let {
+//                         if (it > 0) {
+//
+//                             val offerProductQty = isAvailableInCart.first()?.unit ?: 1
+//                             val totalFreeLimit = freeLimit * offerProductQty
+//
+//                             val categoryIds = banquetOffer?.categoryID
+//                                 ?.split(",")
+//                                 ?.mapNotNull { it.toIntOrNull() }
+//                                 ?: emptyList()
+//
+//                             val offerItems1 = itemproduictWithOutSort?.filter {
+//                                 categoryIds.contains(it?.categoryId)
+//                             }
+//
+//                             var offerItems = offerItems1?.toMutableList()?.asReversed()
+//
+//                             var remainingFree = totalFreeLimit
+//                             val currentItemId = item?.id ?: 0
+//
+//                             if (offerItems != null) {
+//                                 for (item in offerItems) {
+//                                     val itemQty = item?.unit ?: 1
+//                                     var freeForThisItem = 0
+//
+//                                     if (remainingFree > 0) {
+//                                         freeForThisItem = if (itemQty <= remainingFree) itemQty else remainingFree
+//                                     }
+//
+//                                     remainingFree -= freeForThisItem
+//
+//                                     val alreadyExists = banquetOfferApplyCartList.any {
+//                                         it["id"] == item?.id
+//                                     }
+//
+//                                     if (!alreadyExists) {
+//                                         banquetOfferApplyCartList.add(
+//                                             mutableMapOf(
+//                                                 "id" to item?.id,
+//                                                 "freeQty" to freeForThisItem,
+//                                                 "totalQty" to itemQty
+//                                             )
+//                                         )
+//                                     }
+//                                 }
+//                             }
+//
+//                             val found = banquetOfferApplyCartList.filter {
+//                                 it["id"] == currentItemId
+//                             }
+//
+//
+//                             if (found.isNotEmpty()) {
+//                                 val freeQty = found.first()["freeQty"] as? Int ?: 0
+//                                 val totalQty = found.first()["totalQty"] as? Int ?: 0
+//                                 val paidQty = totalQty - freeQty
+//
+//                                 return paidQty
+//                             } else {
+//                                 return item?.unit ?: 1
+//                             }
+//                         } else {
+//                             return item?.unit ?: 1
+//                         }
+//                     }
+//                     return item?.unit ?: 1
+//                 } else {
+//                     return item?.unit ?: 1
+//                 }
+//             }
+//         }
+
+
+         fun getBanquetOfferForLocal(items: OrderData.OrderProduct?): Int {
              var itemproduictWithOutSort = orderModel.orderProducts;
-             val isOfferItem = businessdatadata.items?.any { it?.offerProductID == item?.id }
-
-             if (itemproduictWithOutSort?.firstOrNull()?.id == item?.id) {
+             val isOfferItem = businessdatadata.items?.any { it?.offerProductID == items?.id }
+             if (itemproduictWithOutSort?.firstOrNull()?.id == items?.id) {
                  banquetOfferApplyCartList.clear()
-
              }
-
              if (isOfferItem == true) {
-
-                 return item?.unit ?: 1
+                 return items?.unit ?: 1
              } else {
                  val banquetOfferIndex = businessdatadata.items?.indexOfFirst {
-                     it?.categoryID?.contains(item?.categoryId.toString()) == true
+                     it?.categoryID?.contains(items?.categoryId.toString()) == true
                  }
-
-
-
 
                  if (banquetOfferIndex != -1) {
 
@@ -547,7 +648,7 @@ class orderPrinterService(
                             var offerItems = offerItems1?.toMutableList()?.asReversed()
 
                              var remainingFree = totalFreeLimit
-                             val currentItemId = item?.id ?: 0
+                             val currentItemId = items?.id ?: 0
 
                              if (offerItems != null) {
                                  for (item in offerItems) {
@@ -564,20 +665,31 @@ class orderPrinterService(
                                          it["id"] == item?.id
                                      }
 
-                                     if (!alreadyExists) {
-                                         banquetOfferApplyCartList.add(
-                                             mutableMapOf(
-                                                 "id" to item?.id,
-                                                 "freeQty" to freeForThisItem,
-                                                 "totalQty" to itemQty
-                                             )
+                                     banquetOfferApplyCartList.add(
+                                         mutableMapOf(
+                                             "id" to item?.id,
+                                             "sub_id" to item?.components?.map { it?.id.toString() }
+                                                 ?.toMutableList()?.joinToString(","),
+                                             "sub_sub_id" to item?.components?.map { it?.components?.map { it?.id.toString() }?.toMutableList()?.joinToString(",") }
+                                                 ?.toMutableList()?.joinToString(","),
+                                             "freeQty" to freeForThisItem,
+                                             "totalQty" to itemQty,
                                          )
-                                     }
+                                     )
+
                                  }
                              }
 
+                              var sub_id = items?.components?.map { it?.id.toString() }
+                                 ?.toMutableList()?.joinToString(",");
+
+                             var sub_sub_id = items?.components?.map { it?.components?.map { it?.id.toString() }?.toMutableList()?.joinToString(",") }
+                                 ?.toMutableList()?.joinToString(",");
+
                              val found = banquetOfferApplyCartList.filter {
-                                 it["id"] == currentItemId
+                                 it["id"] == currentItemId &&
+                                         it["sub_id"] == sub_id &&
+                                         it["sub_sub_id"] == sub_sub_id
                              }
 
 
@@ -588,15 +700,15 @@ class orderPrinterService(
 
                                  return paidQty
                              } else {
-                                 return item?.unit ?: 1
+                                 return items?.unit ?: 1
                              }
                          } else {
-                             return item?.unit ?: 1
+                             return items?.unit ?: 1
                          }
                      }
-                     return item?.unit ?: 1
+                     return items?.unit ?: 1
                  } else {
-                     return item?.unit ?: 1
+                     return items?.unit ?: 1
                  }
              }
          }
