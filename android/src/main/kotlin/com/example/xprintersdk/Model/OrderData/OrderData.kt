@@ -8,7 +8,6 @@ import androidx.annotation.Keep
 data class OrderData(
     @SerializedName("barcode")
     val barcode: String?,
-
     @SerializedName("isOfferApply")
     var isOfferApply: Boolean,
     @SerializedName("epos_unique_id")
@@ -81,6 +80,8 @@ data class OrderData(
     val updatedAt: String?,
     @SerializedName("table_id")
     var table_id: Int?,
+    @SerializedName("table_name")
+    var table_name: String?,
     @SerializedName("property")
     val property: PropertyXXX?,
     @SerializedName("vat")
