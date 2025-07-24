@@ -542,6 +542,8 @@ data class OrderData(
                 var product_group: String?,
                 @SerializedName("product_group_sort")
                 var product_group_sort: String?,
+                @SerializedName("epos_gourmet_offer_price_apply")
+                var epos_gourmet_offer_price_apply: String? = "0",
 
             )
         }

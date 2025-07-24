@@ -374,23 +374,10 @@ class orderPrinterService(
 
                  price = calculatePriceForLocalOrder(listorderProducts, item)
              }
-             val totaldiscount = (price * (discount / 100))
-             price -= totaldiscount;
-//             if(orderModel.orderChannel?.uppercase() != "ONLINE"){
-////            price *= (item?.unit ?: 1)
-//                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
-//                     var p = String.format("%.2f", getOrderOfferPrice(item))
-//                     price *=  p.toDouble()
-//                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
-//                     var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
-//                     Log.e("price get", "getView: ${p}----")
-//                     price =  p.toDouble()
-//                 }else{
-//                     price *= (item?.unit ?: 1)
-//                 }
-//                 var totaldiscount = (price * (discount / 100))
-//                 price -= totaldiscount;
-//             }
+//             val totaldiscount = (price * (discount / 100))
+//             price -= totaldiscount;
+
+
              Log.e("price get", "getView: ${price}----")
              if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
              binding.itemText.text = str3.toString()
@@ -642,7 +629,7 @@ class orderPrinterService(
                                  ?: emptyList()
 
                              val offerItems1 = itemproduictWithOutSort?.filter {
-                                 categoryIds.contains(it?.categoryId)
+                                 categoryIds.contains(it?.categoryId) && it?.product?.property?.epos_gourmet_offer_price_apply == "1"
                              }
 
                             var offerItems = offerItems1?.toMutableList()?.asReversed()
