@@ -49,7 +49,7 @@ class printer80(context: Context) {
             mPrinter = PrinterInstance.getPrinterInstance(mcontext, device, mHandler);
             connectedPrinter()
         }else{
-            Toast.makeText(mcontext, "device found null", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(mcontext, "device found null", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -87,7 +87,7 @@ class printer80(context: Context) {
                 128
             )
             mPrinter?.cutPaper(65, 50)
-            Toast.makeText(mcontext, "successfully data send in printer80", Toast.LENGTH_SHORT).show()
+           // Toast.makeText(mcontext, "successfully data send in printer80", Toast.LENGTH_SHORT).show()
         }else{
             Toast.makeText(mcontext, "printer80 null. can not prinnt", Toast.LENGTH_SHORT).show()
         }
