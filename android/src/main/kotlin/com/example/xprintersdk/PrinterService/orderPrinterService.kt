@@ -1109,16 +1109,26 @@ class orderPrinterService(
              }
              // totalDue = (orderModel.payableAmount ?: 0.0) - (totalReceivePound - (orderModel.changeAmount ?: 0.0))
              var addedDeliveryCharge = 0.0
-             bind.businessLocation.text = businessaddress
-             bind.businessLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
-             bind.businessPhone.text = businessphone
-             bind.businessPhone.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
-             if(businessdatadata.branchNameShow) {
-                 bind.branchName.text = orderModel.branch?.name?.uppercase()
-                 bind.branchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+             if(businessdatadata.printerStyle == "4") {
+                 bind.headerOneLayout.visibility = View.GONE
+                 bind.Layout9.visibility = View.VISIBLE
+                 bind.Layout10.visibility = View.VISIBLE
+                 bind.Layout11.visibility = View.GONE
+                 bind.businessLocation2.text = businessaddress
+                 bind.businessPhone2.text = businessphone
              }else{
-                 bind.branchName.visibility = View.GONE
+                 bind.businessLocation.text = businessaddress
+                 bind.businessLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+                 bind.businessPhone.text = businessphone
+                 bind.businessPhone.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+                 if(businessdatadata.branchNameShow) {
+                     bind.branchName.text = orderModel.branch?.name?.uppercase()
+                     bind.branchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+                 }else{
+                     bind.branchName.visibility = View.GONE
+                 }
              }
+
 
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderType.text = "TABLE BOOKING #${orderModel.table_name}"
@@ -1390,6 +1400,7 @@ class orderPrinterService(
 //             bind.refundContainer.visibility = View.GONE
              val subTotal: Double = orderModel.netAmount ?: 0.0
              bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
+             bind.subTotal2.text = "Sub Total: £ " + String.format( "%.2f", subTotal)
              bind.serviceChage.text = "£ " + String.format("%.2f", orderModel.serviceCharge ?: 0.0)
              bind.tips.text = "£ " + String.format("%.2f", orderModel.tips ?: 0.0)
              if(orderModel.orderType == "DELIVERY") {
@@ -1439,6 +1450,8 @@ class orderPrinterService(
              }
              bind.total.text =
                  "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
+             bind.grandTotal.text =
+                 "Grand Total £ " +String.format( "%.2f",(orderModel.payableAmount!!))
              var dlAddress = "Service charge is not included\n\n"
              if(businessdatadata.serviceCharge) {
                  dlAddress = "Service charge is not included\n\n"
@@ -1499,8 +1512,12 @@ class orderPrinterService(
              bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
 
 
+                bind.ThankYouMessage.text = businessdatadata.thankyoumessage
+
              if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
                  bind.vatNumberCompany.text = "VAT no ${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
+                 bind.vatno2.text = "VAT no ${businessdatadata.vatNumber}"
+                 bind.vatMessage.text = "${businessdatadata.vatCompanyName}"
 
                  bind.vatNumberCompany.visibility = View.VISIBLE
                  bind.vatNumberCompany.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())

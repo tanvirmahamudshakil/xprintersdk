@@ -97,9 +97,11 @@ class PrinterBusinessModel {
   bool starter_group;
   bool groupHeaderShow;
   List<BanquetOffer>? banquetoffer;
+  String thankyoumessage;
 
   PrinterBusinessModel({
     this.fontSize,
+    required this.thankyoumessage,
     required this.expire_name,
     required this.groupHeaderShow,
     required this.grocery_barcode_hight,
@@ -186,6 +188,7 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
     expire_name: json["expire_name"],
+    thankyoumessage: json["thankyoumessage"],
     banquetoffer: json["banquetoffer"] == null ? [] : List<BanquetOffer>.from(json["banquetoffer"]!.map((x) => BanquetOffer.fromJson(x))),
     groupHeaderShow: json["groupHeaderShow"],
     starter_group: json["starter_group"],
@@ -272,6 +275,7 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
     "invoice_type": invoice_type,
+    "thankyoumessage": thankyoumessage,
     "banquetoffer": banquetoffer == null ? [] : List<dynamic>.from(banquetoffer!.map((x) => x.toJson())),
     "groupHeaderShow": groupHeaderShow,
     "starter_group": starter_group,

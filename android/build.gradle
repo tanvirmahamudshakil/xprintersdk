@@ -50,6 +50,8 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
     }
 
+
+
     defaultConfig {
         minSdk = 21
     }
@@ -98,7 +100,4 @@ dependencies {
     implementation("com.github.tanvirmahamudshakil:Nyxprinter:4.0")
     implementation("com.google.zxing:core:3.5.3")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
-
-
-
 }

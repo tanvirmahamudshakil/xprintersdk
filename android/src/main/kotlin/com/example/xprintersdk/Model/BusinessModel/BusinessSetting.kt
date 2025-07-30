@@ -174,6 +174,8 @@ data class BusinessSetting(
     var groupHeaderShow : Boolean,
     @SerializedName("banquetoffer")
     val items: List<BanquetOfferElement?>?,
+    @SerializedName("thankyoumessage")
+    val thankyoumessage: String,
 
 
 

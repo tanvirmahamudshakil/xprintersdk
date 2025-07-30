@@ -16,69 +16,76 @@
         android:gravity="center"
         android:id="@+id/rootViewPrint"
         >
-        <TextView
-            android:id="@+id/businessName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="fdf"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="23sp"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:textAllCaps = "true"
-            />
-        <TextView
-            android:id="@+id/businessLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Luton, United Kingdom"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            />
         <LinearLayout
+            android:id="@+id/headerOneLayout"
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            >
+            android:layout_height="wrap_content">
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/businessName"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Phone : "
+                android:text="fdf"
                 android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="23sp"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:layout_marginTop="10dp"
+                android:textAllCaps = "true"
+                />
+            <TextView
+                android:id="@+id/businessLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Luton, United Kingdom"
+                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 />
-            <TextView
-                android:id="@+id/businessPhone"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/businessPhoneLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Phone : "
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    />
+                <TextView
+                    android:id="@+id/businessPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/branchName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Biscut Road"
                 android:textAlignment="center"
+                android:textStyle="bold"
+                android:gravity="center"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:src="@drawable/dotted"
+                android:contentDescription="Dotted" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/branchName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Biscut Road"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:src="@drawable/dotted"
-            android:contentDescription="Dotted" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -790,20 +797,173 @@
             android:textColor="@color/black"
             android:textSize="20sp"
             />
-        <TextView
-            android:id="@+id/vatNumberCompany"
-            android:layout_marginTop="20dp"
-            android:layout_width="wrap_content"
-            android:textSize="15dp"
-            android:textColor="@color/black"
-            android:text="jshdbjshdbjhsbdjhsbdvhsbdv"
-            android:layout_height="wrap_content"/>
-        <TextView
-            android:id="@+id/vatNote"
-            android:textSize="15dp"
-            android:textColor="@color/black"
-            android:layout_width="wrap_content"
-            android:text="jshdbdjhsbdvhsbdv"
-            android:layout_height="wrap_content"/>
+
+
+
+        <LinearLayout
+            android:id="@+id/Layout9"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/dotted"
+                android:contentDescription="Dotted" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:orientation="vertical"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="5"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/businessLocation2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:text="96 - 104 Wellington st, Luton Beds"
+                        android:textAlignment="textStart"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+
+                        />
+                    <TextView
+                        android:id="@+id/businessPostCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:text="125 568"
+                        android:textStyle="bold"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/black"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/businessPhone2"
+                        android:layout_width="wrap_content"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_height="wrap_content"
+                        android:text="01582 48005 - 480040"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+
+                        />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="3.5"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/subTotal2"
+                        android:layout_width="wrap_content"
+                        android:text="Sub Total: 85475"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:layout_height="wrap_content"/>
+                    <TextView
+                        android:id="@+id/grandTotal"
+                        android:layout_width="wrap_content"
+                        android:text="Grand Total: 85475"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/Layout10"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:src="@drawable/dotted"
+                android:contentDescription="Dotted" />
+            <TextView
+                android:id="@+id/ThankYouMessage"
+                android:layout_width="wrap_content"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:text="Thank You Please call again"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/vatMessage"
+                    android:layout_marginEnd="20dp"
+                    android:layout_width="wrap_content"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:text="jshdbjshdbjhsbdjhsbdvhsbdv"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:id="@+id/vatno2"
+                    android:textSize="15dp"
+                    android:textColor="@color/black"
+                    android:layout_width="wrap_content"
+                    android:text="jshdbdjhsbdvhsbdv"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/Layout11"
+
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/dotted"
+                android:contentDescription="Dotted" />
+            <TextView
+                android:id="@+id/vatNumberCompany"
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:text="jshdbjshdbjhsbdjhsbdvhsbdv"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/vatNote"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:text="jshdbdjhsbdvhsbdv"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
