@@ -11,7 +11,7 @@ data class OrderData(
     @SerializedName("isOfferApply")
     var isOfferApply: Boolean,
     @SerializedName("epos_unique_id")
-    val orderUniqID: Long,
+    val orderUniqID: String,
     @SerializedName("branch")
     val branch: Branch?,
     @SerializedName("branch_id")
