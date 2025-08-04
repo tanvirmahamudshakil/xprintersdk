@@ -1115,7 +1115,9 @@ class orderPrinterService(
                  bind.Layout10.visibility = View.VISIBLE
                  bind.Layout11.visibility = View.GONE
                  bind.businessLocation2.text = businessaddress
+                 bind.businessLocation2.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
                  bind.businessPhone2.text = businessphone
+                 bind.businessPhone2.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
              }else{
                  bind.businessLocation.text = businessaddress
                  bind.businessLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
@@ -1518,7 +1520,8 @@ class orderPrinterService(
                  bind.vatNumberCompany.text = "VAT no ${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
                  bind.vatno2.text = "VAT no ${businessdatadata.vatNumber}"
                  bind.vatMessage.text = "${businessdatadata.vatCompanyName}"
-
+                 bind.vatno2.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
+                 bind.vatMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
                  bind.vatNumberCompany.visibility = View.VISIBLE
                  bind.vatNumberCompany.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
              }else{
