@@ -443,6 +443,15 @@ class orderPrinterService(
                          var p = String.format("%.2f", persentDisocunt(item))
                          total =  p.toDouble()
                      }
+                 }else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1){
+                     var p = buy_x_get_nth_local(item)
+                     if(weightmultiplayprice) {
+
+                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)  * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight) - p);
+                     }else{
+
+                         total = (((total + (item.netAmount ?: 0.0)))* (item.unit ?: 1) - 1)
+                     }
                  }
                  else{
                      if(weightmultiplayprice) {
@@ -468,7 +477,13 @@ class orderPrinterService(
                      var p = String.format("%.2f", persentDisocunt(item))
                      total =  p.toDouble()
 
-                 } else{
+                 }
+                 else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1) {
+                     var p = buy_x_get_nth_local(item)
+                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble() - p)
+
+                 }
+                 else{
                      total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
                  }
              } else if (orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() != "WEIGHT") {
@@ -478,6 +493,32 @@ class orderPrinterService(
              }
 
              return total
+         }
+
+         fun buy_x_get_nth_local(item: OrderData.OrderProduct?) : Double {
+             val findOffer = orderModel.orderProducts?.filter { element ->
+                 element?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" &&
+                         element?.offer?.offerId == item?.offer?.offerId
+             }
+
+             val totalQty = findOffer?.fold(0) { sum, item ->
+                 sum + (item?.unit ?: 1)
+             }
+
+             val buyQty = item?.offer?.offer?.buy ?: 0
+             val offerValue = item?.offer?.offer?.offerFor ?: 0.0
+
+             val sortedFindOffer = findOffer?.sortedBy { it?.netAmount ?: 0.0 }
+
+             return if (sortedFindOffer?.firstOrNull()?.id == item?.id) {
+                 val eligibleSets = if (buyQty != 0) (totalQty ?: 1) / buyQty else 0
+                 val remainingSets = eligibleSets
+                 val totalPrice = item?.netAmount ?: 0.0
+                 val discountAmount = (totalPrice * offerValue) / 100
+                 discountAmount * remainingSets
+             } else {
+                 0.0
+             }
          }
 
 
