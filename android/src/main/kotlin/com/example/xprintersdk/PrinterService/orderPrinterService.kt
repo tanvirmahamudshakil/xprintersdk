@@ -443,16 +443,19 @@ class orderPrinterService(
                          var p = String.format("%.2f", persentDisocunt(item))
                          total =  p.toDouble()
                      }
-                 }else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1){
-                     var p = buy_x_get_nth_local(item)
-                     if(weightmultiplayprice) {
-
-                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)  * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight) - p);
-                     }else{
-
-                         total = (((total + (item.netAmount ?: 0.0)))* (item.unit ?: 1) - 1)
-                     }
                  }
+
+//                 else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1){
+//                     var p = buy_x_get_nth_local(item)
+//                     if(weightmultiplayprice) {
+//
+//                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)  * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight) - p);
+//                     }else{
+//
+//                         total = (((total + (item.netAmount ?: 0.0)))* (item.unit ?: 1) - 1)
+//                     }
+//                 }
+
                  else{
                      if(weightmultiplayprice) {
                          total = (((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble()) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight))
@@ -478,11 +481,11 @@ class orderPrinterService(
                      total =  p.toDouble()
 
                  }
-                 else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1) {
-                     var p = buy_x_get_nth_local(item)
-                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble() - p)
-
-                 }
+//                 else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1) {
+//                     var p = buy_x_get_nth_local(item)
+//                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble() - p)
+//
+//                 }
                  else{
                      total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
                  }
