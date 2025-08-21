@@ -93,7 +93,9 @@ data class OrderData(
     @SerializedName("tips")
     var tips: Double?,
     @SerializedName("bestbeforeDate")
-    var bestbeforeDate: String?
+    var bestbeforeDate: String?,
+    @SerializedName("promotion_discount_amount")
+    var promotion_discount_amount: String?,
 ) {
     @Keep
     data class PropertyXXX(
