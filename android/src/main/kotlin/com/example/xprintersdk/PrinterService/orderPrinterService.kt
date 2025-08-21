@@ -1485,7 +1485,7 @@ class orderPrinterService(
                      "£ " + String.format( "%.2f", orderModel.discountedAmount)
              }
              bind.promodiscount.text =
-                 "£ " + String.format( "%.2f", orderModel.promotion_discount_amount ?: 0.0)
+                 "£ " + String.format( "%.2f", orderModel.promotion_discount_amount?.toFloatOrNull() ?: 0.0)
 
              bind.plasticBagContainer.visibility = View.GONE
              bind.containerBagContainer.visibility = View.GONE
