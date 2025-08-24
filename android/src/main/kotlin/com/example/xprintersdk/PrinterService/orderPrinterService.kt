@@ -419,11 +419,11 @@ class orderPrinterService(
              if(!orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
                  if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
                      if(weightmultiplayprice) {
-                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
-                         total = ((total + (item.netAmount ?: 0.0)) * p.toDouble()) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+//                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
+                         total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
                      }else{
-                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
-                         total = ((total + (item.netAmount ?: 0.0)) * p.toDouble())
+//                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
+                         total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
                      }
 
                  }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
@@ -437,11 +437,11 @@ class orderPrinterService(
 
                  } else if (item?.offer?.offer?.type == "%_DISCOUNT" && item?.offer?.offer?.status == 1){
                      if(weightmultiplayprice) {
-                         var p = String.format("%.2f", persentDisocunt(item))
-                         total =  p.toDouble() * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+//                         var p = String.format("%.2f", persentDisocunt(item))
+                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
                      }else{
-                         var p = String.format("%.2f", persentDisocunt(item))
-                         total =  p.toDouble()
+//                         var p = String.format("%.2f", persentDisocunt(item))
+                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
                      }
                  }
 
@@ -467,18 +467,18 @@ class orderPrinterService(
              }else if(!orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() != "WEIGHT") {
                  if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
 
-                    val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
+//                    val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
 
                     
-                     total = ((total + (item.netAmount ?: 0.0)) * p.toDouble())
+                     total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
 
                  }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
                      var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
                      total =  p.toDouble()
 
                  }  else if (item?.offer?.offer?.type == "%_DISCOUNT" && item?.offer?.offer?.status == 1) {
-                     var p = String.format("%.2f", persentDisocunt(item))
-                     total =  p.toDouble()
+//                     var p = String.format("%.2f", persentDisocunt(item))
+                     total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
 
                  }
 //                 else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1) {
