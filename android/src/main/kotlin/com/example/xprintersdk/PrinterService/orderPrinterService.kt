@@ -753,7 +753,7 @@ class orderPrinterService(
                  total += (element?.netAmount ?: 0.0)
                  val subComponentes = element?.components ?: emptyList()
                  for (element2 in subComponentes) {
-                     total += ((element2?.netAmount ?: 0.0) * (element2?.unit ?: 1))
+                     total += ((element2?.netAmount ?: 0.0))
                  }
              }
              var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
