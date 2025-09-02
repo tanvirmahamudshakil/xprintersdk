@@ -1560,7 +1560,12 @@ class orderPrinterService(
              bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
 
 
-                bind.ThankYouMessage.text = businessdatadata.thankyoumessage
+
+
+
+             bind.ThankYouMessage.text = businessdatadata.thankyoumessage
+
+
 
              if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
                  bind.vatNumberCompany.text = "VAT no ${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
@@ -1572,6 +1577,7 @@ class orderPrinterService(
                  bind.vatNumberCompany.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
              }else{
                  bind.vatNumberCompany.visibility = View.GONE
+                 bind.vatno2.visibility = View.GONE
              }
 
              if(!businessdatadata.vatNote.isNullOrEmpty() ) {
