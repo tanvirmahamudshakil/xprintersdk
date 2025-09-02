@@ -1579,6 +1579,17 @@ class orderPrinterService(
                  bind.vatNumberCompany.visibility = View.GONE
                  bind.vatno2.visibility = View.GONE
              }
+             if(!businessdatadata.vatNumber.isNullOrEmpty()) {
+                 bind.vatno2.visibility = View.VISIBLE;
+             }else{
+                 bind.vatno2.visibility = View.GONE;
+             }
+
+             if(!businessdatadata.vatCompanyName.isNullOrEmpty()) {
+                 bind.vatMessage.visibility = View.VISIBLE;
+             }else{
+                 bind.vatMessage.visibility = View.GONE;
+             }
 
              if(!businessdatadata.vatNote.isNullOrEmpty() ) {
                  bind.vatNote.text = "${businessdatadata.vatNote}"
