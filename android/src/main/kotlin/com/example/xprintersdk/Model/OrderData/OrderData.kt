@@ -358,7 +358,10 @@ data class OrderData(
             @SerializedName("product_id")
             val productId: Int?,
             @SerializedName("unit")
-            val unit: Int?
+            val unit: Int?,
+            @SerializedName("paid_unit")
+            val paid_unit: Int?,
+
         ) {
             @Keep
             data class Component(
@@ -383,7 +386,9 @@ data class OrderData(
                 @SerializedName("product_id")
                 val productId: Int?,
                 @SerializedName("unit")
-                val unit: Int?
+                val unit: Int?,
+                @SerializedName("paid_unit")
+                val paid_unit: Int?,
             ) {
                 @Keep
                 data class Product(

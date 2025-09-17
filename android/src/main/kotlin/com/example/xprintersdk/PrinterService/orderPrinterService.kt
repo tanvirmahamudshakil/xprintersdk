@@ -116,14 +116,12 @@ class orderPrinterService(
          var x_for_poundOfferApplyList  = mutableListOf<Int>();
          var banquetOfferApplyCartList = mutableListOf<MutableMap<String, Any?>>()
 
-
          fun rotateBitmap180(bitmap: Bitmap): Bitmap {
              val matrix = Matrix().apply {
                  postRotate(180f)
              }
              return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
          }
-
 
 
          fun capitalize(str: String): String? {
@@ -399,10 +397,10 @@ class orderPrinterService(
              var total: Double = 0.0;
              val components = item?.components ?: emptyList();
              for (element in components){
-                 total += (element?.netAmount ?: 0.0)
+                 total += ((element?.netAmount ?: 0.0) * (element?.paid_unit ?: 1))
                  val subComponentes = element?.components ?: emptyList()
                  for (element2 in subComponentes) {
-                     total += ((element2?.netAmount ?: 0.0) * (element2?.unit ?: 1))
+                     total += ((element2?.netAmount ?: 0.0) * (element2?.paid_unit ?: 1))
                  }
              }
              var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
@@ -416,7 +414,7 @@ class orderPrinterService(
                  item?.product?.property?.unit_amount?.toDouble() ?: 0.0
              }
 
-             if(!orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
+             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
                  if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
                      if(weightmultiplayprice) {
 //                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
@@ -464,65 +462,62 @@ class orderPrinterService(
                      }
                  }
 
-             }else if(!orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() != "WEIGHT") {
-                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
-
-//                    val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
-
-                    
-                     total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
-
-                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
-                     var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
-                     total =  p.toDouble()
-
-                 }  else if (item?.offer?.offer?.type == "%_DISCOUNT" && item?.offer?.offer?.status == 1) {
-//                     var p = String.format("%.2f", persentDisocunt(item))
-                     total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
-
-                 }
+             }else {
+//                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
+//
+////                    val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
+//
+//
+//                     total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
+//
+//                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
+//                     var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+//                     total =  p.toDouble()
+//
+//                 }  else if (item?.offer?.offer?.type == "%_DISCOUNT" && item?.offer?.offer?.status == 1) {
+////                     var p = String.format("%.2f", persentDisocunt(item))
+//                     total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
+//
+//                 }
 //                 else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1) {
 //                     var p = buy_x_get_nth_local(item)
 //                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble() - p)
 //
 //                 }
-                 else{
-                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
-                 }
-             } else if (orderModel.isOfferApply && item?.product?.property?.unit_product_type?.uppercase() != "WEIGHT") {
-                 var p = getBanquetOfferForLocal(item)
-
-                 total = ((total + (item?.netAmount ?: 0.0)) * p)
+//                 else{
+//                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
+//                 }
+                 total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
              }
 
              return total
          }
 
-         fun buy_x_get_nth_local(item: OrderData.OrderProduct?) : Double {
-             val findOffer = orderModel.orderProducts?.filter { element ->
-                 element?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" &&
-                         element?.offer?.offerId == item?.offer?.offerId
-             }
-
-             val totalQty = findOffer?.fold(0) { sum, item ->
-                 sum + (item?.unit ?: 1)
-             }
-
-             val buyQty = item?.offer?.offer?.buy ?: 0
-             val offerValue = item?.offer?.offer?.offerFor ?: 0.0
-
-             val sortedFindOffer = findOffer?.sortedBy { it?.netAmount ?: 0.0 }
-
-             return if (sortedFindOffer?.firstOrNull()?.id == item?.id) {
-                 val eligibleSets = if (buyQty != 0) (totalQty ?: 1) / buyQty else 0
-                 val remainingSets = eligibleSets
-                 val totalPrice = item?.netAmount ?: 0.0
-                 val discountAmount = (totalPrice * offerValue) / 100
-                 discountAmount * remainingSets
-             } else {
-                 0.0
-             }
-         }
+//         fun buy_x_get_nth_local(item: OrderData.OrderProduct?) : Double {
+//             val findOffer = orderModel.orderProducts?.filter { element ->
+//                 element?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" &&
+//                         element?.offer?.offerId == item?.offer?.offerId
+//             }
+//
+//             val totalQty = findOffer?.fold(0) { sum, item ->
+//                 sum + (item?.unit ?: 1)
+//             }
+//
+//             val buyQty = item?.offer?.offer?.buy ?: 0
+//             val offerValue = item?.offer?.offer?.offerFor ?: 0.0
+//
+//             val sortedFindOffer = findOffer?.sortedBy { it?.netAmount ?: 0.0 }
+//
+//             return if (sortedFindOffer?.firstOrNull()?.id == item?.id) {
+//                 val eligibleSets = if (buyQty != 0) (totalQty ?: 1) / buyQty else 0
+//                 val remainingSets = eligibleSets
+//                 val totalPrice = item?.netAmount ?: 0.0
+//                 val discountAmount = (totalPrice * offerValue) / 100
+//                 discountAmount * remainingSets
+//             } else {
+//                 0.0
+//             }
+//         }
 
 
 //         fun getBanquetOfferForLocal(item: OrderData.OrderProduct?): Int {
@@ -633,117 +628,117 @@ class orderPrinterService(
 //         }
 
 
-         fun getBanquetOfferForLocal(items: OrderData.OrderProduct?): Int {
-             var itemproduictWithOutSort = orderModel.orderProducts;
-             val isOfferItem = businessdatadata.items?.any { it?.offerProductID == items?.id }
-             if (itemproduictWithOutSort?.firstOrNull()?.id == items?.id) {
-                 banquetOfferApplyCartList.clear()
-             }
-             if (isOfferItem == true) {
-                 return items?.unit ?: 1
-             } else {
-                 val banquetOfferIndex = businessdatadata.items?.indexOfFirst {
-                     it?.categoryID?.contains(items?.categoryId.toString()) == true
-                 }
-
-                 if (banquetOfferIndex != -1) {
-
-                     val banquetOffer = businessdatadata.items?.get(banquetOfferIndex!!)
-
-                     val freeLimit = banquetOffer?.freeQuantity ?: 0
-
-                     val isAvailableInCart = itemproduictWithOutSort?.filter {
-
-                         it?.id == banquetOffer?.offerProductID
-                     }
-
-
-
-
-
-                     isAvailableInCart?.size?.let {
-                         if (it > 0) {
-
-                             val offerProductQty = isAvailableInCart.first()?.unit ?: 1
-                             val totalFreeLimit = freeLimit * offerProductQty
-
-                             val categoryIds = banquetOffer?.categoryID
-                                 ?.split(",")
-                                 ?.mapNotNull { it.toIntOrNull() }
-                                 ?: emptyList()
-
-                             val offerItems1 = itemproduictWithOutSort?.filter {
-                                 categoryIds.contains(it?.categoryId) && it?.product?.property?.epos_gourmet_offer_price_apply == "1"
-                             }
-
-                            var offerItems = offerItems1?.toMutableList()?.asReversed()
-
-                             var remainingFree = totalFreeLimit
-                             val currentItemId = items?.id ?: 0
-
-                             if (offerItems != null) {
-                                 for (item in offerItems) {
-                                     val itemQty = item?.unit ?: 1
-                                     var freeForThisItem = 0
-
-                                     if (remainingFree > 0) {
-                                         freeForThisItem = if (itemQty <= remainingFree) itemQty else remainingFree
-                                     }
-
-                                     remainingFree -= freeForThisItem
-
-                                     val alreadyExists = banquetOfferApplyCartList.any {
-                                         it["id"] == item?.id
-                                     }
-
-                                     banquetOfferApplyCartList.add(
-                                         mutableMapOf(
-                                             "id" to item?.id,
-                                             "sub_id" to item?.components?.map { it?.id.toString() }
-                                                 ?.toMutableList()?.joinToString(","),
-                                             "sub_sub_id" to item?.components?.map { it?.components?.map { it?.id.toString() }?.toMutableList()?.joinToString(",") }
-                                                 ?.toMutableList()?.joinToString(","),
-                                             "freeQty" to freeForThisItem,
-                                             "totalQty" to itemQty,
-                                         )
-                                     )
-
-                                 }
-                             }
-
-                              var sub_id = items?.components?.map { it?.id.toString() }
-                                 ?.toMutableList()?.joinToString(",");
-
-                             var sub_sub_id = items?.components?.map { it?.components?.map { it?.id.toString() }?.toMutableList()?.joinToString(",") }
-                                 ?.toMutableList()?.joinToString(",");
-
-                             val found = banquetOfferApplyCartList.filter {
-                                 it["id"] == currentItemId &&
-                                         it["sub_id"] == sub_id &&
-                                         it["sub_sub_id"] == sub_sub_id
-                             }
-
-
-                             if (found.isNotEmpty()) {
-                                 val freeQty = found.first()["freeQty"] as? Int ?: 0
-                                 val totalQty = found.first()["totalQty"] as? Int ?: 0
-                                 val paidQty = totalQty - freeQty
-
-                                 return paidQty
-                             } else {
-                                 return items?.unit ?: 1
-                             }
-                         } else {
-                             return items?.unit ?: 1
-                         }
-                     }
-                     return items?.unit ?: 1
-                 } else {
-                     return items?.unit ?: 1
-                 }
-             }
-         }
-
+//         fun getBanquetOfferForLocal(items: OrderData.OrderProduct?): Int {
+//             var itemproduictWithOutSort = orderModel.orderProducts;
+//             val isOfferItem = businessdatadata.items?.any { it?.offerProductID == items?.id }
+//             if (itemproduictWithOutSort?.firstOrNull()?.id == items?.id) {
+//                 banquetOfferApplyCartList.clear()
+//             }
+//             if (isOfferItem == true) {
+//                 return items?.unit ?: 1
+//             } else {
+//                 val banquetOfferIndex = businessdatadata.items?.indexOfFirst {
+//                     it?.categoryID?.contains(items?.categoryId.toString()) == true
+//                 }
+//
+//                 if (banquetOfferIndex != -1) {
+//
+//                     val banquetOffer = businessdatadata.items?.get(banquetOfferIndex!!)
+//
+//                     val freeLimit = banquetOffer?.freeQuantity ?: 0
+//
+//                     val isAvailableInCart = itemproduictWithOutSort?.filter {
+//
+//                         it?.id == banquetOffer?.offerProductID
+//                     }
+//
+//
+//
+//
+//
+//                     isAvailableInCart?.size?.let {
+//                         if (it > 0) {
+//
+//                             val offerProductQty = isAvailableInCart.first()?.unit ?: 1
+//                             val totalFreeLimit = freeLimit * offerProductQty
+//
+//                             val categoryIds = banquetOffer?.categoryID
+//                                 ?.split(",")
+//                                 ?.mapNotNull { it.toIntOrNull() }
+//                                 ?: emptyList()
+//
+//                             val offerItems1 = itemproduictWithOutSort?.filter {
+//                                 categoryIds.contains(it?.categoryId) && it?.product?.property?.epos_gourmet_offer_price_apply == "1"
+//                             }
+//
+//                            var offerItems = offerItems1?.toMutableList()?.asReversed()
+//
+//                             var remainingFree = totalFreeLimit
+//                             val currentItemId = items?.id ?: 0
+//
+//                             if (offerItems != null) {
+//                                 for (item in offerItems) {
+//                                     val itemQty = item?.unit ?: 1
+//                                     var freeForThisItem = 0
+//
+//                                     if (remainingFree > 0) {
+//                                         freeForThisItem = if (itemQty <= remainingFree) itemQty else remainingFree
+//                                     }
+//
+//                                     remainingFree -= freeForThisItem
+//
+//                                     val alreadyExists = banquetOfferApplyCartList.any {
+//                                         it["id"] == item?.id
+//                                     }
+//
+//                                     banquetOfferApplyCartList.add(
+//                                         mutableMapOf(
+//                                             "id" to item?.id,
+//                                             "sub_id" to item?.components?.map { it?.id.toString() }
+//                                                 ?.toMutableList()?.joinToString(","),
+//                                             "sub_sub_id" to item?.components?.map { it?.components?.map { it?.id.toString() }?.toMutableList()?.joinToString(",") }
+//                                                 ?.toMutableList()?.joinToString(","),
+//                                             "freeQty" to freeForThisItem,
+//                                             "totalQty" to itemQty,
+//                                         )
+//                                     )
+//
+//                                 }
+//                             }
+//
+//                              var sub_id = items?.components?.map { it?.id.toString() }
+//                                 ?.toMutableList()?.joinToString(",");
+//
+//                             var sub_sub_id = items?.components?.map { it?.components?.map { it?.id.toString() }?.toMutableList()?.joinToString(",") }
+//                                 ?.toMutableList()?.joinToString(",");
+//
+//                             val found = banquetOfferApplyCartList.filter {
+//                                 it["id"] == currentItemId &&
+//                                         it["sub_id"] == sub_id &&
+//                                         it["sub_sub_id"] == sub_sub_id
+//                             }
+//
+//
+//                             if (found.isNotEmpty()) {
+//                                 val freeQty = found.first()["freeQty"] as? Int ?: 0
+//                                 val totalQty = found.first()["totalQty"] as? Int ?: 0
+//                                 val paidQty = totalQty - freeQty
+//
+//                                 return paidQty
+//                             } else {
+//                                 return items?.unit ?: 1
+//                             }
+//                         } else {
+//                             return items?.unit ?: 1
+//                         }
+//                     }
+//                     return items?.unit ?: 1
+//                 } else {
+//                     return items?.unit ?: 1
+//                 }
+//             }
+//         }
+//
 
          fun calculatePriceForOnlineOrder(item: OrderData.OrderProduct?) : Double {
              var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
