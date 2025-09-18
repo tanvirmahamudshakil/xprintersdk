@@ -400,7 +400,7 @@ class orderPrinterService(
                  total += ((element?.netAmount ?: 0.0) * (element?.paid_unit ?: 1))
                  val subComponentes = element?.components ?: emptyList()
                  for (element2 in subComponentes) {
-                     total += ((element2?.netAmount ?: 0.0) * (element2?.paid_unit ?: 1))
+                     total += (((element2?.netAmount ?: 0.0) * (element2?.paid_unit ?: 1)) * (element?.paid_unit ?: 1))
                  }
              }
              var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
@@ -1559,7 +1559,6 @@ class orderPrinterService(
 
 
              bind.ThankYouMessage.text = businessdatadata.thankyoumessage
-
 
 
              if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
