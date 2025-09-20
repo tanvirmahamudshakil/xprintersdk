@@ -304,12 +304,12 @@ class orderPrinterService(
                  for (section in component) {
                      var _comName = ""
                      if (section?.product?.shortName?.uppercase() != "NONE") {
-                         _comName =  "${section?.unit ?: 1}x ${section?.product?.shortName ?: ""}"
+                         _comName =  "   ${section?.unit ?: 1}x ${section?.product?.shortName ?: ""}"
                      }
                      if ((section?.components != null) && section.components.isNotEmpty()) {
                          for (section2 in section.components) {
                              if (section2?.product?.shortName?.uppercase() != "NONE") {
-                                 _comName += " \n " + "${section2?.unit ?: 1}x " + section2?.product?.shortName;
+                                 _comName += " \n " + "   ${section2?.unit ?: 1}x " + section2?.product?.shortName;
                                 // price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
                              }
                          }
