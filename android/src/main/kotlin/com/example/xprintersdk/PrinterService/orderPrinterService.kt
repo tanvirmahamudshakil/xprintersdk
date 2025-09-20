@@ -304,7 +304,7 @@ class orderPrinterService(
                  for (section in component) {
                      var _comName = ""
                      if (section?.product?.shortName?.uppercase() != "NONE") {
-                         _comName =  "   ${section?.unit ?: 1}x ${section?.product?.shortName ?: ""}"
+                         _comName =  "${section?.unit ?: 1}x ${section?.product?.shortName ?: ""}"
                      }
                      if ((section?.components != null) && section.components.isNotEmpty()) {
                          for (section2 in section.components) {
