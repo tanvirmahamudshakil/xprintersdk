@@ -301,6 +301,8 @@ class orderPrinterService(
 
                  }
 
+                 if(item?.product?.property?.discriptionShowInPrinter == "TRUE" && item.product.property.shortDescription != null) str3.append("\n").append(item?.product?.property?.shortDescription ?: "")
+
                  for (section in component) {
                      var _comName = ""
                      if (section?.product?.shortName?.uppercase() != "NONE") {
@@ -347,6 +349,8 @@ class orderPrinterService(
                          }
                      }
                  }
+
+                 if(item?.product?.property?.discriptionShowInPrinter == "TRUE" && item.product.property.shortDescription != null) str3.append("\n").append(item?.product?.property?.shortDescription ?: "")
              }
 
              if (extraIteam != null) {
@@ -1485,8 +1489,8 @@ class orderPrinterService(
                  bind.discount.text =
                      "£ " + String.format( "%.2f", orderModel.discountedAmount)
              }
-             bind.promodiscount.text =
-                 "£ " + String.format( "%.2f", orderModel.promotion_discount_amount?.toFloatOrNull() ?: 0.0)
+//             bind.promodiscount.text =
+//                 "£ " + String.format( "%.2f", orderModel.promotion_discount_amount?.toFloatOrNull() ?: 0.0)
 
              bind.plasticBagContainer.visibility = View.GONE
              bind.containerBagContainer.visibility = View.GONE

@@ -531,6 +531,8 @@ data class OrderData(
                 val isCoupon: String?,
                 @SerializedName("platform")
                 val platform: String?,
+                @SerializedName("discriptionShowInPrinter")
+                val discriptionShowInPrinter: String?,
                 @SerializedName("short_description")
                 val shortDescription: String?,
                 @SerializedName("print_order")
