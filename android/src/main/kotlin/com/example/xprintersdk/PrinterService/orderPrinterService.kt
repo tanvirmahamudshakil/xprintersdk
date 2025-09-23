@@ -397,110 +397,110 @@ class orderPrinterService(
 
          fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?,item: OrderData.OrderProduct?) : Double {
              var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
-
-             var total: Double = 0.0;
-             val components = item?.components ?: emptyList();
-             for (element in components){
-                 total += ((element?.netAmount ?: 0.0) * (element?.paid_unit ?: 1))
-                 val subComponentes = element?.components ?: emptyList()
-                 for (element2 in subComponentes) {
-                     total += (((element2?.netAmount ?: 0.0) * (element2?.paid_unit ?: 1)) * (element?.paid_unit ?: 1))
-                 }
-             }
-             var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
-                 0.0;
-             }else{
-                 item?.product?.property?.tare_weight?.toDouble() ?: 0.0
-             }
-             var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
-                 0.0
-             } else{
-                 item?.product?.property?.unit_amount?.toDouble() ?: 0.0
-             }
-
-             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
-//                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
-//                     if(weightmultiplayprice) {
-////                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
-//                         total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
-//                     }else{
-////                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
-//                         total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
-//                     }
-//
-//                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
-//                     if(weightmultiplayprice) {
-//                         var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
-//                         total =  p.toDouble() * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
-//                     }else{
-//                         var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
-//                         total =  p.toDouble()
-//                     }
-//
-//                 } else if (item?.offer?.offer?.type == "%_DISCOUNT" && item?.offer?.offer?.status == 1){
-//                     if(weightmultiplayprice) {
-////                         var p = String.format("%.2f", persentDisocunt(item))
-//                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
-//                     }else{
-////                         var p = String.format("%.2f", persentDisocunt(item))
-//                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
-//                     }
+               return item?.netAmount ?: 0.0;
+//             var total: Double = 0.0;
+//             val components = item?.components ?: emptyList();
+//             for (element in components){
+//                 total += ((element?.netAmount ?: 0.0) * (element?.paid_unit ?: 1))
+//                 val subComponentes = element?.components ?: emptyList()
+//                 for (element2 in subComponentes) {
+//                     total += (((element2?.netAmount ?: 0.0) * (element2?.paid_unit ?: 1)) * (element?.paid_unit ?: 1))
 //                 }
+//             }
+//             var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
+//                 0.0;
+//             }else{
+//                 item?.product?.property?.tare_weight?.toDouble() ?: 0.0
+//             }
+//             var unitAmount = if(item?.product?.property?.unit_amount?.isEmpty() == true) {
+//                 0.0
+//             } else{
+//                 item?.product?.property?.unit_amount?.toDouble() ?: 0.0
+//             }
 //
-////                 else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1){
-////                     var p = buy_x_get_nth_local(item)
+//             if(item?.product?.property?.unit_product_type?.uppercase() == "WEIGHT") {
+////                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
 ////                     if(weightmultiplayprice) {
-////
-////                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)  * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight) - p);
+//////                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
+////                         total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
 ////                     }else{
+//////                         val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
+////                         total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
+////                     }
 ////
-////                         total = (((total + (item.netAmount ?: 0.0)))* (item.unit ?: 1) - 1)
+////                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
+////                     if(weightmultiplayprice) {
+////                         var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+////                         total =  p.toDouble() * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+////                     }else{
+////                         var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+////                         total =  p.toDouble()
+////                     }
+////
+////                 } else if (item?.offer?.offer?.type == "%_DISCOUNT" && item?.offer?.offer?.status == 1){
+////                     if(weightmultiplayprice) {
+//////                         var p = String.format("%.2f", persentDisocunt(item))
+////                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight)
+////                     }else{
+//////                         var p = String.format("%.2f", persentDisocunt(item))
+////                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
+////                     }
+////                 }
+////
+//////                 else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1){
+//////                     var p = buy_x_get_nth_local(item)
+//////                     if(weightmultiplayprice) {
+//////
+//////                         total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1)  * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight) - p);
+//////                     }else{
+//////
+//////                         total = (((total + (item.netAmount ?: 0.0)))* (item.unit ?: 1) - 1)
+//////                     }
+//////                 }
+////
+////                 else{
+////                     if(weightmultiplayprice) {
+////                         total = (((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble()) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight))
+////                     }else{
+////                         total = ((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble())
 ////                     }
 ////                 }
 //
-//                 else{
-//                     if(weightmultiplayprice) {
-//                         total = (((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble()) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight))
-//                     }else{
-//                         total = ((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble())
-//                     }
+//                 if(weightmultiplayprice) {
+//                     total = (((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble()) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight))
+//                 }else{
+//                     total = ((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble())
 //                 }
-
-                 if(weightmultiplayprice) {
-                     total = (((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble()) * ((if (unitAmount == 0.0) 1.0 else unitAmount) - tareWeight))
-                 }else{
-                     total = ((total + (item.netAmount ?: 0.0)) * (item.unit?: 1).toDouble())
-                 }
-
-             }else {
-//                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
 //
-////                    val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
+//             }else {
+////                 if (item?.offer?.offer?.type == "X_FOR_Y" && item?.offer?.offer?.status == 1) {
+////
+//////                    val p = String.format("%.2f", getOrderOfferPrice(item).toDouble())
+////
+////
+////                     total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
+////
+////                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
+////                     var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
+////                     total =  p.toDouble()
+////
+////                 }  else if (item?.offer?.offer?.type == "%_DISCOUNT" && item?.offer?.offer?.status == 1) {
+//////                     var p = String.format("%.2f", persentDisocunt(item))
+////                     total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
+////
+////                 }
+////                 else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1) {
+////                     var p = buy_x_get_nth_local(item)
+////                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble() - p)
+////
+////                 }
+////                 else{
+////                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
+////                 }
+//                 total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
+//             }
 //
-//
-//                     total = ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
-//
-//                 }else if (item?.offer?.offer?.type == "X_FOR_£" && item?.offer?.offer?.status == 1) {
-//                     var p = String.format("%.2f", xForPoundOfferLocalDetailOrder(item, listorderProducts))
-//                     total =  p.toDouble()
-//
-//                 }  else if (item?.offer?.offer?.type == "%_DISCOUNT" && item?.offer?.offer?.status == 1) {
-////                     var p = String.format("%.2f", persentDisocunt(item))
-//                     total =  ((total + (item.netAmount ?: 0.0)) * (item.unit ?: 1))
-//
-//                 }
-//                 else if (item?.offer?.offer?.type == "BUY_X_GET_%OFF_NTH" && item?.offer?.offer?.status == 1) {
-//                     var p = buy_x_get_nth_local(item)
-//                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble() - p)
-//
-//                 }
-//                 else{
-//                     total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
-//                 }
-                 total = ((total + (item?.netAmount ?: 0.0)) * (item?.unit?: 1).toDouble())
-             }
-
-             return total
+//             return total
          }
 
 //         fun buy_x_get_nth_local(item: OrderData.OrderProduct?) : Double {
