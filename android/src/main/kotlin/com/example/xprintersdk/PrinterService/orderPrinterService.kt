@@ -753,6 +753,7 @@ class orderPrinterService(
          fun calculatePriceForOnlineOrder(item: OrderData.OrderProduct?) : Double {
              var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
              var total: Double = 0.0;
+             var promoAmount =  item?.promo_discount?.toDoubleOrNull() ?: 0.0;
              val components = item?.components ?: emptyList();
              for (element in components){
                  total += (element?.netAmount ?: 0.0)
@@ -782,7 +783,7 @@ class orderPrinterService(
              }else{
                  total = ((total + (item?.netAmount ?: 0.0)))
              }
-             return total
+             return (total - promoAmount)
          }
 
          fun unitGet(data: OrderData.OrderProduct?): String {

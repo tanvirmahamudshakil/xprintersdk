@@ -291,6 +291,8 @@ data class OrderData(
         val id: Int?,
         @SerializedName("net_amount")
         val netAmount: Double?,
+        @SerializedName("promo_discount")
+        val promo_discount: String?,
         @SerializedName("order_id")
         val orderId: Int?,
         @SerializedName("parent_id")
