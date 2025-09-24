@@ -754,7 +754,7 @@ class orderPrinterService(
          fun calculatePriceForOnlineOrder(item: OrderData.OrderProduct?) : Double {
              var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
              var total: Double = 0.0;
-
+             var promo_discount = item?.promo_discount?.toDoubleOrNull() ?: 0.0;
              val components = item?.components ?: emptyList();
 
              for (element in components){
@@ -783,10 +783,10 @@ class orderPrinterService(
                      total = ((total + (item.netAmount ?: 0.0)))
                  }
 
-             }else{
+             } else{
                  total = ((total + (item?.netAmount ?: 0.0)))
              }
-             return (total)
+             return (total - promo_discount)
          }
 
          fun unitGet(data: OrderData.OrderProduct?): String {
@@ -1453,7 +1453,12 @@ class orderPrinterService(
              bind.orderPaidMessage.text = paidOrNot
              bind.orderPaidMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
 //             bind.refundContainer.visibility = View.GONE
-             val subTotal: Double = orderModel.netAmount ?: 0.0
+             var subTotal: Double = 0.0
+             if(orderModel.orderChannel == "ONLINE") {
+                 subTotal = (orderModel.netAmount ?: 0.0) - (orderModel.promotion_discount_amount?.toDoubleOrNull() ?: 0.0) ;
+             }else{
+                 subTotal = (orderModel.netAmount ?: 0.0)
+             }
              bind.subTotal.text = "£ " + String.format( "%.2f", subTotal)
              bind.subTotal2.text = "Sub Total: £ " + String.format( "%.2f", subTotal)
              bind.serviceChage.text = "£ " + String.format("%.2f", orderModel.serviceCharge ?: 0.0)
