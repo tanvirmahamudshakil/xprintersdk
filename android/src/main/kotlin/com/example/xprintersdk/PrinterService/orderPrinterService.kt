@@ -298,7 +298,6 @@ class orderPrinterService(
                      }else{
                          str3.append(item?.unit).append("x ").append(item?.product?.shortName)
                      }
-
                  }
 
                  if(item?.product?.property?.discriptionShowInPrinter == "TRUE" && item.product.property.shortDescription != null) str3.append("\n").append(item?.product?.property?.shortDescription ?: "")
@@ -376,14 +375,13 @@ class orderPrinterService(
              if(orderModel.orderChannel?.uppercase() == "ONLINE") {
                  price = calculatePriceForOnlineOrder(item)
              }else  {
-
                  price = calculatePriceForLocalOrder(listorderProducts, item)
              }
 //             val totaldiscount = (price * (discount / 100))
 //             price -= totaldiscount;
 
 
-             Log.e("price get", "getView: ${price}----")
+
              if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
              binding.itemText.text = str3.toString()
              binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
@@ -756,8 +754,9 @@ class orderPrinterService(
          fun calculatePriceForOnlineOrder(item: OrderData.OrderProduct?) : Double {
              var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
              var total: Double = 0.0;
-             var promoAmount =  item?.promo_discount?.toDoubleOrNull() ?: 0.0;
+
              val components = item?.components ?: emptyList();
+
              for (element in components){
                  total += (element?.netAmount ?: 0.0)
                  val subComponentes = element?.components ?: emptyList()
@@ -765,6 +764,7 @@ class orderPrinterService(
                      total += ((element2?.netAmount ?: 0.0))
                  }
              }
+
              var tareWeight : Double = if(item?.product?.property?.tare_weight?.isEmpty() == true) {
                  0.0;
              }else{
@@ -786,7 +786,7 @@ class orderPrinterService(
              }else{
                  total = ((total + (item?.netAmount ?: 0.0)))
              }
-             return (total - promoAmount)
+             return (total)
          }
 
          fun unitGet(data: OrderData.OrderProduct?): String {
