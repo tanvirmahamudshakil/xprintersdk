@@ -398,7 +398,7 @@ class orderPrinterService(
 
          fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?,item: OrderData.OrderProduct?) : Double {
              var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
-               return item?.netAmount ?: 0.0;
+               return item?.netAmountWihPromoApply ?: 0.0;
 //             var total: Double = 0.0;
 //             val components = item?.components ?: emptyList();
 //             for (element in components){

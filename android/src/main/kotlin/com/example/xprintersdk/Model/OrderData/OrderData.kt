@@ -308,7 +308,9 @@ data class OrderData(
         @SerializedName("offer")
         val offer : ProductDatumOffer?,
         @SerializedName("category_name")
-        val categoryName : String?
+        val categoryName : String?,
+        @SerializedName("netAmountWihPromoApply")
+        val netAmountWihPromoApply : Double?
     ) {
         @Keep
         data class ProductDatumOffer(
