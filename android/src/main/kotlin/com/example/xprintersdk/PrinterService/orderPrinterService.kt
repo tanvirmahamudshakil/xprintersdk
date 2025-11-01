@@ -322,7 +322,7 @@ class orderPrinterService(
                          if(businessdatadata.printerStyle == "1") {
                              str3.append("\n  ").append(_comName)
                          }else{
-                             str3.append(" -> ").append(_comName)
+                             str3.append("\n -> ").append(_comName)
                          }
                      }
                     // price += section?.netAmount ?: 0.0;
