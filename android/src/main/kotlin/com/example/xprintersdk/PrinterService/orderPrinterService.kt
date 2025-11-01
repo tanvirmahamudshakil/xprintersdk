@@ -314,9 +314,9 @@ class orderPrinterService(
                          for (section2 in section.components) {
                              if (section2?.product?.shortName?.uppercase() != "NONE") {
                                  if(businessdatadata.printerStyle == "1") {
-                                     _comName += " \n " + "   ${section2?.unit ?: 1}x " + section2?.product?.shortName;
+                                     _comName += " \n " + "  ${section2?.unit ?: 1}x " + section2?.product?.shortName;
                                  }else{
-                                     _comName += " -> " + "   ${section2?.unit ?: 1}x " + section2?.product?.shortName;
+                                     _comName += " -> " + "  ${section2?.unit ?: 1}x " + section2?.product?.shortName;
                                  }
 
                                 // price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
@@ -325,7 +325,7 @@ class orderPrinterService(
                      }
                      if (_comName != "") {
                          if(businessdatadata.printerStyle == "1") {
-                             str3.append("\n    ").append(_comName)
+                             str3.append("\n  ").append(_comName)
                          }else{
                              str3.append(" -> ").append(_comName)
                          }
