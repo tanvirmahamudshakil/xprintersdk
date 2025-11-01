@@ -314,7 +314,7 @@ class orderPrinterService(
                          for (section2 in section.components) {
                              if (section2?.product?.shortName?.uppercase() != "NONE") {
                                  if(businessdatadata.printerStyle == "2") {
-                                     _comName += " \n " + "      ${section2?.unit ?: 1}x " + section2?.product?.shortName;
+                                     _comName += " \n " + "       ${section2?.unit ?: 1}x " + section2?.product?.shortName;
                                  }else{
                                      _comName += " \n " + "   ${section2?.unit ?: 1}x " + section2?.product?.shortName;
                                  }
