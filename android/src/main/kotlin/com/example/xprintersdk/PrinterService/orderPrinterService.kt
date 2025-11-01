@@ -307,18 +307,13 @@ class orderPrinterService(
                      if (section?.product?.shortName?.uppercase() != "NONE") {
                          _comName =  "${section?.unit ?: 1}x ${section?.product?.shortName ?: ""}"
                          if(section?.product?.description != null) {
-                             _comName += " \n  " + "   ${section?.product?.description ?: ""}"
+                             _comName += " \n " + "   ${section?.product?.description ?: ""}"
                          }
                      }
                      if ((section?.components != null) && section.components.isNotEmpty()) {
                          for (section2 in section.components) {
                              if (section2?.product?.shortName?.uppercase() != "NONE") {
-                                 if(businessdatadata.printerStyle == "1") {
-                                     _comName += "\n  " + "  ${section2?.unit ?: 1}x " + section2?.product?.shortName;
-                                 }else{
-                                     _comName += " -> " + "  ${section2?.unit ?: 1}x " + section2?.product?.shortName;
-                                 }
-
+                                 _comName += " \n " + "   ${section2?.unit ?: 1}x " + section2?.product?.shortName;
                                 // price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
                              }
                          }
@@ -327,7 +322,7 @@ class orderPrinterService(
                          if(businessdatadata.printerStyle == "1") {
                              str3.append("\n  ").append(_comName)
                          }else{
-                             str3.append("\n->  ").append(_comName)
+                             str3.append(" -> ").append(_comName)
                          }
                      }
                     // price += section?.netAmount ?: 0.0;
