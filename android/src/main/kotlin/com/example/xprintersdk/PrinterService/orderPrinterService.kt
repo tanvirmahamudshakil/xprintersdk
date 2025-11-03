@@ -316,7 +316,7 @@ class orderPrinterService(
                                  if(businessdatadata.printerStyle == "2") {
                                      _comName += " \n " + "        ${section2?.unit ?: 1}x " + section2?.product?.shortName;
                                  }else{
-                                     _comName += " \n " + "        ${section2?.unit ?: 1}x " + section2?.product?.shortName;
+                                     _comName += " \n " + "      ${section2?.unit ?: 1}x " + section2?.product?.shortName;
                                  }
 
                                 // price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
@@ -324,10 +324,10 @@ class orderPrinterService(
                          }
                      }
                      if (_comName != "") {
-                         if(businessdatadata.printerStyle == "1") {
-                             str3.append("\n   ").append(_comName)
-                         }else{
+                         if(businessdatadata.printerStyle == "2") {
                              str3.append("\n -> ").append(_comName)
+                         }else{
+                             str3.append("\n   ").append(_comName)
                          }
                      }
                     // price += section?.netAmount ?: 0.0;
