@@ -866,17 +866,17 @@
                         android:textColor="@color/black"
 
                         />
-                    <TextView
-                        android:id="@+id/businessPostCode"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:text="125 568"
-                        android:textStyle="bold"
-                        android:textAlignment="textStart"
-                        android:textColor="@color/black"
+<!--                    <TextView-->
+<!--                        android:id="@+id/businessPostCode"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:textSize="16sp"-->
+<!--                        android:text="125 568"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:textAlignment="textStart"-->
+<!--                        android:textColor="@color/black"-->
 
-                        />
+<!--                        />-->
 
                     <TextView
                         android:id="@+id/businessPhone2"

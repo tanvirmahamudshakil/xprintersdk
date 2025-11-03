@@ -1175,6 +1175,7 @@ class orderPrinterService(
                  bind.businessLocation2.text = businessaddress
                  bind.businessLocation2.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
                  bind.businessPhone2.text = businessphone
+
                  bind.businessPhone2.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
              }else{
                  bind.businessLocation.text = businessaddress
