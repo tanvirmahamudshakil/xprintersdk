@@ -316,7 +316,7 @@ class orderPrinterService(
                                  if(businessdatadata.printerStyle == "2") {
                                      _comName += " \n " + "        ${section2?.unit ?: 1}x " + section2?.product?.shortName;
                                  }else{
-                                     _comName += " \n " + "    ${section2?.unit ?: 1}x " + section2?.product?.shortName;
+                                     _comName += " \n " + "        ${section2?.unit ?: 1}x " + section2?.product?.shortName;
                                  }
 
                                 // price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
