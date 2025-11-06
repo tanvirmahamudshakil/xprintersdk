@@ -402,7 +402,7 @@ class orderPrinterService(
 
 
          fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?,item: OrderData.OrderProduct?) : Double {
-             var weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
+             val weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
                return item?.netAmountWihPromoApply ?: 0.0;
 //             var total: Double = 0.0;
 //             val components = item?.components ?: emptyList();
@@ -1146,15 +1146,20 @@ class orderPrinterService(
              var totalCardPaid : Double = 0.0;
              var totalCashPaid: Double = 0.0;
              var totalReceivePound : Double = 0.0
+             var totalDue : Double = 0.0
               // var totalDue : Double = 0.0;
              val refundList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "REFUND"}
              var cardPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CARD" || it?.type?.uppercase() == "CARD"}
              var cashPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CASH" || it?.type?.uppercase() == "CASH"}
+             var dueList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "DUE"}
 
              val receivePoundList = orderModel.cashEntry?.filter { it?.type?.uppercase() != "REFUND"}
              val changeAmount : Double = orderModel.changeAmount ?: 0.0;
              refundList?.forEach {
                  totalRefund += (it?.amount ?: 0.0)
+             }
+             dueList?.forEach {
+                 totalDue += (it?.amount ?: 0.0)
              }
              cardPaidList?.forEach {
                  totalCardPaid += (it?.amount?: 0.0)
@@ -1378,13 +1383,27 @@ class orderPrinterService(
                      if(orderModel.paymentType?.uppercase() == "CARD" || orderModel.paymentType?.uppercase() == "EPOS_CARD"){
                          paidOrNot ="ORDER IS PAID"
                      }else if(orderModel.paymentType?.uppercase() == "CASH" || orderModel.paymentType?.uppercase() == "EPOS_CASH") {
-                         if (orderModel.cashEntry == null || orderModel.cashEntry!!.isEmpty()){
+                         var totalpay = (totalCardPaid + totalCashPaid) - totalRefund
+                         var due = (orderModel.payableAmount ?: 0.0) - totalpay
+                         if(totalpay >= (orderModel.payableAmount ?: 0.0)) {
+                             paidOrNot ="ORDER IS PAID"
+                         }else{
                              paidOrNot = "ORDER NOT PAID"
                              bind.dueTotalContainer.visibility = View.VISIBLE
-                             bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
-                         }else{
-                             paidOrNot ="ORDER IS PAID"
+                             if(due > 0) {
+                                 bind.dueTotal.text = "£ " + String.format("%.2f", due)
+                             }else{
+                                 bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                             }
+
                          }
+//                         if (orderModel.cashEntry == null || orderModel.cashEntry!!.isEmpty()){
+//                             paidOrNot = "ORDER NOT PAID"
+//                             bind.dueTotalContainer.visibility = View.VISIBLE
+//                             bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+//                         }else{
+//                             paidOrNot ="ORDER IS PAID"
+//                         }
                      }
                  }
              } else if (orderModel.orderChannel?.uppercase() != "ONLINE") {
@@ -1419,8 +1438,22 @@ class orderPrinterService(
                      bind.dueTotal.text = "£ 0.0"
                  } else{
                      if(orderModel.cashEntry != null && orderModel.cashEntry!!.isNotEmpty()) {
-                         paidOrNot ="ORDER IS PAID"
-                         bind.dueTotal.text = "£ 0.0"
+//                         paidOrNot ="ORDER IS PAID"
+//                         bind.dueTotal.text = "£ 0.0"
+                         var totalpay = (totalCardPaid + totalCashPaid) - totalRefund
+                         var due = (orderModel.payableAmount ?: 0.0) - totalpay
+                         if(totalpay >= (orderModel.payableAmount ?: 0.0)) {
+                             paidOrNot ="ORDER IS PAID"
+                         }else{
+                             paidOrNot = "ORDER NOT PAID"
+                             bind.dueTotalContainer.visibility = View.VISIBLE
+                             if(due > 0) {
+                                 bind.dueTotal.text = "£ " + String.format("%.2f", due)
+                             }else{
+                                 bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+                             }
+
+                         }
                      }else{
                          if(orderModel.paymentType?.uppercase() == "UNPAID_CASH") {
                              paidOrNot ="ORDER IS UNPAID(CASH)"
