@@ -324,7 +324,7 @@ class orderPrinterService(
                                  var name = section2?.product?.shortName ?: "";
                                  var unit = section2?.unit ?: 1
                                  if(businessdatadata.printerStyle == "2") {
-                                     _comName += "\n      " + ((if (unit == 1) "" else "${unit}x ") + name);
+                                     _comName += "\n      -> " + ((if (unit == 1) "" else "${unit}x ") + name);
                                  }else{
                                      _comName += "\n      " + ((if (unit == 1) "" else "${unit}x ") + name);
                                  }
@@ -379,7 +379,7 @@ class orderPrinterService(
                      if(businessdatadata.printerStyle == "1") {
                          topping.append("\n")
                      }else{
-                         topping.append(" -> ")
+                         topping.append("\n-> ")
                      }
 //                val topping = java.lang.StringBuilder("\n")
                      for (extraItem in extraIteam) {
