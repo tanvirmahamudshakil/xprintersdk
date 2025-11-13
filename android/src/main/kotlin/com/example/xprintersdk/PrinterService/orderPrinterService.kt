@@ -304,21 +304,27 @@ class orderPrinterService(
 
                  for (section in component) {
                      var _comName = ""
+                     var reqularLargeNormal = isRegularNormalLarge(section)
                      if (section?.product?.shortName?.uppercase() != "NONE") {
-                         _comName =  "${section?.unit ?: 1}x ${section?.product?.shortName ?: ""}"
+                         var name = section?.product?.shortName ?: "";
+                         var unit = section?.unit ?: 1
+
+                         _comName = ((if (unit == 1) "" else "${unit}x ") + name)
+                         if(reqularLargeNormal) _comName += " (${section?.components?.first()?.product?.shortName})"
                          if(section?.product?.description != null) {
-                             _comName += " \n " + "   ${section?.product?.description ?: ""}"
+                             _comName += "\n" + "${section?.product?.description ?: ""}"
                          }
                      }
-                     if ((section?.components != null) && section.components.isNotEmpty()) {
+                     if ((section?.components != null) && section.components.isNotEmpty() && !reqularLargeNormal) {
                          for (section2 in section.components) {
                              if (section2?.product?.shortName?.uppercase() != "NONE") {
+                                 var name = section2?.product?.shortName ?: "";
+                                 var unit = section2?.unit ?: 1
                                  if(businessdatadata.printerStyle == "2") {
-                                     _comName += " \n " + "        ${section2?.unit ?: 1}x " + section2?.product?.shortName;
+                                     _comName += "\n      " + ((if (unit == 1) "" else "${unit}x ") + name);
                                  }else{
-                                     _comName += " \n " + "      ${section2?.unit ?: 1}x " + section2?.product?.shortName;
+                                     _comName += "\n      " + ((if (unit == 1) "" else "${unit}x ") + name);
                                  }
-
                                 // price += ((section2?.netAmount ?: 0.0) * (section2?.unit ?: 1));
                              }
                          }
@@ -399,6 +405,17 @@ class orderPrinterService(
              binding.root.buildDrawingCache(true)
              return binding.root
     }
+
+
+
+         fun isRegularNormalLarge(d: OrderData.OrderProduct.Component?): Boolean {
+             return if (d?.components?.size == 1) {
+                 val itemName = d.components.first()?.product?.shortName?.lowercase()
+                 itemName == "regular" || itemName == "normal" || itemName == "large"
+             } else {
+                 false
+             }
+         }
 
 
          fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?,item: OrderData.OrderProduct?) : Double {
