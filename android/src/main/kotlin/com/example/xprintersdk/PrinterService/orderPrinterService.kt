@@ -284,7 +284,10 @@ class orderPrinterService(
 //                     binding.underLine.visibility = View.VISIBLE
 //                 }
 //             }
-             if (!component.isNullOrEmpty()) {
+
+             var regularNormalLargeSecoundItem = isRegularNormalLargeSecoundItem(component)
+
+             if (!component.isNullOrEmpty() && !regularNormalLargeSecoundItem) {
                  if (businessdatadata.show_category_name && item?.categoryName != null){
                      if(businessdatadata.invoice_type == "GROCERY") {
                          str3.append("${item.product?.shortName},${item.categoryName}")
@@ -351,7 +354,11 @@ class orderPrinterService(
                          if(businessdatadata.invoice_type == "GROCERY"){
                              str3.append(item.product.shortName)
                          }else{
-                             str3.append(item.unit).append("x ").append(item.product.shortName)
+                             var name = item.product.shortName;
+                             if(regularNormalLargeSecoundItem) {
+                                 name += " (${component?.first()?.product?.shortName})"
+                             }
+                             str3.append(item.unit).append("x ").append(name)
                          }
 
                      }
@@ -411,6 +418,15 @@ class orderPrinterService(
          fun isRegularNormalLarge(d: OrderData.OrderProduct.Component?): Boolean {
              return if (d?.components?.size == 1) {
                  val itemName = d.components.first()?.product?.shortName?.lowercase()
+                 itemName == "regular" || itemName == "normal" || itemName == "large"
+             } else {
+                 false
+             }
+         }
+
+         fun isRegularNormalLargeSecoundItem(component: List<OrderData.OrderProduct.Component?>?): Boolean {
+             return if (component?.size == 1) {
+                 val itemName = component?.first()?.product?.shortName?.lowercase()
                  itemName == "regular" || itemName == "normal" || itemName == "large"
              } else {
                  false
