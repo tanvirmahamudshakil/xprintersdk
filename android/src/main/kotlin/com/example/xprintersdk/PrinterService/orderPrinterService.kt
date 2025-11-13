@@ -383,7 +383,7 @@ class orderPrinterService(
                      }
 //                val topping = java.lang.StringBuilder("\n")
                      for (extraItem in extraIteam) {
-                         topping.append("  *").append(extraItem?.product?.shortName)
+                         topping.append("*").append("${extraItem?.product?.shortName}  ")
                         // price += extraItem?.netAmount!!;
                      }
                      str3.append(topping.toString())
