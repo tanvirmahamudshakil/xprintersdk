@@ -14,24 +14,10 @@ class ProductPrint {
   String? barcode;
   String? expire;
 
-  ProductPrint({
-    this.name,
-    this.price,
-    this.barcode,
-    this.expire,
-  });
+  ProductPrint({this.name, this.price, this.barcode, this.expire});
 
-  factory ProductPrint.fromJson(Map<String, dynamic> json) => ProductPrint(
-        name: json["name"],
-        price: json["price"],
-        barcode: json["barcode"],
-        expire: json["expire"]
-      );
+  factory ProductPrint.fromJson(Map<String, dynamic> json) =>
+      ProductPrint(name: json["name"], price: json["price"], barcode: json["barcode"], expire: json["expire"]);
 
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "price": price,
-        "barcode": barcode,
-        "expire": expire,
-      };
+  Map<String, dynamic> toJson() => {"name": name, "price": price, "barcode": barcode, "expire": expire};
 }

@@ -77,6 +77,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private var kitchenPrint = "kitchenPrint"
   private var kitchenPrintImageGallay = "kitchenPrintImageGallay"
   private var openCashDrawer = "openCashDrawer"
+    private var xPrinterUsbList = "availableusbpath";
 
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -153,6 +154,8 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
       kitchenPrintImageGallay(call, result)
     } else if (call.method == openCashDrawer) {
       openCshDrawerBox(call, result)
+    } else if (call.method == xPrinterUsbList) {
+        xPrinterUsbPathList(call, result)
     }
     else {
       result.notImplemented()
@@ -166,6 +169,12 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private fun xPrinterInitialization() {
     xprinter.initBinding()
   }
+
+    private fun xPrinterUsbPathList(call: MethodCall, result : Result) {
+        var pathList =  xprinter.availableUsbDevices()
+        result.success(pathList)
+
+    }
   private fun sunmiPrinterService(result: MethodChannel.Result) {
     sunmiHelper.initSunmiPrinterService(context)
     result.success(true)
@@ -185,6 +194,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   private fun xPrinterConnect(call: MethodCall, result : Result) {
     var printerbusinessdata = call.argument<String>("printer_model_data")
     var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
+      Log.e("printerip", "connectNet: ${businessdata.ip}", )
     if (businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "ipconnection"){
       xprinter.connectNet(businessdata.ip,result);
     }else if(businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "usbconnection"){

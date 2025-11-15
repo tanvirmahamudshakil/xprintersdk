@@ -22,6 +22,8 @@ class _MyAppState extends State<MyApp> {
   final List<PrinterFormData> _printers = [];
   int _printerCounter = 0;
 
+  List<String> usbPathList = [];
+
   final Map<String, dynamic> _sampleOrder = {
     "id": null,
     "online_order_id": null,
@@ -347,7 +349,12 @@ class _MyAppState extends State<MyApp> {
     "cash_entry": [],
     "branch": {"id": null, "name": "alislah", "value": null, "created_at": null, "updated_at": null, "property": null},
     "table": null,
-    "property": {"comment": null, "requested_delivery_timestamp_type": "ASAP", "total_value_edit": null, "total_value_edit_note": null},
+    "property": {
+      "comment": null,
+      "requested_delivery_timestamp_type": "ASAP",
+      "total_value_edit": null,
+      "total_value_edit_note": null,
+    },
     "vat": 0.0,
     "totalvalueEdit": false,
     "totalValueEditcomment": "manager has edited price",
@@ -371,6 +378,11 @@ class _MyAppState extends State<MyApp> {
       printer.dispose();
     }
     super.dispose();
+  }
+
+  Future refreshUsbPathList() async {
+    usbPathList = await Xprintersdk().getXPrinterUsbList();
+    setState(() {});
   }
 
   Future<void> _initXPrinterBinding() async {
@@ -410,13 +422,13 @@ class _MyAppState extends State<MyApp> {
     final printerJson = Map<String, dynamic>.from(_basePrinterJson);
     printerJson["printer_connection"] = form.connectionType;
     printerJson["ip"] = form.connectionType == 'ipconnection' ? form.ipController.text.trim() : "";
-    printerJson["xprinter_path"] =
-        form.connectionType == 'usbconnection' ? form.usbPathController.text.trim() : null;
+    printerJson["xprinter_path"] = form.connectionType == 'usbconnection' ? form.usbPathController.text.trim() : null;
     return PrinterBusinessModel.fromJson(printerJson);
   }
 
   Future<void> _connectPrinter(PrinterFormData form) async {
     final validation = _validateForm(form);
+
     if (validation != null) {
       _showSnack(validation);
       return;
@@ -427,6 +439,7 @@ class _MyAppState extends State<MyApp> {
     });
     try {
       final businessModel = _buildPrinterModel(form);
+      print("jcbjashcas ${businessModel.printerConnection}");
       final connected = await _xprintersdkPlugin.XPrinterConnect(businessModel);
       _updateStatus(form, connected ? "Connected successfully" : "Connection failed");
       _showSnack(connected ? "${form.displayName} connected" : "${form.displayName} failed to connect");
@@ -448,8 +461,7 @@ class _MyAppState extends State<MyApp> {
     });
     try {
       final businessModel = _buildPrinterModel(form);
-      final status =
-          await _xprintersdkPlugin.XPrinterConnectionCheck(printermodel: businessModel);
+      final status = await _xprintersdkPlugin.XPrinterConnectionCheck(printermodel: businessModel);
       _updateStatus(form, status ? "Printer is online" : "Printer is offline");
     } catch (e) {
       _updateStatus(form, "Status check failed");
@@ -469,10 +481,7 @@ class _MyAppState extends State<MyApp> {
     });
     try {
       final businessModel = _buildPrinterModel(form);
-      await _xprintersdkPlugin.XPrinterPrintOnLineData(
-        businessModel,
-        Map<String, Object?>.from(_sampleOrder),
-      );
+      await _xprintersdkPlugin.XPrinterPrintOnLineData(businessModel, Map<String, Object?>.from(_sampleOrder));
       _updateStatus(form, "Sample sent to printer");
       _showSnack("${form.displayName}: sample order sent");
     } catch (e) {
@@ -489,11 +498,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void _showSnack(String message) {
-    Get.showSnackbar(GetSnackBar(
-      title: "XPrinter",
-      message: message,
-      duration: const Duration(seconds: 2),
-    ));
+    Get.showSnackbar(GetSnackBar(title: "XPrinter", message: message, duration: const Duration(seconds: 2)));
   }
 
   Widget _buildPrinterCard(PrinterFormData form) {
@@ -508,10 +513,7 @@ class _MyAppState extends State<MyApp> {
           children: [
             Row(
               children: [
-                Text(
-                  form.displayName,
-                  style: theme?.textTheme.titleMedium,
-                ),
+                Text(form.displayName, style: theme?.textTheme.titleMedium),
                 const Spacer(),
                 if (_printers.length > 1)
                   IconButton(
@@ -526,14 +528,8 @@ class _MyAppState extends State<MyApp> {
               value: form.connectionType,
               decoration: const InputDecoration(labelText: "Connection type"),
               items: const [
-                DropdownMenuItem(
-                  value: 'ipconnection',
-                  child: Text('LAN (IP)'),
-                ),
-                DropdownMenuItem(
-                  value: 'usbconnection',
-                  child: Text('USB'),
-                ),
+                DropdownMenuItem(value: 'ipconnection', child: Text('LAN (IP)')),
+                DropdownMenuItem(value: 'usbconnection', child: Text('USB')),
               ],
               onChanged: (value) {
                 if (value == null) return;
@@ -546,25 +542,34 @@ class _MyAppState extends State<MyApp> {
             if (isIpConnection)
               TextField(
                 controller: form.ipController,
-                decoration: const InputDecoration(
-                  labelText: 'Printer IP address',
-                  hintText: 'e.g. 192.168.0.100',
-                ),
+                decoration: const InputDecoration(labelText: 'Printer IP address', hintText: 'e.g. 192.168.0.100'),
                 keyboardType: TextInputType.text,
               )
             else
-              TextField(
-                controller: form.usbPathController,
-                decoration: const InputDecoration(
+              DropdownButtonFormField(
+                // controller: form.usbPathController,
+                items: List.generate(usbPathList.length, (index) {
+                  var d = usbPathList[index];
+                  return DropdownMenuItem(child: Text(d.toString()), value: d);
+                }),
+                decoration: InputDecoration(
                   labelText: 'USB path',
                   hintText: '/dev/bus/usb/001/002',
+                  prefixIcon: IconButton(
+                    onPressed: () {
+                      refreshUsbPathList();
+                    },
+                    icon: Icon(Icons.refresh),
+                  ),
                 ),
+                onChanged: (value) {
+                  setState(() {
+                    form.usbPathController.text = value!;
+                  });
+                },
               ),
             const SizedBox(height: 16),
-            if (form.isBusy) ...[
-              const LinearProgressIndicator(),
-              const SizedBox(height: 12),
-            ],
+            if (form.isBusy) ...[const LinearProgressIndicator(), const SizedBox(height: 12)],
             Wrap(
               spacing: 12,
               runSpacing: 12,
@@ -589,9 +594,7 @@ class _MyAppState extends State<MyApp> {
             const SizedBox(height: 12),
             Text(
               form.status,
-              style: TextStyle(
-                color: form.status.toLowerCase().contains("fail") ? Colors.red : Colors.green,
-              ),
+              style: TextStyle(color: form.status.toLowerCase().contains("fail") ? Colors.red : Colors.green),
             ),
           ],
         ),
@@ -613,13 +616,9 @@ class _MyAppState extends State<MyApp> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Manage Multiple XPrinters',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+                  Text('Manage Multiple XPrinters', style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 8),
-                  const Text(
-                      'Add each printer with its IP or USB path, then connect and check them individually.'),
+                  const Text('Add each printer with its IP or USB path, then connect and check them individually.'),
                   const SizedBox(height: 12),
                   Row(
                     children: [
@@ -629,10 +628,7 @@ class _MyAppState extends State<MyApp> {
                         label: const Text('Re-initialize service'),
                       ),
                       const SizedBox(width: 12),
-                      Text(
-                        'Initialize once after the device boots.',
-                        style: Theme.of(context).textTheme.bodySmall,
-                      ),
+                      Text('Initialize once after the device boots.', style: Theme.of(context).textTheme.bodySmall),
                     ],
                   ),
                 ],
@@ -640,19 +636,17 @@ class _MyAppState extends State<MyApp> {
             ),
             const Divider(height: 1),
             Expanded(
-              child: _printers.isEmpty
-                  ? const Center(child: Text('Tap + to add a printer.'))
-                  : ListView.builder(
-                      itemCount: _printers.length,
-                      itemBuilder: (context, index) => _buildPrinterCard(_printers[index]),
-                    ),
+              child:
+                  _printers.isEmpty
+                      ? const Center(child: Text('Tap + to add a printer.'))
+                      : ListView.builder(
+                        itemCount: _printers.length,
+                        itemBuilder: (context, index) => _buildPrinterCard(_printers[index]),
+                      ),
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: _addPrinterEntry,
-          child: const Icon(Icons.add),
-        ),
+        floatingActionButton: FloatingActionButton(onPressed: _addPrinterEntry, child: const Icon(Icons.add)),
       ),
     );
   }

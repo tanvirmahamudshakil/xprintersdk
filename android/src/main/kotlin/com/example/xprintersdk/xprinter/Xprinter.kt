@@ -85,6 +85,7 @@ class Xprinter(mcontext : Context) {
             return
         }
 
+
         currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
             override fun OnSucceed() {
                 lastConnectedPrinterKey = sanitizedIp

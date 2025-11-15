@@ -12,41 +12,41 @@ String printerBusinessModelToJson(PrinterBusinessModel data) => json.encode(data
 
 class PrinterBusinessModel {
   bool? weightShow;
-  String orderChannel;
+  String? orderChannel;
   int? header1Size;
   int? header2Size;
   int? header3Size;
   int? header4Size;
   int? fontSize;
-  int printOnDelivery;
-  int printOnCollection;
-  int printOnTableOrder;
-  int printOnTackwayOrder;
+  int? printOnDelivery;
+  int? printOnCollection;
+  int? printOnTableOrder;
+  int? printOnTackwayOrder;
   bool? autoPrint;
   bool? showOrderNoInvoice;
   bool? serviceCharge;
-  String selectPrinter;
-  String printerConnection;
+  String? selectPrinter;
+  String? printerConnection;
   String? ip;
   String? bluetoothName;
   String? bluetoothAddress;
-  String businessname;
-  String businessphone;
-  String businessaddress;
+  String? businessname;
+  String? businessphone;
+  String? businessaddress;
   int? highlight;
-  int highlighttextsize;
+  int? highlighttextsize;
   int? papersSize;
-  String dynamicCollection;
-  String dynamicDelivery;
-  String dynamicEatIn;
-  String dynamicTakeaway;
+  String? dynamicCollection;
+  String? dynamicDelivery;
+  String? dynamicEatIn;
+  String? dynamicTakeaway;
   String? vatNumber;
   String? vatCompanyName;
   String? vatNote;
   String? printerStyle;
   int? asapFontSize;
   int? footervatFontSize;
-  bool weightMultiplyingPrice;
+  bool? weightMultiplyingPrice;
   String? xprinterPath;
   bool? propertyshop;
   int? labelPrinterHight;
@@ -56,108 +56,108 @@ class PrinterBusinessModel {
   int? barcode_width;
   int? barcode_x;
   int? barcode_y;
-  int itemNameFont;
-  int itemPricefont;
-  int itemWeightfont;
-  int expireDateFont;
-  int businessNameFont;
-  int pricePerWeightFont;
-  int singleProductNameFont;
-  int singleProductPriceFont;
-  int singleProductExpireFont;
-  int singleProductPrintHight;
-  int singleProductBarcodeHight;
-  int singleProductBarCodeWidth;
-  int maxItemPrint;
-  String butcherPrintStyle;
-  int butcherStickerFont;
-  bool expireDateShow;
-  bool branchNameShow;
-  int barcode_dpi;
-  int butcher_order_barcode_width;
-  int butcher_order_barcode_hight;
-  bool order_group;
-  bool show_category_name;
-  bool barcode_text_show;
-  int barcode_text_size;
+  int? itemNameFont;
+  int? itemPricefont;
+  int? itemWeightfont;
+  int? expireDateFont;
+  int? businessNameFont;
+  int? pricePerWeightFont;
+  int? singleProductNameFont;
+  int? singleProductPriceFont;
+  int? singleProductExpireFont;
+  int? singleProductPrintHight;
+  int? singleProductBarcodeHight;
+  int? singleProductBarCodeWidth;
+  int? maxItemPrint;
+  String? butcherPrintStyle;
+  int? butcherStickerFont;
+  bool? expireDateShow;
+  bool? branchNameShow;
+  int? barcode_dpi;
+  int? butcher_order_barcode_width;
+  int? butcher_order_barcode_hight;
+  bool? order_group;
+  bool? show_category_name;
+  bool? barcode_text_show;
+  int? barcode_text_size;
 
-  int yuma_productid_length;
-  int yuma_netamount_length;
-  int yuma_weight_length;
-  int yuma_totalprice_length;
-  String invoice_type;
-  String business_email;
-  int grocery_barcode_hight;
+  int? yuma_productid_length;
+  int? yuma_netamount_length;
+  int? yuma_weight_length;
+  int? yuma_totalprice_length;
+  String? invoice_type;
+  String? business_email;
+  int? grocery_barcode_hight;
 
-  int grocery_barcode_width;
-  bool grocery_barcode_text_show;
+  int? grocery_barcode_width;
+  bool? grocery_barcode_text_show;
 
-  int grocery_barcode_text_size;
-  String expire_name;
-  bool starter_group;
-  bool groupHeaderShow;
+  int? grocery_barcode_text_size;
+  String? expire_name;
+  bool? starter_group;
+  bool? groupHeaderShow;
   List<BanquetOffer>? banquetoffer;
-  String thankyoumessage;
+  String? thankyoumessage;
 
   PrinterBusinessModel({
     this.fontSize,
-    required this.thankyoumessage,
-    required this.expire_name,
-    required this.groupHeaderShow,
-    required this.grocery_barcode_hight,
-    required this.grocery_barcode_width,
-    required this.grocery_barcode_text_show,
-    required this.grocery_barcode_text_size,
-    required this.business_email,
-    required this.yuma_productid_length,
-    required this.yuma_netamount_length,
-    required this.yuma_weight_length,
-    required this.yuma_totalprice_length,
-    required this.order_group,
-    required this.barcode_dpi,
-    required this.butcher_order_barcode_width,
-    required this.butcher_order_barcode_hight,
-    required this.expireDateShow,
-    required this.branchNameShow,
-    required this.butcherPrintStyle,
-    required this.labelPrinterHight,
+    this.thankyoumessage,
+    this.expire_name,
+    this.groupHeaderShow,
+    this.grocery_barcode_hight,
+    this.grocery_barcode_width,
+    this.grocery_barcode_text_show,
+    this.grocery_barcode_text_size,
+    this.business_email,
+    this.yuma_productid_length,
+    this.yuma_netamount_length,
+    this.yuma_weight_length,
+    this.yuma_totalprice_length,
+    this.order_group,
+    this.barcode_dpi,
+    this.butcher_order_barcode_width,
+    this.butcher_order_barcode_hight,
+    this.expireDateShow,
+    this.branchNameShow,
+    this.butcherPrintStyle,
+    this.labelPrinterHight,
     this.banquetoffer,
     this.labelPrinterWidth,
-    required this.butcherStickerFont,
+    this.butcherStickerFont,
     this.barcode_hight,
     this.barcode_width,
-    required this.maxItemPrint,
+    this.maxItemPrint,
     this.weightShow = false,
-    required this.orderChannel,
+    this.orderChannel,
     this.header1Size,
-    required this.weightMultiplyingPrice,
+    this.weightMultiplyingPrice,
     this.header2Size,
     this.serviceCharge = false,
     this.header3Size,
     this.header4Size,
     this.dpi,
-    required this.highlighttextsize,
-    required this.printOnDelivery,
-    required this.printOnCollection,
-    required this.printOnTableOrder,
-    required this.printOnTackwayOrder,
+    this.highlighttextsize,
+    this.printOnDelivery,
+    this.printOnCollection,
+    this.printOnTableOrder,
+    this.printOnTackwayOrder,
     this.autoPrint,
     this.showOrderNoInvoice,
-    required this.selectPrinter,
-    required this.printerConnection,
+    this.selectPrinter,
+    this.printerConnection,
     this.footervatFontSize,
     this.ip,
     this.bluetoothName,
     this.bluetoothAddress,
-    required this.businessname,
-    required this.businessphone,
-    required this.businessaddress,
+    this.businessname,
+    this.businessphone,
+    this.businessaddress,
     this.highlight,
     this.papersSize,
-    required this.dynamicCollection,
-    required this.dynamicDelivery,
-    required this.dynamicEatIn,
-    required this.dynamicTakeaway,
+    this.dynamicCollection,
+    this.dynamicDelivery,
+    this.dynamicEatIn,
+    this.dynamicTakeaway,
     this.vatNumber,
     this.vatCompanyName,
     this.vatNote,
@@ -167,29 +167,32 @@ class PrinterBusinessModel {
     this.barcode_y,
     this.xprinterPath,
     this.propertyshop,
-    required this.itemNameFont,
-    required this.itemPricefont,
-    required this.itemWeightfont,
-    required this.expireDateFont,
-    required this.businessNameFont,
-    required this.pricePerWeightFont,
-    required this.singleProductNameFont,
-    required this.singleProductExpireFont,
-    required this.singleProductPriceFont,
-    required this.singleProductPrintHight,
-    required this.singleProductBarcodeHight,
-    required this.singleProductBarCodeWidth,
-    required this.show_category_name,
-    required this.barcode_text_show,
-    required this.barcode_text_size,
-    required this.invoice_type,
-    required this.starter_group,
+    this.itemNameFont,
+    this.itemPricefont,
+    this.itemWeightfont,
+    this.expireDateFont,
+    this.businessNameFont,
+    this.pricePerWeightFont,
+    this.singleProductNameFont,
+    this.singleProductExpireFont,
+    this.singleProductPriceFont,
+    this.singleProductPrintHight,
+    this.singleProductBarcodeHight,
+    this.singleProductBarCodeWidth,
+    this.show_category_name,
+    this.barcode_text_show,
+    this.barcode_text_size,
+    this.invoice_type,
+    this.starter_group,
   });
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
     expire_name: json["expire_name"],
     thankyoumessage: json["thankyoumessage"],
-    banquetoffer: json["banquetoffer"] == null ? [] : List<BanquetOffer>.from(json["banquetoffer"]!.map((x) => BanquetOffer.fromJson(x))),
+    banquetoffer:
+        json["banquetoffer"] == null
+            ? []
+            : List<BanquetOffer>.from(json["banquetoffer"]!.map((x) => BanquetOffer.fromJson(x))),
     groupHeaderShow: json["groupHeaderShow"],
     starter_group: json["starter_group"],
     grocery_barcode_hight: json["grocery_barcode_hight"],
