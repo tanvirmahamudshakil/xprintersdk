@@ -7,6 +7,6 @@
     </queries>
     <application>
 
-        <service android:name="net.posprinter.service.PosprinterService" />
+        <service android:name="net.posprinter.service.PrinterConnectionsService" />
     </application>
 </manifest>

@@ -35,8 +35,10 @@ class Xprinter(mcontext : Context) {
     }
 
     fun initBinding() {
+
         val posService = Intent(context, PrinterConnectionsService::class.java)
         context.bindService(posService, conn, Context.BIND_AUTO_CREATE)
+
     }
 
     fun disposeBinding(result: MethodChannel.Result) {
@@ -169,7 +171,6 @@ class Xprinter(mcontext : Context) {
             override fun processDataBeforeSend(): MutableList<ByteArray> {
                 val list: MutableList<ByteArray> = ArrayList()
                 list.add(DataForSendToPrinterPos80.initializePrinter())
-
                 if (height > 200) {
                     val bitmaplist = cutBitmap(200, printBmp)
                     if (bitmaplist.isNotEmpty()) {
