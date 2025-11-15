@@ -36,6 +36,7 @@ import com.example.xprintersdk.databinding.GroupPrintViewBinding
 import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.databinding.StickerprinterBinding
+import com.example.xprintersdk.xprinter.PrinterIdentifierResolver
 import com.example.xprintersdk.xprinter.Xprinter
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
@@ -967,7 +968,8 @@ class orderPrinterService(
             if(bitmapSave) {
                 saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
-                serviceBinding.printUSBbitamp(bitmap,result);
+                val printerKey = PrinterIdentifierResolver.resolve(businessdatadata) ?: serviceBinding.getDefaultPrinterKey()
+                serviceBinding.printBitmap(printerKey, bitmap,result);
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!, result)
             } else if (businessdatadata.selectPrinter!!.lowercase() == "label_printer") {

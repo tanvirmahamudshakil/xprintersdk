@@ -5,13 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
 import android.graphics.Bitmap
-import android.graphics.Matrix
 import android.os.IBinder
 import android.util.Log
 import io.flutter.plugin.common.MethodChannel
-import net.posprinter.posprinterface.IMyBinder
+import net.posprinter.posprinterface.PrinterBinder
+import net.posprinter.posprinterface.ProcessData
 import net.posprinter.posprinterface.TaskCallback
-import net.posprinter.service.PosprinterService
+import net.posprinter.service.PrinterConnectionsService
 import net.posprinter.utils.BitmapToByteData
 import net.posprinter.utils.DataForSendToPrinterPos80
 import net.posprinter.utils.PosPrinterDev
@@ -21,35 +21,50 @@ class Xprinter(mcontext : Context) {
     init {
         context = mcontext
     }
-    var binder: IMyBinder? = null
+    var binder: PrinterBinder? = null
+    private var lastConnectedPrinterKey: String? = null
     var conn: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
-            binder = iBinder as IMyBinder
+            binder = iBinder as PrinterBinder
             Log.e("binder", "connected")
         }
         override fun onServiceDisconnected(componentName: ComponentName) {
             Log.e("disbinder", "disconnected")
+            binder = null
         }
     }
 
     fun initBinding() {
-        val posService = Intent(context, PosprinterService::class.java)
+        val posService = Intent(context, PrinterConnectionsService::class.java)
         context.bindService(posService, conn, Context.BIND_AUTO_CREATE)
     }
 
     fun disposeBinding(result: MethodChannel.Result) {
-        binder!!.DisconnectCurrentPort(object : TaskCallback {
+        val currentBinder = binder ?: run {
+            result.success(false)
+            return
+        }
+        currentBinder.disconnectAll(object : TaskCallback {
             override fun OnSucceed() {
-                result.success(true);
+                result.success(true)
             }
             override fun OnFailed() {
-                result.success(false);
+                result.success(false)
             }
         })
     }
 
-    fun checkConnection(result: MethodChannel.Result) {
-        binder!!.CheckLinkedState(object : TaskCallback {
+    fun checkConnection(printerKey: String?, result: MethodChannel.Result) {
+        val currentBinder = binder ?: run {
+            result.success(false)
+            return
+        }
+        val targetKey = printerKey ?: lastConnectedPrinterKey
+        if (targetKey.isNullOrBlank()) {
+            result.success(false)
+            return
+        }
+        currentBinder.checkLinkedState(targetKey, object : TaskCallback {
             override fun OnSucceed() {
                 result.success(true);
             }
@@ -60,44 +75,58 @@ class Xprinter(mcontext : Context) {
     }
 
     fun connectNet(ipAddress: String?, result: MethodChannel.Result) {
-        if (ipAddress == "") {
-            result.success(false);
-        } else {
-            if (binder != null) {
-                binder!!.ConnectNetPort(ipAddress, 9100, object : TaskCallback {
-                    override fun OnSucceed() {
-                        result.success(true);
-                    }
-                    override fun OnFailed() {
-                        result.success(false);
-                    }
-                })
-            } else {
-                result.success(false);
-            }
+        val sanitizedIp = ipAddress?.trim()
+        val currentBinder = binder ?: run {
+            result.success(false)
+            return
         }
+        if (sanitizedIp.isNullOrEmpty()) {
+            result.success(false)
+            return
+        }
+
+        currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
+            override fun OnSucceed() {
+                lastConnectedPrinterKey = sanitizedIp
+                result.success(true)
+            }
+
+            override fun OnFailed() {
+                result.success(false)
+            }
+        })
     }
 
-    fun connetUSB(result: MethodChannel.Result) {
+    fun connetUSB(preferredPath: String?, result: MethodChannel.Result) {
+        val currentBinder = binder ?: run {
+            result.success(false)
+            return
+        }
+
         val usbList = PosPrinterDev.GetUsbPathNames(context)
+        val targetPath = preferredPath?.takeIf { it.isNotBlank() } ?: usbList?.firstOrNull()
 
-        if (usbList != null && usbList.size > 0) {
-            if (binder != null) {
-                binder!!.ConnectUsbPort(context,usbList[0], object : TaskCallback {
-                    override fun OnSucceed() {
-                        result.success(true);
-                    }
-                    override fun OnFailed() {
-                        result.success(false);
-                    }
-                })
-            } else {
+        if (targetPath.isNullOrBlank()) {
+            result.success(false)
+            return
+        }
+
+        currentBinder.connectUsbPort(context, targetPath, object : TaskCallback {
+            override fun OnSucceed() {
+                lastConnectedPrinterKey = targetPath
+                result.success(true);
+            }
+            override fun OnFailed() {
                 result.success(false);
             }
-        } else {
-            result.success(false);
-        }
+        })
     }
+
+    fun availableUsbDevices(): List<String>? {
+        return PosPrinterDev.GetUsbPathNames(context)
+    }
+
+    fun getDefaultPrinterKey(): String? = lastConnectedPrinterKey
 
     private fun cutBitmap(h: Int, bitmap: Bitmap?): List<Bitmap?> {
         val width = bitmap!!.width
@@ -122,70 +151,65 @@ class Xprinter(mcontext : Context) {
     }
 
 
-    fun printUSBbitamp(printBmp: Bitmap?, result: MethodChannel.Result) {
-        val height = printBmp!!.height
-        // if height > 200 cut the bitmap
-        if (height > 200) {
-            binder!!.WriteSendData(object : TaskCallback {
-                override fun OnSucceed() {
-                  result.success(true);
-                }
+    fun printBitmap(printerKey: String?, printBmp: Bitmap?, result: MethodChannel.Result) {
+        val targetKey = printerKey ?: lastConnectedPrinterKey
+        val currentBinder = binder ?: run {
+            result.success(false)
+            return
+        }
 
-                override fun OnFailed() {
-                    result.success(false);
-                }
-            }) {
-                val list: MutableList<ByteArray> =
-                    ArrayList()
+        if (targetKey.isNullOrBlank() || printBmp == null) {
+            result.success(false)
+            return
+        }
+
+        val height = printBmp.height
+        val processData = object : ProcessData {
+            override fun processDataBeforeSend(): MutableList<ByteArray> {
+                val list: MutableList<ByteArray> = ArrayList()
                 list.add(DataForSendToPrinterPos80.initializePrinter())
-                var bitmaplist: List<Bitmap?> =
-                    ArrayList()
-                bitmaplist = cutBitmap(200, printBmp) //cut bitmap
-                if (bitmaplist.isNotEmpty()) {
-                    for (i in bitmaplist.indices) {
-                        list.add(
-                            DataForSendToPrinterPos80.printRasterBmp(
-                                0,
-                                bitmaplist[i],
-                                BitmapToByteData.BmpType.Threshold,
-                                BitmapToByteData.AlignType.Center,
-                                576
+
+                if (height > 200) {
+                    val bitmaplist = cutBitmap(200, printBmp)
+                    if (bitmaplist.isNotEmpty()) {
+                        for (bitmap in bitmaplist) {
+                            list.add(
+                                DataForSendToPrinterPos80.printRasterBmp(
+                                    0,
+                                    bitmap,
+                                    BitmapToByteData.BmpType.Threshold,
+                                    BitmapToByteData.AlignType.Center,
+                                    576
+                                )
                             )
-                        )
+                        }
                     }
-                }
-                list.add(DataForSendToPrinterPos80.printAndFeedForward(2))
-                list.add(DataForSendToPrinterPos80.selectCutPagerModerAndCutPager(66, 1))
-                list
-            }
-        } else {
-            binder!!.WriteSendData(object : TaskCallback {
-                override fun OnSucceed() {
-                    result.success(true);
+                } else {
+                    list.add(
+                        DataForSendToPrinterPos80.printRasterBmp(
+                            0,
+                            printBmp,
+                            BitmapToByteData.BmpType.Threshold,
+                            BitmapToByteData.AlignType.Center,
+                            600
+                        )
+                    )
                 }
 
-                override fun OnFailed() {
-                    result.success(false);
-                }
-            }) {
-                val list: MutableList<ByteArray> =
-                    ArrayList()
-                list.add(DataForSendToPrinterPos80.initializePrinter())
-                list.add(
-                    DataForSendToPrinterPos80.printRasterBmp(
-                        0,
-                        printBmp,
-                        BitmapToByteData.BmpType.Threshold,
-                        BitmapToByteData.AlignType.Center,
-                        600
-                    )
-                )
                 list.add(DataForSendToPrinterPos80.printAndFeedForward(2))
                 list.add(DataForSendToPrinterPos80.selectCutPagerModerAndCutPager(66, 1))
-                list
+                return list
             }
         }
+
+        currentBinder.writeDataByYouself(targetKey, object : TaskCallback {
+            override fun OnSucceed() {
+                result.success(true)
+            }
+
+            override fun OnFailed() {
+                result.success(false)
+            }
+        }, processData)
     }
-
-
 }

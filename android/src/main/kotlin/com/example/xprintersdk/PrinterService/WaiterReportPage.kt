@@ -19,6 +19,7 @@ import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.BookingrequestuiBinding
 import com.example.xprintersdk.databinding.WaiterreportBinding
+import com.example.xprintersdk.xprinter.PrinterIdentifierResolver
 import com.example.xprintersdk.xprinter.Xprinter
 import io.flutter.plugin.common.MethodChannel
 import net.nyx.printerclient.Nyxpinter
@@ -124,7 +125,8 @@ class WaiterReportPage(mcontext: Context, booking: BookingRequest, businessdata:
             if(bitmapSave) {
                 saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
             }else if (businessdatadata.selectPrinter!!.lowercase() == "xprinter"){
-                serviceBinding.printUSBbitamp(bitmap,result);
+                val printerKey = PrinterIdentifierResolver.resolve(businessdatadata) ?: serviceBinding.getDefaultPrinterKey()
+                serviceBinding.printBitmap(printerKey, bitmap,result);
             } else if (businessdatadata.selectPrinter!!.lowercase() == "nyxprinter") {
                 nyxprinter.printBitmap(bitmap!!, result)
             } else{

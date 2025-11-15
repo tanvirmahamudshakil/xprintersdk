@@ -18,6 +18,8 @@ import com.example.xprintersdk.PrinterService.RequestBookingprint
 import com.example.xprintersdk.PrinterService.ReturnPrint
 import com.example.xprintersdk.PrinterService.orderPrinterService
 import com.example.xprintersdk.Sunmi.SunmiHelp
+import com.example.xprintersdk.xprinter.PrinterIdentifierResolver
+
 import com.example.xprintersdk.xprinter.Xprinter
 import com.google.gson.Gson
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -108,7 +110,7 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     } else if(call.method == sunmiPrinterCheck) {
       sunmiPrinterCheck(call, result)
     } else if (call.method == xPrinterConnectionCheck) {
-      xPrinterConnectionCheck(result)
+      xPrinterConnectionCheck(call, result)
     } else if (call.method == xPrinterConnect){
       xPrinterConnect(call, result)
     } else if(call.method == xPrinterPrintOnlineData) {
@@ -173,17 +175,20 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     sunmiHelper.openCashBox( result, context)
   }
 
-  private fun xPrinterConnectionCheck(result: Result) {
-    xprinter.checkConnection(result)
+  private fun xPrinterConnectionCheck(call: MethodCall, result: Result) {
+    val printerbusinessdata = call.argument<String>("printer_model_data")
+    val businessdata = if (printerbusinessdata != null) Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java) else null
+    val printerIdentifier = PrinterIdentifierResolver.resolve(businessdata) ?: xprinter.getDefaultPrinterKey()
+    xprinter.checkConnection(printerIdentifier, result)
   }
 
   private fun xPrinterConnect(call: MethodCall, result : Result) {
     var printerbusinessdata = call.argument<String>("printer_model_data")
     var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
     if (businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "ipconnection"){
-      xprinter.connectNet(businessdata.ip.toString(),result);
+      xprinter.connectNet(businessdata.ip,result);
     }else if(businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "usbconnection"){
-      xprinter.connetUSB(result)
+      xprinter.connetUSB(businessdata.xprinterpath, result)
     }else{
      result.success(false)
     }

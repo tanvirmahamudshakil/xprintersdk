@@ -21,6 +21,7 @@ import com.example.xprintersdk.Nyxprinter.NyxprinterHelp
 import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ProductprintBinding
+import com.example.xprintersdk.xprinter.PrinterIdentifierResolver
 import com.example.xprintersdk.xprinter.Xprinter
 import io.flutter.plugin.common.MethodChannel
 import java.io.OutputStream
@@ -87,7 +88,8 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
              if(saveImage) {
                  saveBitmapToGallery(context, bitmap!!, "bitmapImage", "scascas");
              }else if (businessdata.selectPrinter!!.lowercase() == "xprinter"){
-                 mserviceBinding.printUSBbitamp(bitmap,mresult);
+                 val printerKey = PrinterIdentifierResolver.resolve(businessdata) ?: mserviceBinding.getDefaultPrinterKey()
+                 mserviceBinding.printBitmap(printerKey, bitmap,mresult);
              }else if (businessdata.selectPrinter!!.lowercase() == "nyxprinter") {
                  nyxp.printBitmap(bitmap!!, mresult)
              }else if (businessdata.selectPrinter!!.lowercase() == "printer80") {

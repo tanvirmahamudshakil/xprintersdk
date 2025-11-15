@@ -58,8 +58,12 @@ class Xprintersdk {
     await _methodChannel.invokeMethod(_sunmiPrinterInit);
   }
 
-  Future<bool> XPrinterConnectionCheck() async {
-    return await _methodChannel.invokeMethod(_xPrinterConnectionCheck);
+  Future<bool> XPrinterConnectionCheck({PrinterBusinessModel? printermodel}) async {
+    Map<String, dynamic>? query;
+    if (printermodel != null) {
+      query = {"printer_model_data": jsonEncode(printermodel.toJson())};
+    }
+    return await _methodChannel.invokeMethod(_xPrinterConnectionCheck, query);
   }
 
   Future<bool> XPrinterConnect(PrinterBusinessModel printermodel) async {
