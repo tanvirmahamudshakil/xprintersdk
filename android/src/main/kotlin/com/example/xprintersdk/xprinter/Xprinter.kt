@@ -28,6 +28,7 @@ class Xprinter(mcontext : Context) {
         context = mcontext
     }
     var binder: PrinterBinder? = null
+    var isNetConnected : Boolean = false;
 //    private var lastConnectedPrinterKey: String? = null
     var conn: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
@@ -71,29 +72,25 @@ class Xprinter(mcontext : Context) {
             result.success(false)
             return
         }
-        var connect : Boolean = false;
 
+        if (isNetworkKey(targetKey)) {
+            // Network/IP printers: use linked-state callback (SDK resolves socket state)
 
-//        CoroutineScope(Dispatchers.IO).launch {
-//            connect =  currentBinder.isConnect(targetKey)
-//
-//        }
-//
-        Toast.makeText(context,"connext ${printerd.isConnected}", Toast.LENGTH_SHORT).show()
+            result.success(isNetConnected)
+        } else {
+            // USB printers: simple isConnect is sufficient
+//            val connected = currentBinder.isConnect(targetKey)
+            currentBinder.checkLinkedState(targetKey, object : TaskCallback {
+                override fun OnSucceed() { result.success(true) }
+                override fun OnFailed() { result.success(false) }
+            })
 
-        result.success(true);
-//
+        }
+    }
 
-
-
-//        currentBinder.checkLinkedState(targetKey, object : TaskCallback {
-//            override fun OnSucceed() {
-//                result.success(true);
-//            }
-//            override fun OnFailed() {
-//                result.success(false);
-//            }
-//        })
+    private fun isNetworkKey(key: String?): Boolean {
+        if (key.isNullOrBlank()) return false
+        return key.contains('.') || key.contains(':')
     }
 
     fun connectNet(ipAddress: String?, result: MethodChannel.Result) {
@@ -106,19 +103,24 @@ class Xprinter(mcontext : Context) {
             result.success(false)
             return
         }
-        currentBinder.clearBuffer(sanitizedIp)
+
+        if(!isNetConnected) {
+            currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
+                override fun OnSucceed() {
+                    isNetConnected = true;
+                    result.success(true)
+                }
+
+                override fun OnFailed() {
+                    isNetConnected = false;
+                    result.success(false)
+                }
+            })
+        }else{
+            result.success(true)
+        }
 
 
-        currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
-            override fun OnSucceed() {
-//                lastConnectedPrinterKey = sanitizedIp
-                result.success(true)
-            }
-
-            override fun OnFailed() {
-                result.success(false)
-            }
-        })
 
     }
 
@@ -144,8 +146,6 @@ class Xprinter(mcontext : Context) {
                 result.success(false);
             }
         })
-
-
     }
 
     fun availableUsbDevices(): List<String>? {
@@ -225,15 +225,17 @@ class Xprinter(mcontext : Context) {
             list
         }
 
-
-
         currentBinder.writeDataByYouself(targetKey, object : TaskCallback {
             override fun OnSucceed() {
                 result.success(true)
             }
 
             override fun OnFailed() {
-                result.success(false)
+                if (isNetworkKey(targetKey)) {
+                    connectNet(targetKey, result)
+                }else{
+                    connetUSB(targetKey, result)
+                }
             }
 
 
