@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.graphics.Bitmap
 import android.os.IBinder
 import android.util.Log
+import android.widget.Toast
 import io.flutter.plugin.common.MethodChannel
 import net.posprinter.posprinterface.PrinterBinder
 import net.posprinter.posprinterface.ProcessData
@@ -184,42 +185,42 @@ class Xprinter(mcontext : Context) {
         }
 
         val height = printBmp.height
-        val processData = object : ProcessData {
-            override fun processDataBeforeSend(): MutableList<ByteArray> {
-                val list: MutableList<ByteArray> = ArrayList()
-                list.add(DataForSendToPrinterPos80.initializePrinter())
-                if (height > 200) {
-                    val bitmaplist = cutBitmap(200, printBmp)
-                    if (bitmaplist.isNotEmpty()) {
-                        for (bitmap in bitmaplist) {
-                            list.add(
-                                DataForSendToPrinterPos80.printRasterBmp(
-                                    0,
-                                    bitmap,
-                                    BitmapToByteData.BmpType.Threshold,
-                                    BitmapToByteData.AlignType.Center,
-                                    576
-                                )
+        val processData = ProcessData {
+            val list: MutableList<ByteArray> = ArrayList()
+            list.add(DataForSendToPrinterPos80.initializePrinter())
+            if (height > 200) {
+                val bitmaplist = cutBitmap(200, printBmp)
+                if (bitmaplist.isNotEmpty()) {
+                    for (bitmap in bitmaplist) {
+                        list.add(
+                            DataForSendToPrinterPos80.printRasterBmp(
+                                0,
+                                bitmap,
+                                BitmapToByteData.BmpType.Threshold,
+                                BitmapToByteData.AlignType.Center,
+                                576
                             )
-                        }
-                    }
-                } else {
-                    list.add(
-                        DataForSendToPrinterPos80.printRasterBmp(
-                            0,
-                            printBmp,
-                            BitmapToByteData.BmpType.Threshold,
-                            BitmapToByteData.AlignType.Center,
-                            600
                         )
-                    )
+                    }
                 }
-
-                list.add(DataForSendToPrinterPos80.printAndFeedForward(2))
-                list.add(DataForSendToPrinterPos80.selectCutPagerModerAndCutPager(66, 1))
-                return list
+            } else {
+                list.add(
+                    DataForSendToPrinterPos80.printRasterBmp(
+                        0,
+                        printBmp,
+                        BitmapToByteData.BmpType.Threshold,
+                        BitmapToByteData.AlignType.Center,
+                        600
+                    )
+                )
             }
+
+            list.add(DataForSendToPrinterPos80.printAndFeedForward(2))
+            list.add(DataForSendToPrinterPos80.selectCutPagerModerAndCutPager(66, 1))
+            list
         }
+        currentBinder.clearBuffer(targetKey)
+        Toast.makeText(context, "${targetKey}--connect -> ${currentBinder.isConnect(targetKey)}" ,Toast.LENGTH_SHORT).show()
 
         currentBinder.writeDataByYouself(targetKey, object : TaskCallback {
             override fun OnSucceed() {
@@ -229,6 +230,8 @@ class Xprinter(mcontext : Context) {
             override fun OnFailed() {
                 result.success(false)
             }
+
+
         }, processData)
     }
 }
