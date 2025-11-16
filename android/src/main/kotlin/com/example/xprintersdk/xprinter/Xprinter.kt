@@ -16,13 +16,25 @@ import net.posprinter.service.PrinterConnectionsService
 import net.posprinter.utils.BitmapToByteData
 import net.posprinter.utils.DataForSendToPrinterPos80
 import net.posprinter.utils.PosPrinterDev
+import android.os.Handler
+import android.os.Looper
 
 class Xprinter(mcontext : Context) {
-    private var context : Context;
-    init {
-        context = mcontext
-    }
+    private var context : Context = mcontext;
     var binder: PrinterBinder? = null
+    // Track last successful network use to detect stale/idle sockets
+    private val lastNetUse: MutableMap<String, Long> = HashMap()
+    private val netIdleReconnectMs: Long = 20_000 // reconnect if idle > 20s
+    private val mainHandler: Handler = Handler(Looper.getMainLooper())
+
+    private data class PrinterJob(
+        val key: String,
+        val data: ProcessData,
+        val result: MethodChannel.Result
+    )
+
+    private val pendingJobs: MutableList<PrinterJob> = mutableListOf()
+    private val flushingKeys: MutableSet<String> = mutableSetOf()
 //    private var lastConnectedPrinterKey: String? = null
     var conn: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
@@ -96,11 +108,15 @@ class Xprinter(mcontext : Context) {
         var conncted = currentBinder.isConnect(sanitizedIp)
 
         if(conncted){
+            lastNetUse[sanitizedIp] = System.currentTimeMillis()
             result.success(true)
         }else{
             currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
                 override fun OnSucceed() {
 //                lastConnectedPrinterKey = sanitizedIp
+                    lastNetUse[sanitizedIp] = System.currentTimeMillis()
+                    // After successful connect, try flushing any queued jobs for this IP
+                    flushPendingForKey(sanitizedIp, currentBinder)
                     result.success(true)
                 }
 
@@ -219,21 +235,137 @@ class Xprinter(mcontext : Context) {
             list.add(DataForSendToPrinterPos80.selectCutPagerModerAndCutPager(66, 1))
             list
         }
-        currentBinder.clearBuffer(targetKey)
-        Toast.makeText(context, "${targetKey}--connect -> ${currentBinder.isConnect(targetKey)}" ,Toast.LENGTH_SHORT).show()
 
-        currentBinder.writeDataByYouself(targetKey, object : TaskCallback {
+        val job = PrinterJob(targetKey, processData, result)
+        if (isNetworkKey(targetKey)) {
+            // If it's a network printer, enqueue and ensure connectivity; it will auto flush after connect
+            enqueueAndMaybeSend(job, currentBinder)
+        } else {
+            // USB: direct write; if fail, retry once
+            writeOnce(job, currentBinder) { ok ->
+                if (ok) {
+                    result.success(true)
+                } else {
+                    writeOnce(job, currentBinder) { ok2 -> result.success(ok2) }
+                }
+            }
+        }
+    }
+
+    private fun isNetworkKey(key: String): Boolean {
+        // Heuristic: IP or host (contains '.' or ':') vs USB path
+        return key.contains('.') || key.contains(':')
+    }
+
+    private fun ensureNetConnected(
+        key: String,
+        currentBinder: PrinterBinder,
+        force: Boolean = false,
+        cb: (Boolean) -> Unit
+    ) {
+        val now = System.currentTimeMillis()
+        val last = lastNetUse[key] ?: 0L
+        val stale = now - last > netIdleReconnectMs
+        val connected = currentBinder.isConnect(key)
+
+        if (!connected || force || stale) {
+            currentBinder.clearBuffer(key)
+            currentBinder.connectNetPort(key, object : TaskCallback {
+                override fun OnSucceed() {
+                    lastNetUse[key] = System.currentTimeMillis()
+                    // flush queued jobs for this key upon (re)connect
+                    flushPendingForKey(key, currentBinder)
+                    cb(true)
+                }
+
+                override fun OnFailed() {
+                    cb(false)
+                }
+            })
+        } else {
+            cb(true)
+        }
+    }
+
+    private fun enqueueAndMaybeSend(
+        job: PrinterJob,
+        currentBinder: PrinterBinder
+    ) {
+        // If not connected (or stale), try to reconnect and queue job; it will auto flush on success
+        ensureNetConnected(job.key, currentBinder) { ready ->
+            if (ready) {
+                // Connected now: attempt to send immediately
+                sendWithRetry(job, currentBinder)
+            } else {
+                synchronized(pendingJobs) { pendingJobs.add(job) }
+                // Optionally try once more after short delay to auto recover
+                mainHandler.postDelayed({
+                    ensureNetConnected(job.key, currentBinder) { r2 ->
+                        if (r2) flushPendingForKey(job.key, currentBinder)
+                    }
+                }, 2000)
+            }
+        }
+    }
+
+    private fun sendWithRetry(
+        job: PrinterJob,
+        currentBinder: PrinterBinder
+    ) {
+        writeOnce(job, currentBinder) { ok ->
+            if (ok) {
+                job.result.success(true)
+            } else {
+                // Force reconnect then retry exactly once
+                ensureNetConnected(job.key, currentBinder, force = true) { ready2 ->
+                    if (!ready2) {
+                        job.result.success(false)
+                    } else {
+                        writeOnce(job, currentBinder) { ok2 -> job.result.success(ok2) }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun flushPendingForKey(key: String, currentBinder: PrinterBinder) {
+        if (flushingKeys.contains(key)) return
+        flushingKeys.add(key)
+        fun next() {
+            val job: PrinterJob? = synchronized(pendingJobs) {
+                val idx = pendingJobs.indexOfFirst { it.key == key }
+                if (idx >= 0) pendingJobs.removeAt(idx) else null
+            }
+            if (job == null) {
+                flushingKeys.remove(key)
+                return
+            }
+            sendWithRetry(job, currentBinder)
+            // Chain to next after small delay to avoid flooding
+            mainHandler.postDelayed({ next() }, 200)
+        }
+        next()
+    }
+
+    private fun writeOnce(
+        job: PrinterJob,
+        currentBinder: PrinterBinder,
+        onDone: (Boolean) -> Unit
+    ) {
+        currentBinder.clearBuffer(job.key)
+        currentBinder.writeDataByYouself(job.key, object : TaskCallback {
             override fun OnSucceed() {
-                Toast.makeText(context, "successfull print ${targetKey}--connect -> ${currentBinder.isConnect(targetKey)}" ,Toast.LENGTH_SHORT).show()
-                result.success(true)
+                if (isNetworkKey(job.key)) {
+                    lastNetUse[job.key] = System.currentTimeMillis()
+                }
+                Toast.makeText(context, "successfull print ${job.key}--connect -> ${currentBinder.isConnect(job.key)}" ,Toast.LENGTH_SHORT).show()
+                onDone(true)
             }
 
             override fun OnFailed() {
-                Toast.makeText(context, "failed print ${targetKey}--connect -> ${currentBinder.isConnect(targetKey)}" ,Toast.LENGTH_SHORT).show()
-                result.success(false)
+                Toast.makeText(context, "failed print ${job.key}--connect -> ${currentBinder.isConnect(job.key)}" ,Toast.LENGTH_SHORT).show()
+                onDone(false)
             }
-
-
-        }, processData)
+        }, job.data)
     }
 }
