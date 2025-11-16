@@ -193,16 +193,15 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     }else{
         result.success(false)
     }
-
   }
 
   private fun xPrinterConnect(call: MethodCall, result : Result) {
     var printerbusinessdata = call.argument<String>("printer_model_data")
     var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
 
-    if (businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "ipconnection"){
+    if (businessdata.selectPrinter?.lowercase() == "xprinter" && businessdata.printerConnection?.lowercase() == "ipconnection"){
       xprinter.connectNet(businessdata.ip,result);
-    }else if(businessdata.selectPrinter.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "usbconnection"){
+    }else if(businessdata.selectPrinter?.lowercase() == "xprinter" && businessdata.printerConnection?.lowercase() == "usbconnection"){
       xprinter.connetUSB(businessdata.xprinterpath, result)
     }else{
      result.success(false)

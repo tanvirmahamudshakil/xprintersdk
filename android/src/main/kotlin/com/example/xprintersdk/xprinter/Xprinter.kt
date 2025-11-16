@@ -66,14 +66,17 @@ class Xprinter(mcontext : Context) {
             result.success(false)
             return
         }
-        currentBinder.checkLinkedState(targetKey, object : TaskCallback {
-            override fun OnSucceed() {
-                result.success(true);
-            }
-            override fun OnFailed() {
-                result.success(false);
-            }
-        })
+
+        var connection = currentBinder.isConnect(targetKey)
+        result.success(connection);
+//        currentBinder.checkLinkedState(targetKey, object : TaskCallback {
+//            override fun OnSucceed() {
+//                result.success(true);
+//            }
+//            override fun OnFailed() {
+//                result.success(false);
+//            }
+//        })
     }
 
     fun connectNet(ipAddress: String?, result: MethodChannel.Result) {
@@ -86,18 +89,26 @@ class Xprinter(mcontext : Context) {
             result.success(false)
             return
         }
+        currentBinder.clearBuffer(sanitizedIp)
 
 
-        currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
-            override fun OnSucceed() {
+        var conncted = currentBinder.isConnect(sanitizedIp)
+
+        if(conncted){
+            result.success(true)
+        }else{
+            currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
+                override fun OnSucceed() {
 //                lastConnectedPrinterKey = sanitizedIp
-                result.success(true)
-            }
+                    result.success(true)
+                }
 
-            override fun OnFailed() {
-                result.success(false)
-            }
-        })
+                override fun OnFailed() {
+                    result.success(false)
+                }
+            })
+        }
+
     }
 
     fun connetUSB(preferredPath: String?, result: MethodChannel.Result) {
@@ -114,15 +125,21 @@ class Xprinter(mcontext : Context) {
             return
         }
 
-        currentBinder.connectUsbPort(context, targetPath, object : TaskCallback {
-            override fun OnSucceed() {
-//                lastConnectedPrinterKey = targetPath
-                result.success(true);
-            }
-            override fun OnFailed() {
-                result.success(false);
-            }
-        })
+        var conncted = currentBinder.isConnect(targetPath)
+        if(conncted){
+            result.success(true);
+        }else{
+            currentBinder.connectUsbPort(context, targetPath, object : TaskCallback {
+                override fun OnSucceed() {
+                    result.success(true);
+                }
+                override fun OnFailed() {
+                    result.success(false);
+                }
+            })
+        }
+
+
     }
 
     fun availableUsbDevices(): List<String>? {
