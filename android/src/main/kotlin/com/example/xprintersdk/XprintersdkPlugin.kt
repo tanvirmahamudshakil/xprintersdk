@@ -188,16 +188,21 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
     val printerbusinessdata = call.argument<String>("printer_model_data")
     val businessdata = if (printerbusinessdata != null) Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java) else null
     val printerIdentifier = PrinterIdentifierResolver.resolve(businessdata) ?: xprinter.getDefaultPrinterKey()
-    xprinter.checkConnection(printerIdentifier, result)
+    if(printerIdentifier != null) {
+        xprinter.checkConnection(printerIdentifier, result)
+    }else{
+        result.success(false)
+    }
+
   }
 
   private fun xPrinterConnect(call: MethodCall, result : Result) {
     var printerbusinessdata = call.argument<String>("printer_model_data")
     var businessdata = Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java)
-      Log.e("printerip", "connectNet: ${businessdata.ip}", )
+
     if (businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "ipconnection"){
       xprinter.connectNet(businessdata.ip,result);
-    }else if(businessdata.selectPrinter!!.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "usbconnection"){
+    }else if(businessdata.selectPrinter.lowercase() == "xprinter" && businessdata.printerConnection!!.lowercase() == "usbconnection"){
       xprinter.connetUSB(businessdata.xprinterpath, result)
     }else{
      result.success(false)
@@ -212,9 +217,9 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
     val modeldata = Gson().fromJson<OrderData>(orderjson, OrderData::class.java)
 
-    if (businessdata.printerConnection!!.lowercase() == "ipconnection"){
+    if (businessdata.printerConnection?.lowercase() == "ipconnection"){
       orderPrinterService(context,modeldata,businessdata, xprinter, result,sunmiHelper, false,nyxPrinter, labelPrinter, printer80, false, false).execute()
-    }else if(businessdata.printerConnection!!.lowercase() == "usbconnection"){
+    }else if(businessdata.printerConnection?.lowercase() == "usbconnection"){
       orderPrinterService(context,modeldata, businessdata,xprinter, result, sunmiHelper, false,nyxPrinter, labelPrinter, printer80, false, false).execute()
     }else{
 

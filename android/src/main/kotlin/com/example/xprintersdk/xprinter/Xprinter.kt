@@ -22,7 +22,7 @@ class Xprinter(mcontext : Context) {
         context = mcontext
     }
     var binder: PrinterBinder? = null
-    private var lastConnectedPrinterKey: String? = null
+//    private var lastConnectedPrinterKey: String? = null
     var conn: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
             binder = iBinder as PrinterBinder
@@ -61,7 +61,7 @@ class Xprinter(mcontext : Context) {
             result.success(false)
             return
         }
-        val targetKey = printerKey ?: lastConnectedPrinterKey
+        val targetKey = printerKey
         if (targetKey.isNullOrBlank()) {
             result.success(false)
             return
@@ -90,7 +90,7 @@ class Xprinter(mcontext : Context) {
 
         currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
             override fun OnSucceed() {
-                lastConnectedPrinterKey = sanitizedIp
+//                lastConnectedPrinterKey = sanitizedIp
                 result.success(true)
             }
 
@@ -116,7 +116,7 @@ class Xprinter(mcontext : Context) {
 
         currentBinder.connectUsbPort(context, targetPath, object : TaskCallback {
             override fun OnSucceed() {
-                lastConnectedPrinterKey = targetPath
+//                lastConnectedPrinterKey = targetPath
                 result.success(true);
             }
             override fun OnFailed() {
@@ -129,7 +129,7 @@ class Xprinter(mcontext : Context) {
         return PosPrinterDev.GetUsbPathNames(context)
     }
 
-    fun getDefaultPrinterKey(): String? = PosPrinterDev.GetUsbPathNames(context).first()
+    fun getDefaultPrinterKey(): String? = if(availableUsbDevices().isNullOrEmpty()) null else availableUsbDevices()?.first()
 
     private fun cutBitmap(h: Int, bitmap: Bitmap?): List<Bitmap?> {
         val width = bitmap!!.width
@@ -155,7 +155,7 @@ class Xprinter(mcontext : Context) {
 
 
     fun printBitmap(printerKey: String?, printBmp: Bitmap?, result: MethodChannel.Result) {
-        val targetKey = printerKey ?: lastConnectedPrinterKey
+        val targetKey = printerKey
         val currentBinder = binder ?: run {
             result.success(false)
             return

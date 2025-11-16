@@ -481,7 +481,11 @@ class _MyAppState extends State<MyApp> {
     // });
     try {
       final businessModel = _buildPrinterModel(form);
-      await _xprintersdkPlugin.XPrinterPrintOnLineData(businessModel, Map<String, Object?>.from(_sampleOrder));
+      var data = await _xprintersdkPlugin.XPrinterPrintOnLineData(
+        businessModel,
+        Map<String, Object?>.from(_sampleOrder),
+      );
+      print("sdvjbsjvhsd ${data}");
       _updateStatus(form, "Sample sent to printer");
       _showSnack("${form.displayName}: sample order sent");
     } catch (e) {
