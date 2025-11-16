@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.pm.LauncherActivityInfo
 import android.graphics.Bitmap
 import android.os.IBinder
 import android.util.Log
@@ -12,6 +13,7 @@ import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import net.posprinter.posprinterface.PrinterBinder
 import net.posprinter.posprinterface.ProcessData
 import net.posprinter.posprinterface.TaskCallback
@@ -39,10 +41,8 @@ class Xprinter(mcontext : Context) {
     }
 
     fun initBinding() {
-
         val posService = Intent(context, PrinterConnectionsService::class.java)
         context.bindService(posService, conn, Context.BIND_AUTO_CREATE)
-
     }
 
     fun disposeBinding(result: MethodChannel.Result) {
@@ -50,6 +50,7 @@ class Xprinter(mcontext : Context) {
             result.success(false)
             return
         }
+
         currentBinder.disconnectAll(object : TaskCallback {
             override fun OnSucceed() {
                 result.success(true)
@@ -60,7 +61,7 @@ class Xprinter(mcontext : Context) {
         })
     }
 
-     fun checkConnection(printerKey: String?, result: MethodChannel.Result) {
+    fun checkConnection(printerKey: String?, result: MethodChannel.Result) {
         val currentBinder = binder ?: run {
             result.success(false)
             return
@@ -70,20 +71,29 @@ class Xprinter(mcontext : Context) {
             result.success(false)
             return
         }
-//
-//        var check = CoroutineScope(Dispatchers.IO).async {
-//            currentBinder.isConnect(targetKey)
+        var connect : Boolean = false;
+
+
+//        CoroutineScope(Dispatchers.IO).launch {
+//            connect =  currentBinder.isConnect(targetKey)
 //
 //        }
-//        result.success(check.await());
-        currentBinder.checkLinkedState(targetKey, object : TaskCallback {
-            override fun OnSucceed() {
-                result.success(true);
-            }
-            override fun OnFailed() {
-                result.success(false);
-            }
-        })
+//
+        Toast.makeText(context,"connext ${printerd.isConnected}", Toast.LENGTH_SHORT).show()
+
+        result.success(true);
+//
+
+
+
+//        currentBinder.checkLinkedState(targetKey, object : TaskCallback {
+//            override fun OnSucceed() {
+//                result.success(true);
+//            }
+//            override fun OnFailed() {
+//                result.success(false);
+//            }
+//        })
     }
 
     fun connectNet(ipAddress: String?, result: MethodChannel.Result) {
@@ -96,52 +106,19 @@ class Xprinter(mcontext : Context) {
             result.success(false)
             return
         }
+        currentBinder.clearBuffer(sanitizedIp)
 
 
-        currentBinder.checkLinkedState(sanitizedIp, object : TaskCallback {
+        currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
             override fun OnSucceed() {
-                currentBinder.disconnectCurrentPort(sanitizedIp,object : TaskCallback {
-                    override fun OnSucceed() {
-                        currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
-                            override fun OnSucceed() {
-                                result.success(true)
-                            }
-
-                            override fun OnFailed() {
-                                result.success(false)
-                            }
-                        })
-                    }
-                    override fun OnFailed() {
-                        result.success(false);
-                    }
-                })
+//                lastConnectedPrinterKey = sanitizedIp
+                result.success(true)
             }
-            override fun OnFailed() {
-                currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
-                    override fun OnSucceed() {
-                        result.success(true)
-                    }
 
-                    override fun OnFailed() {
-                        result.success(false)
-                    }
-                })
+            override fun OnFailed() {
+                result.success(false)
             }
         })
-
-
-
-
-
-
-//        var conncted = currentBinder.isConnect(sanitizedIp)
-//
-//        if(conncted){
-//            result.success(true)
-//        }else{
-//
-//        }
 
     }
 
@@ -159,53 +136,14 @@ class Xprinter(mcontext : Context) {
             return
         }
 
-
-
-        currentBinder.checkLinkedState(targetPath, object : TaskCallback {
+        currentBinder.connectUsbPort(context, targetPath, object : TaskCallback {
             override fun OnSucceed() {
-                currentBinder.disconnectCurrentPort(targetPath,object : TaskCallback {
-                    override fun OnSucceed() {
-                        currentBinder.connectUsbPort(context,targetPath, object : TaskCallback {
-                            override fun OnSucceed() {
-                                result.success(true)
-                            }
-
-                            override fun OnFailed() {
-                                result.success(false)
-                            }
-                        })
-                    }
-                    override fun OnFailed() {
-                        result.success(false);
-                    }
-                })
+                result.success(true);
             }
             override fun OnFailed() {
-                currentBinder.connectUsbPort(context,targetPath, object : TaskCallback {
-                    override fun OnSucceed() {
-                        result.success(true)
-                    }
-
-                    override fun OnFailed() {
-                        result.success(false)
-                    }
-                })
+                result.success(false);
             }
         })
-
-//        var conncted = currentBinder.isConnect(targetPath)
-//        if(conncted){
-//            result.success(true);
-//        }else{
-//            currentBinder.connectUsbPort(context, targetPath, object : TaskCallback {
-//                override fun OnSucceed() {
-//                    result.success(true);
-//                }
-//                override fun OnFailed() {
-//                    result.success(false);
-//                }
-//            })
-//        }
 
 
     }
@@ -291,14 +229,14 @@ class Xprinter(mcontext : Context) {
 
         currentBinder.writeDataByYouself(targetKey, object : TaskCallback {
             override fun OnSucceed() {
-
                 result.success(true)
             }
 
             override fun OnFailed() {
-
                 result.success(false)
             }
+
+
 
 
         }, processData)
