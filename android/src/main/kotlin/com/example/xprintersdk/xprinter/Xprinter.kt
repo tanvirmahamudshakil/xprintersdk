@@ -224,10 +224,12 @@ class Xprinter(mcontext : Context) {
 
         currentBinder.writeDataByYouself(targetKey, object : TaskCallback {
             override fun OnSucceed() {
+                Toast.makeText(context, "successfull print ${targetKey}--connect -> ${currentBinder.isConnect(targetKey)}" ,Toast.LENGTH_SHORT).show()
                 result.success(true)
             }
 
             override fun OnFailed() {
+                Toast.makeText(context, "failed print ${targetKey}--connect -> ${currentBinder.isConnect(targetKey)}" ,Toast.LENGTH_SHORT).show()
                 result.success(false)
             }
 
