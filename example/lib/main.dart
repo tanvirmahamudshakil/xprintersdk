@@ -470,15 +470,15 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _sendSamplePrint(PrinterFormData form) async {
-    final validation = _validateForm(form);
-    if (validation != null) {
-      _showSnack(validation);
-      return;
-    }
-    setState(() {
-      form.isBusy = true;
-      form.status = "Sending sample order...";
-    });
+    // final validation = _validateForm(form);
+    // if (validation != null) {
+    //   _showSnack(validation);
+    //   return;
+    // }
+    // setState(() {
+    //   form.isBusy = true;
+    //   form.status = "Sending sample order...";
+    // });
     try {
       final businessModel = _buildPrinterModel(form);
       await _xprintersdkPlugin.XPrinterPrintOnLineData(businessModel, Map<String, Object?>.from(_sampleOrder));
@@ -575,7 +575,7 @@ class _MyAppState extends State<MyApp> {
               runSpacing: 12,
               children: [
                 ElevatedButton.icon(
-                  onPressed: form.isBusy ? null : () => _connectPrinter(form),
+                  onPressed: () => _connectPrinter(form),
                   icon: const Icon(Icons.link),
                   label: const Text('Connect'),
                 ),
@@ -585,7 +585,7 @@ class _MyAppState extends State<MyApp> {
                   label: const Text('Check'),
                 ),
                 TextButton.icon(
-                  onPressed: form.isBusy ? null : () => _sendSamplePrint(form),
+                  onPressed: () => _sendSamplePrint(form),
                   icon: const Icon(Icons.print),
                   label: const Text('Send sample'),
                 ),

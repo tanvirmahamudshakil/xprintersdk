@@ -129,7 +129,7 @@ class Xprinter(mcontext : Context) {
         return PosPrinterDev.GetUsbPathNames(context)
     }
 
-    fun getDefaultPrinterKey(): String? = lastConnectedPrinterKey
+    fun getDefaultPrinterKey(): String? = PosPrinterDev.GetUsbPathNames(context).first()
 
     private fun cutBitmap(h: Int, bitmap: Bitmap?): List<Bitmap?> {
         val width = bitmap!!.width
