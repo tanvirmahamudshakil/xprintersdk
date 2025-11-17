@@ -1,36 +1,40 @@
 package com.example.xprintersdk.xprinter
 
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.ServiceConnection
-import android.content.pm.LauncherActivityInfo
 import android.graphics.Bitmap
 import android.os.IBinder
 import android.util.Log
-import android.widget.Toast
+import android.hardware.usb.UsbDevice
+import android.hardware.usb.UsbManager
+import androidx.core.content.ContextCompat
+import com.example.xprintersdk.xprinter.Service.XprinterConnectedService
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import net.posprinter.posprinterface.PrinterBinder
 import net.posprinter.posprinterface.ProcessData
 import net.posprinter.posprinterface.TaskCallback
-import net.posprinter.service.PrinterConnectionsService
 import net.posprinter.utils.BitmapToByteData
 import net.posprinter.utils.DataForSendToPrinterPos80
 import net.posprinter.utils.PosPrinterDev
 
-class Xprinter(mcontext : Context) {
-    private var context : Context;
-
-    init {
-        context = mcontext
-    }
+class xprinterService(mcontext : Context) {
+    private var context : Context = mcontext;
+    private val usbManager: UsbManager by lazy { context.getSystemService(Context.USB_SERVICE) as UsbManager }
+    private val ACTION_USB_PERMISSION = "com.example.xprintersdk.USB_PERMISSION"
+    private var usbPermissionReceiver: BroadcastReceiver? = null
+    private var pendingUsbPath: String? = null
+    private var pendingUsbResult: MethodChannel.Result? = null
     var binder: PrinterBinder? = null
-    var isNetConnected : Boolean = false;
-//    private var lastConnectedPrinterKey: String? = null
+
     var conn: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
             binder = iBinder as PrinterBinder
@@ -64,6 +68,26 @@ class Xprinter(mcontext : Context) {
     }
 
 
+    fun disconnect(printerKey: String?, result: MethodChannel.Result) {
+        val currentBinder = binder ?: run {
+            result.success(false)
+            return
+        }
+
+        if (printerKey.isNullOrBlank()) {
+            currentBinder.disconnectAll(object : TaskCallback {
+                override fun OnSucceed() { result.success(true) }
+                override fun OnFailed() { result.success(false) }
+            })
+        } else {
+            currentBinder.disconnectCurrentPort(printerKey, object : TaskCallback {
+                override fun OnSucceed() { result.success(true) }
+                override fun OnFailed() { result.success(false) }
+            })
+        }
+    }
+
+
 
     fun checkConnection(printerKey: String?, result: MethodChannel.Result) {
         val currentBinder = binder ?: run {
@@ -76,24 +100,10 @@ class Xprinter(mcontext : Context) {
             return
         }
 
-        if (isNetworkKey(targetKey)) {
-
-
-            // Network/IP printers: use linked-state callback (SDK resolves socket state)
-            currentBinder.checkLinkedState(targetKey, object : TaskCallback {
-                override fun OnSucceed() { result.success(true) }
-                override fun OnFailed() { result.success(false) }
-            })
-
-        } else {
-            // USB printers: simple isConnect is sufficient
-//            val connected = currentBinder.isConnect(targetKey)
-            currentBinder.checkLinkedState(targetKey, object : TaskCallback {
-                override fun OnSucceed() { result.success(true) }
-                override fun OnFailed() { result.success(false) }
-            })
-
-        }
+        currentBinder.checkLinkedState(targetKey, object : TaskCallback {
+            override fun OnSucceed() { result.success(true) }
+            override fun OnFailed() { result.success(false) }
+        })
     }
 
     private fun isNetworkKey(key: String?): Boolean {
@@ -112,21 +122,15 @@ class Xprinter(mcontext : Context) {
             return
         }
 
-        if(!isNetConnected) {
-            currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
-                override fun OnSucceed() {
-                    isNetConnected = true;
-                    result.success(true)
-                }
+        currentBinder.connectNetPort(sanitizedIp, object : TaskCallback {
+            override fun OnSucceed() {
+                result.success(true)
+            }
 
-                override fun OnFailed() {
-                    isNetConnected = false;
-                    result.success(false)
-                }
-            })
-        }else{
-            result.success(true)
-        }
+            override fun OnFailed() {
+                result.success(false)
+            }
+        })
 
 
 
@@ -145,15 +149,90 @@ class Xprinter(mcontext : Context) {
             result.success(false)
             return
         }
+        // If we already have permission for the matching device, connect immediately.
+        val device = findUsbDeviceForPath(targetPath)
+        if (device != null && usbManager.hasPermission(device)) {
+            currentBinder.connectUsbPort(context, targetPath, object : TaskCallback {
+                override fun OnSucceed() { result.success(true) }
+                override fun OnFailed() { result.success(false) }
+            })
+            return
+        }
 
-        currentBinder.connectUsbPort(context, targetPath, object : TaskCallback {
-            override fun OnSucceed() {
-                result.success(true);
+        // Otherwise request permission and connect automatically after user taps OK.
+        pendingUsbPath = targetPath
+        pendingUsbResult = result
+
+        if (usbPermissionReceiver == null) {
+            usbPermissionReceiver = object : BroadcastReceiver() {
+                override fun onReceive(ctx: Context?, intent: Intent?) {
+
+                    if (intent?.action == ACTION_USB_PERMISSION) {
+                        val dev: UsbDevice? = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
+                        val granted = intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)
+                        val path = pendingUsbPath
+                        val res = pendingUsbResult
+
+                        // One-shot receiver; unregister immediately
+                        try { context.unregisterReceiver(this) } catch (_: Exception) {}
+                        usbPermissionReceiver = null
+                        Log.e("printer commnected", "onReceive: ${granted}---${path}", )
+                        if (path != null) {
+                            val b = binder
+                            if (b == null) {
+                                res?.success(false)
+                            } else {
+
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    delay(1000)
+
+                                    b.connectUsbPort(context, path, object : TaskCallback {
+                                        override fun OnSucceed() { res?.success(true) }
+                                        override fun OnFailed() { res?.success(false) }
+                                    })
+                                }
+                            }
+                        } else {
+                            res?.success(false)
+                        }
+
+                        pendingUsbPath = null
+                        pendingUsbResult = null
+                    }
+                }
             }
-            override fun OnFailed() {
-                result.success(false);
+            ContextCompat.registerReceiver(
+                context,
+                usbPermissionReceiver,
+                IntentFilter(ACTION_USB_PERMISSION),
+                ContextCompat.RECEIVER_NOT_EXPORTED
+            )
+        }
+
+        val flags = try { PendingIntent.FLAG_IMMUTABLE } catch (_: Throwable) { 0 }
+        val permissionIntent = PendingIntent.getBroadcast(context, 0, Intent(ACTION_USB_PERMISSION), flags)
+
+        if (device != null) {
+            usbManager.requestPermission(device, permissionIntent)
+        } else {
+            // Fallback: request permission for all connected devices
+            usbManager.deviceList.values.forEach { dev ->
+                if (!usbManager.hasPermission(dev)) {
+                    usbManager.requestPermission(dev, permissionIntent)
+                }
             }
-        })
+        }
+    }
+
+    private fun findUsbDeviceForPath(path: String): UsbDevice? {
+        try {
+            val devices = usbManager.deviceList?.values ?: return null
+            return devices.firstOrNull { dev ->
+                val name = dev.deviceName ?: return@firstOrNull false
+                path == name || path.contains(name) || name.contains(path)
+            }
+        } catch (_: Throwable) { }
+        return null
     }
 
     fun availableUsbDevices(): List<String>? {
@@ -239,12 +318,7 @@ class Xprinter(mcontext : Context) {
             }
 
             override fun OnFailed() {
-                if (isNetworkKey(targetKey)) {
-                    isNetConnected = false;
-                    connectNet(targetKey, result)
-                }else{
-                    connetUSB(targetKey, result)
-                }
+                result.success(false)
             }
 
 

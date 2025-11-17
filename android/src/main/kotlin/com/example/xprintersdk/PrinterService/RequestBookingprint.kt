@@ -20,17 +20,15 @@ import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.BookingrequestuiBinding
 import com.example.xprintersdk.xprinter.PrinterIdentifierResolver
-import com.example.xprintersdk.xprinter.Xprinter
-import com.sunmi.peripheral.printer.InnerResultCallback
+import com.example.xprintersdk.xprinter.xprinterService
 import io.flutter.plugin.common.MethodChannel
-import net.nyx.printerclient.Nyxpinter
 import java.io.ByteArrayOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessdata: BusinessSetting, mserviceBinding: Xprinter, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp, printer80D : printer80,) : AsyncTask<String, Int, Bitmap>() {
+class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessdata: BusinessSetting, mserviceBinding: xprinterService, mresult: MethodChannel.Result, sunmiHelper : SunmiHelp, saveImage: Boolean, nyxp : NyxprinterHelp, printer80D : printer80,) : AsyncTask<String, Int, Bitmap>() {
     private var context: Context
     private  var bookingRequest: BookingRequest
     private  var businessname: String
@@ -40,7 +38,7 @@ class RequestBookingprint(mcontext: Context, booking: BookingRequest, businessda
     private var fontsize: Int = 30
     private var noofprint: Int =1
     private var businessdatadata: BusinessSetting
-    private var serviceBinding: Xprinter
+    private var serviceBinding: xprinterService
     private var result: MethodChannel.Result
     private var sunmiPrinter : SunmiHelp
     private var bitmapSave: Boolean

@@ -11,7 +11,6 @@ import android.graphics.Matrix
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.AsyncTask
-import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import android.util.TypedValue
@@ -20,7 +19,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import com.example.xprintersdk.Barcode.barcodeSetting
 import com.example.xprintersdk.Bitmap.bitmapSetting
 import com.example.xprintersdk.LabelPrinter.LabelPrinter
@@ -37,7 +35,7 @@ import com.example.xprintersdk.databinding.ModelPrint2Binding
 import com.example.xprintersdk.databinding.OnlinePrint2Binding
 import com.example.xprintersdk.databinding.StickerprinterBinding
 import com.example.xprintersdk.xprinter.PrinterIdentifierResolver
-import com.example.xprintersdk.xprinter.Xprinter
+import com.example.xprintersdk.xprinter.xprinterService
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import io.flutter.plugin.common.MethodChannel
@@ -54,7 +52,7 @@ class orderPrinterService(
     mcontext: Context,
     morderModel: OrderData,
     businessdata: BusinessSetting,
-    mserviceBinding: Xprinter,
+    mserviceBinding: xprinterService,
     mresult: MethodChannel.Result,
     sunmiHelper : SunmiHelp,
     saveImage: Boolean,
@@ -75,7 +73,7 @@ class orderPrinterService(
          private var printer80: printer80
          private var noofprint: Int =1
          private var businessdatadata: BusinessSetting
-         private var serviceBinding: Xprinter
+         private var serviceBinding: xprinterService
          private var result: MethodChannel.Result
          private var sunmiPrinter : SunmiHelp
          private var bitmapSave: Boolean

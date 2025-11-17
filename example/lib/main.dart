@@ -487,7 +487,7 @@ class _MyAppState extends State<MyApp> {
       );
       print("sdvjbsjvhsd ${data}");
       _updateStatus(form, "Sample sent to printer");
-      _showSnack("${form.displayName}: sample order sent");
+      _showSnack("${form.displayName}: sample order sent ${data}");
     } catch (e) {
       _updateStatus(form, "Sample print failed");
       _showSnack("Sample print failed: $e");

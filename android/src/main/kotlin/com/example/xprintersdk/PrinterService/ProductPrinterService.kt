@@ -22,12 +22,12 @@ import com.example.xprintersdk.Printer80.printer80
 import com.example.xprintersdk.Sunmi.SunmiHelp
 import com.example.xprintersdk.databinding.ProductprintBinding
 import com.example.xprintersdk.xprinter.PrinterIdentifierResolver
-import com.example.xprintersdk.xprinter.Xprinter
+import com.example.xprintersdk.xprinter.xprinterService
 import io.flutter.plugin.common.MethodChannel
 import java.io.OutputStream
 import kotlin.math.roundToInt
 
-class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, var businessdata: BusinessSetting, var mserviceBinding: Xprinter, var mresult: MethodChannel.Result, var sunmiHelper : SunmiHelp, var saveImage: Boolean, var nyxp : NyxprinterHelp ,var printer80 : printer80) : AsyncTask<String, Int, Bitmap>() {
+class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, var businessdata: BusinessSetting, var mserviceBinding: xprinterService, var mresult: MethodChannel.Result, var sunmiHelper : SunmiHelp, var saveImage: Boolean, var nyxp : NyxprinterHelp, var printer80 : printer80) : AsyncTask<String, Int, Bitmap>() {
 
      private var context: Context
 

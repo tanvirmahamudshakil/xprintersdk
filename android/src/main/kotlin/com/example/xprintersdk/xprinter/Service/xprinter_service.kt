@@ -1,4 +1,4 @@
-package com.example.xprintersdk.xprinter
+package com.example.xprintersdk.xprinter.Service
 
 import android.annotation.SuppressLint
 import android.app.Service
@@ -13,7 +13,6 @@ import net.posprinter.posprinterface.BackgroundInit
 import net.posprinter.posprinterface.PrinterBinder
 import net.posprinter.posprinterface.ProcessData
 import net.posprinter.posprinterface.TaskCallback
-import net.posprinter.service.PrinterConnectionsService
 import net.posprinter.utils.PosPrinterDev
 import net.posprinter.utils.RoundQueue
 
@@ -91,6 +90,7 @@ class XprinterConnectedService : Service() {
         override fun connectUsbPort(context: Context, usbPathName: String, callback: TaskCallback) {
             val oldPrinter = getPrinter(usbPathName)
             if (oldPrinter != null) {
+                oldPrinter.xPrinterDev?.Close()
                 removePrinter(usbPathName)
             }
 
@@ -124,6 +124,8 @@ class XprinterConnectedService : Service() {
         override fun connectNetPort(ip: String, callback: TaskCallback) {
             val oldPrinter = getPrinter(ip)
             if (oldPrinter != null) {
+//                removePrinter(ip)
+                oldPrinter.xPrinterDev?.Close()
                 removePrinter(ip)
             }
 
@@ -271,11 +273,8 @@ class XprinterConnectedService : Service() {
             } else {
                 val task = PosAsynncTask(execute, object : BackgroundInit {
                     override fun doinbackground(): Boolean {
-//
                         return if (printer.isConnected) {
-                            var msg = printer.xPrinterDev?.Open()
-                            Log.e("jcvjavcjas", "doinbackground: ${msg?.GetErrorCode()?.name}", )
-//                            printer.isConnected = printer.xPrinterDev?.GetPortInfo()?.PortIsOpen() == true
+                            val msg = printer.xPrinterDev?.Open()
                             printer.isConnected = msg?.GetErrorCode() == PosPrinterDev.ErrorCode.OpenPortSuccess
                             printer.isConnected
                         } else {
