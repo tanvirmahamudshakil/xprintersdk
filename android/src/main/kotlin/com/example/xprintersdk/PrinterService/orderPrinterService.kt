@@ -1184,7 +1184,7 @@ class orderPrinterService(
              val refundList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "REFUND"}
              var cardPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CARD" || it?.type?.uppercase() == "CARD"}
              var cashPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CASH" || it?.type?.uppercase() == "CASH"}
-             var dueList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "DUE"}
+             var dueList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "CREDIT"}
 
              val receivePoundList = orderModel.cashEntry?.filter { it?.type?.uppercase() != "REFUND"}
              val changeAmount : Double = orderModel.changeAmount ?: 0.0;
@@ -1437,6 +1437,11 @@ class orderPrinterService(
 //                         }else{
 //                             paidOrNot ="ORDER IS PAID"
 //                         }
+                     }else if (orderModel.paymentType?.uppercase() == "CREDIT") {
+                         paidOrNot = "ORDER NOT PAID"
+                         bind.dueTotalContainer.visibility = View.VISIBLE
+                         bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
+
                      }
                  }
              } else if (orderModel.orderChannel?.uppercase() != "ONLINE") {
