@@ -174,8 +174,11 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
   }
 
   private fun xPrinterDisconnect(call: MethodCall, result : Result) {
-    val printerKey = call.argument<String>("printerKey")
-    xprinterService.disconnect(printerKey, result)
+      val printerbusinessdata = call.argument<String>("printer_model_data")
+      val businessdata = if (printerbusinessdata != null) Gson().fromJson<BusinessSetting>(printerbusinessdata, BusinessSetting::class.java) else null
+      val printerIdentifier = PrinterIdentifierResolver.resolve(businessdata) ?: xprinterService.getDefaultPrinterKey()
+      xprinterService.disconnect(printerIdentifier, result)
+
   }
 
     private fun xPrinterUsbPathList(call: MethodCall, result : Result) {

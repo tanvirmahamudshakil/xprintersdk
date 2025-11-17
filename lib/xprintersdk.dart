@@ -42,6 +42,8 @@ class Xprintersdk {
   final String _openCashDrawer = "openCashDrawer";
   final String _xprinterUsbPathList = "availableusbpath";
 
+  final String _xPrinterDisconnect = "xPrinterDisconnect";
+
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');
     return version;
@@ -65,6 +67,14 @@ class Xprintersdk {
       query = {"printer_model_data": jsonEncode(printermodel.toJson())};
     }
     return await _methodChannel.invokeMethod(_xPrinterConnectionCheck, query);
+  }
+
+  Future<bool> xprinterDiscount({PrinterBusinessModel? printermodel}) async {
+    Map<String, dynamic>? query;
+    if (printermodel != null) {
+      query = {"printer_model_data": jsonEncode(printermodel.toJson())};
+    }
+    return await _methodChannel.invokeMethod(_xPrinterDisconnect, query);
   }
 
   Future<bool> XPrinterConnect(PrinterBusinessModel printermodel) async {
