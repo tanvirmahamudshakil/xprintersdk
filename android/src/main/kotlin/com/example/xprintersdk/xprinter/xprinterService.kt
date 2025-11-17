@@ -24,6 +24,7 @@ import net.posprinter.utils.PosPrinterDev
 
 class Xprinter(mcontext : Context) {
     private var context : Context;
+
     init {
         context = mcontext
     }
@@ -42,7 +43,7 @@ class Xprinter(mcontext : Context) {
     }
 
     fun initBinding() {
-        val posService = Intent(context, PrinterConnectionsService::class.java)
+        val posService = Intent(context, XprinterConnectedService::class.java)
         context.bindService(posService, conn, Context.BIND_AUTO_CREATE)
     }
 
@@ -62,6 +63,8 @@ class Xprinter(mcontext : Context) {
         })
     }
 
+
+
     fun checkConnection(printerKey: String?, result: MethodChannel.Result) {
         val currentBinder = binder ?: run {
             result.success(false)
@@ -74,9 +77,14 @@ class Xprinter(mcontext : Context) {
         }
 
         if (isNetworkKey(targetKey)) {
-            // Network/IP printers: use linked-state callback (SDK resolves socket state)
 
-            result.success(isNetConnected)
+
+            // Network/IP printers: use linked-state callback (SDK resolves socket state)
+            currentBinder.checkLinkedState(targetKey, object : TaskCallback {
+                override fun OnSucceed() { result.success(true) }
+                override fun OnFailed() { result.success(false) }
+            })
+
         } else {
             // USB printers: simple isConnect is sufficient
 //            val connected = currentBinder.isConnect(targetKey)
@@ -232,6 +240,7 @@ class Xprinter(mcontext : Context) {
 
             override fun OnFailed() {
                 if (isNetworkKey(targetKey)) {
+                    isNetConnected = false;
                     connectNet(targetKey, result)
                 }else{
                     connetUSB(targetKey, result)
