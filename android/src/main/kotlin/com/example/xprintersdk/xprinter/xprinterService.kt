@@ -102,7 +102,13 @@ class xprinterService(mcontext : Context) {
 
         currentBinder.checkLinkedState(targetKey, object : TaskCallback {
             override fun OnSucceed() { result.success(true) }
-            override fun OnFailed() { result.success(false) }
+            override fun OnFailed() {
+                if(isNetworkKey(targetKey)) {
+                    connectNet(targetKey, result)
+                }else{
+                    connetUSB(targetKey, result)
+                }
+            }
         })
     }
 
