@@ -17,14 +17,18 @@ import com.example.xprintersdk.xprinter.Service.XprinterConnectedService
 import io.flutter.plugin.common.MethodChannel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import net.posprinter.posprinterface.PrinterBinder
 import net.posprinter.posprinterface.ProcessData
 import net.posprinter.posprinterface.TaskCallback
 import net.posprinter.utils.BitmapToByteData
 import net.posprinter.utils.DataForSendToPrinterPos80
 import net.posprinter.utils.PosPrinterDev
+import kotlin.collections.ArrayDeque
+import kotlin.coroutines.resume
 
 class xprinterService(mcontext : Context) {
     private var context : Context = mcontext;
@@ -34,6 +38,9 @@ class xprinterService(mcontext : Context) {
     private var pendingUsbPath: String? = null
     private var pendingUsbResult: MethodChannel.Result? = null
     var binder: PrinterBinder? = null
+    private val retryScope = CoroutineScope(Dispatchers.IO)
+    private val pendingJobQueues = mutableMapOf<String, PendingPrintQueue>()
+    private val pendingJobLock = Any()
 
     var conn: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
@@ -269,31 +276,20 @@ class xprinterService(mcontext : Context) {
         return bitmaps
     }
 
-
-    fun printBitmap(printerKey: String?, printBmp: Bitmap?, result: MethodChannel.Result) {
-        val targetKey = printerKey
-        val currentBinder = binder ?: run {
-            result.success(false)
-            return
-        }
-
-        if (targetKey.isNullOrBlank() || printBmp == null) {
-            result.success(false)
-            return
-        }
-
+    private fun buildProcessData(printBmp: Bitmap): ProcessData {
         val height = printBmp.height
-        val processData = ProcessData {
+        return ProcessData {
             val list: MutableList<ByteArray> = ArrayList()
             list.add(DataForSendToPrinterPos80.initializePrinter())
             if (height > 200) {
                 val bitmaplist = cutBitmap(200, printBmp)
                 if (bitmaplist.isNotEmpty()) {
                     for (bitmap in bitmaplist) {
+                        val chunk = bitmap ?: continue
                         list.add(
                             DataForSendToPrinterPos80.printRasterBmp(
                                 0,
-                                bitmap,
+                                chunk,
                                 BitmapToByteData.BmpType.Threshold,
                                 BitmapToByteData.AlignType.Center,
                                 576
@@ -317,6 +313,22 @@ class xprinterService(mcontext : Context) {
             list.add(DataForSendToPrinterPos80.selectCutPagerModerAndCutPager(66, 1))
             list
         }
+    }
+
+
+    fun printBitmap(printerKey: String?, printBmp: Bitmap?, result: MethodChannel.Result) {
+        val targetKey = printerKey
+        val currentBinder = binder ?: run {
+            result.success(false)
+            return
+        }
+
+        if (targetKey.isNullOrBlank() || printBmp == null) {
+            result.success(false)
+            return
+        }
+
+        val processData = buildProcessData(printBmp)
 
         currentBinder.writeDataByYouself(targetKey, object : TaskCallback {
             override fun OnSucceed() {
@@ -324,12 +336,156 @@ class xprinterService(mcontext : Context) {
             }
 
             override fun OnFailed() {
+                enqueuePendingPrint(targetKey, printBmp)
                 result.success(false)
             }
 
-
-
-
         }, processData)
+    }
+
+    private fun enqueuePendingPrint(printerKey: String, bitmap: Bitmap) {
+        val queue = synchronized(pendingJobLock) {
+            pendingJobQueues.getOrPut(printerKey) { PendingPrintQueue(printerKey) }
+        }
+        Log.w(TAG, "Queueing pending print job for $printerKey")
+        queue.enqueue(PendingPrintJob(printerKey, bitmap))
+    }
+
+    private suspend fun ensurePrinterConnected(printerKey: String): Boolean {
+        return suspendCancellableCoroutine { continuation ->
+            val currentBinder = binder ?: run {
+                continuation.resume(false)
+                return@suspendCancellableCoroutine
+            }
+
+            currentBinder.checkLinkedState(printerKey, object : TaskCallback {
+                override fun OnSucceed() {
+                    continuation.resume(true)
+                }
+
+                override fun OnFailed() {
+                    val reconnectCallback = object : TaskCallback {
+                        override fun OnSucceed() {
+                            continuation.resume(true)
+                        }
+
+                        override fun OnFailed() {
+                            continuation.resume(false)
+                        }
+                    }
+
+                    try {
+                        if (isNetworkKey(printerKey)) {
+                            currentBinder.connectNetPort(printerKey.trim(), reconnectCallback)
+                        } else {
+                            currentBinder.connectUsbPort(context, printerKey, reconnectCallback)
+                        }
+                    } catch (t: Throwable) {
+                        Log.e(TAG, "Failed to reconnect printer $printerKey", t)
+                        continuation.resume(false)
+                    }
+                }
+            })
+        }
+    }
+
+    private suspend fun trySendPendingJob(job: PendingPrintJob): Boolean {
+        val bitmap = job.bitmap
+        if (bitmap.isRecycled) {
+            Log.w(TAG, "Bitmap already recycled for ${job.printerKey}, dropping pending job")
+            return true
+        }
+        if (!ensurePrinterConnected(job.printerKey)) {
+            return false
+        }
+        val currentBinder = binder ?: return false
+        val processData = buildProcessData(bitmap)
+        return suspendCancellableCoroutine { continuation ->
+            currentBinder.writeDataByYouself(job.printerKey, object : TaskCallback {
+                override fun OnSucceed() {
+                    Log.i(TAG, "Pending print job sent for ${job.printerKey}")
+                    continuation.resume(true)
+                }
+
+                override fun OnFailed() {
+                    Log.w(TAG, "Pending print job failed for ${job.printerKey}")
+                    continuation.resume(false)
+                }
+            }, processData)
+        }
+    }
+
+    private fun removeQueue(key: String, queue: PendingPrintQueue) {
+        synchronized(pendingJobLock) {
+            val existing = pendingJobQueues[key]
+            if (existing === queue) {
+                pendingJobQueues.remove(key)
+            }
+        }
+    }
+
+    private inner class PendingPrintQueue(private val printerKey: String) {
+        private val pendingJobs = ArrayDeque<PendingPrintJob>()
+        private var processor: Job? = null
+
+        fun enqueue(job: PendingPrintJob) {
+            synchronized(pendingJobs) {
+                pendingJobs.addLast(job)
+                startProcessorLocked()
+            }
+        }
+
+        private fun startProcessorLocked() {
+            if (processor?.isActive == true) {
+                return
+            }
+            val job = retryScope.launch {
+                processJobs()
+            }
+            processor = job
+            job.invokeOnCompletion {
+                synchronized(pendingJobs) {
+                    processor = null
+                    if (pendingJobs.isNotEmpty()) {
+                        startProcessorLocked()
+                    } else {
+                        removeQueue(printerKey, this@PendingPrintQueue)
+                    }
+                }
+            }
+        }
+
+        private suspend fun processJobs() {
+            while (true) {
+                val pendingJob = synchronized(pendingJobs) {
+                    if (pendingJobs.isEmpty()) return
+                    pendingJobs.first()
+                }
+                val success = trySendPendingJob(pendingJob)
+                if (success) {
+                    synchronized(pendingJobs) {
+                        if (pendingJobs.isNotEmpty()) {
+                            pendingJobs.removeFirst()
+                        }
+                        if (pendingJobs.isEmpty()) {
+                            return
+                        }
+                    }
+                } else {
+                    delay(RETRY_DELAY_MS)
+                }
+            }
+        }
+    }
+
+    private data class PendingPrintJob(
+        val printerKey: String,
+        val bitmap: Bitmap,
+        val createdAt: Long = System.currentTimeMillis()
+    )
+
+    companion object {
+        private const val RETRY_DELAY_MS = 4000L
+        private const val TAG = "xprinterService"
     }
 }
