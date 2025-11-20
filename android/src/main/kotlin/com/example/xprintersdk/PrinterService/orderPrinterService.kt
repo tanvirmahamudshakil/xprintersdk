@@ -1833,13 +1833,6 @@ class orderPrinterService(
              }
 
 
-
-
-
-
-
-
-
              var widthd = businessdatadata.grocery_barcode_width;
              var heightd = businessdatadata.grocery_barcode_hight;
              var barcodeBitmap = barcodeSetting().generateBarcode("A${orderModel.orderUniqID}",businessdatadata.barcode_dpi,widthd, heightd)    // genBarcode2(barcode)

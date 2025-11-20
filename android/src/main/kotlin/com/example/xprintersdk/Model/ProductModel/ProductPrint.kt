@@ -13,5 +13,9 @@ data class ProductPrint(
     @SerializedName("price")
     val price: String?,
     @SerializedName("expire")
-    val expire: String?
+    val expire: String?,
+    @SerializedName("weight")
+    var weight: String?,
+    @SerializedName("unitOfSale")
+    var unitOfSale: String?
 )
