@@ -149,7 +149,7 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
              binding.weight.visibility = View.GONE
          }else{
              binding.weight.visibility = View.VISIBLE
-             binding.weight.text = "${productPrint.weight ?: "0.0"} ${productPrint.unitOfSale ?: ""}"
+             binding.weight.text = "w: ${productPrint.weight ?: "0.0"} ${productPrint.unitOfSale ?: ""}"
              binding.weight.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.price_per_weight_font?.toFloat() ?: 20.0f)
          }
 
