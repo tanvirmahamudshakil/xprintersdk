@@ -145,12 +145,12 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
          }
          binding.price.text = "£${productPrint.price ?: "0.0"}"
          binding.price.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductPriceFont?.toFloat() ?: 20.0f)
-         if(productPrint.weight.isNullOrEmpty()) {
+         if(productPrint.unitOfSale.isNullOrEmpty()) {
              binding.weight.visibility = View.GONE
          }else{
              binding.weight.visibility = View.VISIBLE
-             binding.weight.text = "w: ${productPrint.weight ?: "0.0"} ${productPrint.unitOfSale ?: ""}"
-             binding.weight.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.price_per_weight_font?.toFloat() ?: 20.0f)
+             binding.weight.text = " ${productPrint.unitOfSale ?: ""}"
+             binding.weight.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductPriceFont?.toFloat() ?: 20.0f)
          }
 
 
