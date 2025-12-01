@@ -398,7 +398,16 @@ class orderPrinterService(
 //             price -= totaldiscount;
 
 
+             if(orderModel.orderChannel == "ONLINE") {
+                 if(item?.promo_discount != null && item.promo_discount != "0.00") {
+                     str3.append("\npromo : £ ").append(item.promo_discount)
+                 }
 
+             }else {
+                 if(item?.promoAmountList != null && item.promoAmountList != 0.0) {
+                     str3.append("\npromo : £ ").append(String.format("%.2f", item.promoAmountList))
+                 }
+             }
              if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
              binding.itemText.text = str3.toString()
              binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
