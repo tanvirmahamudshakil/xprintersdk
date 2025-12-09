@@ -250,38 +250,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-<!--            <RelativeLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:id="@+id/refundContainer"-->
-<!--                >-->
-
-<!--                <TextView-->
-<!--                    android:layout_width="150dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_toLeftOf="@id/refunded"-->
-<!--                    android:text="Refunded"-->
-<!--                    android:textAlignment="textStart"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="20sp"-->
-
-<!--                    />-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/refunded"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:width="100dp"-->
-<!--                    android:text="0.00"-->
-<!--                    android:gravity="end"-->
-<!--                    android:textAlignment="textEnd"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="20sp"-->
-<!--                    />-->
-<!--            </RelativeLayout>-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -370,36 +338,7 @@
                     android:textSize="20sp"
                     />
             </RelativeLayout>
-<!--            <RelativeLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:orientation="horizontal"-->
-<!--                android:id="@+id/promodiscountContainer"-->
-<!--                >-->
 
-<!--                <TextView-->
-<!--                    android:id="@+id/promodiscountTitle"-->
-<!--                    android:layout_width="150dp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_toLeftOf="@id/promodiscount"-->
-<!--                    android:text="Promo Discount"-->
-<!--                    android:textAlignment="textStart"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:textSize="20sp"-->
-<!--                    />-->
-<!--                <TextView-->
-<!--                    android:id="@+id/promodiscount"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="0.00"-->
-<!--                    android:gravity="end"-->
-<!--                    android:textAlignment="textEnd"-->
-<!--                    android:textColor="@color/black"-->
-<!--                    android:width="100dp"-->
-<!--                    android:layout_alignParentEnd="true"-->
-<!--                    android:textSize="20sp"-->
-<!--                    />-->
-<!--            </RelativeLayout>-->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

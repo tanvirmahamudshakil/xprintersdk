@@ -225,10 +225,11 @@ class orderPrinterService(
              val binding: ModelPrint2Binding = ModelPrint2Binding.inflate(LayoutInflater.from(context))
              var  component: List<OrderData.OrderProduct.Component?>?
              var  extraIteam: List<OrderData.OrderProduct.Component?>? = ArrayList()
-             if(kitchenPrint) {
+             if(businessdatadata.printerStyle == "5") {
                  binding.unitValue.visibility = View.GONE
                  binding.itemPrice.visibility = View.GONE
              }
+
 
              if(orderModel.orderChannel?.uppercase() == "ONLINE") {
                  component = item?.components;
@@ -1179,6 +1180,9 @@ class orderPrinterService(
              val bind: OnlinePrint2Binding = OnlinePrint2Binding.inflate(LayoutInflater.from(context))
              bind.businessName.text = businessname
              bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+             if(businessdatadata.printerStyle == "5") {
+                 bind.containerSummary.visibility = View.GONE
+             }
 
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd-MMM hh:mm a")
