@@ -1176,13 +1176,19 @@ class orderPrinterService(
                  businessdatadata.printOnCollection!!
              }
 
-             val printSize: Int = fontsize
-             val bind: OnlinePrint2Binding = OnlinePrint2Binding.inflate(LayoutInflater.from(context))
-             bind.businessName.text = businessname
-             bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
-             if(businessdatadata.printerStyle == "5") {
-                 bind.containerSummary.visibility = View.GONE
-             }
+               val printSize: Int = fontsize
+               val bind: OnlinePrint2Binding = OnlinePrint2Binding.inflate(LayoutInflater.from(context))
+               bind.businessName.text = businessname
+               bind.businessName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+               if (businessdatadata.invoicebusinessName == false) {
+                   bind.businessName.visibility = View.GONE
+               }
+               if(businessdatadata.printerStyle == "5") {
+                   bind.containerSummary.visibility = View.GONE
+               }
+               if (businessdatadata.invoicecontainerSummary == false) {
+                   bind.containerSummary.visibility = View.GONE
+               }
 
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd-MMM hh:mm a")
@@ -1216,43 +1222,57 @@ class orderPrinterService(
              receivePoundList?.forEach {
                  totalReceivePound += (it?.amount ?: 0.0)
              }
+
+
              // totalDue = (orderModel.payableAmount ?: 0.0) - (totalReceivePound - (orderModel.changeAmount ?: 0.0))
-             var addedDeliveryCharge = 0.0
-             if(businessdatadata.printerStyle == "4") {
-                 bind.headerOneLayout.visibility = View.GONE
-                 bind.Layout9.visibility = View.VISIBLE
-                 bind.Layout10.visibility = View.VISIBLE
-                 bind.Layout11.visibility = View.GONE
-                 bind.businessLocation2.text = businessaddress
-                 bind.businessLocation2.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
-                 bind.businessPhone2.text = businessphone
+               var addedDeliveryCharge = 0.0
+               if(businessdatadata.printerStyle == "4") {
+                   bind.headerOneLayout.visibility = View.GONE
+                   bind.Layout9.visibility = if (businessdatadata.invoiceLayout9 == false) View.GONE else View.VISIBLE
+                   bind.Layout10.visibility = if (businessdatadata.invoiceLayout10 == false) View.GONE else View.VISIBLE
+                   bind.Layout11.visibility = if (businessdatadata.invoiceLayout11 == true) View.VISIBLE else View.GONE
+                   bind.businessLocation2.text = businessaddress
+                   bind.businessLocation2.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+                   bind.businessPhone2.text = businessphone
 
-                 bind.businessPhone2.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
-             }else{
-                 bind.businessLocation.text = businessaddress
-                 bind.businessLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
-                 bind.businessPhone.text = businessphone
-                 bind.businessPhone.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
-                 if(businessdatadata.branchNameShow) {
-                     bind.branchName.text = orderModel.branch?.name?.uppercase()
-                     bind.branchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
-                 }else{
-                     bind.branchName.visibility = View.GONE
-                 }
-             }
+                   bind.businessPhone2.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+                   if (businessdatadata.invoicebusinessLocation == false) {
+                       bind.businessLocation2.visibility = View.GONE
+                   }
+                   if (businessdatadata.invoicebusinessPhoneLayout == false) {
+                       bind.businessPhone2.visibility = View.GONE
+                   }
+               }else{
+                   bind.businessLocation.text = businessaddress
+                   bind.businessLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+                   if (businessdatadata.invoicebusinessLocation == false) {
+                       bind.businessLocation.visibility = View.GONE
+                   }
+                   bind.businessPhone.text = businessphone
+                   bind.businessPhone.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+                   if (businessdatadata.invoicebusinessPhoneLayout == false) {
+                       bind.businessPhoneLayout.visibility = View.GONE
+                   }
+                   if(businessdatadata.branchNameShow && businessdatadata.invoicebranchName != false) {
+                       bind.branchName.text = orderModel.branch?.name?.uppercase()
+                       bind.branchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
+                   }else{
+                       bind.branchName.visibility = View.GONE
+                   }
+               }
 
 
-             if(orderModel.orderType == "TABLE_BOOKING") {
-                 bind.orderType.text = "TABLE BOOKING #${orderModel.table_name}"
-                 bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-                 if(orderModel.number_of_guest.isNullOrEmpty() || orderModel.number_of_guest == "0"){
-                     bind.numberOfGuestBox.visibility = View.GONE
-                 }else{
-                     bind.numberOfGuestBox.visibility = View.VISIBLE
-                     bind.numberOfGuest.text = "${businessdatadata.numberOfGuestName} ${orderModel.number_of_guest}"
-                 }
+               if(orderModel.orderType == "TABLE_BOOKING") {
+                   bind.orderType.text = "TABLE BOOKING #${orderModel.table_name}"
+                   bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                   if(orderModel.number_of_guest.isNullOrEmpty() || orderModel.number_of_guest == "0" || businessdatadata.invoicenumber_of_guest_box == false){
+                       bind.numberOfGuestBox.visibility = View.GONE
+                   }else{
+                       bind.numberOfGuestBox.visibility = View.VISIBLE
+                       bind.numberOfGuest.text = "${businessdatadata.numberOfGuestName} ${orderModel.number_of_guest}"
+                   }
 
-             }else{
+               }else{
 //                 bind.orderType.text =  getOrderType()
 //                 bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                  if(orderModel.property?.requestedDeliveryTimestampType != null) {
@@ -1264,20 +1284,29 @@ class orderPrinterService(
                          bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                      }
 
-                 }else{
-                     if(businessdatadata.printerStyle == "3") {
-                         bind.orderType.text =  "${getOrderType()}"
-                         bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-                     }else{
-                         bind.orderType.text =  getOrderType()
-                         bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-                     }
+                   }else{
+                       if(businessdatadata.printerStyle == "3") {
+                           bind.orderType.text =  "${getOrderType()}"
+                           bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                       }else{
+                           bind.orderType.text =  getOrderType()
+                           bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                       }
 
-                 }
-             }
-             bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
-                 ?.let { formatter.format(it) }}"
-             bind.orderTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                   }
+               }
+               if (businessdatadata.invoiceorderType == false) {
+                   bind.orderType.visibility = View.GONE
+                   bind.containerTableNo.visibility = View.GONE
+               } else if (businessdatadata.invoicecontainerTableNo == false) {
+                   bind.containerTableNo.visibility = View.GONE
+               }
+               bind.orderTime.text = "Order at : ${parser.parse(orderModel.orderDate)
+                   ?.let { formatter.format(it) }}"
+               bind.orderTime.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+               if (businessdatadata.invoiceorderTime == false) {
+                   bind.orderTime.visibility = View.GONE
+               }
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.collectionAt.text = "TABLE BOOKING at : ${formatter.format(parser.parse(orderModel.requestedDeliveryTimestamp))}"
                  bind.collectionAt.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
@@ -1326,85 +1355,93 @@ class orderPrinterService(
                  bind.orderText.text = "Table#"
                  bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
              }
-             if(orderModel.orderChannel?.uppercase() == "ONLINE"){
-                 bind.containerOrderNo.visibility = View.VISIBLE
-                 bind.orderNo.text = "${orderModel.online_order_id}";
-                 bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-                 bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-             }else{
-                 if(orderModel.orderType == "TABLE_BOOKING"){
-                     bind.containerOrderNo.visibility = View.GONE
-//                     bind.orderNo.text = "${orderModel.table_id}";
-                     bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+               if(orderModel.orderChannel?.uppercase() == "ONLINE"){
+                   bind.containerOrderNo.visibility = View.VISIBLE
+                   bind.orderNo.text = "${orderModel.online_order_id}";
+                   bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                   bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+               }else{
+                   if(orderModel.orderType == "TABLE_BOOKING"){
+                       bind.containerOrderNo.visibility = View.GONE
+  //                     bind.orderNo.text = "${orderModel.table_id}";
+                       bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
 
-                 }else{
-                     bind.containerOrderNo.visibility = View.VISIBLE
-                     bind.orderNo.text = "${orderModel.localId}";
-                     bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-                     bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-                 }
-             }
-             bind.items.removeAllViews()
-             var allitemsheight = 0
-             if(businessdatadata.order_group) {
-                 val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
-                 val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.product_group_sort?.toInt() ?: 0 })
-                 val groupProduct = sortIteam?.groupBy { it?.product?.property?.product_group }
-                 if (!groupProduct.isNullOrEmpty()) {
-                     for ((index, entry) in groupProduct.entries.withIndex()) {
-                         val key = entry.key
-                         val productList = entry.value
-                         val childView = groupOrderPrintView(productList, index)
-                         bind.items.addView(childView)
-                         allitemsheight += childView.measuredHeight
-                     }
-                 }else{
-                     val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
-                     val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
-                     if(!sortIteam.isNullOrEmpty()){
-                         for (j in sortIteam.indices) {
-                             val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
-                             bind.items.addView(childView)
-                             allitemsheight += childView!!.measuredHeight
-                         }
-                     }
-                 }
+                   }else{
+                       bind.containerOrderNo.visibility = View.VISIBLE
+                       bind.orderNo.text = "${orderModel.localId}";
+                       bind.orderNo.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                       bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                   }
+               }
+               if (businessdatadata.invoicecontainerOrderNo == false) {
+                   bind.containerOrderNo.visibility = View.GONE
+               }
+               bind.items.removeAllViews()
+               var allitemsheight = 0
+               if (businessdatadata.invoiceitems == false) {
+                   bind.items.visibility = View.GONE
+               } else {
+                   bind.items.visibility = View.VISIBLE
+                   if(businessdatadata.order_group) {
+                       val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                       val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.product_group_sort?.toInt() ?: 0 })
+                       val groupProduct = sortIteam?.groupBy { it?.product?.property?.product_group }
+                       if (!groupProduct.isNullOrEmpty()) {
+                           for ((index, entry) in groupProduct.entries.withIndex()) {
+                               val key = entry.key
+                               val productList = entry.value
+                               val childView = groupOrderPrintView(productList, index)
+                               bind.items.addView(childView)
+                               allitemsheight += childView.measuredHeight
+                           }
+                       }else{
+                           val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                           val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+                           if(!sortIteam.isNullOrEmpty()){
+                               for (j in sortIteam.indices) {
+                                   val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
+                                   bind.items.addView(childView)
+                                   allitemsheight += childView!!.measuredHeight
+                               }
+                           }
+                       }
 
-             } else if (businessdatadata.starter_group) {
-                 val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
-                 val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
-                 val groupProduct = sortIteam?.groupBy { it?.product?.property?.printorder }
-                 if (!groupProduct.isNullOrEmpty()) {
-                     for ((index, entry) in groupProduct.entries.withIndex()) {
-                         val key = entry.key
-                         val productList = entry.value
-                         val childView = starterGroupView(productList, index)
-                         bind.items.addView(childView)
-                         allitemsheight += childView.measuredHeight
-                     }
-                 }else{
-                     val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
-                     val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
-                     if(!sortIteam.isNullOrEmpty()){
-                         for (j in sortIteam.indices) {
-                             val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
-                             bind.items.addView(childView)
-                             allitemsheight += childView!!.measuredHeight
-                         }
-                     }
-                 }
-             }
-             else{
-                 val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
-                 val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
-                 if(!sortIteam.isNullOrEmpty()){
-                     for (j in sortIteam.indices) {
-                         val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
-                         bind.items.addView(childView)
-                         allitemsheight += childView!!.measuredHeight
-                     }
-                 }
-             }
+                   } else if (businessdatadata.starter_group) {
+                       val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                       val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+                       val groupProduct = sortIteam?.groupBy { it?.product?.property?.printorder }
+                       if (!groupProduct.isNullOrEmpty()) {
+                           for ((index, entry) in groupProduct.entries.withIndex()) {
+                               val key = entry.key
+                               val productList = entry.value
+                               val childView = starterGroupView(productList, index)
+                               bind.items.addView(childView)
+                               allitemsheight += childView.measuredHeight
+                           }
+                       }else{
+                           val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                           val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+                           if(!sortIteam.isNullOrEmpty()){
+                               for (j in sortIteam.indices) {
+                                   val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
+                                   bind.items.addView(childView)
+                                   allitemsheight += childView!!.measuredHeight
+                               }
+                           }
+                       }
+                   }
+                   else{
+                       val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
+                       val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.printorder?.toInt() ?: 0 })
+                       if(!sortIteam.isNullOrEmpty()){
+                           for (j in sortIteam.indices) {
+                               val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
+                               bind.items.addView(childView)
+                               allitemsheight += childView!!.measuredHeight
+                           }
+                       }
+                   }
+               }
 
              var paidOrNot = "";
              if (orderModel.orderChannel?.uppercase() == "ONLINE") {
@@ -1547,8 +1584,12 @@ class orderPrinterService(
 //                     paidOrNot ="ORDER IS PAID"
 //                 }
 //             }
-             bind.orderPaidMessage.text = paidOrNot
-             bind.orderPaidMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
+               if (businessdatadata.invoiceorderPaidMessage == false) {
+                   bind.orderPaidMessage.visibility = View.GONE
+               } else {
+                   bind.orderPaidMessage.text = paidOrNot
+                   bind.orderPaidMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
+               }
 //             bind.refundContainer.visibility = View.GONE
              var subTotal: Double = 0.0
              if(orderModel.orderChannel == "ONLINE") {
@@ -1665,10 +1706,18 @@ class orderPrinterService(
         """.trimIndent()
 
 
-             bind.comments.text = comment
-             bind.comments.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
-             bind.address.text = dlAddress
-             bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
+               if (businessdatadata.invoicecomments == false) {
+                   bind.comments.visibility = View.GONE
+               } else {
+                   bind.comments.text = comment
+                   bind.comments.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
+               }
+               if (businessdatadata.invoiceaddress == false) {
+                   bind.address.visibility = View.GONE
+               } else {
+                   bind.address.text = dlAddress
+                   bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
+               }
 
 
 

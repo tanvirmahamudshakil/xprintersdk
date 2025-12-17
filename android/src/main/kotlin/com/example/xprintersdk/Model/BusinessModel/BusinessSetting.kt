@@ -174,6 +174,42 @@ data class BusinessSetting(
 
     @SerializedName("groupHeaderShow")
     var groupHeaderShow : Boolean,
+    @SerializedName("invoicebusinessName")
+    var invoicebusinessName: Boolean?,
+    @SerializedName("invoicebusinessLocation")
+    var invoicebusinessLocation: Boolean?,
+    @SerializedName("invoicebusinessPhoneLayout")
+    var invoicebusinessPhoneLayout: Boolean?,
+    @SerializedName("invoicebranchName")
+    var invoicebranchName: Boolean?,
+    @SerializedName("invoiceorderType")
+    var invoiceorderType: Boolean?,
+    @SerializedName("invoicecontainerTableNo")
+    var invoicecontainerTableNo: Boolean?,
+    @SerializedName("invoicenumber_of_guest_box")
+    var invoicenumber_of_guest_box: Boolean?,
+    @SerializedName("invoiceorderTime")
+    var invoiceorderTime: Boolean?,
+    @SerializedName("invoiceCollectionContainer")
+    var invoiceCollectionContainer: Boolean?,
+    @SerializedName("invoicecontainerOrderNo")
+    var invoicecontainerOrderNo: Boolean?,
+    @SerializedName("invoiceitems")
+    var invoiceitems: Boolean?,
+    @SerializedName("invoicecontainerSummary")
+    var invoicecontainerSummary: Boolean?,
+    @SerializedName("invoiceorderPaidMessage")
+    var invoiceorderPaidMessage: Boolean?,
+    @SerializedName("invoiceaddress")
+    var invoiceaddress: Boolean?,
+    @SerializedName("invoicecomments")
+    var invoicecomments: Boolean?,
+    @SerializedName("invoiceLayout9")
+    var invoiceLayout9: Boolean?,
+    @SerializedName("invoiceLayout10")
+    var invoiceLayout10: Boolean?,
+    @SerializedName("invoiceLayout11")
+    var invoiceLayout11: Boolean?,
     @SerializedName("banquetoffer")
     val items: List<BanquetOfferElement?>?,
     @SerializedName("thankyoumessage")

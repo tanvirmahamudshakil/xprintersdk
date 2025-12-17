@@ -95,6 +95,24 @@ class PrinterBusinessModel {
 
   int? grocery_barcode_text_size;
   String? expire_name;
+  bool? invoicebusinessName;
+  bool? invoicebusinessLocation;
+  bool? invoicebusinessPhoneLayout;
+  bool? invoicebranchName;
+  bool? invoiceorderType;
+  bool? invoicecontainerTableNo;
+  bool? invoicenumber_of_guest_box;
+  bool? invoiceorderTime;
+  bool? invoiceCollectionContainer;
+  bool? invoicecontainerOrderNo;
+  bool? invoiceitems;
+  bool? invoicecontainerSummary;
+  bool? invoiceorderPaidMessage;
+  bool? invoiceaddress;
+  bool? invoicecomments;
+  bool? invoiceLayout9;
+  bool? invoiceLayout10;
+  bool? invoiceLayout11;
   bool? starter_group;
   bool? groupHeaderShow;
   List<BanquetOffer>? banquetoffer;
@@ -130,6 +148,24 @@ class PrinterBusinessModel {
     this.barcode_width,
     this.maxItemPrint,
     this.weightShow = false,
+    this.invoicebusinessName,
+    this.invoicebusinessLocation,
+    this.invoicebusinessPhoneLayout,
+    this.invoicebranchName,
+    this.invoiceorderType,
+    this.invoicecontainerTableNo,
+    this.invoicenumber_of_guest_box,
+    this.invoiceorderTime,
+    this.invoiceCollectionContainer,
+    this.invoicecontainerOrderNo,
+    this.invoiceitems,
+    this.invoicecontainerSummary,
+    this.invoiceorderPaidMessage,
+    this.invoiceaddress,
+    this.invoicecomments,
+    this.invoiceLayout9,
+    this.invoiceLayout10,
+    this.invoiceLayout11,
     this.orderChannel,
     this.header1Size,
     this.weightMultiplyingPrice,
@@ -190,6 +226,24 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
     expire_name: json["expire_name"],
+    invoicebusinessName: json["invoicebusinessName"],
+    invoicebusinessLocation: json["invoicebusinessLocation"],
+    invoicebusinessPhoneLayout: json["invoicebusinessPhoneLayout"],
+    invoicebranchName: json["invoicebranchName"],
+    invoiceorderType: json["invoiceorderType"],
+    invoicecontainerTableNo: json["invoicecontainerTableNo"],
+    invoicenumber_of_guest_box: json["invoicenumber_of_guest_box"],
+    invoiceorderTime: json["invoiceorderTime"],
+    invoiceCollectionContainer: json["invoiceCollectionContainer"],
+    invoicecontainerOrderNo: json["invoicecontainerOrderNo"],
+    invoiceitems: json["invoiceitems"],
+    invoicecontainerSummary: json["invoicecontainerSummary"],
+    invoiceorderPaidMessage: json["invoiceorderPaidMessage"],
+    invoiceaddress: json["invoiceaddress"],
+    invoicecomments: json["invoicecomments"],
+    invoiceLayout9: json["invoiceLayout9"],
+    invoiceLayout10: json["invoiceLayout10"],
+    invoiceLayout11: json["invoiceLayout11"],
     numberOfGuestName: json["numberOfGuestName"],
     thankyoumessage: json["thankyoumessage"],
     banquetoffer: json["banquetoffer"] == null ? [] : List<BanquetOffer>.from(json["banquetoffer"]!.map((x) => BanquetOffer.fromJson(x))),
@@ -278,6 +332,24 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
     "invoice_type": invoice_type,
+    "invoicebusinessName": invoicebusinessName,
+    "invoicebusinessLocation": invoicebusinessLocation,
+    "invoicebusinessPhoneLayout": invoicebusinessPhoneLayout,
+    "invoicebranchName": invoicebranchName,
+    "invoiceorderType": invoiceorderType,
+    "invoicecontainerTableNo": invoicecontainerTableNo,
+    "invoicenumber_of_guest_box": invoicenumber_of_guest_box,
+    "invoiceorderTime": invoiceorderTime,
+    "invoiceCollectionContainer": invoiceCollectionContainer,
+    "invoicecontainerOrderNo": invoicecontainerOrderNo,
+    "invoiceitems": invoiceitems,
+    "invoicecontainerSummary": invoicecontainerSummary,
+    "invoiceorderPaidMessage": invoiceorderPaidMessage,
+    "invoiceaddress": invoiceaddress,
+    "invoicecomments": invoicecomments,
+    "invoiceLayout9": invoiceLayout9,
+    "invoiceLayout10": invoiceLayout10,
+    "invoiceLayout11": invoiceLayout11,
     "numberOfGuestName": numberOfGuestName,
     "thankyoumessage": thankyoumessage,
     "banquetoffer": banquetoffer == null ? [] : List<dynamic>.from(banquetoffer!.map((x) => x.toJson())),
