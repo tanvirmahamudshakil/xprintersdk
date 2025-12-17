@@ -1245,7 +1245,7 @@ class orderPrinterService(
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderType.text = "TABLE BOOKING #${orderModel.table_name}"
                  bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
-                 if(orderModel.number_of_guest.isNullOrEmpty()){
+                 if(orderModel.number_of_guest.isNullOrEmpty() || orderModel.number_of_guest == "0"){
                      bind.numberOfGuestBox.visibility = View.GONE
                  }else{
                      bind.numberOfGuestBox.visibility = View.VISIBLE
