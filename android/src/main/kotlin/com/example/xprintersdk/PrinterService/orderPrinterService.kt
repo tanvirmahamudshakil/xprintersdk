@@ -1245,6 +1245,13 @@ class orderPrinterService(
              if(orderModel.orderType == "TABLE_BOOKING") {
                  bind.orderType.text = "TABLE BOOKING #${orderModel.table_name}"
                  bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
+                 if(orderModel.number_of_guest.isNullOrEmpty()){
+                     bind.numberOfGuestBox.visibility = View.GONE
+                 }else{
+                     bind.numberOfGuestBox.visibility = View.VISIBLE
+                     bind.numberOfGuest.text = "${businessdatadata.numberOfGuestName} ${orderModel.number_of_guest}"
+                 }
+
              }else{
 //                 bind.orderType.text =  getOrderType()
 //                 bind.orderType.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())

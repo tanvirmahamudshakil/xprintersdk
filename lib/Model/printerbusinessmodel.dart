@@ -12,6 +12,7 @@ String printerBusinessModelToJson(PrinterBusinessModel data) => json.encode(data
 
 class PrinterBusinessModel {
   bool? weightShow;
+  String? numberOfGuestName;
   String? orderChannel;
   int? header1Size;
   int? header2Size;
@@ -101,6 +102,7 @@ class PrinterBusinessModel {
 
   PrinterBusinessModel({
     this.fontSize,
+    this.numberOfGuestName,
     this.thankyoumessage,
     this.expire_name,
     this.groupHeaderShow,
@@ -188,11 +190,9 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
     expire_name: json["expire_name"],
+    numberOfGuestName: json["numberOfGuestName"],
     thankyoumessage: json["thankyoumessage"],
-    banquetoffer:
-        json["banquetoffer"] == null
-            ? []
-            : List<BanquetOffer>.from(json["banquetoffer"]!.map((x) => BanquetOffer.fromJson(x))),
+    banquetoffer: json["banquetoffer"] == null ? [] : List<BanquetOffer>.from(json["banquetoffer"]!.map((x) => BanquetOffer.fromJson(x))),
     groupHeaderShow: json["groupHeaderShow"],
     starter_group: json["starter_group"],
     grocery_barcode_hight: json["grocery_barcode_hight"],
@@ -278,6 +278,7 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
     "invoice_type": invoice_type,
+    "numberOfGuestName": numberOfGuestName,
     "thankyoumessage": thankyoumessage,
     "banquetoffer": banquetoffer == null ? [] : List<dynamic>.from(banquetoffer!.map((x) => x.toJson())),
     "groupHeaderShow": groupHeaderShow,

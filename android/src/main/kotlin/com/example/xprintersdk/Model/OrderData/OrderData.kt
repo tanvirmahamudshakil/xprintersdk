@@ -82,6 +82,8 @@ data class OrderData(
     var table_id: Int?,
     @SerializedName("table_name")
     var table_name: String?,
+    @SerializedName("number_of_guest")
+    var number_of_guest: String?,
     @SerializedName("property")
     val property: PropertyXXX?,
     @SerializedName("vat")

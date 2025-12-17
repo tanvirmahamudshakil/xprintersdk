@@ -41,7 +41,6 @@ class Xprintersdk {
   final String _kitchenPrintImageGallay = "kitchenPrintImageGallay";
   final String _openCashDrawer = "openCashDrawer";
   final String _xprinterUsbPathList = "availableusbpath";
-
   final String _xPrinterDisconnect = "xPrinterDisconnect";
 
   Future<String?> getPlatformVersion() async {

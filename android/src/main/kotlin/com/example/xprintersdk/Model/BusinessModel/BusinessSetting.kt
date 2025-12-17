@@ -8,6 +8,8 @@ import androidx.annotation.Keep
 data class BusinessSetting(
     @SerializedName("weightShow")
     var weightShow : Boolean,
+    @SerializedName("numberOfGuestName")
+    var numberOfGuestName: String?,
     @SerializedName("orderChannel")
     var orderChannel: String?,
     @SerializedName("auto_print")
