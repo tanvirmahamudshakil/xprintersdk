@@ -1223,6 +1223,12 @@ class orderPrinterService(
                  totalReceivePound += (it?.amount ?: 0.0)
              }
 
+             if(businessdatadata.invoiceCollectionContainer == false) {
+                 bind.CollectionContainer.visibility = View.GONE
+             }else{
+                 bind.CollectionContainer.visibility = View.VISIBLE
+             }
+
 
              // totalDue = (orderModel.payableAmount ?: 0.0) - (totalReceivePound - (orderModel.changeAmount ?: 0.0))
                var addedDeliveryCharge = 0.0
