@@ -19,6 +19,7 @@ class PrinterBusinessModel {
   int? header3Size;
   int? header4Size;
   int? fontSize;
+  int? numberOfGuestFontSize;
   int? printOnDelivery;
   int? printOnCollection;
   int? printOnTableOrder;
@@ -175,6 +176,7 @@ class PrinterBusinessModel {
     this.serviceCharge = false,
     this.header3Size,
     this.header4Size,
+    this.numberOfGuestFontSize,
     this.dpi,
     this.highlighttextsize,
     this.printOnDelivery,
@@ -247,6 +249,7 @@ class PrinterBusinessModel {
     invoiceLayout9: json["invoiceLayout9"],
     invoiceLayout10: json["invoiceLayout10"],
     invoiceLayout11: json["invoiceLayout11"],
+    numberOfGuestFontSize: json["numberOfGuestFontSize"],
     numberOfGuestName: json["numberOfGuestName"],
     thankyoumessage: json["thankyoumessage"],
     banquetoffer: json["banquetoffer"] == null ? [] : List<BanquetOffer>.from(json["banquetoffer"]!.map((x) => BanquetOffer.fromJson(x))),
@@ -354,6 +357,7 @@ class PrinterBusinessModel {
     "invoiceLayout9": invoiceLayout9,
     "invoiceLayout10": invoiceLayout10,
     "invoiceLayout11": invoiceLayout11,
+    "numberOfGuestFontSize": numberOfGuestFontSize,
     "numberOfGuestName": numberOfGuestName,
     "thankyoumessage": thankyoumessage,
     "banquetoffer": banquetoffer == null ? [] : List<dynamic>.from(banquetoffer!.map((x) => x.toJson())),

@@ -1279,6 +1279,8 @@ class orderPrinterService(
                    }else{
                        bind.numberOfGuestBox.visibility = View.VISIBLE
                        bind.numberOfGuest.text = "${businessdatadata.numberOfGuestName} ${orderModel.number_of_guest}"
+                       val guestFontSize = (businessdatadata.numberOfGuestFontSize ?: businessdatadata.fontSize ?: 18).toFloat()
+                       bind.numberOfGuest.setTextSize(TypedValue.COMPLEX_UNIT_SP, guestFontSize)
                    }
 
                }else{
