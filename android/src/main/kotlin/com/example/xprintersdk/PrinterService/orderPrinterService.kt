@@ -412,8 +412,11 @@ class orderPrinterService(
              if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
              binding.itemText.text = str3.toString()
              binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
-             if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
+             if (businessdatadata.invoiceItemPriceShow == false) {
+                 binding.itemPrice.visibility = View.GONE
+             } else if(item?.product?.type == "ITEM" || item?.product?.type == "DYNAMIC"){
                  binding.itemPrice.text = "£ ${String.format("%.2f", price)}"
+                 binding.itemPrice.visibility = View.VISIBLE
              } else{
                  binding.itemPrice.visibility = View.GONE
              }

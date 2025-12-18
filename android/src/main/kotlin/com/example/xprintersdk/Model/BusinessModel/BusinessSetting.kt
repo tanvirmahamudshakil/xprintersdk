@@ -196,6 +196,8 @@ data class BusinessSetting(
     var invoicecontainerOrderNo: Boolean?,
     @SerializedName("invoiceitems")
     var invoiceitems: Boolean?,
+    @SerializedName("invoiceItemPriceShow")
+    var invoiceItemPriceShow: Boolean?,
     @SerializedName("invoicecontainerSummary")
     var invoicecontainerSummary: Boolean?,
     @SerializedName("invoiceorderPaidMessage")

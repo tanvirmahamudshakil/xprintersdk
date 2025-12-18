@@ -106,6 +106,7 @@ class PrinterBusinessModel {
   bool? invoiceCollectionContainer;
   bool? invoicecontainerOrderNo;
   bool? invoiceitems;
+  bool? invoiceItemPriceShow;
   bool? invoicecontainerSummary;
   bool? invoiceorderPaidMessage;
   bool? invoiceaddress;
@@ -159,6 +160,7 @@ class PrinterBusinessModel {
     this.invoiceCollectionContainer,
     this.invoicecontainerOrderNo,
     this.invoiceitems,
+    this.invoiceItemPriceShow,
     this.invoicecontainerSummary,
     this.invoiceorderPaidMessage,
     this.invoiceaddress,
@@ -237,6 +239,7 @@ class PrinterBusinessModel {
     invoiceCollectionContainer: json["invoiceCollectionContainer"],
     invoicecontainerOrderNo: json["invoicecontainerOrderNo"],
     invoiceitems: json["invoiceitems"],
+    invoiceItemPriceShow: json["invoiceItemPriceShow"],
     invoicecontainerSummary: json["invoicecontainerSummary"],
     invoiceorderPaidMessage: json["invoiceorderPaidMessage"],
     invoiceaddress: json["invoiceaddress"],
@@ -343,6 +346,7 @@ class PrinterBusinessModel {
     "invoiceCollectionContainer": invoiceCollectionContainer,
     "invoicecontainerOrderNo": invoicecontainerOrderNo,
     "invoiceitems": invoiceitems,
+    "invoiceItemPriceShow": invoiceItemPriceShow,
     "invoicecontainerSummary": invoicecontainerSummary,
     "invoiceorderPaidMessage": invoiceorderPaidMessage,
     "invoiceaddress": invoiceaddress,
