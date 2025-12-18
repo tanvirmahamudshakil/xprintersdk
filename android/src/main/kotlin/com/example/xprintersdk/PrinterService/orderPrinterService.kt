@@ -1193,6 +1193,30 @@ class orderPrinterService(
                    bind.containerSummary.visibility = View.GONE
                }
 
+               if(businessdatadata.invoicebusinessName == false &&
+                   businessdatadata.invoicebusinessLocation == false &&
+                   businessdatadata.invoicebusinessPhoneLayout == false &&
+                   businessdatadata.invoicebranchName == false) {
+                   bind.header1dotted.visibility = View.GONE
+
+               }
+
+             if(businessdatadata.invoiceorderType == false &&
+                 businessdatadata.invoicecontainerTableNo == false &&
+                 businessdatadata.invoiceorderTime == false &&
+                 businessdatadata.invoicenumber_of_guest_box == false &&
+                 businessdatadata.invoiceCollectionContainer == false &&
+                 businessdatadata.invoicecontainerOrderNo == false
+                 ) {
+                 bind.dottedBeforeItems.visibility = View.GONE
+
+             }
+
+
+
+               bind.dottedBeforeSummary.visibility =
+                   if (bind.containerSummary.visibility == View.VISIBLE) View.VISIBLE else View.GONE
+
              val parser = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
              val formatter = SimpleDateFormat("dd-MMM hh:mm a")
              val requestformatter = SimpleDateFormat("HH:mm")
@@ -1267,6 +1291,12 @@ class orderPrinterService(
                        bind.branchName.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
                    }else{
                        bind.branchName.visibility = View.GONE
+                   }
+                   if (bind.businessName.visibility == View.GONE &&
+                       bind.businessLocation.visibility == View.GONE &&
+                       bind.businessPhoneLayout.visibility == View.GONE &&
+                       bind.branchName.visibility == View.GONE) {
+                       bind.headerOneLayout.visibility = View.GONE
                    }
                }
 
@@ -1391,8 +1421,10 @@ class orderPrinterService(
                var allitemsheight = 0
                if (businessdatadata.invoiceitems == false) {
                    bind.items.visibility = View.GONE
+                   bind.dottedBeforeItems.visibility = View.GONE
                } else {
                    bind.items.visibility = View.VISIBLE
+                   var hasItems = false
                    if(businessdatadata.order_group) {
                        val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
                        val sortIteam = itemproduict?.sortedWith(compareBy {it?.product?.property?.product_group_sort?.toInt() ?: 0 })
@@ -1404,6 +1436,7 @@ class orderPrinterService(
                                val childView = groupOrderPrintView(productList, index)
                                bind.items.addView(childView)
                                allitemsheight += childView.measuredHeight
+                               hasItems = true
                            }
                        }else{
                            val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
@@ -1413,6 +1446,7 @@ class orderPrinterService(
                                    val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                                    bind.items.addView(childView)
                                    allitemsheight += childView!!.measuredHeight
+                                   hasItems = true
                                }
                            }
                        }
@@ -1428,6 +1462,7 @@ class orderPrinterService(
                                val childView = starterGroupView(productList, index)
                                bind.items.addView(childView)
                                allitemsheight += childView.measuredHeight
+                               hasItems = true
                            }
                        }else{
                            val itemproduict = orderModel.orderProducts?.filter { i-> i?.product?.type == "ITEM" || i?.product?.type == "DYNAMIC" }
@@ -1437,6 +1472,7 @@ class orderPrinterService(
                                    val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                                    bind.items.addView(childView)
                                    allitemsheight += childView!!.measuredHeight
+                                   hasItems = true
                                }
                            }
                        }
@@ -1449,8 +1485,16 @@ class orderPrinterService(
                                val childView = getView(sortIteam, sortIteam[j],sortIteam.size, j)
                                bind.items.addView(childView)
                                allitemsheight += childView!!.measuredHeight
+                               hasItems = true
                            }
                        }
+                   }
+
+                   if (!hasItems) {
+                       bind.items.visibility = View.GONE
+                       bind.dottedBeforeItems.visibility = View.GONE
+                   } else {
+                       bind.dottedBeforeItems.visibility = View.VISIBLE
                    }
                }
 
@@ -1632,6 +1676,15 @@ class orderPrinterService(
              }else{
                  bind.cashPayContainer.visibility = View.GONE
              }
+             bind.dottedBetweenPayments.visibility =
+                 if (bind.cardPayContainer.visibility == View.VISIBLE ||
+                     bind.cashPayContainer.visibility == View.VISIBLE ||
+                     bind.dueTotalContainer.visibility == View.VISIBLE
+                 ) {
+                     View.VISIBLE
+                 } else {
+                     View.GONE
+                 }
 
 
              if (orderModel.orderChannel?.uppercase() == "ONLINE") {
@@ -1717,15 +1770,21 @@ class orderPrinterService(
         """.trimIndent()
 
 
-               if (businessdatadata.invoicecomments == false) {
+               if (businessdatadata.invoicecomments == false || comment.isBlank()) {
                    bind.comments.visibility = View.GONE
+                   bind.dottedBeforeComments.visibility = View.GONE
                } else {
+                   bind.comments.visibility = View.VISIBLE
+                   bind.dottedBeforeComments.visibility = View.VISIBLE
                    bind.comments.text = comment
                    bind.comments.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
                }
-               if (businessdatadata.invoiceaddress == false) {
+               if (businessdatadata.invoiceaddress == false || dlAddress.isBlank()) {
                    bind.address.visibility = View.GONE
+                   bind.dottedBeforeAddress.visibility = View.GONE
                } else {
+                   bind.address.visibility = View.VISIBLE
+                   bind.dottedBeforeAddress.visibility = View.VISIBLE
                    bind.address.text = dlAddress
                    bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
                }

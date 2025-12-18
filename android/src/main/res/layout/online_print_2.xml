@@ -84,6 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:src="@drawable/dotted"
+                android:id="@+id/header1dotted"
                 android:contentDescription="Dotted" />
         </LinearLayout>
         <LinearLayout
@@ -249,6 +250,7 @@
             >
         </LinearLayout>
         <ImageView
+            android:id="@+id/dottedBeforeItems"
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:src="@drawable/dotted"
@@ -261,6 +263,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"/>
         <ImageView
+            android:id="@+id/dottedBeforeSummary"
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:src="@drawable/dotted"
@@ -649,6 +652,7 @@
                     />
             </RelativeLayout>
             <ImageView
+                android:id="@+id/dottedBetweenPayments"
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
                 android:src="@drawable/dotted"
@@ -763,6 +767,7 @@
             android:id="@+id/orderPaidMessage"
             />
         <ImageView
+            android:id="@+id/dottedBeforeAddress"
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:src="@drawable/dotted"
@@ -775,6 +780,7 @@
             android:textSize="20sp"
             />
         <ImageView
+            android:id="@+id/dottedBeforeComments"
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:src="@drawable/dotted"
