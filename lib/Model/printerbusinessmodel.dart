@@ -66,6 +66,7 @@ class PrinterBusinessModel {
   int? pricePerWeightFont;
   int? singleProductNameFont;
   int? singleProductPriceFont;
+  int? singleProductPromotionFont;
   int? singleProductExpireFont;
   int? singleProductPrintHight;
   int? singleProductBarcodeHight;
@@ -216,6 +217,7 @@ class PrinterBusinessModel {
     this.businessNameFont,
     this.pricePerWeightFont,
     this.singleProductNameFont,
+    this.singleProductPromotionFont,
     this.singleProductExpireFont,
     this.singleProductPriceFont,
     this.singleProductPrintHight,
@@ -282,6 +284,7 @@ class PrinterBusinessModel {
     singleProductExpireFont: json["singleProductExpireFont"],
     singleProductPriceFont: json["singleProductPriceFont"],
     singleProductNameFont: json["singleProductNameFont"],
+    singleProductPromotionFont: json["singleProductPromotionFont"],
     singleProductPrintHight: json["singleProductPrintHight"],
     businessNameFont: json["business_name_font"],
     expireDateFont: json["expire_date_font"],
@@ -390,6 +393,7 @@ class PrinterBusinessModel {
     "singleProductExpireFont": singleProductExpireFont,
     "singleProductPriceFont": singleProductPriceFont,
     "singleProductNameFont": singleProductNameFont,
+    "singleProductPromotionFont": singleProductPromotionFont,
     "singleProductPrintHight": singleProductPrintHight,
     "business_name_font": businessNameFont,
     "expire_date_font": expireDateFont,

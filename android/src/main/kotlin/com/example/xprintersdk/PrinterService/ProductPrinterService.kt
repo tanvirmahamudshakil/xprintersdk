@@ -141,7 +141,8 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
          if (!productPrint.promotionList.isNullOrEmpty()) {
              binding.promotionList.visibility = View.VISIBLE
              binding.promotionList.text = productPrint.promotionList?.joinToString("\n")
-             binding.promotionList.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductPriceFont?.toFloat() ?: 20.0f)
+             val promoFontSize = (businessdata.singleProductPromotionFont ?: businessdata.singleProductPriceFont ?: 20).toFloat()
+             binding.promotionList.setTextSize(TypedValue.COMPLEX_UNIT_SP, promoFontSize)
          } else {
              binding.promotionList.visibility = View.GONE
          }
