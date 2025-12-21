@@ -15,24 +15,12 @@ class ProductPrint {
   String? expire;
   String? unitOfSale;
   String? weight;
+  List<String> promotion;
 
-  ProductPrint({this.name, this.price, this.barcode, this.expire, this.unitOfSale, this.weight});
+  ProductPrint({this.name, this.price, this.barcode, this.expire, this.unitOfSale, this.weight, this.promotion = const []});
 
-  factory ProductPrint.fromJson(Map<String, dynamic> json) => ProductPrint(
-    name: json["name"],
-    price: json["price"],
-    barcode: json["barcode"],
-    expire: json["expire"],
-    unitOfSale: json["unitOfSale"],
-    weight: json["weight"],
-  );
+  factory ProductPrint.fromJson(Map<String, dynamic> json) =>
+      ProductPrint(name: json["name"], price: json["price"], barcode: json["barcode"], expire: json["expire"], unitOfSale: json["unitOfSale"], weight: json["weight"], promotion: json["promotion"]);
 
-  Map<String, dynamic> toJson() => {
-    "name": name,
-    "price": price,
-    "barcode": barcode,
-    "expire": expire,
-    "unitOfSale": unitOfSale,
-    "weight": weight,
-  };
+  Map<String, dynamic> toJson() => {"name": name, "price": price, "barcode": barcode, "expire": expire, "unitOfSale": unitOfSale, "weight": weight, "promotion": promotion};
 }
