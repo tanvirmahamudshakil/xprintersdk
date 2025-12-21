@@ -17,5 +17,7 @@ data class ProductPrint(
     @SerializedName("weight")
     var weight: String?,
     @SerializedName("unitOfSale")
-    var unitOfSale: String?
+    var unitOfSale: String?,
+    @SerializedName("promotion")
+    val promotionList: List<String>?
 )

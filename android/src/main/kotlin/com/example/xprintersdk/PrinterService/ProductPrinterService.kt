@@ -137,6 +137,15 @@ class ProductPrinterService(mcontext: Context, var productPrint: ProductPrint, v
          var binding = ProductprintBinding.inflate(LayoutInflater.from(context))
          binding.itemName.text = productPrint.name
          binding.itemName.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductNameFont?.toFloat() ?: 20.0f)
+
+         if (!productPrint.promotionList.isNullOrEmpty()) {
+             binding.promotionList.visibility = View.VISIBLE
+             binding.promotionList.text = productPrint.promotionList.joinToString("\n")
+             binding.promotionList.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductPriceFont?.toFloat() ?: 20.0f)
+         } else {
+             binding.promotionList.visibility = View.GONE
+         }
+
          if(businessdata.expireDateShow && !productPrint.expire.isNullOrEmpty()) {
              binding.expire.text = "${businessdata.expire_name} ${productPrint.expire}"
              binding.expire.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdata.singleProductExpireFont?.toFloat() ?: 20.0f)
