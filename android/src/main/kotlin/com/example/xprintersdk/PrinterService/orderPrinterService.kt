@@ -1226,11 +1226,13 @@ class orderPrinterService(
              var totalCashPaid: Double = 0.0;
              var totalReceivePound : Double = 0.0
              var totalDue : Double = 0.0
+             var totalBank : Double = 0.0
               // var totalDue : Double = 0.0;
              val refundList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "REFUND"}
              var cardPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CARD" || it?.type?.uppercase() == "CARD"}
              var cashPaidList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "EPOS_CASH" || it?.type?.uppercase() == "CASH"}
              var dueList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "CREDIT"}
+             var bankList = orderModel.cashEntry?.filter { it?.type?.uppercase() == "BANK"}
 
              val receivePoundList = orderModel.cashEntry?.filter { it?.type?.uppercase() != "REFUND"}
              val changeAmount : Double = orderModel.changeAmount ?: 0.0;
@@ -1239,6 +1241,9 @@ class orderPrinterService(
              }
              dueList?.forEach {
                  totalDue += (it?.amount ?: 0.0)
+             }
+             bankList?.forEach {
+                 totalBank += (it?.amount ?: 0.0)
              }
              cardPaidList?.forEach {
                  totalCardPaid += (it?.amount?: 0.0)
@@ -1527,9 +1532,12 @@ class orderPrinterService(
                  }else{
                      if(orderModel.paymentType?.uppercase() == "CARD" || orderModel.paymentType?.uppercase() == "EPOS_CARD"){
                          paidOrNot ="ORDER IS PAID"
-                     }else if(orderModel.paymentType?.uppercase() == "CASH" || orderModel.paymentType?.uppercase() == "EPOS_CASH") {
-                         var totalpay = (totalCardPaid + totalCashPaid) - totalRefund
+                     } else if (orderModel.paymentType?.uppercase() == "BANK") {
+                         paidOrNot ="ORDER IS PAID"
+                     } else if(orderModel.paymentType?.uppercase() == "CASH" || orderModel.paymentType?.uppercase() == "EPOS_CASH") {
+                         var totalpay = (totalCardPaid + totalCashPaid + totalBank) - totalRefund
                          var due = (orderModel.payableAmount ?: 0.0) - totalpay
+
                          if(totalpay >= (orderModel.payableAmount ?: 0.0)) {
                              paidOrNot ="ORDER IS PAID"
                          }else{
@@ -1553,7 +1561,6 @@ class orderPrinterService(
                          paidOrNot = "ORDER NOT PAID"
                          bind.dueTotalContainer.visibility = View.VISIBLE
                          bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
-
                      }
                  }
              } else if (orderModel.orderChannel?.uppercase() != "ONLINE") {
@@ -1590,7 +1597,7 @@ class orderPrinterService(
                      if(orderModel.cashEntry != null && orderModel.cashEntry!!.isNotEmpty()) {
 //                         paidOrNot ="ORDER IS PAID"
 //                         bind.dueTotal.text = "£ 0.0"
-                         var totalpay = (totalCardPaid + totalCashPaid) - totalRefund
+                         var totalpay = (totalCardPaid + totalCashPaid + totalBank) - totalRefund
                          var due = (orderModel.payableAmount ?: 0.0) - totalpay
                          if(totalpay >= (orderModel.payableAmount ?: 0.0)) {
                              paidOrNot ="ORDER IS PAID"
@@ -1602,7 +1609,6 @@ class orderPrinterService(
                              }else{
                                  bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                              }
-
                          }
                      }else{
                          if(orderModel.paymentType?.uppercase() == "UNPAID_CASH") {
@@ -1675,6 +1681,13 @@ class orderPrinterService(
                  bind.cashPay.text = "£ " + String.format( "%.2f",  totalCashPaid)
              }else{
                  bind.cashPayContainer.visibility = View.GONE
+             }
+
+             if(totalBank > 0) {
+                 bind.bankPayContainer.visibility = View.VISIBLE
+                 bind.bankPay.text = "£ " + String.format( "%.2f",  totalBank)
+             }else{
+                 bind.bankPayContainer.visibility = View.GONE
              }
              bind.dottedBetweenPayments.visibility =
                  if (bind.cardPayContainer.visibility == View.VISIBLE ||
