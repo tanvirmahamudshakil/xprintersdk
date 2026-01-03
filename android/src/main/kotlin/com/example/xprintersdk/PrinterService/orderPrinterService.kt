@@ -1213,7 +1213,7 @@ class orderPrinterService(
              }
 
 
-
+             applyOrderSummaryVisibility(bind)
                bind.dottedBeforeSummary.visibility =
                    if (bind.containerSummary.visibility == View.VISIBLE) View.VISIBLE else View.GONE
 
@@ -1726,7 +1726,7 @@ class orderPrinterService(
                  "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
              bind.grandTotal.text =
                  "Grand Total £ " +String.format( "%.2f",(orderModel.payableAmount!!))
-             applyOrderSummaryVisibility(bind)
+
              var dlAddress = "Service charge is not included\n\n"
              if(businessdatadata.serviceCharge) {
                  dlAddress = "Service charge is not included\n\n"
