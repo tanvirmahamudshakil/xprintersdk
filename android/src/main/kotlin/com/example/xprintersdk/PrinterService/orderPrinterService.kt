@@ -2627,6 +2627,8 @@ class orderPrinterService(
          private fun View.hideIfDisabled(setting: Boolean?) {
              if (setting == false) {
                  visibility = View.GONE
+             }else{
+                 visibility = View.VISIBLE
              }
          }
 
