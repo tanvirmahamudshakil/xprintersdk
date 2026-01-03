@@ -116,6 +116,22 @@ class PrinterBusinessModel {
   bool? invoiceLayout9;
   bool? invoiceLayout10;
   bool? invoiceLayout11;
+  bool? subTotalContainer;
+  bool? deliveryChargeContainer;
+  bool? discountContainer;
+  bool? plasticBagContainer;
+  bool? containerBagContainer;
+  bool? adjustmentContainer;
+  bool? vatContainer;
+  bool? serviceChargeContainer;
+  bool? tipsContainer;
+  bool? totalContainer;
+  bool? refundContainer;
+  bool? changeContainer;
+  bool? cardPayContainer;
+  bool? cashPayContainer;
+  bool? bankPayContainer;
+  bool? dueTotalContainer;
   bool? starter_group;
   bool? groupHeaderShow;
   List<BanquetOffer>? banquetoffer;
@@ -170,6 +186,22 @@ class PrinterBusinessModel {
     this.invoiceLayout9,
     this.invoiceLayout10,
     this.invoiceLayout11,
+    this.subTotalContainer,
+    this.deliveryChargeContainer,
+    this.discountContainer,
+    this.plasticBagContainer,
+    this.containerBagContainer,
+    this.adjustmentContainer,
+    this.vatContainer,
+    this.serviceChargeContainer,
+    this.tipsContainer,
+    this.totalContainer,
+    this.refundContainer,
+    this.changeContainer,
+    this.cardPayContainer,
+    this.cashPayContainer,
+    this.bankPayContainer,
+    this.dueTotalContainer,
     this.orderChannel,
     this.header1Size,
     this.weightMultiplyingPrice,
@@ -251,6 +283,22 @@ class PrinterBusinessModel {
     invoiceLayout9: json["invoiceLayout9"],
     invoiceLayout10: json["invoiceLayout10"],
     invoiceLayout11: json["invoiceLayout11"],
+    subTotalContainer: json["subTotalContainer"],
+    deliveryChargeContainer: json["deliveryChargeContainer"],
+    discountContainer: json["discountContainer"],
+    plasticBagContainer: json["plasticBagContainer"],
+    containerBagContainer: json["containerBagContainer"],
+    adjustmentContainer: json["adjustmentContainer"],
+    vatContainer: json["vatContainer"],
+    serviceChargeContainer: json["serviceChargeContainer"],
+    tipsContainer: json["tipsContainer"],
+    totalContainer: json["totalContainer"],
+    refundContainer: json["refundContainer"],
+    changeContainer: json["changeContainer"],
+    cardPayContainer: json["cardPayContainer"],
+    cashPayContainer: json["cashPayContainer"],
+    bankPayContainer: json["bankPayContainer"],
+    dueTotalContainer: json["dueTotalContainer"],
     numberOfGuestFontSize: json["numberOfGuestFontSize"],
     numberOfGuestName: json["numberOfGuestName"],
     thankyoumessage: json["thankyoumessage"],
@@ -360,6 +408,22 @@ class PrinterBusinessModel {
     "invoiceLayout9": invoiceLayout9,
     "invoiceLayout10": invoiceLayout10,
     "invoiceLayout11": invoiceLayout11,
+    "subTotalContainer": subTotalContainer,
+    "deliveryChargeContainer": deliveryChargeContainer,
+    "discountContainer": discountContainer,
+    "plasticBagContainer": plasticBagContainer,
+    "containerBagContainer": containerBagContainer,
+    "adjustmentContainer": adjustmentContainer,
+    "vatContainer": vatContainer,
+    "serviceChargeContainer": serviceChargeContainer,
+    "tipsContainer": tipsContainer,
+    "totalContainer": totalContainer,
+    "refundContainer": refundContainer,
+    "changeContainer": changeContainer,
+    "cardPayContainer": cardPayContainer,
+    "cashPayContainer": cashPayContainer,
+    "bankPayContainer": bankPayContainer,
+    "dueTotalContainer": dueTotalContainer,
     "numberOfGuestFontSize": numberOfGuestFontSize,
     "numberOfGuestName": numberOfGuestName,
     "thankyoumessage": thankyoumessage,

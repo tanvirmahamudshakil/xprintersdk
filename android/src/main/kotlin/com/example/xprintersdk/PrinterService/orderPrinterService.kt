@@ -1716,12 +1716,9 @@ class orderPrinterService(
 //             bind.promodiscount.text =
 //                 "£ " + String.format( "%.2f", orderModel.promotion_discount_amount?.toFloatOrNull() ?: 0.0)
 
-             bind.plasticBagContainer.visibility = View.GONE
-             bind.containerBagContainer.visibility = View.GONE
-             bind.adjustmentContainer.visibility = View.GONE
-             if(orderModel.vat_amount == 0.0) {
-                 bind.vatContainer.visibility = View.GONE
-             }else{
+            if(orderModel.vat_amount == 0.0) {
+                bind.vatContainer.visibility = View.GONE
+            }else{
                  bind.vatContainer.visibility = View.VISIBLE
                  bind.vatAmount.text = "£ " + String.format( "%.2f", orderModel.vat_amount)
              }
@@ -1729,6 +1726,7 @@ class orderPrinterService(
                  "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
              bind.grandTotal.text =
                  "Grand Total £ " +String.format( "%.2f",(orderModel.payableAmount!!))
+             applyOrderSummaryVisibility(bind)
              var dlAddress = "Service charge is not included\n\n"
              if(businessdatadata.serviceCharge) {
                  dlAddress = "Service charge is not included\n\n"
@@ -1967,6 +1965,7 @@ class orderPrinterService(
                  "£ " +String.format( "%.2f",(orderModel.payableAmount!!))
 
 
+             applyGrocerySummaryVisibility(bind)
              if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
                  bind.vatNumberCompany.text = "VAT Number: ${businessdatadata.vatNumber}"
 
@@ -2588,6 +2587,48 @@ class orderPrinterService(
              }
          }
 
+
+         private fun applyOrderSummaryVisibility(bind: OnlinePrint2Binding) {
+             bind.subTotalContainer.hideIfDisabled(businessdatadata.subTotalContainer)
+             bind.deliveryChargeContainer.hideIfDisabled(businessdatadata.deliveryChargeContainer)
+             bind.discountContainer.hideIfDisabled(businessdatadata.discountContainer)
+             bind.plasticBagContainer.hideIfDisabled(businessdatadata.plasticBagContainer)
+             bind.containerBagContainer.hideIfDisabled(businessdatadata.containerBagContainer)
+             bind.adjustmentContainer.hideIfDisabled(businessdatadata.adjustmentContainer)
+             bind.vatContainer.hideIfDisabled(businessdatadata.vatContainer)
+             bind.serviceChargeContainer.hideIfDisabled(businessdatadata.serviceChargeContainer)
+             bind.tipsContainer.hideIfDisabled(businessdatadata.tipsContainer)
+             bind.totalContainer.hideIfDisabled(businessdatadata.totalContainer)
+             bind.RefundContainer.hideIfDisabled(businessdatadata.refundContainer)
+             bind.changeContainer.hideIfDisabled(businessdatadata.changeContainer)
+             bind.cardPayContainer.hideIfDisabled(businessdatadata.cardPayContainer)
+             bind.cashPayContainer.hideIfDisabled(businessdatadata.cashPayContainer)
+             bind.bankPayContainer.hideIfDisabled(businessdatadata.bankPayContainer)
+             bind.dueTotalContainer.hideIfDisabled(businessdatadata.dueTotalContainer)
+
+             bind.dottedBetweenPayments.visibility =
+                 if (bind.cardPayContainer.visibility == View.VISIBLE ||
+                     bind.cashPayContainer.visibility == View.VISIBLE ||
+                     bind.dueTotalContainer.visibility == View.VISIBLE
+                 ) {
+                     View.VISIBLE
+                 } else {
+                     View.GONE
+                 }
+         }
+
+         private fun applyGrocerySummaryVisibility(bind: GroceryinvoiceBinding) {
+             bind.subTotalContainer.hideIfDisabled(businessdatadata.subTotalContainer)
+             bind.totalContainer.hideIfDisabled(businessdatadata.totalContainer)
+             bind.cardPayContainer.hideIfDisabled(businessdatadata.cardPayContainer)
+             bind.cashPayContainer.hideIfDisabled(businessdatadata.cashPayContainer)
+         }
+
+         private fun View.hideIfDisabled(setting: Boolean?) {
+             if (setting == false) {
+                 visibility = View.GONE
+             }
+         }
 
          override fun onPostExecute(result: Bitmap?) {
              super.onPostExecute(result)

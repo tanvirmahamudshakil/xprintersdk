@@ -216,6 +216,38 @@ data class BusinessSetting(
     var invoiceLayout10: Boolean?,
     @SerializedName("invoiceLayout11")
     var invoiceLayout11: Boolean?,
+    @SerializedName("subTotalContainer")
+    var subTotalContainer: Boolean?,
+    @SerializedName("deliveryChargeContainer")
+    var deliveryChargeContainer: Boolean?,
+    @SerializedName("discountContainer")
+    var discountContainer: Boolean?,
+    @SerializedName("plasticBagContainer")
+    var plasticBagContainer: Boolean?,
+    @SerializedName("containerBagContainer")
+    var containerBagContainer: Boolean?,
+    @SerializedName("adjustmentContainer")
+    var adjustmentContainer: Boolean?,
+    @SerializedName("vatContainer")
+    var vatContainer: Boolean?,
+    @SerializedName("serviceChargeContainer")
+    var serviceChargeContainer: Boolean?,
+    @SerializedName("tipsContainer")
+    var tipsContainer: Boolean?,
+    @SerializedName("totalContainer")
+    var totalContainer: Boolean?,
+    @SerializedName("RefundContainer")
+    var refundContainer: Boolean?,
+    @SerializedName("changeContainer")
+    var changeContainer: Boolean?,
+    @SerializedName("cardPayContainer")
+    var cardPayContainer: Boolean?,
+    @SerializedName("cashPayContainer")
+    var cashPayContainer: Boolean?,
+    @SerializedName("bankPayContainer")
+    var bankPayContainer: Boolean?,
+    @SerializedName("dueTotalContainer")
+    var dueTotalContainer: Boolean?,
     @SerializedName("banquetoffer")
     val items: List<BanquetOfferElement?>?,
     @SerializedName("thankyoumessage")
