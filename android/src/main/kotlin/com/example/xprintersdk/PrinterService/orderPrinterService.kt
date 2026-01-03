@@ -1542,7 +1542,7 @@ class orderPrinterService(
                              paidOrNot ="ORDER IS PAID"
                          }else{
                              paidOrNot = "ORDER NOT PAID"
-                             bind.dueTotalContainer.visibility = View.VISIBLE
+                             bind.dueTotalContainer.visibility = if( businessdatadata.dueTotalContainer == true)  View.VISIBLE else View.GONE
                              if(due > 0) {
                                  bind.dueTotal.text = "£ " + String.format("%.2f", due)
                              }else{
