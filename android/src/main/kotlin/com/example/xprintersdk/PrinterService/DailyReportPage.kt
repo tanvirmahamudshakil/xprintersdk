@@ -297,7 +297,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.totalDueBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalDue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
-        var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble() + totalBankOrderAmount.toDouble() + totalDueValue.toDouble()
+        var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble() + totalBankOrderAmount.toDouble()
         binding.totalPaymentReceiveBox.text = "£ " + String.format("%.2f", totalPayment) ;
         binding.totalPaymentReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
