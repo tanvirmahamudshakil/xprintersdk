@@ -1527,7 +1527,7 @@ class orderPrinterService(
 
                  if(orderModel.status?.uppercase() == "REFUNDED") {
                      paidOrNot = "ORDER is REFUNDED"
-                     bind.dueTotalContainer.visibility = View.VISIBLE
+                     bind.dueTotalContainer.visibility = if( businessdatadata.dueTotalContainer == true)  View.VISIBLE else View.GONE
                      bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                  }else{
                      if(orderModel.paymentType?.uppercase() == "CARD" || orderModel.paymentType?.uppercase() == "EPOS_CARD"){
@@ -1559,20 +1559,20 @@ class orderPrinterService(
 //                         }
                      }else if (orderModel.paymentType?.uppercase() == "CREDIT") {
                          paidOrNot = "ORDER NOT PAID"
-                         bind.dueTotalContainer.visibility = View.VISIBLE
+                         bind.dueTotalContainer.visibility = if( businessdatadata.dueTotalContainer == true)  View.VISIBLE else View.GONE
                          bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                      }
                  }
              } else if (orderModel.orderChannel?.uppercase() != "ONLINE") {
                  if(totalRefund > 0.0) {
-                     bind.RefundContainer.visibility = View.VISIBLE
+                     bind.RefundContainer.visibility = if( businessdatadata.refundContainer == true)  View.VISIBLE else View.GONE
                      bind.refund.text = "£ " + String.format("%.2f", totalRefund)
                  }else{
                      bind.RefundContainer.visibility = View.GONE
                  }
 
                  if(changeAmount > 0.0) {
-                     bind.changeContainer.visibility = View.VISIBLE
+                     bind.changeContainer.visibility = if( businessdatadata.changeContainer == true)  View.VISIBLE else View.GONE
                      bind.change.text = "£ " + String.format("%.2f", changeAmount)
                  }else{
                      bind.changeContainer.visibility = View.GONE
@@ -1585,13 +1585,13 @@ class orderPrinterService(
 
                  if(orderModel.status?.uppercase() == "REFUNDED") {
                      paidOrNot = "ORDER is REFUND"
-                     bind.dueTotalContainer.visibility = View.VISIBLE
+                     bind.dueTotalContainer.visibility = if( businessdatadata.dueTotalContainer == true)  View.VISIBLE else View.GONE
 
                      bind.dueTotal.text = "£ 0.0"
 
                  } else if(totalRefund > 0.0) {
                      paidOrNot = "ORDER is PARTIAL REFUND"
-                     bind.dueTotalContainer.visibility = View.VISIBLE
+                     bind.dueTotalContainer.visibility = if( businessdatadata.dueTotalContainer == true)  View.VISIBLE else View.GONE
                      bind.dueTotal.text = "£ 0.0"
                  } else{
                      if(orderModel.cashEntry != null && orderModel.cashEntry!!.isNotEmpty()) {
@@ -1603,7 +1603,7 @@ class orderPrinterService(
                              paidOrNot ="ORDER IS PAID"
                          }else{
                              paidOrNot = "ORDER NOT PAID"
-                             bind.dueTotalContainer.visibility = View.VISIBLE
+                             bind.dueTotalContainer.visibility = if( businessdatadata.dueTotalContainer == true)  View.VISIBLE else View.GONE
                              if(due > 0) {
                                  bind.dueTotal.text = "£ " + String.format("%.2f", due)
                              }else{
@@ -1613,17 +1613,17 @@ class orderPrinterService(
                      }else{
                          if(orderModel.paymentType?.uppercase() == "UNPAID_CASH") {
                              paidOrNot ="ORDER IS UNPAID(CASH)"
-                             bind.dueTotalContainer.visibility = View.VISIBLE
+                             bind.dueTotalContainer.visibility = if( businessdatadata.dueTotalContainer == true)  View.VISIBLE else View.GONE
                              bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                                  //"£ " + String.format("%.2f", orderModel.payableAmount)
                          }else if(orderModel.paymentType?.uppercase() == "UNPAID_CARD") {
                              paidOrNot ="ORDER IS UNPAID(CARD)"
-                             bind.dueTotalContainer.visibility = View.VISIBLE
+                             bind.dueTotalContainer.visibility = if( businessdatadata.dueTotalContainer == true)  View.VISIBLE else View.GONE
                              bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                                  //"£ " + String.format("%.2f", orderModel.payableAmount)
                          }else{
                              paidOrNot = "ORDER NOT PAID"
-                             bind.dueTotalContainer.visibility = View.VISIBLE
+                             bind.dueTotalContainer.visibility = if( businessdatadata.dueTotalContainer == true)  View.VISIBLE else View.GONE
                              bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                                  //"£ " + String.format("%.2f", orderModel.payableAmount)
                          }
@@ -1632,7 +1632,7 @@ class orderPrinterService(
 
              } else  {
                  paidOrNot = "ORDER NOT PAID"
-                 bind.dueTotalContainer.visibility = View.VISIBLE
+                 bind.dueTotalContainer.visibility = if( businessdatadata.dueTotalContainer == true)  View.VISIBLE else View.GONE
                  bind.dueTotal.text = "£ " + String.format("%.2f", orderModel.payableAmount)
                      //"£ " + String.format("%.2f", orderModel.payableAmount)
              }
@@ -1663,7 +1663,7 @@ class orderPrinterService(
              bind.serviceChage.text = "£ " + String.format("%.2f", orderModel.serviceCharge ?: 0.0)
              bind.tips.text = "£ " + String.format("%.2f", orderModel.tips ?: 0.0)
              if(orderModel.orderType == "DELIVERY") {
-                 bind.deliveryChargeContainer.visibility = View.VISIBLE
+                 bind.deliveryChargeContainer.visibility = if( businessdatadata.deliveryChargeContainer == true)  View.VISIBLE else View.GONE
                  bind.txtDeliveryCharge.text = "Delivery Charge";
                  bind.deliveryCharge.text = "£ " + orderModel.deliveryCharge!!.toFloat().toString()
              }else{
@@ -1671,20 +1671,20 @@ class orderPrinterService(
              }
              bind.change.text = "£ " +  String.format( "%.2f",  orderModel.changeAmount)
              if(totalCardPaid > 0) {
-                 bind.cardPayContainer.visibility = View.VISIBLE
+                 bind.cardPayContainer.visibility =  if( businessdatadata.cardPayContainer == true)  View.VISIBLE else View.GONE
                  bind.cardPay.text = "£ " + String.format( "%.2f",  totalCardPaid)
              } else{
                  bind.cardPayContainer.visibility = View.GONE
              }
              if(totalCashPaid > 0) {
-                 bind.cashPayContainer.visibility = View.VISIBLE
+                 bind.cashPayContainer.visibility =  if( businessdatadata.cashPayContainer == true)  View.VISIBLE else View.GONE
                  bind.cashPay.text = "£ " + String.format( "%.2f",  totalCashPaid)
              }else{
                  bind.cashPayContainer.visibility = View.GONE
              }
 
              if(totalBank > 0) {
-                 bind.bankPayContainer.visibility = View.VISIBLE
+                 bind.bankPayContainer.visibility =  if( businessdatadata.bankPayContainer == true)  View.VISIBLE else View.GONE
                  bind.bankPay.text = "£ " + String.format( "%.2f",  totalBank)
              }else{
                  bind.bankPayContainer.visibility = View.GONE
@@ -1719,7 +1719,7 @@ class orderPrinterService(
             if(orderModel.vat_amount == 0.0) {
                 bind.vatContainer.visibility = View.GONE
             }else{
-                 bind.vatContainer.visibility = View.VISIBLE
+                 bind.vatContainer.visibility =  if( businessdatadata.vatContainer == true)  View.VISIBLE else View.GONE
                  bind.vatAmount.text = "£ " + String.format( "%.2f", orderModel.vat_amount)
              }
              bind.total.text =
