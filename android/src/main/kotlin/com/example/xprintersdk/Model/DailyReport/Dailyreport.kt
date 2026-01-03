@@ -21,6 +21,8 @@ data class Dailyreport(
         val totalCashOrder: String?,
         @SerializedName("total_cash_order_amount")
         val totalCashOrderAmount: Double?,
+        @SerializedName("total_bank_order_amount")
+        val totalBankOrderAmount: Double?,
         @SerializedName("total_cash_out")
         val totalCashOut: String?,
         @SerializedName("total_local_order")

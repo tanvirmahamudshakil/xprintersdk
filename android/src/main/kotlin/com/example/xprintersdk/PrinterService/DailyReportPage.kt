@@ -213,6 +213,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         val formatter = SimpleDateFormat("dd/MM/yyyy")
         val totalCashOrderAmount = String.format("%.2f", dailyreport.data?.totalCashOrderAmount)
         val totalCardOrderAmount = String.format("%.2f", dailyreport.data?.totalCardOrderAmount)
+        val totalBankOrderAmount = String.format("%.2f", dailyreport.data?.totalBankOrderAmount ?: 0.0)
 
         val totalRefundCashAmount = dailyreport.data?.totalrefundcashAmount
      //   var totalChangeAmount = dailyreport.data?.totalChange
@@ -303,6 +304,11 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.totalCashBox.text = "£ " + totalCashOrderAmount
         binding.totalCashBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalcash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.totalBankBox.text = "稖 " + totalBankOrderAmount
+        binding.totalBankBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.totalbank.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+
+
 
 
         // total Refund card
