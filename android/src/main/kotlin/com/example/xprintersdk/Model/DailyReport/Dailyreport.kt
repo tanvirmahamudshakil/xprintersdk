@@ -51,5 +51,11 @@ data class Dailyreport(
         val online_cash_amount: String?,
         @SerializedName("online_card_amount")
         val online_card_amount: String?,
+        @SerializedName("onlineDue")
+        val onlineDue: String?,
+        @SerializedName("localDue")
+        val localDue: String?,
+        @SerializedName("totalDue")
+        val totalDue: String?,
     )
 }

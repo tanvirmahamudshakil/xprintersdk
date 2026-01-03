@@ -216,6 +216,9 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         val totalBankOrderAmount = String.format("%.2f", dailyreport.data?.totalBankOrderAmount ?: 0.0)
 
         val totalRefundCashAmount = dailyreport.data?.totalrefundcashAmount
+        val onlineDueValue = dailyreport.data?.onlineDue?.toDoubleOrNull() ?: 0.0
+        val localDueValue = dailyreport.data?.localDue?.toDoubleOrNull() ?: 0.0
+        val totalDueValue = dailyreport.data?.totalDue?.toDoubleOrNull() ?: 0.0
      //   var totalChangeAmount = dailyreport.data?.totalChange
        // val totalRefundCardAmount = dailyreport.data?.totalrefundcardAmount
 
@@ -276,10 +279,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
 
 
 
-        var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble() + totalBankOrderAmount.toDouble()
-        binding.totalPaymentReceiveBox.text = "£ " + String.format("%.2f", totalPayment) ;
-        binding.totalPaymentReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
-        binding.totalpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+
 
         // total refund amount
         var totalRefundAmount = totalRefundCashAmount?.toDouble() ?: 0.0
@@ -287,7 +287,20 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.totalRefundReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalRefund.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
+        binding.onlineDueBox.text = "£ " + String.format("%.2f", onlineDueValue)
+        binding.onlineDueBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.onlineDue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.localDueBox.text = "£ " + String.format("%.2f", localDueValue)
+        binding.localDueBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.localDue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.totalDueBox.text = "£ " + String.format("%.2f", totalDueValue)
+        binding.totalDueBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.totalDue.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
+        var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble() + totalBankOrderAmount.toDouble() + totalDueValue.toDouble()
+        binding.totalPaymentReceiveBox.text = "£ " + String.format("%.2f", totalPayment) ;
+        binding.totalPaymentReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
+        binding.totalpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         // total Change amount
  //       var totalChange = totalChangeAmount?.toDouble() ?: 0.0
 //        binding.totalChangeBox.text = "£ " + String.format("%.2f", totalChange) ;
