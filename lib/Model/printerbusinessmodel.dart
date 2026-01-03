@@ -136,9 +136,11 @@ class PrinterBusinessModel {
   bool? groupHeaderShow;
   List<BanquetOffer>? banquetoffer;
   String? thankyoumessage;
+  String? serviceChargeMessage;
 
   PrinterBusinessModel({
     this.fontSize,
+    this.serviceChargeMessage,
     this.numberOfGuestName,
     this.thankyoumessage,
     this.expire_name,
@@ -264,6 +266,7 @@ class PrinterBusinessModel {
 
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
     expire_name: json["expire_name"],
+    serviceChargeMessage: json["serviceChargeMessage"],
     invoicebusinessName: json["invoicebusinessName"],
     invoicebusinessLocation: json["invoicebusinessLocation"],
     invoicebusinessPhoneLayout: json["invoicebusinessPhoneLayout"],
@@ -389,6 +392,7 @@ class PrinterBusinessModel {
 
   Map<String, dynamic> toJson() => {
     "invoice_type": invoice_type,
+    "serviceChargeMessage": serviceChargeMessage,
     "invoicebusinessName": invoicebusinessName,
     "invoicebusinessLocation": invoicebusinessLocation,
     "invoicebusinessPhoneLayout": invoicebusinessPhoneLayout,

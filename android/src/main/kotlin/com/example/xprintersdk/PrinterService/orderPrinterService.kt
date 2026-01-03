@@ -1729,7 +1729,7 @@ class orderPrinterService(
 
              var dlAddress = "Service charge is not included\n\n"
              if(businessdatadata.serviceCharge) {
-                 dlAddress = "Service charge is not included\n"
+                 dlAddress = "${businessdatadata.serviceChargeMessage ?: ""}"
              }else{
                  dlAddress = ""
              }
@@ -1802,7 +1802,7 @@ class orderPrinterService(
 
 
 
-
+             bind.serviceChargeMessage.text = businessdatadata.serviceChargeMessage
 
              bind.ThankYouMessage.text = businessdatadata.thankyoumessage
 

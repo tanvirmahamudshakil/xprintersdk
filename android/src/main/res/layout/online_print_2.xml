@@ -976,8 +976,16 @@
                 android:src="@drawable/dotted"
                 android:contentDescription="Dotted" />
             <TextView
-                android:id="@+id/vatNumberCompany"
+                android:id="@+id/serviceChargeMessage"
                 android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:textSize="15dp"
+                android:textColor="@color/black"
+                android:text="Service Charge not Include"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/vatNumberCompany"
+                android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:textSize="15dp"
                 android:textColor="@color/black"
