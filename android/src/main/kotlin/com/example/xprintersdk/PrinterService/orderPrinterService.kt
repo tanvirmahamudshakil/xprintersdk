@@ -1808,7 +1808,7 @@ class orderPrinterService(
 
 
              if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
-                 bind.vatNumberCompany.text = "${businessdatadata.vatNumber}"+", ${businessdatadata.vatCompanyName}"
+                 bind.vatNumberCompany.text = "${businessdatadata.vatNumber ?: ''}"+"${businessdatadata.vatCompanyName ?: ''}"
                  bind.vatno2.text = "${businessdatadata.vatNumber}"
                  bind.vatMessage.text = "${businessdatadata.vatCompanyName}"
                  bind.vatno2.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
