@@ -276,7 +276,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
 
 
 
-        var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble()
+        var totalPayment = totalCashOrderAmount.toDouble() + totalCardOrderAmount.toDouble() + totalBankOrderAmount.toDouble()
         binding.totalPaymentReceiveBox.text = "£ " + String.format("%.2f", totalPayment) ;
         binding.totalPaymentReceiveBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalpayment.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
@@ -304,7 +304,7 @@ class DailyReportPage(mcontext: Context, report: Dailyreport, businessdata: Busi
         binding.totalCashBox.text = "£ " + totalCashOrderAmount
         binding.totalCashBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalcash.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
-        binding.totalBankBox.text = "稖 " + totalBankOrderAmount
+        binding.totalBankBox.text = "£ " + totalBankOrderAmount
         binding.totalBankBox.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
         binding.totalbank.setTextSize(TypedValue.COMPLEX_UNIT_SP, businessdatadata.fontSize?.toFloat() ?: 16f)
 
