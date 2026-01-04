@@ -1264,11 +1264,14 @@ class orderPrinterService(
 
              // totalDue = (orderModel.payableAmount ?: 0.0) - (totalReceivePound - (orderModel.changeAmount ?: 0.0))
                var addedDeliveryCharge = 0.0
+
+             bind.Layout9.visibility = if (businessdatadata.invoiceLayout9 == false) View.GONE else View.VISIBLE
+             bind.Layout10.visibility = if (businessdatadata.invoiceLayout10 == false) View.GONE else View.VISIBLE
+             bind.Layout11.visibility = if (businessdatadata.invoiceLayout11 == true) View.VISIBLE else View.GONE
+
                if(businessdatadata.printerStyle == "4") {
                    bind.headerOneLayout.visibility = View.GONE
-                   bind.Layout9.visibility = if (businessdatadata.invoiceLayout9 == false) View.GONE else View.VISIBLE
-                   bind.Layout10.visibility = if (businessdatadata.invoiceLayout10 == false) View.GONE else View.VISIBLE
-                   bind.Layout11.visibility = if (businessdatadata.invoiceLayout11 == true) View.VISIBLE else View.GONE
+
                    bind.businessLocation2.text = businessaddress
                    bind.businessLocation2.setTextSize(TypedValue.COMPLEX_UNIT_SP, header1.toFloat())
                    bind.businessPhone2.text = businessphone
