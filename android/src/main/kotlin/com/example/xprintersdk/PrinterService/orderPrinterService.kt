@@ -1817,6 +1817,7 @@ class orderPrinterService(
 
 
              bind.serviceChargeMessage.text = businessdatadata.serviceChargeMessage
+             bind.serviceChargeMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
 
              bind.ThankYouMessage.text = businessdatadata.thankyoumessage
 
