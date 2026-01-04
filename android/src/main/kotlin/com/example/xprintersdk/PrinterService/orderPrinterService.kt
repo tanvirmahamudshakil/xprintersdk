@@ -88,6 +88,66 @@ class orderPrinterService(
          private val size_width = 660
          private val size_height = 264
 
+         private fun normalizedText(value: String?): String? {
+             val trimmed = value?.trim()
+             if (trimmed.isNullOrEmpty()) return null
+             if (trimmed.equals("null", ignoreCase = true)) return null
+             return trimmed
+         }
+
+         private fun buildCustomerDetailsText(includeServiceChargeMessage: Boolean): String {
+             val builder = StringBuilder()
+
+             if (includeServiceChargeMessage && businessdatadata.serviceCharge) {
+                 val message = normalizedText(businessdatadata.serviceChargeMessage)
+                 if (message != null) {
+                     builder.append(message.trimEnd()).append("\n\n")
+                 }
+             }
+
+             val guest = orderModel.requesterGuest
+             val requester = orderModel.requester
+
+             val name = if (guest != null) {
+                 listOfNotNull(
+                     normalizedText(guest.firstName),
+                     normalizedText(guest.lastName),
+                 ).joinToString(" ").let { normalizedText(it) }
+             } else {
+                 normalizedText(requester?.name)
+             }
+
+             val phone = if (guest != null) {
+                 normalizedText(guest.phone)
+             } else {
+                 normalizedText(requester?.phone)
+             }
+
+             if (name != null) builder.append("Name : ").append(name).append('\n')
+             if (phone != null) builder.append("Phone : ").append(phone).append('\n')
+
+             val property = orderModel.shippingAddress?.property
+             if (property != null) {
+                 val line1 = listOfNotNull(
+                     normalizedText(property.house),
+                     normalizedText(property.state),
+                 ).joinToString(" ").trim()
+
+                 val line2 = listOfNotNull(
+                     normalizedText(property.town),
+                     normalizedText(property.state),
+                     normalizedText(property.postcode),
+                 ).joinToString(" ").trim()
+
+                 val addressValue = listOf(line1, line2).filter { it.isNotBlank() }.joinToString("\n")
+                 if (addressValue.isNotBlank()) {
+                     builder.append("Address : ").append(addressValue).append('\n')
+                 }
+             }
+
+             return builder.toString().trim()
+         }
+
     init {
         context = mcontext;
         orderModel = morderModel;
@@ -1730,61 +1790,12 @@ class orderPrinterService(
              bind.grandTotal.text =
                  "Grand Total £ " +String.format( "%.2f",(orderModel.payableAmount!!))
 
-             var dlAddress = "Service charge is not included\n\n"
-             if(businessdatadata.serviceCharge) {
-                 dlAddress = "${businessdatadata.serviceChargeMessage ?: ""}"
-             }else{
-                 dlAddress = ""
-             }
-             if (orderModel.requesterGuest != null){
-                 val customerModel: OrderData.RequesterGuest? = orderModel.requesterGuest
-                 dlAddress += "Name : ${customerModel?.firstName} ${customerModel?.lastName}\n"
-                 dlAddress += "Phone : ${customerModel?.phone}"
-                 if (orderModel.shippingAddress != null) {
-                     val address: OrderData.ShippingAddress? = orderModel.shippingAddress
-                     if (address?.property != null) {
-                         val pro: OrderData.ShippingAddress.Property = address.property
-                         // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
-                         val building = pro.house ?: ""
-//                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
-                         val streetName = pro.state ?: ""
-                         val city = pro.town ?: ""
-                         val state = pro.state ?: ""
-                         val zip = pro.postcode ?: ""
-                         dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
-                     }
-                 }
-             }else{
-                 if(orderModel.requester != null) {
-                     val customerModel: OrderData.Requester? = orderModel.requester!!
-                     dlAddress += "Name : ${customerModel?.name}\n"
-                     dlAddress += "Phone : ${customerModel?.phone}"
-                     if (orderModel.shippingAddress != null) {
-                         val address: OrderData.ShippingAddress? = orderModel.shippingAddress
-                         if (address?.property != null) {
-                             val pro: OrderData.ShippingAddress.Property = address.property
-                             // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
-                             val building = pro.house ?: ""
-//                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
-                             val streetName = pro.state ?: ""
-                             val city = pro.town ?: ""
-                             val state = pro.state ?: ""
-                             val zip = pro.postcode ?: ""
-                             dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
-                         }
-                     }
-                 }
+             val dlAddress = buildCustomerDetailsText(includeServiceChargeMessage = true)
 
-             }
+             val commentValue = normalizedText(orderModel.comment.toString())
+             val comment = commentValue?.let { "Comments : $it" }.orEmpty()
 
-             var comment = "Comments : ${if(orderModel.comment != null) orderModel.comment else ""}"
-
-             comment += """
-
-        """.trimIndent()
-
-
-               if (businessdatadata.invoicecomments == false || comment.isBlank()) {
+               if (businessdatadata.invoicecomments == false || commentValue == null) {
                    bind.comments.visibility = View.GONE
                    bind.dottedBeforeComments.visibility = View.GONE
                } else {
@@ -2294,51 +2305,15 @@ class orderPrinterService(
                          allitemsheight += childView!!.measuredHeight
                      }
                  }
-                 var dlAddress = ""
+                 val dlAddress = buildCustomerDetailsText(includeServiceChargeMessage = false)
 
-                 if (orderModel.requesterGuest != null){
-                     val customerModel: OrderData.RequesterGuest? = orderModel.requesterGuest
-                     dlAddress += "Name : ${customerModel?.firstName} ${customerModel?.lastName}\n"
-                     dlAddress += "Phone : ${customerModel?.phone}"
-                     if (orderModel.shippingAddress != null) {
-                         val address: OrderData.ShippingAddress? = orderModel.shippingAddress
-                         if (address?.property != null) {
-                             val pro: OrderData.ShippingAddress.Property = address.property
-                             // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
-                             val building = pro.house ?: ""
-//                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
-                             val streetName = pro.state ?: ""
-                             val city = pro.town ?: ""
-                             val state = pro.state ?: ""
-                             val zip = pro.postcode ?: ""
-                             dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
-                         }
-                     }
-                 }else{
-                     if(orderModel.requester != null) {
-                         val customerModel: OrderData.Requester? = orderModel.requester!!
-                         dlAddress += "Name : ${customerModel?.name}\n"
-                         dlAddress += "Phone : ${customerModel?.phone}"
-                         if (orderModel.shippingAddress != null) {
-                             val address: OrderData.ShippingAddress? = orderModel.shippingAddress
-                             if (address?.property != null) {
-                                 val pro: OrderData.ShippingAddress.Property = address.property
-                                 // CustomerAddressProperties pro = customerModel.addresses.get(0).properties;
-                                 val building = pro.house ?: ""
-//                    val streetNumber = if (pro.street_number != null) pro.street_number else ""
-                                 val streetName = pro.state ?: ""
-                                 val city = pro.town ?: ""
-                                 val state = pro.state ?: ""
-                                 val zip = pro.postcode ?: ""
-                                 dlAddress += "\nAddress : $building $streetName\n$city $state $zip"
-                             }
-                         }
-                     }
-
+                 if (dlAddress.isBlank()) {
+                     bind.address.visibility = View.GONE
+                 } else {
+                     bind.address.visibility = View.VISIBLE
+                     bind.address.text = dlAddress
+                     bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
                  }
-
-                 bind.address.text = dlAddress
-                 bind.address.setTextSize(TypedValue.COMPLEX_UNIT_SP, header4.toFloat())
 
                  if(orderModel.barcode != null) {
                      var barcodeBitmap = genBarcode(orderModel.barcode!!)
