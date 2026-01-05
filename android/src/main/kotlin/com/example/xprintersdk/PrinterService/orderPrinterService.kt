@@ -116,12 +116,12 @@ class orderPrinterService(
          private fun buildCustomerDetailsText(includeServiceChargeMessage: Boolean): String {
              val builder = StringBuilder()
 
-             if (shouldShowServiceChargeMessage(includeServiceChargeMessage)) {
-                 val message = normalizedText(businessdatadata.serviceChargeMessage)
-                 if (message != null) {
-                     builder.append(message.trimEnd()).append("\n\n")
-                 }
-             }
+//             if (shouldShowServiceChargeMessage(includeServiceChargeMessage)) {
+//                 val message = normalizedText(businessdatadata.serviceChargeMessage)
+//                 if (message != null) {
+//                     builder.append(message.trimEnd()).append("\n\n")
+//                 }
+//             }
 
              val guest = orderModel.requesterGuest
              val requester = orderModel.requester
