@@ -95,10 +95,28 @@ class orderPrinterService(
              return trimmed
          }
 
+         private fun normalizedOrderType(value: String?): String? {
+             val trimmed = value?.trim()
+             if (trimmed.isNullOrEmpty()) return null
+             if (trimmed.equals("null", ignoreCase = true)) return null
+             return trimmed.uppercase().replace(' ', '_')
+         }
+
+         private fun shouldShowServiceChargeMessage(includeServiceChargeMessage: Boolean): Boolean {
+             if (!includeServiceChargeMessage) return false
+             if (!businessdatadata.serviceCharge) return false
+
+             val hideFor = normalizedOrderType(businessdatadata.serviceChargeHideOrderType)
+             if (hideFor.isNullOrEmpty() || hideFor == "NONE") return true
+
+             val orderType = normalizedOrderType(orderModel.orderType)
+             return orderType == null || orderType != hideFor
+         }
+
          private fun buildCustomerDetailsText(includeServiceChargeMessage: Boolean): String {
              val builder = StringBuilder()
 
-             if (includeServiceChargeMessage && businessdatadata.serviceCharge) {
+             if (shouldShowServiceChargeMessage(includeServiceChargeMessage)) {
                  val message = normalizedText(businessdatadata.serviceChargeMessage)
                  if (message != null) {
                      builder.append(message.trimEnd()).append("\n\n")
@@ -470,6 +488,8 @@ class orderPrinterService(
                  }
              }
              if(item?.comment != null && item.comment.isNotEmpty() && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
+
+
              binding.itemText.text = str3.toString()
              binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
              if (businessdatadata.invoiceItemPriceShow == false) {
@@ -1790,7 +1810,7 @@ class orderPrinterService(
              bind.grandTotal.text =
                  "Grand Total £ " +String.format( "%.2f",(orderModel.payableAmount!!))
 
-             val dlAddress = buildCustomerDetailsText(includeServiceChargeMessage = true)
+             val dlAddress = buildCustomerDetailsText(includeServiceChargeMessage = businessdatadata.serviceCharge)
 
              val commentValue = normalizedText(orderModel.comment.toString())
              val comment = commentValue?.let { "Comments : $it" }.orEmpty()
@@ -1816,8 +1836,14 @@ class orderPrinterService(
 
 
 
-             bind.serviceChargeMessage.text = businessdatadata.serviceChargeMessage
-             bind.serviceChargeMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
+             if(shouldShowServiceChargeMessage(true)) {
+                 bind.serviceChargeMessage.visibility = View.VISIBLE
+                 bind.serviceChargeMessage.text = businessdatadata.serviceChargeMessage
+                 bind.serviceChargeMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, footervatFontSize.toFloat())
+             }else{
+                 bind.serviceChargeMessage.visibility = View.GONE
+             }
+
 
              bind.ThankYouMessage.text = businessdatadata.thankyoumessage
 

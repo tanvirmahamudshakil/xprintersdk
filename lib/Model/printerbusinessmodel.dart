@@ -27,6 +27,7 @@ class PrinterBusinessModel {
   bool? autoPrint;
   bool? showOrderNoInvoice;
   bool? serviceCharge;
+  String? serviceChargeHideOrderType;
   String? selectPrinter;
   String? printerConnection;
   String? ip;
@@ -141,6 +142,7 @@ class PrinterBusinessModel {
   PrinterBusinessModel({
     this.fontSize,
     this.serviceChargeMessage,
+    this.serviceChargeHideOrderType = "NONE",
     this.numberOfGuestName,
     this.thankyoumessage,
     this.expire_name,
@@ -267,6 +269,7 @@ class PrinterBusinessModel {
   factory PrinterBusinessModel.fromJson(Map<String, dynamic> json) => PrinterBusinessModel(
     expire_name: json["expire_name"],
     serviceChargeMessage: json["serviceChargeMessage"],
+    serviceChargeHideOrderType: json["serviceChargeHideOrderType"] ?? "NONE",
     invoicebusinessName: json["invoicebusinessName"],
     invoicebusinessLocation: json["invoicebusinessLocation"],
     invoicebusinessPhoneLayout: json["invoicebusinessPhoneLayout"],
@@ -393,6 +396,7 @@ class PrinterBusinessModel {
   Map<String, dynamic> toJson() => {
     "invoice_type": invoice_type,
     "serviceChargeMessage": serviceChargeMessage,
+    "serviceChargeHideOrderType": serviceChargeHideOrderType,
     "invoicebusinessName": invoicebusinessName,
     "invoicebusinessLocation": invoicebusinessLocation,
     "invoicebusinessPhoneLayout": invoicebusinessPhoneLayout,

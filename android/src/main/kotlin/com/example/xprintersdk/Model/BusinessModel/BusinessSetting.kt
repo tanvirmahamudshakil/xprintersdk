@@ -22,6 +22,8 @@ data class BusinessSetting(
     val weightMultiplyingPrice : Boolean,
     @SerializedName("serviceCharge")
     val serviceCharge : Boolean,
+    @SerializedName("serviceChargeHideOrderType")
+    val serviceChargeHideOrderType: String?,
     @SerializedName("bluetooth_address")
     val bluetoothAddress: String?,
     @SerializedName("bluetooth_name")
