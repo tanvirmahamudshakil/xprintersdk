@@ -469,7 +469,7 @@ class orderPrinterService(
                      str3.append("\npromo : £ ").append(String.format("%.2f", item.promoAmountList))
                  }
              }
-             if(item?.comment != null && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
+             if(item?.comment != null && item.comment.isNotEmpty() && (item.product?.type == "ITEM" || item.product?.type == "DYNAMIC")) str3.append("\nNote : ").append(item.comment)
              binding.itemText.text = str3.toString()
              binding.itemText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header3.toFloat())
              if (businessdatadata.invoiceItemPriceShow == false) {
