@@ -102,16 +102,26 @@ class orderPrinterService(
              return trimmed.uppercase().replace(' ', '_')
          }
 
-         private fun shouldShowServiceChargeMessage(includeServiceChargeMessage: Boolean): Boolean {
-             if (!includeServiceChargeMessage) return false
-             if (!businessdatadata.serviceCharge) return false
+	         private fun shouldShowServiceChargeMessage(includeServiceChargeMessage: Boolean): Boolean {
+	             if (!includeServiceChargeMessage) return false
+	             if (!businessdatadata.serviceCharge) return false
 
              val hideFor = normalizedOrderType(businessdatadata.serviceChargeHideOrderType)
              if (hideFor.isNullOrEmpty() || hideFor == "NONE") return true
 
-             val orderType = normalizedOrderType(orderModel.orderType)
-             return orderType == null || orderType != hideFor
-         }
+	             val orderType = normalizedOrderType(orderModel.orderType)
+	             return orderType == null || orderType != hideFor
+	         }
+
+	         private fun shouldShowInvoiceOrderNoContainer(): Boolean {
+	             if (businessdatadata.invoicecontainerOrderNo == false) return false
+
+	             val hideFor = normalizedOrderType(businessdatadata.invoicecontainerOrderNoHideOrderType)
+	             if (hideFor.isNullOrEmpty() || hideFor == "NONE") return true
+
+	             val orderType = normalizedOrderType(orderModel.orderType)
+	             return orderType == null || orderType != hideFor
+	         }
 
          private fun buildCustomerDetailsText(includeServiceChargeMessage: Boolean): String {
              val builder = StringBuilder()
@@ -526,7 +536,8 @@ class orderPrinterService(
          }
 
 
-         fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?,item: OrderData.OrderProduct?) : Double {
+
+         fun calculatePriceForLocalOrder(listorderProducts: List<OrderData.OrderProduct?>?, item: OrderData.OrderProduct?) : Double {
              val weightmultiplayprice : Boolean = businessdatadata.weightMultiplyingPrice
                return item?.netAmountWihPromoApply ?: 0.0;
 //             var total: Double = 0.0;
@@ -1281,14 +1292,16 @@ class orderPrinterService(
 
                }
 
-             if(businessdatadata.invoiceorderType == false &&
-                 businessdatadata.invoicecontainerTableNo == false &&
-                 businessdatadata.invoiceorderTime == false &&
-                 businessdatadata.invoicenumber_of_guest_box == false &&
-                 businessdatadata.invoiceCollectionContainer == false &&
-                 businessdatadata.invoicecontainerOrderNo == false
-                 ) {
-                 bind.dottedBeforeItems.visibility = View.GONE
+	             val showInvoiceOrderNoContainer = shouldShowInvoiceOrderNoContainer()
+
+	             if(businessdatadata.invoiceorderType == false &&
+	                 businessdatadata.invoicecontainerTableNo == false &&
+	                 businessdatadata.invoiceorderTime == false &&
+	                 businessdatadata.invoicenumber_of_guest_box == false &&
+	                 businessdatadata.invoiceCollectionContainer == false &&
+	                 !showInvoiceOrderNoContainer
+	                 ) {
+	                 bind.dottedBeforeItems.visibility = View.GONE
 
              }
 
@@ -1502,9 +1515,9 @@ class orderPrinterService(
                        bind.orderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, header2.toFloat())
                    }
                }
-               if (businessdatadata.invoicecontainerOrderNo == false) {
-                   bind.containerOrderNo.visibility = View.GONE
-               }
+	               if (!shouldShowInvoiceOrderNoContainer()) {
+	                   bind.containerOrderNo.visibility = View.GONE
+	               }
                bind.items.removeAllViews()
                var allitemsheight = 0
                if (businessdatadata.invoiceitems == false) {

@@ -108,6 +108,7 @@ class PrinterBusinessModel {
   bool? invoiceorderTime;
   bool? invoiceCollectionContainer;
   bool? invoicecontainerOrderNo;
+  String? invoicecontainerOrderNoHideOrderType;
   bool? invoiceitems;
   bool? invoiceItemPriceShow;
   bool? invoicecontainerSummary;
@@ -143,6 +144,7 @@ class PrinterBusinessModel {
     this.fontSize,
     this.serviceChargeMessage,
     this.serviceChargeHideOrderType = "NONE",
+    this.invoicecontainerOrderNoHideOrderType = "NONE",
     this.numberOfGuestName,
     this.thankyoumessage,
     this.expire_name,
@@ -270,6 +272,7 @@ class PrinterBusinessModel {
     expire_name: json["expire_name"],
     serviceChargeMessage: json["serviceChargeMessage"],
     serviceChargeHideOrderType: json["serviceChargeHideOrderType"] ?? "NONE",
+    invoicecontainerOrderNoHideOrderType: json["invoicecontainerOrderNoHideOrderType"] ?? "NONE",
     invoicebusinessName: json["invoicebusinessName"],
     invoicebusinessLocation: json["invoicebusinessLocation"],
     invoicebusinessPhoneLayout: json["invoicebusinessPhoneLayout"],
@@ -397,6 +400,7 @@ class PrinterBusinessModel {
     "invoice_type": invoice_type,
     "serviceChargeMessage": serviceChargeMessage,
     "serviceChargeHideOrderType": serviceChargeHideOrderType,
+    "invoicecontainerOrderNoHideOrderType": invoicecontainerOrderNoHideOrderType,
     "invoicebusinessName": invoicebusinessName,
     "invoicebusinessLocation": invoicebusinessLocation,
     "invoicebusinessPhoneLayout": invoicebusinessPhoneLayout,

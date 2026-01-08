@@ -202,6 +202,8 @@ data class BusinessSetting(
     var invoiceCollectionContainer: Boolean?,
     @SerializedName("invoicecontainerOrderNo")
     var invoicecontainerOrderNo: Boolean?,
+    @SerializedName("invoicecontainerOrderNoHideOrderType")
+    val invoicecontainerOrderNoHideOrderType: String?,
     @SerializedName("invoiceitems")
     var invoiceitems: Boolean?,
     @SerializedName("invoiceItemPriceShow")
