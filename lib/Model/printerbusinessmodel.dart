@@ -109,6 +109,8 @@ class PrinterBusinessModel {
   bool? invoiceCollectionContainer;
   bool? invoicecontainerOrderNo;
   String? invoicecontainerOrderNoHideOrderType;
+  bool? vatNumberSection;
+  String? vatNumberSectionHideOrderType;
   bool? invoiceitems;
   bool? invoiceItemPriceShow;
   bool? invoicecontainerSummary;
@@ -145,6 +147,8 @@ class PrinterBusinessModel {
     this.serviceChargeMessage,
     this.serviceChargeHideOrderType = "NONE",
     this.invoicecontainerOrderNoHideOrderType = "NONE",
+    this.vatNumberSection = true,
+    this.vatNumberSectionHideOrderType = "NONE",
     this.numberOfGuestName,
     this.thankyoumessage,
     this.expire_name,
@@ -273,6 +277,8 @@ class PrinterBusinessModel {
     serviceChargeMessage: json["serviceChargeMessage"],
     serviceChargeHideOrderType: json["serviceChargeHideOrderType"] ?? "NONE",
     invoicecontainerOrderNoHideOrderType: json["invoicecontainerOrderNoHideOrderType"] ?? "NONE",
+    vatNumberSection: json["vatNumberSection"] ?? true,
+    vatNumberSectionHideOrderType: json["vatNumberSectionHideOrderType"] ?? "NONE",
     invoicebusinessName: json["invoicebusinessName"],
     invoicebusinessLocation: json["invoicebusinessLocation"],
     invoicebusinessPhoneLayout: json["invoicebusinessPhoneLayout"],
@@ -401,6 +407,8 @@ class PrinterBusinessModel {
     "serviceChargeMessage": serviceChargeMessage,
     "serviceChargeHideOrderType": serviceChargeHideOrderType,
     "invoicecontainerOrderNoHideOrderType": invoicecontainerOrderNoHideOrderType,
+    "vatNumberSection": vatNumberSection,
+    "vatNumberSectionHideOrderType": vatNumberSectionHideOrderType,
     "invoicebusinessName": invoicebusinessName,
     "invoicebusinessLocation": invoicebusinessLocation,
     "invoicebusinessPhoneLayout": invoicebusinessPhoneLayout,

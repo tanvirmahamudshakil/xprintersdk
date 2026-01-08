@@ -72,6 +72,10 @@ data class BusinessSetting(
     val vatCompanyName: String?,
     @SerializedName("vat_note")
     val vatNote: String?,
+    @SerializedName("vatNumberSection")
+    var vatNumberSection: Boolean? = true,
+    @SerializedName("vatNumberSectionHideOrderType")
+    var vatNumberSectionHideOrderType: String? = "NONE",
     @SerializedName("printer_style")
     val printerStyle: String?,
     @SerializedName("asapFontSize")

@@ -123,6 +123,16 @@ class orderPrinterService(
 	             return orderType == null || orderType != hideFor
 	         }
 
+	         private fun shouldShowVatNumberSection(): Boolean {
+	             if (businessdatadata.vatNumberSection == false) return false
+
+	             val hideFor = normalizedOrderType(businessdatadata.vatNumberSectionHideOrderType)
+	             if (hideFor.isNullOrEmpty() || hideFor == "NONE") return true
+
+	             val orderType = normalizedOrderType(orderModel.orderType)
+	             return orderType == null || orderType != hideFor
+	         }
+
          private fun buildCustomerDetailsText(includeServiceChargeMessage: Boolean): String {
              val builder = StringBuilder()
 
@@ -1861,7 +1871,7 @@ class orderPrinterService(
              bind.ThankYouMessage.text = businessdatadata.thankyoumessage
 
 
-             if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
+             if (shouldShowVatNumberSection() && (!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty())) {
                  bind.vatNumberCompany.text = "${businessdatadata.vatNumber ?: ""}"+"${businessdatadata.vatCompanyName ?: ""}"
                  bind.vatno2.text = "${businessdatadata.vatNumber}"
                  bind.vatMessage.text = "${businessdatadata.vatCompanyName}"
@@ -1872,14 +1882,15 @@ class orderPrinterService(
              }else{
                  bind.vatNumberCompany.visibility = View.GONE
                  bind.vatno2.visibility = View.GONE
+                 bind.vatMessage.visibility = View.GONE
              }
-             if(!businessdatadata.vatNumber.isNullOrEmpty()) {
+             if (shouldShowVatNumberSection() && !businessdatadata.vatNumber.isNullOrEmpty()) {
                  bind.vatno2.visibility = View.VISIBLE;
              }else{
                  bind.vatno2.visibility = View.GONE;
              }
 
-             if(!businessdatadata.vatCompanyName.isNullOrEmpty()) {
+             if (shouldShowVatNumberSection() && !businessdatadata.vatCompanyName.isNullOrEmpty()) {
                  bind.vatMessage.visibility = View.VISIBLE;
              }else{
                  bind.vatMessage.visibility = View.GONE;
@@ -2020,7 +2031,7 @@ class orderPrinterService(
 
 
              applyGrocerySummaryVisibility(bind)
-             if(!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty()) {
+             if (shouldShowVatNumberSection() && (!businessdatadata.vatNumber.isNullOrEmpty() || !businessdatadata.vatCompanyName.isNullOrEmpty())) {
                  bind.vatNumberCompany.text = "VAT Number: ${businessdatadata.vatNumber}"
 
                  bind.vatNumberCompany.visibility = View.VISIBLE
