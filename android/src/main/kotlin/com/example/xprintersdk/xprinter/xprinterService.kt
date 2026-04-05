@@ -35,12 +35,15 @@ class xprinterService(mcontext : Context) {
     private val usbManager: UsbManager by lazy { context.getSystemService(Context.USB_SERVICE) as UsbManager }
     private val ACTION_USB_PERMISSION = "com.example.xprintersdk.USB_PERMISSION"
     private var usbPermissionReceiver: BroadcastReceiver? = null
+    private var usbDetachReceiver: BroadcastReceiver? = null
     private var pendingUsbPath: String? = null
     private var pendingUsbResult: MethodChannel.Result? = null
     var binder: PrinterBinder? = null
     private val retryScope = CoroutineScope(Dispatchers.IO)
     private val pendingJobQueues = mutableMapOf<String, PendingPrintQueue>()
     private val pendingJobLock = Any()
+    private val watchdogJobs = mutableMapOf<String, Job>()
+    private val watchdogLock = Any()
 
     var conn: ServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(componentName: ComponentName, iBinder: IBinder) {
@@ -56,12 +59,29 @@ class xprinterService(mcontext : Context) {
     fun initBinding() {
         val posService = Intent(context, XprinterConnectedService::class.java)
         context.bindService(posService, conn, Context.BIND_AUTO_CREATE)
+        registerUsbDetachReceiverIfNeeded()
     }
 
     fun disposeBinding(result: MethodChannel.Result) {
         val currentBinder = binder ?: run {
             result.success(false)
             return
+        }
+
+        stopAllUsbWatchdogs()
+        usbDetachReceiver?.let {
+            try {
+                context.unregisterReceiver(it)
+            } catch (_: Exception) {
+            }
+            usbDetachReceiver = null
+        }
+        usbPermissionReceiver?.let {
+            try {
+                context.unregisterReceiver(it)
+            } catch (_: Exception) {
+            }
+            usbPermissionReceiver = null
         }
 
         currentBinder.disconnectAll(object : TaskCallback {
@@ -82,11 +102,13 @@ class xprinterService(mcontext : Context) {
         }
 
         if (printerKey.isNullOrBlank()) {
+            stopAllUsbWatchdogs()
             currentBinder.disconnectAll(object : TaskCallback {
                 override fun OnSucceed() { result.success(true) }
                 override fun OnFailed() { result.success(false) }
             })
         } else {
+            stopUsbWatchdog(printerKey)
             currentBinder.disconnectCurrentPort(printerKey, object : TaskCallback {
                 override fun OnSucceed() { result.success(true) }
                 override fun OnFailed() { result.success(false) }
@@ -108,7 +130,10 @@ class xprinterService(mcontext : Context) {
         }
 
         currentBinder.checkLinkedState(targetKey, object : TaskCallback {
-            override fun OnSucceed() { result.success(true) }
+            override fun OnSucceed() {
+                startUsbWatchdogIfNeeded(targetKey)
+                result.success(true)
+            }
             override fun OnFailed() {
                 if(isNetworkKey(targetKey)) {
                     connectNet(targetKey, result)
@@ -166,7 +191,10 @@ class xprinterService(mcontext : Context) {
         val device = findUsbDeviceForPath(targetPath)
         if (device != null && usbManager.hasPermission(device)) {
             currentBinder.connectUsbPort(context, targetPath, object : TaskCallback {
-                override fun OnSucceed() { result.success(true) }
+                override fun OnSucceed() {
+                    startUsbWatchdogIfNeeded(targetPath)
+                    result.success(true)
+                }
                 override fun OnFailed() { result.success(false) }
             })
             return
@@ -200,7 +228,10 @@ class xprinterService(mcontext : Context) {
                                     delay(1000)
 
                                     b.connectUsbPort(context, path, object : TaskCallback {
-                                        override fun OnSucceed() { res?.success(true) }
+                                        override fun OnSucceed() {
+                                            startUsbWatchdogIfNeeded(path)
+                                            res?.success(true)
+                                        }
                                         override fun OnFailed() { res?.success(false) }
                                     })
                                 }
@@ -246,6 +277,115 @@ class xprinterService(mcontext : Context) {
             }
         } catch (_: Throwable) { }
         return null
+    }
+
+    private fun registerUsbDetachReceiverIfNeeded() {
+        if (usbDetachReceiver != null) {
+            return
+        }
+        usbDetachReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                val action = intent?.action ?: return
+                val device: UsbDevice? = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
+                val deviceName = device?.deviceName ?: return
+                when (action) {
+                    UsbManager.ACTION_USB_DEVICE_DETACHED -> handleUsbDetach(deviceName)
+                    UsbManager.ACTION_USB_DEVICE_ATTACHED -> handleUsbAttach(deviceName)
+                }
+            }
+        }
+        val filter = IntentFilter().apply {
+            addAction(UsbManager.ACTION_USB_DEVICE_DETACHED)
+            addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED)
+        }
+        ContextCompat.registerReceiver(
+            context,
+            usbDetachReceiver,
+            filter,
+            ContextCompat.RECEIVER_NOT_EXPORTED
+        )
+    }
+
+    private fun handleUsbDetach(deviceName: String) {
+        Log.w(TAG, "USB detach detected for $deviceName")
+        stopUsbWatchdog(deviceName)
+        binder?.disconnectCurrentPort(deviceName, object : TaskCallback {
+            override fun OnSucceed() {
+                Log.i(TAG, "Disconnected stale USB session for $deviceName after detach event")
+            }
+
+            override fun OnFailed() {
+                Log.w(TAG, "Failed to disconnect stale USB session for $deviceName after detach event")
+            }
+        })
+    }
+
+    private fun handleUsbAttach(deviceName: String) {
+        Log.i(TAG, "USB attach detected for $deviceName")
+        startUsbWatchdogIfNeeded(deviceName)
+    }
+
+    private fun isUsbPrinterKey(printerKey: String?): Boolean {
+        if (printerKey.isNullOrBlank()) {
+            return false
+        }
+        if (isNetworkKey(printerKey)) {
+            return false
+        }
+        return findUsbDeviceForPath(printerKey) != null || printerKey.startsWith("/dev/")
+    }
+
+    private fun isUsbDeviceAvailable(printerKey: String): Boolean {
+        return findUsbDeviceForPath(printerKey) != null
+    }
+
+    private fun startUsbWatchdogIfNeeded(printerKey: String) {
+        if (!isUsbPrinterKey(printerKey)) {
+            return
+        }
+        synchronized(watchdogLock) {
+            if (watchdogJobs[printerKey]?.isActive == true) {
+                return
+            }
+            watchdogJobs[printerKey] = retryScope.launch {
+                while (true) {
+                    delay(USB_WATCHDOG_INTERVAL_MS)
+                    val currentBinder = binder ?: continue
+                    if (!isUsbDeviceAvailable(printerKey)) {
+                        Log.w(TAG, "USB watchdog detected missing device for $printerKey")
+                        handleUsbDetach(printerKey)
+                        break
+                    }
+                    val isConnected = try {
+                        currentBinder.isConnect(printerKey)
+                    } catch (t: Throwable) {
+                        Log.w(TAG, "USB watchdog failed state check for $printerKey", t)
+                        false
+                    }
+                    if (!isConnected) {
+                        Log.w(TAG, "USB watchdog detected lost connection for $printerKey")
+                        if (!ensurePrinterConnected(printerKey)) {
+                            Log.w(TAG, "USB watchdog reconnect failed for $printerKey")
+                        } else {
+                            Log.i(TAG, "USB watchdog reconnected printer $printerKey")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun stopUsbWatchdog(printerKey: String) {
+        synchronized(watchdogLock) {
+            watchdogJobs.remove(printerKey)?.cancel()
+        }
+    }
+
+    private fun stopAllUsbWatchdogs() {
+        synchronized(watchdogLock) {
+            watchdogJobs.values.forEach { it.cancel() }
+            watchdogJobs.clear()
+        }
     }
 
     fun availableUsbDevices(): List<String>? {
@@ -328,14 +468,23 @@ class xprinterService(mcontext : Context) {
             return
         }
 
+        if (isUsbPrinterKey(targetKey) && !isUsbDeviceAvailable(targetKey)) {
+            Log.w(TAG, "USB print skipped because device is not available for $targetKey")
+            enqueuePendingPrint(targetKey, printBmp)
+            result.success(false)
+            return
+        }
+
         val processData = buildProcessData(printBmp)
 
         currentBinder.writeDataByYouself(targetKey, object : TaskCallback {
             override fun OnSucceed() {
+                startUsbWatchdogIfNeeded(targetKey)
                 result.success(true)
             }
 
             override fun OnFailed() {
+                Log.w(TAG, "Print failed for $targetKey, queueing retry")
                 enqueuePendingPrint(targetKey, printBmp)
                 result.success(false)
             }
@@ -352,6 +501,11 @@ class xprinterService(mcontext : Context) {
     }
 
     private suspend fun ensurePrinterConnected(printerKey: String): Boolean {
+        if (isUsbPrinterKey(printerKey) && !isUsbDeviceAvailable(printerKey)) {
+            Log.w(TAG, "Reconnect skipped because USB device is unavailable for $printerKey")
+            stopUsbWatchdog(printerKey)
+            return false
+        }
         return suspendCancellableCoroutine { continuation ->
             val currentBinder = binder ?: run {
                 continuation.resume(false)
@@ -360,12 +514,14 @@ class xprinterService(mcontext : Context) {
 
             currentBinder.checkLinkedState(printerKey, object : TaskCallback {
                 override fun OnSucceed() {
+                    startUsbWatchdogIfNeeded(printerKey)
                     continuation.resume(true)
                 }
 
                 override fun OnFailed() {
                     val reconnectCallback = object : TaskCallback {
                         override fun OnSucceed() {
+                            startUsbWatchdogIfNeeded(printerKey)
                             continuation.resume(true)
                         }
 
@@ -486,6 +642,7 @@ class xprinterService(mcontext : Context) {
 
     companion object {
         private const val RETRY_DELAY_MS = 4000L
+        private const val USB_WATCHDOG_INTERVAL_MS = 10000L
         private const val TAG = "xprinterService"
     }
 }
