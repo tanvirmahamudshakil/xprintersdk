@@ -51,7 +51,7 @@ class XprinterConnectedService : Service() {
     @SuppressLint("LongLogTag")
     fun removePrinter(ip: String) {
         Log.d(TAG, "removePrinter")
-        printers.remove(ip)?.xPrinterDev?.Close()
+        printers.remove(ip)
     }
 
     inner class XPrinterBinder : Binder(), PrinterBinder {
@@ -174,7 +174,6 @@ class XprinterConnectedService : Service() {
                         val flag = if (printer.mMsg?.GetErrorCode() == PosPrinterDev.ErrorCode.ClosePortSuccess) {
                             printer.isConnected = false
                             printer.que?.clear()
-                            removePrinter(ip)
                             true
                         } else {
                             false
@@ -196,9 +195,9 @@ class XprinterConnectedService : Service() {
                 val task = PosAsynncTask(callback, object : BackgroundInit {
                     override fun doinbackground(): Boolean {
                         for (printer in printers.values) {
-                            val printerKey = printer.ip ?: printer.usbPathName ?: printer.BtPathName
-                            if (printerKey != null) {
-                                this@XPrinterBinder.disconnectCurrentPort(printerKey, object : TaskCallback {
+                            val ip = printer.ip
+                            if (ip != null) {
+                                this@XPrinterBinder.disconnectCurrentPort(ip, object : TaskCallback {
                                     override fun OnSucceed() {}
                                     override fun OnFailed() {}
                                 })
@@ -330,17 +329,11 @@ class XprinterConnectedService : Service() {
                     override fun doinbackground(): Boolean {
                         val list = processData.processDataBeforeSend() ?: return false
 
-                        return try {
-                            for (bytes in list) {
-                                printer.mMsg = printer.xPrinterDev?.Write(bytes)
-                            }
-                            printer.isConnected =
-                                printer.mMsg?.GetErrorCode() == PosPrinterDev.ErrorCode.WriteDataSuccess
-                            printer.isConnected
-                        } catch (t: Throwable) {
-                            printer.isConnected = false
-                            false
+                        for (bytes in list) {
+                            printer.mMsg = printer.xPrinterDev?.Write(bytes)
                         }
+
+                        return printer.mMsg?.GetErrorCode() == PosPrinterDev.ErrorCode.WriteDataSuccess
                     }
                 })
                 task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)
