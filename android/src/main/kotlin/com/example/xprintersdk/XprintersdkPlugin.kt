@@ -23,20 +23,23 @@ import com.example.xprintersdk.xprinter.PrinterIdentifierResolver
 import com.example.xprintersdk.xprinter.xprinterService
 import com.google.gson.Gson
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 
-class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
+class XprintersdkPlugin: FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
   private lateinit var channel : MethodChannel
+  private lateinit var usbEventChannel: EventChannel
   private lateinit var context : Context
   lateinit var xprinterService: xprinterService
   lateinit var sunmiHelper : SunmiHelp;
   lateinit var nyxPrinter : NyxprinterHelp;
   lateinit var labelPrinter : LabelPrinter
   lateinit var printer80 : printer80
+  private var usbEventSink: EventChannel.EventSink? = null
   private var xPrinterIntitalization : String = "xPrinterIntitalization";
   private var xPrinterConnectionCheck ="xPrinterConnectionCheck";
   private var xPrinterConnect = "xPrinterConnect";
@@ -83,13 +86,17 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "xprintersdk")
+    usbEventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "xprintersdk/usb_events")
     context = flutterPluginBinding.applicationContext
-    xprinterService = xprinterService(context)
+    xprinterService = xprinterService(context) { event ->
+      usbEventSink?.success(event)
+    }
     sunmiHelper= SunmiHelp()
     nyxPrinter = NyxprinterHelp(context)
     labelPrinter = LabelPrinter(context)
     printer80 = printer80(context)
     channel.setMethodCallHandler(this)
+    usbEventChannel.setStreamHandler(this)
   }
 
 
@@ -167,6 +174,16 @@ class XprintersdkPlugin: FlutterPlugin, MethodCallHandler {
 
   override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
+    usbEventChannel.setStreamHandler(null)
+    usbEventSink = null
+  }
+
+  override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+    usbEventSink = events
+  }
+
+  override fun onCancel(arguments: Any?) {
+    usbEventSink = null
   }
 
   private fun xPrinterInitialization() {

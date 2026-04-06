@@ -7,6 +7,7 @@ import 'Model/product_model.dart';
 
 class Xprintersdk {
   final _methodChannel = const MethodChannel('xprintersdk');
+  final _usbEventChannel = const EventChannel('xprintersdk/usb_events');
   final String _xPrinterIntitalization = "xPrinterIntitalization";
   final String _xPrinterConnectionCheck = "xPrinterConnectionCheck";
   final String _xPrinterConnect = "xPrinterConnect";
@@ -42,6 +43,12 @@ class Xprintersdk {
   final String _openCashDrawer = "openCashDrawer";
   final String _xprinterUsbPathList = "availableusbpath";
   final String _xPrinterDisconnect = "xPrinterDisconnect";
+
+  Stream<Map<String, dynamic>> usbEventListener() {
+    return _usbEventChannel.receiveBroadcastStream().map((event) {
+      return Map<String, dynamic>.from((event as Map?) ?? const {});
+    });
+  }
 
   Future<String?> getPlatformVersion() async {
     final version = await _methodChannel.invokeMethod<String>('getPlatformVersion');

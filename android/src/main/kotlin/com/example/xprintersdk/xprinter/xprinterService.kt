@@ -27,10 +27,14 @@ import net.posprinter.posprinterface.TaskCallback
 import net.posprinter.utils.BitmapToByteData
 import net.posprinter.utils.DataForSendToPrinterPos80
 import net.posprinter.utils.PosPrinterDev
+import java.util.Locale
 import kotlin.collections.ArrayDeque
 import kotlin.coroutines.resume
 
-class xprinterService(mcontext : Context) {
+class xprinterService(
+    mcontext : Context,
+    private val usbEventListener: ((Map<String, Any?>) -> Unit)? = null
+) {
     private var context : Context = mcontext;
     private val usbManager: UsbManager by lazy { context.getSystemService(Context.USB_SERVICE) as UsbManager }
     private val ACTION_USB_PERMISSION = "com.example.xprintersdk.USB_PERMISSION"
@@ -289,8 +293,8 @@ class xprinterService(mcontext : Context) {
                 val device: UsbDevice? = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
                 val deviceName = device?.deviceName ?: return
                 when (action) {
-                    UsbManager.ACTION_USB_DEVICE_DETACHED -> handleUsbDetach(deviceName)
-                    UsbManager.ACTION_USB_DEVICE_ATTACHED -> handleUsbAttach(deviceName)
+                    UsbManager.ACTION_USB_DEVICE_DETACHED -> handleUsbDetach(device)
+                    UsbManager.ACTION_USB_DEVICE_ATTACHED -> handleUsbAttach(device)
                 }
             }
         }
@@ -306,8 +310,10 @@ class xprinterService(mcontext : Context) {
         )
     }
 
-    private fun handleUsbDetach(deviceName: String) {
+    private fun handleUsbDetach(device: UsbDevice) {
+        val deviceName = device.deviceName ?: return
         Log.w(TAG, "USB detach detected for $deviceName")
+        emitUsbEvent("removed", device)
         stopUsbWatchdog(deviceName)
         binder?.disconnectCurrentPort(deviceName, object : TaskCallback {
             override fun OnSucceed() {
@@ -320,9 +326,63 @@ class xprinterService(mcontext : Context) {
         })
     }
 
-    private fun handleUsbAttach(deviceName: String) {
+    private fun handleUsbAttach(device: UsbDevice) {
+        val deviceName = device.deviceName ?: return
         Log.i(TAG, "USB attach detected for $deviceName")
+        emitUsbEvent("attached", device)
         startUsbWatchdogIfNeeded(deviceName)
+    }
+
+    private fun emitUsbEvent(eventType: String, device: UsbDevice) {
+        usbEventListener?.invoke(
+            mapOf(
+                "event" to eventType,
+                "timestamp" to System.currentTimeMillis(),
+                "device" to usbDeviceToMap(device)
+            )
+        )
+    }
+
+    private fun usbDeviceToMap(device: UsbDevice): Map<String, Any?> {
+        val interfaces = mutableListOf<Map<String, Any?>>()
+        for (index in 0 until device.interfaceCount) {
+            val usbInterface = device.getInterface(index)
+            interfaces.add(
+                mapOf(
+                    "id" to usbInterface.id,
+                    "name" to usbInterface.name,
+                    "interfaceClass" to usbInterface.interfaceClass,
+                    "interfaceSubclass" to usbInterface.interfaceSubclass,
+                    "interfaceProtocol" to usbInterface.interfaceProtocol,
+                    "endpointCount" to usbInterface.endpointCount,
+                )
+            )
+        }
+
+        return mapOf(
+            "deviceId" to device.deviceId,
+            "deviceName" to device.deviceName,
+            "productId" to device.productId,
+            "vendorId" to device.vendorId,
+            "manufacturerName" to device.manufacturerName,
+            "productName" to device.productName,
+            "serialNumber" to runCatching { device.serialNumber }.getOrNull(),
+            "version" to device.version,
+            "configurationCount" to device.configurationCount,
+            "interfaceCount" to device.interfaceCount,
+            "deviceClass" to device.deviceClass,
+            "deviceSubclass" to device.deviceSubclass,
+            "deviceProtocol" to device.deviceProtocol,
+            "hasPermission" to usbManager.hasPermission(device),
+            "interfaces" to interfaces,
+            "summary" to String.format(
+                Locale.US,
+                "%s (%04X:%04X)",
+                device.deviceName ?: "unknown",
+                device.vendorId,
+                device.productId
+            )
+        )
     }
 
     private fun isUsbPrinterKey(printerKey: String?): Boolean {
