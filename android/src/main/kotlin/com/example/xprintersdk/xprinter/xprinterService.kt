@@ -290,8 +290,7 @@ class xprinterService(
         usbDetachReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 val action = intent?.action ?: return
-                val device: UsbDevice? = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE)
-                val deviceName = device?.deviceName ?: return
+                val device: UsbDevice = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE) ?: return
                 when (action) {
                     UsbManager.ACTION_USB_DEVICE_DETACHED -> handleUsbDetach(device)
                     UsbManager.ACTION_USB_DEVICE_ATTACHED -> handleUsbAttach(device)
@@ -314,6 +313,10 @@ class xprinterService(
         val deviceName = device.deviceName ?: return
         Log.w(TAG, "USB detach detected for $deviceName")
         emitUsbEvent("removed", device)
+        handleUsbDetach(deviceName)
+    }
+
+    private fun handleUsbDetach(deviceName: String) {
         stopUsbWatchdog(deviceName)
         binder?.disconnectCurrentPort(deviceName, object : TaskCallback {
             override fun OnSucceed() {
